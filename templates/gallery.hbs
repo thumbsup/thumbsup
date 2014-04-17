@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="utf-8" />
+      <title>{{gallery.name}}</title>
+      <link rel="stylesheet" href="public/reset.css" />
+      <link rel="stylesheet" href="public/theme.css" />
+      <link rel="stylesheet" href="public/blueimp/css/blueimp-gallery.min.css">
+      <link rel="stylesheet" href="public/blueimp/css/blueimp-gallery-video.css">
+      <link rel="stylesheet" href="public/blueimp/css/blueimp-gallery-indicator.css">
+  </head>
+
+  <body>
+  
+    <header>
+      <h1>Photo</h1>
+      <h2>gallery</h2>
+    </header>
+
+    <nav>
+      <ul>
+        {{#each links}}
+        <li {{#if active}}class="active"{{/if}}>
+          <a href="{{url}}">{{name}}</a>
+        </li>
+        {{/each}}
+      </ul>
+    </nav>
+
+    <ul class="gallery">
+      {{#each gallery.media}}<li>
+        {{#if media.video}}
+          <a href="{{url}}"
+             type="video/mp4"
+             data-poster="{{thumbnail}}">
+             {{name}}
+          </a>
+        {{else}}
+          <a href="{{url}}">
+            <img src="{{thumbnail}}"
+                 alt="{{name}}" />
+          </a>
+        {{/if}}
+      </li>{{/each}}
+    </ul>
+
+    <div id="blueimp-gallery" class="blueimp-gallery">
+        <div class="slides"></div>
+        <h3 class="title"></h3>
+        <a class="prev">‹</a>
+        <a class="next">›</a>
+        <a class="close">×</a>
+        <a class="play-pause"></a>
+        <ol class="indicator"></ol>
+    </div>
+
+    <script src="public/blueimp/js/blueimp-gallery.min.js"></script>
+    <script src="public/blueimp/js/blueimp-gallery-video.js"></script>
+    <script src="public/blueimp/js/blueimp-gallery-indicator.js"></script>
+
+  </body>
+
+</html>
