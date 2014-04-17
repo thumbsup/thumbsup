@@ -35,8 +35,6 @@ input
 
 ## Generating the galleries
 
-![npm install thumbsup](https://nodei.co/npm/thumbsup.png)
-
 ```
 thumbsup <args>
 ```
