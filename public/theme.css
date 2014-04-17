@@ -63,18 +63,18 @@ nav li:not(.active):hover {
   background-color: #eee;
 }
 
-.gallery li {
+#gallery li {
   display: inline-block;
   margin-right: 0.5em;
   margin-bottom: 0.5em;
   position: relative;
 }
 
-.gallery img {
+#gallery img {
   border-radius: 2px;
 }
 
-.gallery .play-overlay {
+#gallery .play-overlay {
   color: #fff;
   font-size: 2em;
   height: 100%;

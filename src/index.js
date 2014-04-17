@@ -14,7 +14,6 @@ exports.build = function(opts) {
 
   fs.mkdirp(opts.output);
   var list = galleries.fromDisk(opts.input, opts.mediaPrefix);
-  console.log(require('util').inspect(list, {depth:6, color:true}))
   
   gulp.task('thumbs', function () {
     var dest = opts.output + '/thumbs';
@@ -26,7 +25,8 @@ exports.build = function(opts) {
   });
   
   gulp.task('index', function() {
-    // render('index.hbs', {salt: SALT}, 'index.html');
+    // TODO render index page
+    // render.index(...);
   });
   
   gulp.task('public', function() {
@@ -38,9 +38,6 @@ exports.build = function(opts) {
   });
   
   gulp.task('galleries', function() {
-    // var dest = opts.output + '/galleries';
-    // wrench.rmdirSyncRecursive(dest, true);
-    // fs.mkdirp(dest);
     list.forEach(function(folder) {
       var rendered = render.gallery(list, folder);
       var outputPath = path.join(opts.output, folder.url);
