@@ -32,15 +32,17 @@ exports.build = function(opts) {
 
   gulp.task('thumbs-videos', function() {
     var files = wrench.readdirSyncRecursive(opts.input);
-    var videos = files.filter(function(f) { return f.match(/\.mp4$/); });
+    var videos = files.filter(function(f) {
+      return f.match(/\.(mp4|mov)$/);
+    });
     
     videos.forEach(function(videoPath) {
 
       var input  = path.join(opts.input, videoPath);
-      var thumb  = path.join(opts.output, 'thumbs', videoPath.replace('.mp4', '.jpg'));
-      var poster = path.join(opts.output, 'thumbs', videoPath.replace('.mp4', '_poster.jpg'));
+      var thumb  = path.join(opts.output, 'thumbs', videoPath.replace(/\.[a-z0-9]+$/, '.jpg'));
+      var poster = path.join(opts.output, 'thumbs', videoPath.replace(/\.[a-z0-9]+$/, '_poster.jpg'));
 
-      var ffmpeg = 'ffmpeg -itsoffset -1 -i ' + input + ' -ss 0.1 -vframes 1 -y ' + poster;
+      var ffmpeg = 'ffmpeg -itsoffset -1 -i "' + input + '" -ss 0.1 -vframes 1 -y "' + poster + '"';
 
       var exec = require('child_process').exec
       exec(ffmpeg, function(err, stdout, stderr) {

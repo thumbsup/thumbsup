@@ -29,7 +29,7 @@ exports.fromDisk = function(mediaPath, mediaPrefix) {
     }
   }
   function isVideo(file) {
-    return file.match(/mp4$/) != null;
+    return file.match(/\.(mp4|mov)$/) != null;
   }
 
   function byFolder(file) {
@@ -37,7 +37,7 @@ exports.fromDisk = function(mediaPath, mediaPrefix) {
   }
 
   function byExtension(file) {
-    return file.match(/\.(jpg|jpeg|png|mp4)$/)
+    return file.match(/\.(jpg|jpeg|png|mp4|mov)$/)
   }
 
   function folderInfo(files, name) {
