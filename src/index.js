@@ -25,8 +25,9 @@ exports.build = function(opts) {
   });
   
   gulp.task('index', function() {
-    // TODO render index page
-    // render.index(...);
+    var rendered = render.gallery(list, list[0]);
+    var outputPath = path.join(opts.output, 'index.html');
+    fs.writeFileSync(outputPath, rendered);
   });
   
   gulp.task('public', function() {
