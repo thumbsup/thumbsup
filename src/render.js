@@ -3,7 +3,7 @@ var path        = require('path');
 var handlebars  = require('handlebars');
 
 function compileTemplate(hbsFile) {
-  var src = fs.readFileSync(path.join('templates', hbsFile));
+  var src = fs.readFileSync(path.join(__dirname, '..', 'templates', hbsFile));
   return handlebars.compile(src.toString());
 }
 

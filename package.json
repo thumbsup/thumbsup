@@ -18,7 +18,7 @@
     "example": "node example/build.js"
   },
   "bin": {
-    "static-gallery": "./bin/generate.js"
+    "thumbsup": "./bin/thumbsup.js"
   },
   "dependencies": {
     "gulp": "~3.6.0",
@@ -31,6 +31,7 @@
     "fs-extra": "~0.8.1",
     "gulp-rename": "~1.2.0",
     "exec-sync": "~0.1.6",
-    "gm": "~1.14.2"
+    "gm": "~1.14.2",
+    "commander": "~2.2.0"
   }
 }

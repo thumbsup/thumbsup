@@ -68,7 +68,7 @@ exports.build = function(opts) {
   gulp.task('public', function() {
     var dest = opts.output + '/public';
     gulp
-    .src('public/**')
+    .src(path.join(__dirname, '..', 'public', '**'))
     .pipe(newer(dest))
     .pipe(gulp.dest(dest));
   });
