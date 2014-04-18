@@ -8,11 +8,28 @@ exports.fromDisk = function(mediaPath, mediaPrefix) {
     return {
       // read file date
       date: 2340930845,
+      name: path.basename(file),
       path: file,
       url: mediaPrefix + '/' + file,
-      thumbnail: 'thumbs/' + file,
-      video: file.match(/\.mp4$/)
+      thumbnail: thumbsPath(file),
+      video: isVideo(file),
+      poster: videoPoster(file)
     }
+  }
+
+  function thumbsPath(file) {
+    return 'thumbs/' + file.replace(/\.[a-z0-9]+$/, '.jpg');
+  }
+
+  function videoPoster(file) {
+    if (file.match(/mp4$/)) {
+      return file.replace(/\.[a-z0-9]+$/, '_poster.jpg')
+    } else {
+      return null;
+    }
+  }
+  function isVideo(file) {
+    return file.match(/mp4$/) != null;
   }
 
   function byFolder(file) {
