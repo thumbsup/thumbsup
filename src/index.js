@@ -12,6 +12,8 @@ var render      = require('./render');
 
 exports.build = function(opts) {
 
+  opts.size = opts.size || 100;
+
   fs.mkdirp(opts.output);
   var list = galleries.fromDisk(opts.input, opts.mediaPrefix);
   
@@ -20,7 +22,7 @@ exports.build = function(opts) {
     gulp
     .src(opts.input + '/**/*.{jpg,png}')
     .pipe(newer(dest))
-    .pipe(parallel(imageResize({width: 100, height: 100, crop: true}), os.cpus().length))
+    .pipe(parallel(imageResize({width: opts.size, height: opts.size, crop: true}), os.cpus().length))
     .pipe(gulp.dest(dest));
   });
   
