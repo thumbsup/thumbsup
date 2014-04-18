@@ -8,7 +8,8 @@ var newer       = require('gulp-newer');
 var rename      = require("gulp-rename");
 var imageResize = require('gulp-image-resize');
 var parallel    = require('concurrent-transform');
-var thumbler    = require('video-thumb');
+var exec        = require('exec-sync');
+var gm          = require('gm');
 
 var galleries   = require('./galleries');
 var render      = require('./render');
@@ -34,9 +35,27 @@ exports.build = function(opts) {
     var videos = files.filter(function(f) { return f.match(/\.mp4$/); });
     
     videos.forEach(function(videoPath) {
-      var input = path.join(opts.input, videoPath);
-      var output = path.join(opts.output, 'thumbs', videoPath.replace('.mp4', '.jpg'));
-      thumbler.extract(input, output, '00:00:00', '100x100', function() {});
+
+      var input  = path.join(opts.input, videoPath);
+      var thumb  = path.join(opts.output, 'thumbs', videoPath.replace('.mp4', '.jpg'));
+      var poster = path.join(opts.output, 'thumbs', videoPath.replace('.mp4', '_poster.jpg'));
+
+      var ffmpeg = 'ffmpeg -itsoffset -1 -i ' + input + ' -ss 0.1 -vframes 1 -y ' + poster;
+
+      var exec = require('child_process').exec
+      exec(ffmpeg, function(err, stdout, stderr) {
+        if (err) {
+          console.error('ffmpeg:', err);
+        }
+        gm(poster)
+        .resize(opts.size, opts.size, "^")
+        .gravity('Center')
+        .crop(opts.size, opts.size)
+        .write(thumb, function (err) {
+          if (err) console.error(err);
+        });
+      });
+
     });
   });
 

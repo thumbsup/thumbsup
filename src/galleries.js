@@ -18,12 +18,12 @@ exports.fromDisk = function(mediaPath, mediaPrefix) {
   }
 
   function thumbsPath(file) {
-    return 'thumbs/' + file.replace(/\.[a-z0-9]+$/, '.jpg');
+    return path.join('thumbs', file.replace(/\.[a-z0-9]+$/, '.jpg'));
   }
 
   function videoPoster(file) {
-    if (file.match(/mp4$/)) {
-      return file.replace(/\.[a-z0-9]+$/, '_poster.jpg')
+    if (isVideo(file)) {
+      return path.join('thumbs', file.replace(/\.[a-z0-9]+$/, '_poster.jpg'));
     } else {
       return null;
     }
