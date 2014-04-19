@@ -14,6 +14,6 @@ program
 index.build({
   input: program.input,
   output: program.output,
-  mediaPrefix: program.prefix,
+  mediaPrefix: program.mediaPrefix,
   size: program.size
 });
