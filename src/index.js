@@ -29,7 +29,7 @@ function photos(opts) {
     var fns = files.map(function(file) {
       return function(next) {
         thumbs.photo({
-          input: path.resolve(path.join(opts.input, file)),
+          input: path.join(opts.input, file),
           thumbnail: path.join(thumbsFolder, file),
           size: opts.size
         }, next);
@@ -45,9 +45,9 @@ function videos(opts) {
     var fns = files.map(function(file) {
       return function(next) {
         thumbs.video({
-          input: path.resolve(path.join(opts.input, file)),
-          thumbnail: path.join(thumbsFolder, file.replace(/\.[a-z0-9]+$/, '.jpg')),
-          poster: path.join(thumbsFolder, file.replace(/\.[a-z0-9]+$/, '_poster.jpg')),
+          input: path.join(opts.input, file),
+          thumbnail: path.join(thumbsFolder, ext(file, '.jpg')),
+          poster: path.join(thumbsFolder, ext(file, '_poster.jpg')),
           size: opts.size
         }, next);
       };
@@ -76,6 +76,10 @@ function support(opts) {
   var pub = path.join(__dirname, '..', 'public');
   var out = path.join(path.resolve(opts.output), 'public');
   fs.copy(pub, out, log('Supporting files'));
+}
+
+function ext(file, newExtension) {
+  return file.replace(/\.[a-z0-9]+$/, newExtension);
 }
 
 function log(message) {
