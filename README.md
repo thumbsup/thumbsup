@@ -15,6 +15,7 @@ Static HTML galleries from a list of photos & videos.
 
 - [Node.js](http://nodejs.org/): `brew install Node`
 - [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
+- [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
 
 ## Input
 

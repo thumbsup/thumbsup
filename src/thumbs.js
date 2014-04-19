@@ -1,16 +1,20 @@
-var exec  = require('child_process').exec;
-var async = require('async');
-var gm    = require('gm');
+var exec    = require('child_process').exec;
+var path    = require('path');
+var async   = require('async');
+var mkdirp  = require('mkdirp');
+var gm      = require('gm');
 
 
 /* opts = input, thumbnail, size */
 exports.photo = function(opts, callback) {
 
-  gm(opts.input)
+  mkdirp(path.dirname(opts.thumbnail));
+
+  gm(path.resolve(opts.input))
     .resize(opts.size, opts.size, "^")
     .gravity('Center')
     .crop(opts.size, opts.size)
-    .write(opts.thumbnail, callback);
+    .write(path.resolve(opts.thumbnail), callback);
 
 };
 
@@ -30,6 +34,7 @@ exports.video = function(opts, callback) {
     }, next);
   };
 
+  mkdirp(path.dirname(opts.thumbnail));
   async.series([fnVideo, fnPhoto], callback);
 
 };
