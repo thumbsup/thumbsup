@@ -1,9 +1,9 @@
 var _           = require('lodash');
 var fs          = require('fs');
 var path        = require('path');
-var wrench      = require('wrench');
+var glob        = require('glob');
 
-exports.fromDisk = function(mediaPath, mediaPrefix) {
+exports.fromDisk = function(mediaPath, mediaPrefix, callback) {
 
   function fileInfo(file) {
     return {
@@ -40,10 +40,6 @@ exports.fromDisk = function(mediaPath, mediaPrefix) {
     return path.dirname(file.path);
   }
 
-  function byExtension(file) {
-    return file.match(/\.(jpg|jpeg|png|mp4|mov)$/)
-  }
-
   function folderInfo(files, name) {
     return {
       name: name,
@@ -52,12 +48,14 @@ exports.fromDisk = function(mediaPath, mediaPrefix) {
     };
   }
 
-  var files = wrench.readdirSyncRecursive(mediaPath);
-  return _(files).filter(byExtension)
-                 .map(fileInfo)
-                 .sortBy('date')
-                 .groupBy(byFolder)
-                 .map(folderInfo)
-                 .value();
+  glob('**/*.{jpg,jpeg,png,mp4,mov}', {cwd: mediaPath, nonull:false}, function (err, files) {
+    var galleries = _(files)
+                   .map(fileInfo)
+                   .sortBy('date')
+                   .groupBy(byFolder)
+                   .map(folderInfo)
+                   .value();
+    callback(null, galleries);
+  });
 
 };

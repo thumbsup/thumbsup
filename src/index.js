@@ -25,7 +25,7 @@ exports.build = function(opts) {
 
 function photos(opts) {
   var thumbsFolder = path.join(path.resolve(opts.output), 'thumbs');
-  glob('**/*.{jpg,png}', {cwd: opts.input, nonull:false}, function (er, files) {
+  glob('**/*.{jpg,png}', {cwd: opts.input, nonull:false}, function (err, files) {
     var fns = files.map(function(file) {
       return thumbs.photo.bind(this, {
         input: path.join(opts.input, file),
@@ -38,7 +38,7 @@ function photos(opts) {
 
 function videos(opts) {
   var thumbsFolder = path.join(path.resolve(opts.output), 'thumbs');
-  glob('**/*.{mp4,mov}', {cwd: opts.input, nonull:false}, function (er, files) {
+  glob('**/*.{mp4,mov}', {cwd: opts.input, nonull:false}, function (err, files) {
     var fns = files.map(function(file) {
       return thumbs.video.bind(this, {
         input: path.join(opts.input, file),
@@ -51,19 +51,19 @@ function videos(opts) {
 }
 
 function website(opts) {
-  var list = galleries.fromDisk(opts.input, opts.mediaPrefix);
-
-  var rendered = render.gallery(list, list[0]);
-  var outputPath = path.join(opts.output, 'index.html');
-  fs.writeFileSync(outputPath, rendered);
-
-  list.forEach(function(folder) {
-    var rendered = render.gallery(list, folder);
-    var outputPath = path.join(opts.output, folder.url);
+  galleries.fromDisk(opts.input, opts.mediaPrefix, function(err, list) {
+    var rendered = render.gallery(list, list[0]);
+    var outputPath = path.join(opts.output, 'index.html');
     fs.writeFileSync(outputPath, rendered);
+  
+    list.forEach(function(folder) {
+      var rendered = render.gallery(list, folder);
+      var outputPath = path.join(opts.output, folder.url);
+      fs.writeFileSync(outputPath, rendered);
+    });
+  
+    log('Website')();
   });
-
-  log('Website')();
 }
 
 function support(opts) {
