@@ -1,4 +1,5 @@
 var _           = require('lodash');
+var fs          = require('fs');
 var path        = require('path');
 var wrench      = require('wrench');
 
@@ -6,8 +7,7 @@ exports.fromDisk = function(mediaPath, mediaPrefix) {
 
   function fileInfo(file) {
     return {
-      // read file date
-      date: 2340930845,
+      date: date(mediaPath, file),
       name: path.basename(file),
       path: file,
       url: mediaPrefix + '/' + file,
@@ -15,6 +15,10 @@ exports.fromDisk = function(mediaPath, mediaPrefix) {
       video: isVideo(file),
       poster: videoPoster(file)
     }
+  }
+
+  function date(mediaPath, file) {
+    return fs.statSync(path.join(mediaPath + '/' + file)).ctime.getTime();
   }
 
   function thumbsPath(file) {
