@@ -1,7 +1,7 @@
 var exec    = require('child_process').exec;
+var fs      = require('fs-extra');
 var path    = require('path');
 var async   = require('async');
-var mkdirp  = require('mkdirp');
 var gm      = require('gm');
 
 
@@ -11,7 +11,7 @@ exports.size = 100;
 // opts = input, thumbnail
 exports.photo = function(opts, callback) {
 
-  mkdirp(path.dirname(opts.thumbnail));
+  fs.mkdirpSync(path.dirname(opts.thumbnail));
 
   gm(path.resolve(opts.input))
     .resize(exports.size, exports.size, "^")
@@ -36,7 +36,7 @@ exports.video = function(opts, callback) {
     }, next);
   };
 
-  mkdirp(path.dirname(opts.thumbnail));
+  fs.mkdirpSync(path.dirname(opts.thumbnail));
   async.series([fnVideo, fnPhoto], callback);
 
 };
