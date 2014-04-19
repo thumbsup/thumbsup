@@ -10,15 +10,20 @@ var imageResize = require('gulp-image-resize');
 var parallel    = require('concurrent-transform');
 var exec        = require('exec-sync');
 var gm          = require('gm');
+var glob        = require('glob');
+var async       = require('async');
 
 var galleries   = require('./galleries');
 var render      = require('./render');
+var thumbs      = require('./thumbs');
 
 exports.build = function(opts) {
 
   opts.size = opts.size || 100;
 
   fs.mkdirp(opts.output);
+  var thumbsFolder = path.join(path.resolve(opts.output), 'thumbs');
+  console.log('thumbs=', thumbsFolder)
   var list = galleries.fromDisk(opts.input, opts.mediaPrefix);
   
   gulp.task('thumbs-photos', function() {
@@ -31,34 +36,50 @@ exports.build = function(opts) {
   });
 
   gulp.task('thumbs-videos', function() {
-    var files = wrench.readdirSyncRecursive(opts.input);
-    var videos = files.filter(function(f) {
-      return f.match(/\.(mp4|mov)$/);
-    });
-    
-    videos.forEach(function(videoPath) {
-
-      var input  = path.join(opts.input, videoPath);
-      var thumb  = path.join(opts.output, 'thumbs', videoPath.replace(/\.[a-z0-9]+$/, '.jpg'));
-      var poster = path.join(opts.output, 'thumbs', videoPath.replace(/\.[a-z0-9]+$/, '_poster.jpg'));
-
-      var ffmpeg = 'ffmpeg -itsoffset -1 -i "' + input + '" -ss 0.1 -vframes 1 -y "' + poster + '"';
-
-      var exec = require('child_process').exec
-      exec(ffmpeg, function(err, stdout, stderr) {
-        if (err) {
-          console.error('ffmpeg:', err);
-        }
-        gm(poster)
-        .resize(opts.size, opts.size, "^")
-        .gravity('Center')
-        .crop(opts.size, opts.size)
-        .write(thumb, function (err) {
-          if (err) console.error(err);
-        });
+    glob('**/*.{mp4,mov}', {cwd: opts.input, nonull:false}, function (er, files) {
+      var fns = files.map(function(file) {
+        return function(next) {
+          thumbs.video({
+            input: path.resolve(path.join(opts.input, file)),
+            thumbnail: path.join(thumbsFolder, file.replace(/\.[a-z0-9]+$/, '.jpg')),
+            poster: path.join(thumbsFolder, file.replace(/\.[a-z0-9]+$/, '_poster.jpg')),
+            size: opts.size
+          }, next);
+        };
       });
-
+      async.parallel(fns, function(err) {
+        console.log(err ? ('Videos: ' + err) : 'Videos [OK]');
+      });
     });
+
+    // var files = wrench.readdirSyncRecursive(opts.input);
+    // var videos = files.filter(function(f) {
+    //   return f.match(/\.(mp4|mov)$/);
+    // });
+    
+    // videos.forEach(function(videoPath) {
+
+    //   var input  = path.join(opts.input, videoPath);
+    //   var thumb  = path.join(opts.output, 'thumbs', videoPath.replace(/\.[a-z0-9]+$/, '.jpg'));
+    //   var poster = path.join(opts.output, 'thumbs', videoPath.replace(/\.[a-z0-9]+$/, '_poster.jpg'));
+
+    //   var ffmpeg = 'ffmpeg -itsoffset -1 -i "' + input + '" -ss 0.1 -vframes 1 -y "' + poster + '"';
+
+    //   var exec = require('child_process').exec
+    //   exec(ffmpeg, function(err, stdout, stderr) {
+    //     if (err) {
+    //       console.error('ffmpeg:', err);
+    //     }
+    //     gm(poster)
+    //     .resize(opts.size, opts.size, "^")
+    //     .gravity('Center')
+    //     .crop(opts.size, opts.size)
+    //     .write(thumb, function (err) {
+    //       if (err) console.error(err);
+    //     });
+    //   });
+
+    // });
   });
 
   gulp.task('index', function() {
