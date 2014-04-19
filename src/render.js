@@ -7,12 +7,7 @@ function compileTemplate(hbsFile) {
   return handlebars.compile(src.toString());
 }
 
-var indexTemplate  = compileTemplate('index.hbs');
 var galleryTemplate = compileTemplate('gallery.hbs');
-
-
-exports.index = function(list) {
-};
 
 exports.gallery = function(list, active) {
 
