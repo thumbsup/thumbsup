@@ -5,20 +5,23 @@ var mkdirp  = require('mkdirp');
 var gm      = require('gm');
 
 
-/* opts = input, thumbnail, size */
+// default thumbnail size (square)
+exports.size = 100;
+
+// opts = input, thumbnail
 exports.photo = function(opts, callback) {
 
   mkdirp(path.dirname(opts.thumbnail));
 
   gm(path.resolve(opts.input))
-    .resize(opts.size, opts.size, "^")
+    .resize(exports.size, exports.size, "^")
     .gravity('Center')
-    .crop(opts.size, opts.size)
+    .crop(exports.size, exports.size)
     .write(path.resolve(opts.thumbnail), callback);
 
 };
 
-/* opts = input, thumbnail, poster, size */
+// opts = input, thumbnail, poster
 exports.video = function(opts, callback) {
 
   var fnVideo = function(next) {
@@ -29,8 +32,7 @@ exports.video = function(opts, callback) {
   var fnPhoto = function(next) {
     exports.photo({
       input: opts.poster,
-      thumbnail: opts.thumbnail,
-      size: opts.size
+      thumbnail: opts.thumbnail
     }, next);
   };
 

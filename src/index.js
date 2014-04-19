@@ -12,8 +12,8 @@ exports.build = function(opts) {
 
   console.log('Building galleries...\n')
 
-  opts.size = opts.size || 100;
   fs.mkdirp(opts.output);
+  thumbs.size = opts.size || 100;
 
   photos(opts);
   videos(opts);
@@ -27,13 +27,10 @@ function photos(opts) {
   var thumbsFolder = path.join(path.resolve(opts.output), 'thumbs');
   glob('**/*.{jpg,png}', {cwd: opts.input, nonull:false}, function (er, files) {
     var fns = files.map(function(file) {
-      return function(next) {
-        thumbs.photo({
-          input: path.join(opts.input, file),
-          thumbnail: path.join(thumbsFolder, file),
-          size: opts.size
-        }, next);
-      };
+      return thumbs.photo.bind(this, {
+        input: path.join(opts.input, file),
+        thumbnail: path.join(thumbsFolder, file)
+      });
     });
     async.parallel(fns, log('Photos'));
   });
@@ -43,14 +40,11 @@ function videos(opts) {
   var thumbsFolder = path.join(path.resolve(opts.output), 'thumbs');
   glob('**/*.{mp4,mov}', {cwd: opts.input, nonull:false}, function (er, files) {
     var fns = files.map(function(file) {
-      return function(next) {
-        thumbs.video({
-          input: path.join(opts.input, file),
-          thumbnail: path.join(thumbsFolder, ext(file, '.jpg')),
-          poster: path.join(thumbsFolder, ext(file, '_poster.jpg')),
-          size: opts.size
-        }, next);
-      };
+      return thumbs.video.bind(this, {
+        input: path.join(opts.input, file),
+        thumbnail: path.join(thumbsFolder, ext(file, '.jpg')),
+        poster: path.join(thumbsFolder, ext(file, '_poster.jpg'))
+      });
     });
     async.parallel(fns, log('Videos'));
   });
