@@ -55,6 +55,7 @@ exports.fromDisk = function(mediaPath, mediaPrefix) {
   var files = wrench.readdirSyncRecursive(mediaPath);
   return _(files).filter(byExtension)
                  .map(fileInfo)
+                 .sortBy('date')
                  .groupBy(byFolder)
                  .map(folderInfo)
                  .value();
