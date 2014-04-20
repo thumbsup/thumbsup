@@ -42,11 +42,12 @@ nav {
 nav li {
   border-radius: 2px;
   display: inline-block;
-  padding: 0.4em 1em;
 }
 
 nav a {
   color: #33609c;
+  display: inline-block;
+  padding: 0.4em 1em;
   text-decoration: none;
 }
 
@@ -61,6 +62,10 @@ nav li.active a {
 
 nav li:not(.active):hover {
   background-color: #eee;
+}
+
+#gallery {
+  margin-bottom: 3em;
 }
 
 #gallery li {
