@@ -36,11 +36,15 @@
              type="video/mp4"
              data-poster="{{poster}}">
              <img src="{{thumbnail}}"
-                 alt="{{name}}" />
+                  width="{{size}}"
+                  height="{{size}}"
+                  alt="{{name}}" />
           </a>
         {{else}}
           <a href="{{url}}">
             <img src="{{thumbnail}}"
+                 width="{{size}}"
+                 height="{{size}}"
                  alt="{{name}}" />
           </a>
         {{/if}}

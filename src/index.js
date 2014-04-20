@@ -50,7 +50,7 @@ function videos(opts) {
 }
 
 function website(opts) {
-  galleries.fromDisk(opts.input, opts.mediaPrefix, function(err, list) {
+  galleries.fromDisk(opts.input, opts.mediaPrefix, opts.size, function(err, list) {
     var rendered = render.gallery(list, list[0]);
     var outputPath = path.join(opts.output, 'index.html');
     fs.writeFileSync(outputPath, rendered);

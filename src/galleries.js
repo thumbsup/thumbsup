@@ -3,7 +3,7 @@ var fs          = require('fs');
 var path        = require('path');
 var files       = require('./files');
 
-exports.fromDisk = function(mediaPath, mediaPrefix, callback) {
+exports.fromDisk = function(mediaPath, mediaPrefix, size, callback) {
 
   function fileInfo(file) {
     return {
@@ -13,7 +13,8 @@ exports.fromDisk = function(mediaPath, mediaPrefix, callback) {
       url: mediaPrefix + '/' + file,
       thumbnail: thumbsPath(file),
       video: isVideo(file),
-      poster: videoPoster(file)
+      poster: videoPoster(file),
+      size: size
     }
   }
 
