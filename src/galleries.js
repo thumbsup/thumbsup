@@ -1,7 +1,7 @@
 var _           = require('lodash');
 var fs          = require('fs');
 var path        = require('path');
-var glob        = require('glob');
+var files       = require('./files');
 
 exports.fromDisk = function(mediaPath, mediaPrefix, callback) {
 
@@ -48,7 +48,7 @@ exports.fromDisk = function(mediaPath, mediaPrefix, callback) {
     };
   }
 
-  glob('**/*.{jpg,jpeg,png,mp4,mov}', {cwd: mediaPath, nonull:false}, function (err, files) {
+  files.find(mediaPath, 'jpg,jpeg,png,mp4,mov', function (err, files) {
     var galleries = _(files)
                    .map(fileInfo)
                    .sortBy('date')

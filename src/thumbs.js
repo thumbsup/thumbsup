@@ -3,6 +3,7 @@ var fs      = require('fs-extra');
 var path    = require('path');
 var async   = require('async');
 var gm      = require('gm');
+var files   = require('./files');
 
 
 // default thumbnail size (square)
@@ -11,6 +12,7 @@ exports.size = 100;
 // opts = input, thumbnail
 exports.photo = function(opts, callback) {
 
+  if (files.newer(opts.thumbnail, opts.input)) return callback();
   fs.mkdirpSync(path.dirname(opts.thumbnail));
 
   gm(path.resolve(opts.input))
@@ -36,6 +38,7 @@ exports.video = function(opts, callback) {
     }, next);
   };
 
+  if (files.newer(opts.thumbnail, opts.input)) return callback();
   fs.mkdirpSync(path.dirname(opts.thumbnail));
   async.series([fnVideo, fnPhoto], callback);
 

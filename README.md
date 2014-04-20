@@ -19,8 +19,7 @@ Static HTML galleries from a list of photos & videos.
 
 ## Input
 
-Any folder with photos and videos.
-`thumbsup` supports 1 level of subfolders:
+Any folder with photos and videos. `thumbsup` supports 1 level of subfolders, where they each become a gallery.
 
 ```
 input

@@ -1,12 +1,12 @@
 var fs          = require('fs-extra');
 var path        = require('path');
-var glob        = require('glob');
 var async       = require('async');
 var pad         = require('pad');
 
 var galleries   = require('./galleries');
 var render      = require('./render');
 var thumbs      = require('./thumbs');
+var files       = require('./files');
 
 exports.build = function(opts) {
 
@@ -22,10 +22,9 @@ exports.build = function(opts) {
 
 };
 
-
 function photos(opts) {
   var thumbsFolder = path.join(path.resolve(opts.output), 'thumbs');
-  glob('**/*.{jpg,png}', {cwd: opts.input, nonull:false}, function (err, files) {
+  files.find(opts.input, 'jpg,png', function (err, files) {
     var fns = files.map(function(file) {
       return thumbs.photo.bind(this, {
         input: path.join(opts.input, file),
@@ -38,7 +37,7 @@ function photos(opts) {
 
 function videos(opts) {
   var thumbsFolder = path.join(path.resolve(opts.output), 'thumbs');
-  glob('**/*.{mp4,mov}', {cwd: opts.input, nonull:false}, function (err, files) {
+  files.find(opts.input, 'mp4,mov', function (err, files) {
     var fns = files.map(function(file) {
       return thumbs.video.bind(this, {
         input: path.join(opts.input, file),
@@ -69,7 +68,9 @@ function website(opts) {
 function support(opts) {
   var pub = path.join(__dirname, '..', 'public');
   var out = path.join(path.resolve(opts.output), 'public');
-  fs.copy(pub, out, log('Supporting files'));
+  if (files.newer(pub, out)) {
+    fs.copy(pub, out, log('Supporting files'));
+  }
 }
 
 function ext(file, newExtension) {
