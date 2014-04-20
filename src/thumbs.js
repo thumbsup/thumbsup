@@ -19,6 +19,7 @@ exports.photo = function(opts, callback) {
     .resize(exports.size, exports.size, "^")
     .gravity('Center')
     .crop(exports.size, exports.size)
+    .quality(90)
     .write(path.resolve(opts.thumbnail), callback);
 
 };
