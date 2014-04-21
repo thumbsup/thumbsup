@@ -75,6 +75,18 @@ nav li:not(.active):hover {
   position: relative;
 }
 
+#gallery li .video-overlay {
+  background: rgba(0,0,0,0.6);
+  border-radius: 3px;
+  bottom: 6px;
+  color: #fff;
+  font-size: 0.9em;
+  padding: 0.5em 0.6em 0.4em 0.7em;
+  position: absolute;
+  right: 3px;
+  text-decoration: none;
+}
+
 #gallery img {
   border-radius: 2px;
 }
