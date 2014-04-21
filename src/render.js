@@ -9,7 +9,7 @@ function compileTemplate(hbsFile) {
 
 var galleryTemplate = compileTemplate('gallery.hbs');
 
-exports.gallery = function(list, active) {
+exports.gallery = function(list, active, title, css) {
 
   var links = list.map(function(item) {
     return {
@@ -19,9 +19,14 @@ exports.gallery = function(list, active) {
     };
   });
 
+  var titleParts = title.split(' ');
+
   return galleryTemplate({
+    css: css,
     links: links,
-    gallery: active
+    gallery: active,
+    title: titleParts[0],
+    subtitle: titleParts.slice(1)
   });
 
 };

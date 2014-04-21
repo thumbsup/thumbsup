@@ -11,6 +11,14 @@ thumbsup.build({
   // for the thumbnails and static pages
   output: 'example/website',
 
+  // website title
+  // the first word will be in color
+  title: 'Photo gallery',
+
+  // main site color
+  // for the title and links
+  css: null,
+
   // size of the square thumbnails
   // in pixels
   thumbSize: 120,

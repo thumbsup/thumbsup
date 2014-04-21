@@ -1,3 +1,4 @@
+var _           = require('lodash');
 var fs          = require('fs-extra');
 var path        = require('path');
 var async       = require('async');
@@ -11,22 +12,30 @@ var make        = require('./make');
 
 exports.build = function(opts) {
 
-  if (opts.thumbSize) thumbs.sizes.thumb = opts.thumbSize;
-  if (opts.largeSize) thumbs.sizes.large = opts.largeSize;
+  opts = _.defaults(opts, {
+    title: 'Photo gallery',
+    thumbSize: 120,
+    largeSize: 1000
+  });
+
+  thumbs.sizes.thumb = opts.thumbSize;
+  thumbs.sizes.large = opts.largeSize;
 
   fs.mkdirp(opts.output);
   var media = path.join(opts.output, 'media');
 
   function website(callback) {
-    galleries.fromDisk(opts.input, thumbs.sizes.thumb, function(err, list) {
+    galleries.fromDisk(opts.input, opts.thumbSize, function(err, list) {
       if (err) return callback(err);
 
-      var rendered = render.gallery(list, list[0]);
+      var style = opts.css ? path.basename(opts.css) : null;
+
+      var rendered = render.gallery(list, list[0], opts.title, style);
       var outputPath = path.join(opts.output, 'index.html');
       fs.writeFileSync(outputPath, rendered);
     
       list.forEach(function(folder) {
-        var rendered = render.gallery(list, folder);
+        var rendered = render.gallery(list, folder, opts.title, style);
         var outputPath = path.join(opts.output, folder.url);
         fs.writeFileSync(outputPath, rendered);
       });
@@ -39,6 +48,15 @@ exports.build = function(opts) {
     var src = path.join(__dirname, '..', 'public');
     var dest = path.join(opts.output, 'public');
     copyFolder(src, dest, callback);
+  }
+
+  function customStyle(callback) {
+    if (opts.css) {
+      var dest = path.join(opts.output, 'public', path.basename(opts.css));
+      fs.copy(opts.css, dest, callback);
+    } else {
+      callback();
+    }
   }
 
   function copyMedia(callback) {
@@ -85,6 +103,7 @@ exports.build = function(opts) {
   async.series([
     step('Website',           website),
     step('Support',           support),
+    step('Custom styles',     customStyle),
     step('Original media',    copyMedia),
     step('Photos (large)',    photoLarge),
     step('Photos (thumbs)',   photoThumbs),

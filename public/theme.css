@@ -35,8 +35,7 @@ h2 {
 }
 
 nav {
-  color: #33609c;
-  margin-bottom: 2em;
+  margin-bottom: 2.3em;
 }
 
 nav li {
@@ -45,7 +44,7 @@ nav li {
 }
 
 nav a {
-  color: #33609c;
+  color: #666;
   display: inline-block;
   padding: 0.4em 1em;
   text-decoration: none;

@@ -2,6 +2,7 @@
 
 Static HTML galleries from a list of photos & videos.
 
+- supports custom title and styles
 - creates thumbnails for fast previews
 - only rebuilds changed files: it's fast!
 - uses relative paths so you can deploy the pages anywhere
@@ -44,13 +45,15 @@ The following args are required:
 
 And you can optionally specify:
 
-- `--thumb-size <pixels>` thumbnail image size (default 120)
-- `--large-size <pixels>` fullscreen image size (default 1000)
+- `--title [text]` website title (default "Photo gallery")
+- `--thumb-size [pixels]` thumbnail image size (default 120)
+- `--large-size [pixels]` fullscreen image size (default 1000)
+- `--css [file]` styles to be applied on top of the default theme (default none)
 
 For example:
 
 ```bash
-thumbsup --input "/media/photos" --output "./website" --thumb-size 200 --large-size 1500
+thumbsup --input "/media/photos" --output "./website" --title "My holidays" --thumb-size 200 --large-size 1500 --css "./custom.css"
 ```
 
 ## Website structure

@@ -7,6 +7,9 @@
       <title>{{gallery.name}}</title>
       <link rel="stylesheet" href="public/reset.css" />
       <link rel="stylesheet" href="public/theme.css" />
+      {{#if css}}
+        <link rel="stylesheet" href="public/{{css}}" />
+      {{/if}}
       <link rel="stylesheet" href="public/blueimp/css/blueimp-gallery.min.css">
       <link rel="stylesheet" href="public/blueimp/css/blueimp-gallery-video.css">
       <link rel="stylesheet" href="public/blueimp/css/blueimp-gallery-indicator.css">
@@ -15,8 +18,8 @@
   <body>
   
     <header>
-      <h1>Photo</h1>
-      <h2>gallery</h2>
+      <h1>{{title}}</h1>
+      <h2>{{subtitle}}</h2>
     </header>
 
     <nav>
