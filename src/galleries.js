@@ -3,7 +3,7 @@ var fs     = require('fs');
 var path   = require('path');
 var glob   = require('glob');
 
-exports.fromDisk = function(mediaPath, callback) {
+exports.fromDisk = function(mediaPath, thumbSize, callback) {
 
   function fileInfo(file) {
     return {
@@ -11,6 +11,7 @@ exports.fromDisk = function(mediaPath, callback) {
       name: path.basename(file),
       path: file,
       video: video(file),
+      size: thumbSize,
       urls: {
         original: mediaUrl(file, 'original'),
         large: mediaUrl(file, 'large'),

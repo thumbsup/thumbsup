@@ -18,7 +18,7 @@ exports.build = function(opts) {
   var media = path.join(opts.output, 'media');
 
   function website(callback) {
-    galleries.fromDisk(opts.input, function(err, list) {
+    galleries.fromDisk(opts.input, thumbs.sizes.thumb, function(err, list) {
       if (err) return callback(err);
 
       var rendered = render.gallery(list, list[0]);
@@ -26,7 +26,7 @@ exports.build = function(opts) {
       fs.writeFileSync(outputPath, rendered);
     
       list.forEach(function(folder) {
-        var rendered = render.gallery(list, folder, opts.size);
+        var rendered = render.gallery(list, folder);
         var outputPath = path.join(opts.output, folder.url);
         fs.writeFileSync(outputPath, rendered);
       });
