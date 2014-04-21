@@ -7,79 +7,115 @@ var galleries   = require('./galleries');
 var render      = require('./render');
 var thumbs      = require('./thumbs');
 var files       = require('./files');
+var make        = require('./make');
 
 exports.build = function(opts) {
 
-  console.log('Building galleries...\n')
+  if (opts.thumbSize) thumbs.sizes.thumb = opts.thumbSize;
+  if (opts.largeSize) thumbs.sizes.large = opts.largeSize;
 
   fs.mkdirp(opts.output);
-  thumbs.size = opts.size || 100;
+  var media = path.join(opts.output, 'media');
 
-  photos(opts);
-  videos(opts);
-  website(opts);
-  support(opts);
+  function website(callback) {
+    galleries.fromDisk(opts.input, function(err, list) {
+      if (err) return callback(err);
+
+      var rendered = render.gallery(list, list[0]);
+      var outputPath = path.join(opts.output, 'index.html');
+      fs.writeFileSync(outputPath, rendered);
+    
+      list.forEach(function(folder) {
+        var rendered = render.gallery(list, folder, opts.size);
+        var outputPath = path.join(opts.output, folder.url);
+        fs.writeFileSync(outputPath, rendered);
+      });
+    
+      callback();
+    });
+  }
+
+  function support(callback) {
+    var src = path.join(__dirname, '..', 'public');
+    var dest = path.join(opts.output, 'public');
+    copyFolder(src, dest, callback);
+  }
+
+  function copyMedia(callback) {
+    var dest = path.join(opts.output, 'media', 'original');
+    copyFolder(opts.input, dest, callback);
+  }
+
+  function photoLarge(callback) {
+    make({
+      source: opts.input,
+      filter: '**/*.{jpg,jpeg,png}',
+      dest: media + '/large/$path/$name.$ext',
+      process: thumbs.photoLarge
+    }, callback);
+  }
+
+  function photoThumbs(callback) {
+    make({
+      source: opts.input,
+      filter: '**/*.{jpg,jpeg,png}',
+      dest: media + '/thumbs/$path/$name.$ext',
+      process: thumbs.photoSquare
+    }, callback);
+  }
+
+  function videoLarge(callback) {
+    make({
+      source: opts.input,
+      filter: '**/*.{mp4,mov}',
+      dest: media + '/large/$path/$name.jpg',
+      process: thumbs.videoLarge
+    }, callback);
+  }
+
+  function videoThumbs(callback) {
+    make({
+      source: opts.input,
+      filter: '**/*.{mp4,mov}',
+      dest: media + '/thumbs/$path/$name.jpg',
+      process: thumbs.videoSquare
+    }, callback);
+  }
+
+  async.series([
+    step('Website',           website),
+    step('Support',           support),
+    step('Original media',    copyMedia),
+    step('Photos (large)',    photoLarge),
+    step('Photos (thumbs)',   photoThumbs),
+    step('Videos (large)',    videoLarge),
+    step('Videos (thumbs)',   videoThumbs)
+  ], finish);
 
 };
 
-function photos(opts) {
-  var thumbsFolder = path.join(path.resolve(opts.output), 'thumbs');
-  files.find(opts.input, 'jpg,png', function (err, files) {
-    var fns = files.map(function(file) {
-      return thumbs.photo.bind(this, {
-        input: path.join(opts.input, file),
-        thumbnail: path.join(thumbsFolder, file)
-      });
-    });
-    async.parallel(fns, log('Photos'));
-  });
-}
-
-function videos(opts) {
-  var thumbsFolder = path.join(path.resolve(opts.output), 'thumbs');
-  files.find(opts.input, 'mp4,mov', function (err, files) {
-    var fns = files.map(function(file) {
-      return thumbs.video.bind(this, {
-        input: path.join(opts.input, file),
-        thumbnail: path.join(thumbsFolder, ext(file, '.jpg')),
-        poster: path.join(thumbsFolder, ext(file, '_poster.jpg'))
-      });
-    });
-    async.parallel(fns, log('Videos'));
-  });
-}
-
-function website(opts) {
-  galleries.fromDisk(opts.input, opts.mediaPrefix, opts.size, function(err, list) {
-    var rendered = render.gallery(list, list[0]);
-    var outputPath = path.join(opts.output, 'index.html');
-    fs.writeFileSync(outputPath, rendered);
-  
-    list.forEach(function(folder) {
-      var rendered = render.gallery(list, folder);
-      var outputPath = path.join(opts.output, folder.url);
-      fs.writeFileSync(outputPath, rendered);
-    });
-  
-    log('Website')();
-  });
-}
-
-function support(opts) {
-  var pub = path.join(__dirname, '..', 'public');
-  var out = path.join(path.resolve(opts.output), 'public');
-  if (files.newer(pub, out)) {
-    fs.copy(pub, out, log('Supporting files'));
+function copyFolder(src, dest, callback) {
+  var src = path.resolve(src);
+  var dest = path.resolve(dest);
+  if (files.newer(src, dest)) {
+    fs.copy(src, dest, callback);
+  } else {
+    callback();
   }
 }
 
-function ext(file, newExtension) {
-  return file.replace(/\.[a-z0-9]+$/, newExtension);
+function step(msg, fn) {
+  return function(callback) {
+    console.log(pad(msg, 20) + '[STARTED]')
+    fn(function(err) {
+      console.log(pad(msg, 20) + (err ? '[FAILED]\n' : '[OK]'));
+      callback(err);
+    });
+  };
 }
 
-function log(message) {
-  return function(err) {
-    var tag = pad(message + ': ', 25);
-    console.log(tag + (err || '[OK]'));
-  }
+function finish(err) {
+  console.log(err || 'Done');
+  console.log();
+  process.exit(err ? 1 : 0)
 }

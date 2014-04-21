@@ -9,7 +9,7 @@ function compileTemplate(hbsFile) {
 
 var galleryTemplate = compileTemplate('gallery.hbs');
 
-exports.gallery = function(list, active) {
+exports.gallery = function(list, active, size) {
 
   var links = list.map(function(item) {
     return {
@@ -21,7 +21,8 @@ exports.gallery = function(list, active) {
 
   return galleryTemplate({
     links: links,
-    gallery: active
+    gallery: active,
+    size: size
   });
 
 };

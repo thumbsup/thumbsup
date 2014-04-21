@@ -11,9 +11,12 @@ thumbsup.build({
   // for the thumbnails and static pages
   output: 'example/website',
 
-  // relative path to the media
-  // a local path for testing
-  // but this could be the URL to an S3 bucket
-  mediaPrefix: '../media'
+  // size of the square thumbnails
+  // in pixels
+  thumbSize: 120,
+
+  // size of the "fullscreen" view
+  // in pixels
+  largeSize: 400
 
 });

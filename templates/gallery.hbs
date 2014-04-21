@@ -32,17 +32,17 @@
     <ul id="gallery">
       {{#each gallery.media}}<li>
         {{#if video}}
-          <a href="{{url}}"
+          <a href="{{urls.original}}"
              type="video/mp4"
-             data-poster="{{poster}}">
-             <img src="{{thumbnail}}"
+             data-poster="{{urls.large}}">
+             <img src="{{urls.thumb}}"
                   width="{{size}}"
                   height="{{size}}"
                   alt="{{name}}" />
           </a>
         {{else}}
-          <a href="{{url}}">
-            <img src="{{thumbnail}}"
+          <a href="{{urls.large}}">
+            <img src="{{urls.thumb}}"
                  width="{{size}}"
                  height="{{size}}"
                  alt="{{name}}" />

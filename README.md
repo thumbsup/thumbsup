@@ -3,13 +3,11 @@
 Static HTML galleries from a list of photos & videos.
 
 - creates thumbnails for fast previews
+- only rebuilds changed files: it's fast!
 - uses relative paths so you can deploy the pages anywhere
-- supports custom CSS for styling
 - works great with Amazon S3 for static hosting
 
 ![screenshot](https://raw.github.com/rprieto/thumbsup/master/screenshot.jpg)
-
-*Note: `thumbsup` keeps generated content separate from the original media. This means you're free to upload the media anywhere, and never have to worry about deleting the output folder*
 
 ## Requirements
 
@@ -43,25 +41,39 @@ The following args are required:
 
 - `--input <path>` path to the folder with photos / videos
 - `--output <path>` target output folder
-- `--media-prefix <url>` prefix for the photos / videos URLS (can be relative or absolute)
 
 And you can optionally specify:
 
-- `--size <pixels>` size of the thumbnails
-- `--css <path>` use the given CSS file instead of the default style
+- `--thumb-size <pixels>` thumbnail image size (default 120)
+- `--large-size <pixels>` fullscreen image size (default 1000)
 
 For example:
 
 ```bash
-thumbsup --input "/media/photos" --output "./website" --media-prefix "http://my.photo.bucket.s3.amazon.com" --css "custom.css" --size 200
+thumbsup --input "/media/photos" --output "./website" --thumb-size 200 --large-size 1500
+```
+
+## Website structure
+
+The generated static website has the following structure:
+
+```
+website
+  |__ index.html
+  |__ sydney.html
+  |__ paris.html
+  |__ public
+  |__ media
+  |    |__ original
+  |    |__ large
+  |    |__ thumbs
 ```
 
 ## Deployment
 
 The simplest is to deploy the media and generated pages to S3 buckets on AWS using the [AWS CLI tools](http://aws.amazon.com/cli/).
 
-- `aws s3 sync /media/photos s3://my.photo.bucket --delete`
-- `aws s3 sync /generated/website s3://my.website.bucket --delete`
+- `aws s3 sync ./generated/website s3://my.website.bucket --delete`
 
 ## Password protection
 

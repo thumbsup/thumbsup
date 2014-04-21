@@ -1,46 +1,36 @@
 var exec    = require('child_process').exec;
-var fs      = require('fs-extra');
-var path    = require('path');
-var async   = require('async');
 var gm      = require('gm');
-var files   = require('./files');
+var async   = require('async');
 
-
-// default thumbnail size (square)
-exports.size = 100;
-
-// opts = input, thumbnail
-exports.photo = function(opts, callback) {
-
-  if (files.newer(opts.thumbnail, opts.input)) return callback();
-  fs.mkdirpSync(path.dirname(opts.thumbnail));
-
-  gm(path.resolve(opts.input))
-    .resize(exports.size, exports.size, "^")
-    .gravity('Center')
-    .crop(exports.size, exports.size)
-    .quality(90)
-    .write(path.resolve(opts.thumbnail), callback);
-
+exports.sizes = {
+  thumb: 120,
+  large: 1000,
 };
 
-// opts = input, thumbnail, poster
-exports.video = function(opts, callback) {
+exports.photoSquare = function(src, dest, callback) {
+  gm(src)
+    .resize(exports.sizes.thumb, exports.sizes.thumb, '^')
+    .gravity('Center')
+    .crop(exports.sizes.thumb, exports.sizes.thumb)
+    .quality(90)
+    .write(dest, callback);
+};
 
-  var fnVideo = function(next) {
-    var ffmpeg = 'ffmpeg -itsoffset -1 -i "' + opts.input + '" -ss 0.1 -vframes 1 -y "' + opts.poster + '"';
-    exec(ffmpeg, next);
-  };
+exports.photoLarge = function(src, dest, callback) {
+  gm(src)
+    .resize(null, exports.sizes.large, '>')
+    .quality(95)
+    .write(dest, callback);
+};
 
-  var fnPhoto = function(next) {
-    exports.photo({
-      input: opts.poster,
-      thumbnail: opts.thumbnail
-    }, next);
-  };
+exports.videoLarge = function(src, dest, callback) {
+  var ffmpeg = 'ffmpeg -itsoffset -1 -i "' + src + '" -ss 0.1 -vframes 1 -y "' + dest + '"';
+  exec(ffmpeg, callback);
+};
 
-  if (files.newer(opts.thumbnail, opts.input)) return callback();
-  fs.mkdirpSync(path.dirname(opts.thumbnail));
-  async.series([fnVideo, fnPhoto], callback);
-
+exports.videoSquare = function(src, dest, callback) {
+  async.series([
+    exports.videoLarge.bind(this, src, dest),
+    exports.photoSquare.bind(this, dest, dest)
+  ], callback);
 };

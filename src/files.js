@@ -1,14 +1,4 @@
 var fs   = require('fs-extra');
-var glob = require('glob');
-
-exports.find = function(folder, ext, callback) {
-  var opts = {
-    cwd: folder,
-    nonull: false,
-    nocase: true
-  };
-  glob('**/*.{' + ext + '}', opts, callback);
-};
 
 exports.newer = function(src, dest) {
   var srcTime = 0;
