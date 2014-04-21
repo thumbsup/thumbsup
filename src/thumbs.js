@@ -19,7 +19,7 @@ exports.photoSquare = function(src, dest, callback) {
 exports.photoLarge = function(src, dest, callback) {
   gm(src)
     .resize(null, exports.sizes.large, '>')
-    .quality(95)
+    .quality(90)
     .write(dest, callback);
 };
 
