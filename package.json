@@ -14,6 +14,10 @@
     "s3",
     "generator"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rprieto/thumbsup.git"
+  },
   "scripts": {
     "example": "node example/build.js"
   },
