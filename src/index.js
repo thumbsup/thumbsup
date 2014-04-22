@@ -3,12 +3,12 @@ var fs          = require('fs-extra');
 var path        = require('path');
 var async       = require('async');
 var pad         = require('pad');
+var regen       = require('regen');
 
 var galleries   = require('./galleries');
 var render      = require('./render');
 var thumbs      = require('./thumbs');
 var files       = require('./files');
-var make        = require('./make');
 
 exports.build = function(opts) {
 
@@ -65,7 +65,7 @@ exports.build = function(opts) {
   }
 
   function photoLarge(callback) {
-    make({
+    regen({
       source: opts.input,
       filter: '**/*.{jpg,jpeg,png}',
       dest: media + '/large/$path/$name.$ext',
@@ -74,7 +74,7 @@ exports.build = function(opts) {
   }
 
   function photoThumbs(callback) {
-    make({
+    regen({
       source: opts.input,
       filter: '**/*.{jpg,jpeg,png}',
       dest: media + '/thumbs/$path/$name.$ext',
@@ -83,7 +83,7 @@ exports.build = function(opts) {
   }
 
   function videoLarge(callback) {
-    make({
+    regen({
       source: opts.input,
       filter: '**/*.{mp4,mov}',
       dest: media + '/large/$path/$name.jpg',
@@ -92,7 +92,7 @@ exports.build = function(opts) {
   }
 
   function videoThumbs(callback) {
-    make({
+    regen({
       source: opts.input,
       filter: '**/*.{mp4,mov}',
       dest: media + '/thumbs/$path/$name.jpg',
