@@ -16,6 +16,8 @@ Static HTML galleries from a list of photos & videos.
 - [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
 - [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
 
+[![NPM](https://nodei.co/npm/thumbsup.png)](https://www.npmjs.org/package/thumbsup)
+
 ## Input
 
 Any folder with photos and videos. `thumbsup` supports 1 level of subfolders, where they each become a gallery.
