@@ -1,14 +1,14 @@
-var fs   = require('fs-extra');
+var fs   = require('fs');
 
 exports.newer = function(src, dest) {
   var srcTime = 0;
   try {
-    var srcTime  = fs.statSync(src).ctime.getTime();
+    var srcTime  = fs.statSync(src).mtime.getTime();
   } catch (ex) {
     return false;
   }
   try {
-    var destTime = fs.statSync(dest).ctime.getTime();
+    var destTime = fs.statSync(dest).mtime.getTime();
     return srcTime > destTime;
   } catch (ex) {
     return true;
