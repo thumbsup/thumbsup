@@ -18,6 +18,9 @@ exports.build = function(opts) {
     largeSize: 1000
   });
 
+  opts.input = path.resolve(opts.input);
+  opts.output = path.resolve(opts.output);
+
   thumbs.sizes.thumb = opts.thumbSize;
   thumbs.sizes.large = opts.largeSize;
 
@@ -66,8 +69,8 @@ exports.build = function(opts) {
 
   function photoLarge(callback) {
     regen({
-      source: opts.input,
-      filter: '**/*.{jpg,jpeg,png}',
+      cwd: opts.input,
+      src: '**/*.{jpg,jpeg,png}',
       dest: media + '/large/$path/$name.$ext',
       process: thumbs.photoLarge
     }, callback);
@@ -75,8 +78,8 @@ exports.build = function(opts) {
 
   function photoThumbs(callback) {
     regen({
-      source: opts.input,
-      filter: '**/*.{jpg,jpeg,png}',
+      cwd: opts.input,
+      src: '**/*.{jpg,jpeg,png}',
       dest: media + '/thumbs/$path/$name.$ext',
       process: thumbs.photoSquare
     }, callback);
@@ -84,8 +87,8 @@ exports.build = function(opts) {
 
   function videoLarge(callback) {
     regen({
-      source: opts.input,
-      filter: '**/*.{mp4,mov}',
+      cwd: opts.input,
+      src: '**/*.{mp4,mov}',
       dest: media + '/large/$path/$name.jpg',
       process: thumbs.videoLarge
     }, callback);
@@ -93,8 +96,8 @@ exports.build = function(opts) {
 
   function videoThumbs(callback) {
     regen({
-      source: opts.input,
-      filter: '**/*.{mp4,mov}',
+      cwd: opts.input,
+      src: '**/*.{mp4,mov}',
       dest: media + '/thumbs/$path/$name.jpg',
       process: thumbs.videoSquare
     }, callback);
