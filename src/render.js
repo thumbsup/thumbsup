@@ -26,7 +26,7 @@ exports.gallery = function(list, active, title, css) {
     links: links,
     gallery: active,
     title: titleParts[0],
-    subtitle: titleParts.slice(1)
+    subtitle: titleParts.slice(1).join(' ')
   });
 
 };
