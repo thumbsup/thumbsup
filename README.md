@@ -2,7 +2,7 @@
 
 Static HTML galleries from a list of photos & videos.
 
-- supports custom title and styles
+- supports custom styles
 - creates thumbnails for fast previews
 - only rebuilds changed files: it's fast!
 - uses relative paths so you can deploy the pages anywhere
