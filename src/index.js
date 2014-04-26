@@ -63,8 +63,12 @@ exports.build = function(opts) {
   }
 
   function copyMedia(callback) {
-    var dest = path.join(opts.output, 'media', 'original');
-    copyFolder(opts.input, dest, callback);
+    regen({
+      cwd: opts.input,
+      src: '**/*.{jpg,jpeg,png,mp4,mov}',
+      dest: media + '/original/$path/$name.$ext',
+      process: fs.copy
+    }, callback);
   }
 
   function photoLarge(callback) {
