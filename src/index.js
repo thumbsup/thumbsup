@@ -89,6 +89,15 @@ exports.build = function(opts) {
     }, callback);
   }
 
+  function videoWeb(callback) {
+    regen({
+      cwd: opts.input,
+      src: '**/*.{mp4,mov}',
+      dest: media + '/large/$path/$name.mp4',
+      process: thumbs.videoWeb
+    }, callback);
+  }
+
   function videoLarge(callback) {
     regen({
       cwd: opts.input,
@@ -114,6 +123,7 @@ exports.build = function(opts) {
     step('Original media',    copyMedia),
     step('Photos (large)',    photoLarge),
     step('Photos (thumbs)',   photoThumbs),
+    step('Videos (web)',      videoWeb),
     step('Videos (large)',    videoLarge),
     step('Videos (thumbs)',   videoThumbs)
   ], finish);

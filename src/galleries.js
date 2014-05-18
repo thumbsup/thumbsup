@@ -10,12 +10,25 @@ exports.fromDisk = function(mediaPath, thumbSize, callback) {
       date: date(mediaPath, file),
       name: path.basename(file),
       path: file,
-      video: video(file),
+      video: isVideo(file),
       size: thumbSize,
-      urls: {
-        original: mediaUrl(file, 'original'),
-        large: mediaUrl(file, 'large'),
-        thumb: mediaUrl(file, 'thumbs')
+      urls: urls(file)
+    }
+  }
+
+  function urls(file) {
+    if (isVideo(file)) {
+      return {
+        original: path.join('media', 'original', file),
+        web:      path.join('media', 'large',  ext(file, 'mp4')),
+        large:    path.join('media', 'large',  ext(file, 'jpg')),
+        thumb:    path.join('media', 'thumbs', ext(file, 'jpg'))
+      };
+    } else {
+      return {
+        original: path.join('media', 'original', file),
+        large:    path.join('media', 'large', file),
+        thumb:    path.join('media', 'thumbs', file)
       }
     }
   }
@@ -24,14 +37,11 @@ exports.fromDisk = function(mediaPath, thumbSize, callback) {
     return fs.statSync(file).ctime.getTime();
   }
 
-  function mediaUrl(file, type) {
-    if (type != 'original') {
-      file = file.replace(/\.(mp4|mov)$/, '.jpg');
-    }
-    return path.join('media', type, file);
+  function ext(file, ext) {
+    return file.replace(/\.[a-z0-9]+$/i, '.' + ext);
   }
 
-  function video(file) {
+  function isVideo(file) {
     return (file.match(/\.(mp4|mov)$/) != null);
   }
 

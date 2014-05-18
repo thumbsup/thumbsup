@@ -7,6 +7,7 @@ exports.sizes = {
   large: 1000,
 };
 
+// Small square photo thumbnail
 exports.photoSquare = function(src, dest, callback) {
   gm(src)
     .resize(exports.sizes.thumb, exports.sizes.thumb, '^')
@@ -16,6 +17,7 @@ exports.photoSquare = function(src, dest, callback) {
     .write(dest, callback);
 };
 
+// Large photo
 exports.photoLarge = function(src, dest, callback) {
   gm(src)
     .resize(null, exports.sizes.large, '>')
@@ -23,11 +25,19 @@ exports.photoLarge = function(src, dest, callback) {
     .write(dest, callback);
 };
 
+// Web-streaming friendly video
+exports.videoWeb = function(src, dest, callback) {
+  var ffmpeg = 'ffmpeg -i "' + src + '" -vcodec libx264 -ab 96k -vb 1200k -y "'+ dest +'"';
+  exec(ffmpeg, callback);
+};
+
+// Large video preview (before you click play)
 exports.videoLarge = function(src, dest, callback) {
   var ffmpeg = 'ffmpeg -itsoffset -1 -i "' + src + '" -ss 0.1 -vframes 1 -y "' + dest + '"';
   exec(ffmpeg, callback);
 };
 
+// Small square video preview
 exports.videoSquare = function(src, dest, callback) {
   async.series([
     exports.videoLarge.bind(this, src, dest),
