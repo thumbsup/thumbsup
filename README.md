@@ -93,3 +93,17 @@ To create the sample gallery locally:
 ```
 npm run example
 ```
+
+This should output something like
+
+```
+Static website      [===================] done
+Original media      [===================] 6/6 files
+Photos (large)      [===================] 5/5 files
+Photos (thumbs)     [===================] 5/5 files
+Videos (web)        [===================] 1/1 files
+Videos (poster)     [===================] 1/1 files
+Videos (thumbs)     [===================] 1/1 files
+
+Gallery generated successfully
+```
