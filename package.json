@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "description": "Photo / video gallery generator",
   "author": "Romain Prieto",
-  "license": "BSD",
+  "license": "MIT",
   "keywords": [
     "photo",
     "video",
