@@ -45,7 +45,11 @@ exports.build = function(opts, callback) {
   }
 
   process.stdout.write(pad('Static website', 20));
-  async.series([], function(err) {
+  async.series([
+    website,
+    support,
+    customStyle
+  ], function(err) {
     process.stdout
     callback(err);
     console.log('[===================] done');
