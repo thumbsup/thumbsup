@@ -101,3 +101,16 @@ nav li:not(.active):hover {
   top: 0;
   width: 100%;
 }
+
+.blueimp-gallery > .download {
+  position: absolute;
+  top: 30px;
+  left: 15px;
+  color: #fff;
+  display: none;
+  text-decoration: none;
+}
+
+.blueimp-gallery-controls > .download {
+  display: block;
+}
