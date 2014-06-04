@@ -7,17 +7,17 @@ exports.build = function(metadata, thumbSize) {
 
   function fileInfo(data, file) {
     return {
-      date: data.date,
+      date: data.mediaDate,
       path: file,
       name: path.basename(file),
-      video: data.type === 'video',
+      video: data.mediaType === 'video',
       size: thumbSize,
       urls: urls(file, data)
     }
   }
 
   function urls(file, data) {
-    if (data.type === 'video') {
+    if (data.mediaType === 'video') {
       return {
         original: path.join('media', 'original', file),
         web:      path.join('media', 'large',  ext(file, 'mp4')),
