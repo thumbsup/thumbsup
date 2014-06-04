@@ -19,7 +19,9 @@
     "url": "https://github.com/rprieto/thumbsup.git"
   },
   "scripts": {
-    "example": "node example/build.js"
+    "clean": "rm -rf example/website",
+    "example": "node example/build.js",
+    "open": "open example/website/index.html"
   },
   "bin": {
     "thumbsup": "./bin/thumbsup.js"
