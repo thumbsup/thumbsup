@@ -69,22 +69,6 @@ exports.build = function(opts) {
       process: thumbs.videoSquare,
     }),
 
-    // buildStep('Read EXIF data', {
-    //   cwd: opts.input,
-    //   src: '**/*.{jpg,jpeg}',
-    //   dest: metaFile,
-    //   process: function(src, dest, callback) {
-    //     fs.readFile(src, function(err, buffer) {
-    //       var result = exif.create(buffer).parse();
-    //       var filePath = path.relative(opts.input, src);
-    //       metadata.exif[filePath] = {
-    //         date: result.tags.DateTimeOriginal
-    //       };
-    //       callback();
-    //     });
-    //   }
-    // }),
-
     function updateMetadata(callback) {
       metadata.update(opts, callback);
     },

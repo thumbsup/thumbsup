@@ -3,21 +3,21 @@ var fs     = require('fs');
 var path   = require('path');
 var glob   = require('glob');
 
-exports.fromDisk = function(mediaPath, thumbSize, callback) {
+exports.build = function(metadata, thumbSize) {
 
-  function fileInfo(file) {
+  function fileInfo(data, file) {
     return {
-      date: date(mediaPath, file),
-      name: path.basename(file),
+      date: data.date,
       path: file,
-      video: isVideo(file),
+      name: path.basename(file),
+      video: data.type === 'video',
       size: thumbSize,
-      urls: urls(file)
+      urls: urls(file, data)
     }
   }
 
-  function urls(file) {
-    if (isVideo(file)) {
+  function urls(file, data) {
+    if (data.type === 'video') {
       return {
         original: path.join('media', 'original', file),
         web:      path.join('media', 'large',  ext(file, 'mp4')),
@@ -33,16 +33,8 @@ exports.fromDisk = function(mediaPath, thumbSize, callback) {
     }
   }
 
-  function date(file) {
-    return fs.statSync(file).ctime.getTime();
-  }
-
   function ext(file, ext) {
     return file.replace(/\.[a-z0-9]+$/i, '.' + ext);
-  }
-
-  function isVideo(file) {
-    return (file.match(/\.(mp4|mov)$/) != null);
   }
 
   function byFolder(file) {
@@ -57,21 +49,10 @@ exports.fromDisk = function(mediaPath, thumbSize, callback) {
     };
   }
 
-  var globOptions = {
-    cwd: mediaPath,
-    nonull: false,
-    nocase: true
-  };
-
-  glob('**/*.{jpg,jpeg,png,mp4,mov}', globOptions, function (err, files) {
-    if (err) return callback(err);
-    var galleries = _(files)
-                   .map(fileInfo)
+  return _(metadata).map(fileInfo)
                    .sortBy('date')
                    .groupBy(byFolder)
                    .map(folderInfo)
                    .value();
-    callback(null, galleries);
-  });
 
 };
