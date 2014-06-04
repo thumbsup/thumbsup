@@ -2,11 +2,10 @@ var _           = require('lodash');
 var fs          = require('fs-extra');
 var path        = require('path');
 var async       = require('async');
-var pad         = require('pad');
-var regen       = require('regen');
 var metadata    = require('./metadata');
 var website     = require('./website');
 var thumbs      = require('./thumbs');
+var make        = require('./make');
 
 exports.build = function(opts) {
 
@@ -24,71 +23,72 @@ exports.build = function(opts) {
 
   fs.mkdirpSync(opts.output);
   var media = path.join(opts.output, 'media');
+  var meta  = null;
+
+  function buildStep(options) {
+    return function(callback) {
+      make.exec(opts.input, media, meta, options, callback);
+    }
+  }
 
   async.series([
 
-    buildStep('Original media', {
-      cwd: opts.input,
-      src: '**/*.{jpg,jpeg,png,mp4,mov}',
-      dest: media + '/original/$path/$name.$ext',
-      process: fs.copy
-    }),
-
-    buildStep('Photos (large)', {
-      cwd: opts.input,
-      src: '**/*.{jpg,jpeg,png}',
-      dest: media + '/large/$path/$name.$ext',
-      process: thumbs.photoLarge,
-    }),
-
-    buildStep('Photos (thumbs)', {
-      cwd: opts.input,
-      src: '**/*.{jpg,jpeg,png}',
-      dest: media + '/thumbs/$path/$name.$ext',
-      process: thumbs.photoSquare,
-    }),
-
-    buildStep('Videos (web)', {
-      cwd: opts.input,
-      src: '**/*.{mp4,mov}',
-      dest: media + '/large/$path/$name.mp4',
-      process: thumbs.videoWeb,
-    }),
-
-    buildStep('Videos (poster)', {
-      cwd: opts.input,
-      src: '**/*.{mp4,mov}',
-      dest: media + '/large/$path/$name.jpg',
-      process: thumbs.videoLarge,
-    }),
-
-    buildStep('Videos (thumbs)', {
-      cwd: opts.input,
-      src: '**/*.{mp4,mov}',
-      dest: media + '/thumbs/$path/$name.jpg',
-      process: thumbs.videoSquare,
-    }),
-
     function updateMetadata(callback) {
-      metadata.update(opts, callback);
+      metadata.update(opts, function(err, data) {
+        meta = data;
+        callback(err);
+      });
     },
 
+    buildStep({
+      message: 'Original media',
+      ext:     'jpg|jpeg|png|mp4|mov',
+      dest:    '/original/$path/$name.$ext',
+      func:    fs.copy
+    }),
+
+    buildStep({
+      message: 'Photos (large)',
+      ext:     'jpg|jpeg|png',
+      dest:    '/large/$path/$name.$ext',
+      func:    thumbs.photoLarge
+    }),
+
+    buildStep({
+      message: 'Photos (thumbs)',
+      ext:     'jpg|jpeg|png',
+      dest:    '/thumbs/$path/$name.$ext',
+      func:    thumbs.photoSquare
+    }),
+
+    buildStep({
+      message: 'Videos (web)',
+      ext:     'mp4|mov',
+      dest:    '/large/$path/$name.mp4',
+      func:    thumbs.videoWeb
+    }),
+
+    buildStep({
+      message: 'Videos (poster)',
+      ext:     'mp4|mov',
+      dest:    '/large/$path/$name.jpg',
+      func:    thumbs.videoLarge
+    }),
+
+    buildStep({
+      message: 'Videos (thumbs)',
+      ext:     'mp4|mov',
+      dest:    '/thumbs/$path/$name.jpg',
+      func:    thumbs.videoSquare
+    }),
+
     function staticWebsite(callback) {
-      website.build(opts, callback);
+      website.build(meta, opts, callback);
     }
 
   ], finish);
 
 };
-
-
-function buildStep(message, opts) {
-  return function(callback) {
-    regen(_.extend(opts, {
-      report: pad(message, 20) + '$progress'
-    }), callback);
-  }
-}
 
 function finish(err) {
   console.log();

@@ -7,11 +7,10 @@ var render      = require('./render');
 var files       = require('./files');
 
 
-exports.build = function(opts, callback) {
+exports.build = function(metadata, opts, callback) {
 
   function website(callback) {
 
-    var metadata = require(path.join(opts.output, 'metadata.json'));
     var galleries = viewModel.build(metadata, opts.thumbSize);
 
     var style = opts.css ? path.basename(opts.css) : null;
