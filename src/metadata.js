@@ -63,14 +63,15 @@ exports.update = function(opts, callback) {
 
   findFiles(function(err, files) {
     var toProcess = files.filter(newer);
-    if (toProcess.length > 0) {
+    var count = toProcess.length;
+    if (count > 0) {
       process.stdout.write(pad('Update metadata', 20));
-      var data = toProcess.filter(newer).map(metadata);
+      var data = toProcess.map(metadata);
       data.forEach(function(file) {
         existing[file.path] = _.omit(file, 'path');
       });
       fs.writeFileSync(metadataPath, JSON.stringify(existing, null, '  '));
-      console.log('[===================] done');
+      console.log('[===================] ' + count + '/' + count + ' files');
       callback();
     } else {
       callback();
