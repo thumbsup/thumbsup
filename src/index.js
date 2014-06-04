@@ -4,6 +4,7 @@ var path        = require('path');
 var async       = require('async');
 var pad         = require('pad');
 var regen       = require('regen');
+var metadata    = require('./metadata');
 var website     = require('./website');
 var thumbs      = require('./thumbs');
 
@@ -21,15 +22,10 @@ exports.build = function(opts) {
   thumbs.sizes.thumb = opts.thumbSize;
   thumbs.sizes.large = opts.largeSize;
 
-  fs.mkdirp(opts.output);
+  fs.mkdirpSync(opts.output);
   var media = path.join(opts.output, 'media');
 
-
   async.series([
-
-    function staticWebsite(callback) {
-      website.build(opts, callback);
-    },
 
     buildStep('Original media', {
       cwd: opts.input,
@@ -71,7 +67,31 @@ exports.build = function(opts) {
       src: '**/*.{mp4,mov}',
       dest: media + '/thumbs/$path/$name.jpg',
       process: thumbs.videoSquare,
-    })
+    }),
+
+    // buildStep('Read EXIF data', {
+    //   cwd: opts.input,
+    //   src: '**/*.{jpg,jpeg}',
+    //   dest: metaFile,
+    //   process: function(src, dest, callback) {
+    //     fs.readFile(src, function(err, buffer) {
+    //       var result = exif.create(buffer).parse();
+    //       var filePath = path.relative(opts.input, src);
+    //       metadata.exif[filePath] = {
+    //         date: result.tags.DateTimeOriginal
+    //       };
+    //       callback();
+    //     });
+    //   }
+    // }),
+
+    function updateMetadata(callback) {
+      metadata.update(opts, callback);
+    },
+
+    function staticWebsite(callback) {
+      website.build(opts, callback);
+    }
 
   ], finish);
 

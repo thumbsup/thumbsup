@@ -51,8 +51,8 @@ exports.build = function(opts, callback) {
     customStyle
   ], function(err) {
     process.stdout
-    callback(err);
     console.log('[===================] done');
+    callback(err);
   });
 
 };
