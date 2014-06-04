@@ -1,19 +1,23 @@
-var _     = require('lodash');
-var fs    = require('fs');
-var path  = require('path');
-var glob  = require('glob');
-var pad   = require('pad');
-var exif  = require('exif-parser');
+var _          = require('lodash');
+var fs         = require('fs');
+var path       = require('path');
+var glob       = require('glob');
+var async      = require('async');
+var pad        = require('pad');
+var exif       = require('exif-parser');
 
 exports.update = function(opts, callback) {
 
   var metadataPath = path.join(opts.output, 'metadata.json');
   var existing = null;
+  var existingDate = null;
 
   try {
     existing = require(metadataPath);
+    existingDate = fs.statSync(metadataPath).mtime;
   } catch (ex) {
     existing = {};
+    existingDate = 0;
   }
 
   function findFiles(callback) {
@@ -24,58 +28,63 @@ exports.update = function(opts, callback) {
     };
     glob('**/*.{jpg,jpeg,png,mp4,mov}', globOptions, callback);
   }
+
+  function pathAndDate(filePath, next) {
+    var absolute = path.join(opts.input, filePath);
+    fs.stat(absolute, function(err, stats) {
+      next(null, {
+        absolute: absolute,
+        relative: filePath,
+        fileDate: Math.max(stats.ctime.getTime(), stats.mtime.getTime())
+      });
+    });
+  }
   
-  function newer(filePath) {
-    var found = existing[filePath];
+  function newer(fileInfo) {
+    var found = existing[fileInfo.relative];
     if (!found) return true;
-    var absolute = path.join(opts.input, filePath);
-    var stats = fs.statSync(absolute);
-    var latest = Math.max(stats.ctime.getTime(), stats.mtime.getTime());
-    return latest > (found.processed * 1000);
-  }
-  
-  function metadata(filePath, callback) {
-    var absolute = path.join(opts.input, filePath);
-    return {
-      path: filePath,
-      type: mediaType(absolute),
-      date: mediaDate(absolute),
-      processed: Math.floor(new Date().getTime() / 1000)
-    };
-  }
-  
-  function mediaType(filePath) {
-    return filePath.match(/\.(mp4|mov)$/) ? 'video' : 'photo';
+    return fileInfo.fileDate > existingDate;
   }
 
-  function mediaDate(filePath) {
-    // timestamp in UNIX format
-    var timestamp = fs.statSync(filePath).ctime.getTime() / 1000;
-    if (filePath.match(/\.(jpg|jpeg)$/)) {
-      var contents = fs.readFileSync(filePath);
+  function metadata(fileInfo) {
+    return {
+      path: fileInfo.relative,
+      fileDate: fileInfo.fileDate,
+      mediaDate: mediaDate(fileInfo),
+      mediaType: mediaType(fileInfo)
+    };
+  }
+
+  function mediaDate(fileInfo) {
+    if (fileInfo.relative.match(/\.(jpg|jpeg)$/)) {
+      var contents = fs.readFileSync(fileInfo.absolute);
       var result = exif.create(contents).parse();
-      var exifDate = result.tags.DateTimeOriginal;
-      return exifDate || timestamp;
+      var exifDate = result.tags.DateTimeOriginal * 1000;
+      return exifDate || fileInfo.fileDate;
     } else {
-      return timestamp;
+      return fileInfo.fileDate;
     }
+  }
+
+  function mediaType(fileInfo) {
+    return fileInfo.relative.match(/\.(mp4|mov)$/) ? 'video' : 'photo';
   }
 
   findFiles(function(err, files) {
-    var toProcess = files.filter(newer);
-    var count = toProcess.length;
-    if (count > 0) {
-      process.stdout.write(pad('Update metadata', 20));
-      var data = toProcess.map(metadata);
-      data.forEach(function(file) {
-        existing[file.path] = _.omit(file, 'path');
-      });
-      fs.writeFileSync(metadataPath, JSON.stringify(existing, null, '  '));
-      console.log('[===================] ' + count + '/' + count + ' files');
-      callback();
-    } else {
-      callback();
-    }
+    async.map(files, pathAndDate, function (err, allFiles) {
+      var toProcess = allFiles.filter(newer);
+      var count = toProcess.length;
+      if (count > 0) {
+        process.stdout.write(pad('Update metadata', 20));
+        var update = toProcess.map(metadata);
+        update.forEach(function(fileInfo) {
+          existing[fileInfo.path] = _.omit(fileInfo, 'path');
+        });
+        fs.writeFileSync(metadataPath, JSON.stringify(existing, null, '  '));
+        console.log('[===================] ' + count + '/' + count + ' files');
+      }
+      callback(null, existing);
+    });
   });
 
 };
