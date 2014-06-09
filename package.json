@@ -20,7 +20,7 @@
   },
   "scripts": {
     "example": "node bin/thumbsup --config example.json",
-    "open": "open example/website/index.html"
+    "open": "open _site/index.html"
   },
   "bin": {
     "thumbsup": "./bin/thumbsup.js"
