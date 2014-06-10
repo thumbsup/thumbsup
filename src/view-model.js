@@ -3,7 +3,7 @@ var fs     = require('fs');
 var path   = require('path');
 var glob   = require('glob');
 
-exports.build = function(metadata, thumbSize) {
+exports.build = function(metadata, opts) {
 
   function fileInfo(data, file) {
     return {
@@ -11,7 +11,7 @@ exports.build = function(metadata, thumbSize) {
       path: file,
       name: path.basename(file),
       video: data.mediaType === 'video',
-      size: thumbSize,
+      size: opts['thumb-size'],
       urls: urls(file, data)
     }
   }
@@ -49,11 +49,22 @@ exports.build = function(metadata, thumbSize) {
     };
   }
 
+  var sortFunctions = {
+    'name': function(folder) {
+      return folder.name;
+    },
+    'date': function(folder) {
+      return _(folder.media).sortBy('date').first().date;
+    }
+  };
+
+  var chosenSort = sortFunctions[opts.sortFolders];
+
   return _(metadata).map(fileInfo)
                    .sortBy('date')
                    .groupBy(byFolder)
                    .map(folderInfo)
-                   .sortBy('name')
+                   .sortBy(chosenSort)
                    .value();
 
 };

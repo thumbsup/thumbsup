@@ -63,12 +63,13 @@ And you can optionally specify:
 - `--title [text]` website title (default "Photo gallery")
 - `--thumb-size [pixels]` thumbnail image size (default 120)
 - `--large-size [pixels]` fullscreen image size (default 1000)
+- `--sort-folders [name|date]` how to sort the folders/galleries
 - `--css [file]` styles to be applied on top of the default theme (default none)
 
 For example:
 
 ```bash
-thumbsup --input "/media/photos" --output "./website" --title "My holidays" --thumb-size 200 --large-size 1500 --css "./custom.css"
+thumbsup --input "/media/photos" --output "./website" --title "My holidays" --thumb-size 200 --large-size 1500 --sort-folders date --css "./custom.css"
 ```
 
 You can also save all your arguments to a `JSON` file:
@@ -86,6 +87,7 @@ thumbsup --config config.json
   "title": "My holiday",
   "thumb-size": 200,
   "large-size": 1500,
+  "sort-folders": "date",
   "css": "./custom.css"
 }
 ```
