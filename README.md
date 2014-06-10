@@ -8,7 +8,7 @@ Build static HTML galleries from local photos & videos.
 - uses relative paths so you can deploy the pages anywhere
 - works great with Amazon S3 for static hosting
 
-[Sample website](rprieto.github.io/thumbsup)
+[View sample website](http://rprieto.github.io/thumbsup)
 
 [![screenshot](https://raw.github.com/rprieto/thumbsup/master/screenshot.jpg)](http://rprieto.github.io/thumbsup)
 
