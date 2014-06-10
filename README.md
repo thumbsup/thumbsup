@@ -1,14 +1,16 @@
 # thumbsup
 
-Static HTML galleries from a list of photos & videos.
+Build static HTML galleries from local photos & videos.
 
-- supports custom styles
-- creates thumbnails for fast previews
+- thumbnails & multiple resolutions for fast previews
 - only rebuilds changed files: it's fast!
+- supports custom styles
 - uses relative paths so you can deploy the pages anywhere
 - works great with Amazon S3 for static hosting
 
-![screenshot](https://raw.github.com/rprieto/thumbsup/master/screenshot.jpg)
+[Sample website](rprieto.github.io/thumbsup)
+
+[![screenshot](https://raw.github.com/rprieto/thumbsup/master/screenshot.jpg)](http://rprieto.github.io/thumbsup)
 
 ## Requirements
 
@@ -20,7 +22,7 @@ Static HTML galleries from a list of photos & videos.
 
 ## Input
 
-Any folder with photos and videos. `thumbsup` supports 1 level of subfolders, where they each become a gallery.
+Any folder with photos and videos. `thumbsup` currently supports 1 level of subfolders, where they each become a gallery.
 
 ```
 input
