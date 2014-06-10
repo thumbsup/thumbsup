@@ -39,7 +39,18 @@ input
 ## Generating the galleries
 
 ```
-thumbsup <args>
+$ thumbsup [args]
+
+  Update metadata     [===================] 6/6 files
+  Original media      [===================] 6/6 files
+  Photos (large)      [===================] 5/5 files
+  Photos (thumbs)     [===================] 5/5 files
+  Videos (web)        [===================] 1/1 files
+  Videos (poster)     [===================] 1/1 files
+  Videos (thumbs)     [===================] 1/1 files
+  Static website      [===================] done
+  
+  Gallery generated successfully
 ```
 
 The following args are required:
@@ -58,6 +69,25 @@ For example:
 
 ```bash
 thumbsup --input "/media/photos" --output "./website" --title "My holidays" --thumb-size 200 --large-size 1500 --css "./custom.css"
+```
+
+You can also save all your arguments to a `JSON` file:
+
+```bash
+thumbsup --config config.json
+```
+
+**config.json**
+
+```js
+{
+  "input": "/media/output",
+  "output": "./website",
+  "title": "My holiday",
+  "thumb-size": 200,
+  "large-size": 1500,
+  "css": "./custom.css"
+}
 ```
 
 ## Website structure
@@ -93,19 +123,7 @@ An alternative is to deploy the galleries to UUID-based locations, like Dropbox 
 To create the sample gallery locally:
 
 ```
-npm run example
-```
-
-This should output something like
-
-```
-Static website      [===================] done
-Original media      [===================] 6/6 files
-Photos (large)      [===================] 5/5 files
-Photos (thumbs)     [===================] 5/5 files
-Videos (web)        [===================] 1/1 files
-Videos (poster)     [===================] 1/1 files
-Videos (thumbs)     [===================] 1/1 files
-
-Gallery generated successfully
+npm run clean      # clean the output
+npm run example    # build the gallery
+npm run open       # open it in the browser
 ```

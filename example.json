@@ -1,0 +1,8 @@
+{
+  "input": "example/media",
+  "output": "_site",
+  "title": "Photo gallery",
+  "thumbSize": 120,
+  "largeSize": 400,
+  "css": null
+}

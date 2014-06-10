@@ -19,8 +19,7 @@
     "url": "https://github.com/rprieto/thumbsup.git"
   },
   "scripts": {
-    "clean": "rm -rf example/website",
-    "example": "node example/build.js",
+    "example": "node bin/thumbsup --config example.json",
     "open": "open example/website/index.html"
   },
   "bin": {
@@ -36,6 +35,7 @@
     "async": "~0.7.0",
     "pad": "~0.0.4",
     "exif-parser": "~0.1.6",
-    "progress": "~1.1.5"
+    "progress": "~1.1.5",
+    "yargs": "~1.2.2"
   }
 }
