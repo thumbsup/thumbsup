@@ -1,4 +1,3 @@
-var _           = require('lodash');
 var fs          = require('fs-extra');
 var path        = require('path');
 var async       = require('async');
@@ -8,15 +7,6 @@ var thumbs      = require('./thumbs');
 var make        = require('./make');
 
 exports.build = function(opts) {
-
-  opts = _.defaults(opts, {
-    title: 'Photo gallery',
-    thumbSize: 120,
-    largeSize: 1000
-  });
-
-  opts.input = path.resolve(opts.input);
-  opts.output = path.resolve(opts.output);
 
   thumbs.sizes.thumb = opts.thumbSize;
   thumbs.sizes.large = opts.largeSize;

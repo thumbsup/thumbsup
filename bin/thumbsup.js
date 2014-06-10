@@ -1,23 +1,46 @@
 #!/usr/bin/env node
 
-var program = require('commander');
+var yargs = require('yargs');
+var path  = require('path');
 var index = require('../src/index');
 
-program
-  .version('0.0.1')
-  .option('--input <path>', 'Path to the folder with all photos/videos')
-  .option('--output <path>', 'Output path for the static website')
-  .option('--title <text>', 'Website title')
-  .option('--css <file>', 'Extra CSS file for styling')
-  .option('--thumb-size [pixels]', 'Thumbnail size in pixels (square)')
-  .option('--large-size [pixels]', 'Fullscreen size in pixels (height)')
-  .parse(process.argv);
+var opts = yargs
+  .usage('Usage: $0 [options]')
+  .options({
+    'input': {
+      description: 'Path to the folder with all photos/videos',
+    },
+    'output': {
+      description: 'Output path for the static website',
+    },
+    'title': {
+      description: 'Website title',
+      default: 'My gallery'
+    },
+    'thumb-size': {
+      description: 'Thumbnail size in pixels (square)',
+      default: 120
+    },
+    'large-size': {
+      description: 'Fullscreen size in pixels (height)',
+      default: 1000
+    },
+    'css': {
+      description: 'Extra CSS file for styling'
+    },
+    'config': {
+      description: 'Optional JSON config file (one key per argument)'
+    }
+  })
+  .config('config')
+  .demand(['input', 'output'])
+  .argv;
 
 index.build({
-  input: program.input,
-  output: program.output,
-  title: program.title,
-  css: program.css,
-  thumbSize: program.thumbSize,
-  largeSize: program.largeSize
+  input:      path.resolve(opts['input']),
+  output:     path.resolve(opts['output']),
+  title:      opts['title'],
+  thumbSize:  opts['thumb-size'],
+  largeSize:  opts['large-size'],
+  css:        opts['css']
 });
