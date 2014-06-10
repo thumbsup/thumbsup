@@ -1,10 +1,11 @@
-var _          = require('lodash');
-var fs         = require('fs');
-var path       = require('path');
-var glob       = require('glob');
-var async      = require('async');
-var pad        = require('pad');
-var exif       = require('exif-parser');
+var _           = require('lodash');
+var fs          = require('fs');
+var path        = require('path');
+var glob        = require('glob');
+var async       = require('async');
+var pad         = require('pad');
+var exif        = require('exif-parser');
+var ProgressBar = require('progress');
 
 exports.update = function(opts, callback) {
 
@@ -56,7 +57,7 @@ exports.update = function(opts, callback) {
   }
 
   function mediaDate(fileInfo) {
-    if (fileInfo.relative.match(/\.(jpg|jpeg)$/)) {
+    if (fileInfo.relative.match(/\.(jpg|jpeg)$/i)) {
       var contents = fs.readFileSync(fileInfo.absolute);
       var result = exif.create(contents).parse();
       var exifDate = result.tags.DateTimeOriginal * 1000;
@@ -67,7 +68,7 @@ exports.update = function(opts, callback) {
   }
 
   function mediaType(fileInfo) {
-    return fileInfo.relative.match(/\.(mp4|mov)$/) ? 'video' : 'photo';
+    return fileInfo.relative.match(/\.(mp4|mov)$/i) ? 'video' : 'photo';
   }
 
   findFiles(function(err, files) {
@@ -75,13 +76,16 @@ exports.update = function(opts, callback) {
       var toProcess = allFiles.filter(newer);
       var count = toProcess.length;
       if (count > 0) {
-        process.stdout.write(pad('Update metadata', 20));
-        var update = toProcess.map(metadata);
+        var format = pad('Update metadata', 20) + '[:bar] :current/:total files';
+        var bar = new ProgressBar(format, { total: count, width: 20 });
+        var update = toProcess.map(function(fileInfo) {
+          bar.tick();
+          return metadata(fileInfo);
+        });
         update.forEach(function(fileInfo) {
           existing[fileInfo.path] = _.omit(fileInfo, 'path');
         });
         fs.writeFileSync(metadataPath, JSON.stringify(existing, null, '  '));
-        console.log('[===================] ' + count + '/' + count + ' files');
       }
       callback(null, existing);
     });

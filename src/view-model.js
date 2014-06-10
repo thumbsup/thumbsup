@@ -53,6 +53,7 @@ exports.build = function(metadata, thumbSize) {
                    .sortBy('date')
                    .groupBy(byFolder)
                    .map(folderInfo)
+                   .sortBy('name')
                    .value();
 
 };
