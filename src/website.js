@@ -11,7 +11,7 @@ exports.build = function(metadata, opts, callback) {
 
   function website(callback) {
 
-    var galleries = viewModel.build(metadata, opts.thumbSize);
+    var galleries = viewModel.build(metadata, opts);
 
     var style = opts.css ? path.basename(opts.css) : null;
 

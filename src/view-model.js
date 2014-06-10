@@ -11,7 +11,7 @@ exports.build = function(metadata, opts) {
       path: file,
       name: path.basename(file),
       video: data.mediaType === 'video',
-      size: opts['thumb-size'],
+      size: opts.thumbSize,
       urls: urls(file, data)
     }
   }

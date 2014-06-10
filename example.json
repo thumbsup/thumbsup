@@ -2,7 +2,8 @@
   "input": "example/media",
   "output": "_site",
   "title": "Photo gallery",
-  "thumbSize": 120,
-  "largeSize": 400,
+  "thumb-size": 120,
+  "large-size": 400,
+  "sort-folders": "date",
   "css": null
 }
