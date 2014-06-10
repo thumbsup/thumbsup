@@ -9,7 +9,7 @@ thumbsup.build({
 
   // the output folder
   // for the thumbnails and static pages
-  output: 'example/website',
+  output: '_site',
 
   // website title
   // the first word will be in color
