@@ -2,11 +2,7 @@
 
 [![NPM](http://img.shields.io/npm/v/thumbsup.svg?style=flat)](https://npmjs.org/package/thumbsup)
 [![License](http://img.shields.io/npm/l/thumbsup.svg?style=flat)](https://github.com/rprieto/thumbsup)
-
-[![Build Status](http://img.shields.io/travis/rprieto/thumbsup.svg?style=flat)](http://travis-ci.org/rprieto/thumbsup)
 [![Dependencies](http://img.shields.io/david/rprieto/thumbsup.svg?style=flat)](https://david-dm.org/rprieto/thumbsup)
-[![Dev dependencies](http://img.shields.io/david/dev/rprieto/thumbsup.svg?style=flat)](https://david-dm.org/rprieto/thumbsup)
-
 
 Build static HTML galleries from local photos & videos.
 
