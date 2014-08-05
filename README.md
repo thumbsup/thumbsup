@@ -1,5 +1,13 @@
 # thumbsup
 
+[![NPM](http://img.shields.io/npm/v/thumbsup.svg?style=flat)](https://npmjs.org/package/thumbsup)
+[![License](http://img.shields.io/npm/l/thumbsup.svg?style=flat)](https://github.com/rprieto/thumbsup)
+
+[![Build Status](http://img.shields.io/travis/rprieto/thumbsup.svg?style=flat)](http://travis-ci.org/rprieto/thumbsup)
+[![Dependencies](http://img.shields.io/david/rprieto/thumbsup.svg?style=flat)](https://david-dm.org/rprieto/thumbsup)
+[![Dev dependencies](http://img.shields.io/david/dev/rprieto/thumbsup.svg?style=flat)](https://david-dm.org/rprieto/thumbsup)
+
+
 Build static HTML galleries from local photos & videos.
 
 - thumbnails & multiple resolutions for fast previews
@@ -18,8 +26,6 @@ Build static HTML galleries from local photos & videos.
 - [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
 - [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
 
-[![NPM](https://nodei.co/npm/thumbsup.png)](https://www.npmjs.org/package/thumbsup)
-
 ## Input
 
 Any folder with photos and videos. `thumbsup` currently supports 1 level of subfolders, where they each become a gallery.
@@ -37,6 +43,12 @@ input
 ```
 
 ## Generating the galleries
+
+Install the module globally, which puts the binary in your path:
+
+```
+$ npm install -g thumbsup
+```
 
 ```
 $ thumbsup [args]
@@ -66,6 +78,7 @@ And you can optionally specify:
 - `--sort-folders [name|date]` how to sort the folders/galleries
 - `--css [file]` styles to be applied on top of the default theme (default none)
 
+*Note:* all paths are relative to the current working directory.
 For example:
 
 ```bash
