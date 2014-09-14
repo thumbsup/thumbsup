@@ -1,4 +1,7 @@
 example
+_site
 .gitignore
+.gitmodules
 .npmignore
 screenshot.jpg
+example.json
