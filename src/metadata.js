@@ -40,11 +40,21 @@ exports.update = function(opts, callback) {
       });
     });
   }
-  
+
   function newer(fileInfo) {
     var found = existing[fileInfo.relative];
     if (!found) return true;
     return fileInfo.fileDate > existingDate;
+  }
+
+  function removeDeletedFiles(allFiles) {
+    var existingPaths = _.keys(existing);
+    var actualPaths   = _.pluck(allFiles, 'relative');
+    var deleted = _.difference(existingPaths, actualPaths);
+    deleted.forEach(function(key) {
+      delete existing[key];
+    });
+    return deleted.length > 0;
   }
 
   function metadata(fileInfo) {
@@ -72,7 +82,10 @@ exports.update = function(opts, callback) {
   }
 
   findFiles(function(err, files) {
+    process.stdout.write(pad('List all files', 20));
     async.map(files, pathAndDate, function (err, allFiles) {
+      console.log('[===================] done');
+      var deleted = removeDeletedFiles(allFiles);
       var toProcess = allFiles.filter(newer);
       var count = toProcess.length;
       if (count > 0) {
@@ -85,6 +98,8 @@ exports.update = function(opts, callback) {
         update.forEach(function(fileInfo) {
           existing[fileInfo.path] = _.omit(fileInfo, 'path');
         });
+      }
+      if (deleted || (count > 0)) {
         fs.writeFileSync(metadataPath, JSON.stringify(existing, null, '  '));
       }
       callback(null, existing);
