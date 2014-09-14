@@ -123,6 +123,11 @@ The simplest is to deploy the media and generated pages to S3 buckets on AWS usi
 
 - `aws s3 sync ./generated/website s3://my.website.bucket --delete`
 
+You can also use [s3cmd](http://s3tools.org/) which offer a few more options.
+
+- `s3cmd sync --config=<credentials> --delete-removed --exclude-from <exclude-file> ./generated/website/ s3://my.website.bucket/`
+
+
 ## Password protection
 
 Amazon S3 buckets do not offer any type of authentication. However you can choose to deploy to another web server that offers password protection, such as HTTP Basic Auth.
