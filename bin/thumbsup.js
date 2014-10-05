@@ -34,6 +34,9 @@ var opts = yargs
     },
     'config': {
       description: 'Optional JSON config file (one key per argument)'
+    },
+    'google-analytics': {
+      description: 'Code for Google Analytics tracking'
     }
   })
   .config('config')
@@ -41,11 +44,12 @@ var opts = yargs
   .argv;
 
 index.build({
-  input:        path.resolve(opts['input']),
-  output:       path.resolve(opts['output']),
-  title:        opts['title'],
-  thumbSize:    opts['thumb-size'],
-  largeSize:    opts['large-size'],
-  sortFolders:  opts['sort-folders'],
-  css:          opts['css']
+  input:           path.resolve(opts['input']),
+  output:          path.resolve(opts['output']),
+  title:           opts['title'],
+  thumbSize:       opts['thumb-size'],
+  largeSize:       opts['large-size'],
+  sortFolders:     opts['sort-folders'],
+  css:             opts['css'],
+  googleAnalytics: opts['google-analytics']
 });

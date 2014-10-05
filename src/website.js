@@ -15,12 +15,12 @@ exports.build = function(metadata, opts, callback) {
 
     var style = opts.css ? path.basename(opts.css) : null;
 
-    var rendered = render.gallery(galleries, galleries[0], opts.title, style);
+    var rendered = render.gallery(galleries, galleries[0], opts.title, style, opts.googleAnalytics);
     var outputPath = path.join(opts.output, 'index.html');
     fs.writeFileSync(outputPath, rendered);
-  
+
     galleries.forEach(function(folder) {
-      var rendered = render.gallery(galleries, folder, opts.title, style);
+      var rendered = render.gallery(galleries, folder, opts.title, style, opts.googleAnalytics);
       var outputPath = path.join(opts.output, folder.url);
       fs.writeFileSync(outputPath, rendered);
     });

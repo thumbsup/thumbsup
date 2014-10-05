@@ -57,7 +57,7 @@ $ thumbsup [args]
   Videos (poster)     [===================] 1/1 files
   Videos (thumbs)     [===================] 1/1 files
   Static website      [===================] done
-  
+
   Gallery generated successfully
 ```
 
@@ -68,17 +68,18 @@ The following args are required:
 
 And you can optionally specify:
 
-- `--title [text]` website title (default "Photo gallery")
-- `--thumb-size [pixels]` thumbnail image size (default 120)
-- `--large-size [pixels]` fullscreen image size (default 1000)
-- `--sort-folders [name|date]` how to sort the folders/galleries
-- `--css [file]` styles to be applied on top of the default theme (default none)
+- `--title [text]` website title (default: `Photo gallery`)
+- `--thumb-size [pixels]` thumbnail image size (default: `120`)
+- `--large-size [pixels]` fullscreen image size (default: `1000`)
+- `--sort-folders [name|date]` how to sort the folders/galleries (default: `date`)
+- `--css [file]` styles to be applied on top of the default theme (no default)
+- `--google-analytics [code]` code for Google Analytics tracking (no default)
 
 *Note:* all paths are relative to the current working directory.
 For example:
 
 ```bash
-thumbsup --input "/media/photos" --output "./website" --title "My holidays" --thumb-size 200 --large-size 1500 --sort-folders date --css "./custom.css"
+thumbsup --input "/media/photos" --output "./website" --title "My holidays" --thumb-size 200 --large-size 1500 --sort-folders date --css "./custom.css" --google-analytics "UA-999999-9"
 ```
 
 You can also save all your arguments to a `JSON` file:
@@ -97,7 +98,8 @@ thumbsup --config config.json
   "thumb-size": 200,
   "large-size": 1500,
   "sort-folders": "date",
-  "css": "./custom.css"
+  "css": "./custom.css",
+  "google-analytics": "UA-999999-9"
 }
 ```
 
