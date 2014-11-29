@@ -34,6 +34,7 @@ exports.exec = function(input, output, metadata, options, callback) {
         });
       };
     });
+    bar.tick(0);
     async.series(ops, callback);
   } else {
     callback();
