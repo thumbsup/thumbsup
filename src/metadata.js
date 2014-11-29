@@ -4,8 +4,8 @@ var path        = require('path');
 var glob        = require('glob');
 var async       = require('async');
 var pad         = require('pad');
-var exif        = require('exif-parser');
 var ProgressBar = require('progress');
+var exif        = require('./exif');
 
 exports.update = function(opts, callback) {
 
@@ -57,60 +57,53 @@ exports.update = function(opts, callback) {
     return deleted.length > 0;
   }
 
-  function metadata(fileInfo) {
-    var exifData = getExifData(fileInfo);
-    return {
-      path: fileInfo.relative,
-      fileDate: fileInfo.fileDate,
-      mediaType: mediaType(fileInfo),
-      mediaDate: exifData.date || fileInfo.fileDate,
-      orientation: exifData.orientation
-    };
-  }
-
-  function getExifData(fileInfo) {
-    if (fileInfo.relative.match(/\.(jpg|jpeg)$/i)) {
-      var contents = fs.readFileSync(fileInfo.absolute);
-      var result = exif.create(contents).parse();
-      var date = result.tags.DateTimeOriginal;
-      return {
-        date: (date * 1000) || fileInfo.fileDate,
-        orientation: result.tags.Orientation || 1
-      };
-    } else {
-      return {
-        date: fileInfo.fileDate,
-        orientation: 1
-      };
-    }
+  function metadata(fileInfo, callback) {
+    exif.read(fileInfo.absolute, function(err, exifData) {
+      callback(null, {
+        path: fileInfo.relative,
+        fileDate: fileInfo.fileDate,
+        mediaType: mediaType(fileInfo),
+        exif: {
+          date: exifData ? exifData.date : null,
+          orientation: exifData ? exifData.orientation : null
+        }
+      });
+    });
   }
 
   function mediaType(fileInfo) {
     return fileInfo.relative.match(/\.(mp4|mov|mts)$/i) ? 'video' : 'photo';
   }
 
+  function writeToDisk() {
+    fs.writeFileSync(metadataPath, JSON.stringify(existing, null, '  '));
+  }
+
   findFiles(function(err, files) {
-    process.stdout.write(pad('List all files', 20));
+    var format = pad('List all files', 20) + '[:bar] :current/:total files';
+    var bar = new ProgressBar(format, { total: files.length, width: 20 });
+    bar.tick(files.length);
     async.map(files, pathAndDate, function (err, allFiles) {
-      console.log('[===================] done');
       var deleted = removeDeletedFiles(allFiles);
       var toProcess = allFiles.filter(newer);
       var count = toProcess.length;
       if (count > 0) {
         var format = pad('Update metadata', 20) + '[:bar] :current/:total files';
         var bar = new ProgressBar(format, { total: count, width: 20 });
-        var update = toProcess.map(function(fileInfo) {
+        async.map(toProcess, function(fileInfo, next) {
           bar.tick();
-          return metadata(fileInfo);
+          metadata(fileInfo, next);
+        }, function(err, update) {
+          update.forEach(function(fileInfo) {
+            existing[fileInfo.path] = _.omit(fileInfo, 'path');
+          });
+          writeToDisk();
+          callback(null, existing);
         });
-        update.forEach(function(fileInfo) {
-          existing[fileInfo.path] = _.omit(fileInfo, 'path');
-        });
+      } else {
+        if (deleted) writeToDisk();
+        callback(null, existing);
       }
-      if (deleted || (count > 0)) {
-        fs.writeFileSync(metadataPath, JSON.stringify(existing, null, '  '));
-      }
-      callback(null, existing);
     });
   });
 

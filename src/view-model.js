@@ -7,7 +7,7 @@ exports.build = function(metadata, opts) {
 
   function fileInfo(data, file) {
     return {
-      date: data.mediaDate,
+      date: data.exif.date || data.fileDate,
       path: file,
       name: path.basename(file),
       video: data.mediaType === 'video',

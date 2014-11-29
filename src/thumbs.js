@@ -11,7 +11,7 @@ exports.sizes = {
 // Small square photo thumbnail
 exports.photoSquare = function(task, callback) {
   var img = gm(task.src);
-  img = rotatePhoto(img, task.metadata.orientation);
+  img = rotatePhoto(img, task.metadata.exif.orientation);
   img.resize(exports.sizes.thumb, exports.sizes.thumb, '^')
      .gravity('Center')
      .crop(exports.sizes.thumb, exports.sizes.thumb)
@@ -22,7 +22,7 @@ exports.photoSquare = function(task, callback) {
 // Large photo
 exports.photoLarge = function(task, callback) {
   var img = gm(task.src);
-  img = rotatePhoto(img, task.metadata.orientation);
+  img = rotatePhoto(img, task.metadata.exif.orientation);
   img.resize(null, exports.sizes.large, '>')
      .quality(90)
      .write(task.dest, callback);
@@ -42,21 +42,46 @@ exports.videoWeb = function(task, callback) {
 
 // Large video preview (before you click play)
 exports.videoLarge = function(task, callback) {
-  var ffmpeg = 'ffmpeg -itsoffset -1 -i "' + task.src + '" -ss 0.1 -vframes 1 -y "' + task.dest + '"';
-  exec(ffmpeg, callback);
+  async.series([
+    function(next) {
+      extractFrame(task, next);
+    },
+    function(next) {
+      exports.photoLarge({
+        src: task.dest,
+        dest: task.dest,
+        metadata: task.metadata
+      }, next);
+    }
+  ], callback);
 };
 
 // Small square video preview
 exports.videoSquare = function(task, callback) {
   async.series([
-    exports.videoLarge.bind(this, task),
-    exports.photoSquare.bind(this, {
-      src: task.dest,
-      dest: task.dest,
-      metadata: {}
-    })
+    function(next) {
+      extractFrame(task, next);
+    },
+    function(next) {
+      exports.photoSquare({
+        src: task.dest,
+        dest: task.dest,
+        metadata: task.metadata
+      }, next);
+    }
+    // exports.videoLarge.bind(this, task),
+    // exports.photoSquare.bind(this, {
+    //   src: task.dest,
+    //   dest: task.dest,
+    //   metadata: {exif: {}}
+    // })
   ], callback);
 };
+
+function extractFrame(task, callback) {
+  var ffmpeg = 'ffmpeg -itsoffset -1 -i "' + task.src + '" -ss 0.1 -vframes 1 -y "' + task.dest + '"';
+  exec(ffmpeg, callback);
+}
 
 // Many browsers don't display EXIF orientation properly
 // We need to rotate all photos so their orientation is back to 1
