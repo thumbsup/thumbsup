@@ -25,6 +25,10 @@ exports.build = function(opts) {
     }
   }
 
+  function copyFile(task, callback) {
+    fs.copy(task.src, task.dest, callback);
+  }
+
   async.series([
 
     function updateMetadata(callback) {
@@ -39,7 +43,7 @@ exports.build = function(opts) {
       message: 'Original photos',
       ext:     'jpg|jpeg|png',
       dest:    '/original/$path/$name.$ext',
-      func:    fs.copy
+      func:    copyFile
     }),
 
     buildStep({
@@ -47,7 +51,7 @@ exports.build = function(opts) {
       message: 'Original videos',
       ext:     'mp4|mov|mts',
       dest:    '/original/$path/$name.$ext',
-      func:    fs.copy
+      func:    copyFile
     }),
 
     buildStep({

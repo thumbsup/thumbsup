@@ -58,22 +58,30 @@ exports.update = function(opts, callback) {
   }
 
   function metadata(fileInfo) {
+    var exifData = getExifData(fileInfo);
     return {
       path: fileInfo.relative,
       fileDate: fileInfo.fileDate,
-      mediaDate: mediaDate(fileInfo),
-      mediaType: mediaType(fileInfo)
+      mediaType: mediaType(fileInfo),
+      mediaDate: exifData.date || fileInfo.fileDate,
+      orientation: exifData.orientation
     };
   }
 
-  function mediaDate(fileInfo) {
+  function getExifData(fileInfo) {
     if (fileInfo.relative.match(/\.(jpg|jpeg)$/i)) {
       var contents = fs.readFileSync(fileInfo.absolute);
       var result = exif.create(contents).parse();
-      var exifDate = result.tags.DateTimeOriginal * 1000;
-      return exifDate || fileInfo.fileDate;
+      var date = result.tags.DateTimeOriginal;
+      return {
+        date: (date * 1000) || fileInfo.fileDate,
+        orientation: result.tags.Orientation || 1
+      };
     } else {
-      return fileInfo.fileDate;
+      return {
+        date: fileInfo.fileDate,
+        orientation: 1
+      };
     }
   }
 

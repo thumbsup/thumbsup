@@ -27,14 +27,14 @@
     "thumbsup": "./bin/thumbsup.js"
   },
   "dependencies": {
+    "async": "~0.7.0",
+    "exif-parser": "~0.1.6",
+    "fs-extra": "~0.8.1",
+    "glob": "~3.2.9",
+    "gm": "~1.14.2",
     "handlebars": "~2.0.0",
     "lodash": "~2.4.1",
-    "fs-extra": "~0.8.1",
-    "gm": "~1.14.2",
-    "glob": "~3.2.9",
-    "async": "~0.7.0",
     "pad": "~0.0.4",
-    "exif-parser": "~0.1.6",
     "progress": "~1.1.5",
     "yargs": "~1.2.6"
   }

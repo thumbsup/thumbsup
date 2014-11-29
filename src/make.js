@@ -7,17 +7,17 @@ var ProgressBar = require('progress');
 exports.exec = function(input, output, metadata, options, callback) {
   var message = pad(options.message, 20)
   var paths = Object.keys(metadata).filter(extension(options.ext));
-  var tasks = paths.map(function(p) {
+  var tasks = paths.map(function(relativePath) {
     return {
-      relative: p,
-      absolute: path.join(input, p),
-      dest: path.join(output, transform(p, options.dest))
+      src: path.join(input, relativePath),
+      dest: path.join(output, transform(relativePath, options.dest)),
+      metadata: metadata[relativePath]
     };
   });
   var process = tasks.filter(function(task) {
     try {
       var destDate = fs.statSync(task.dest).ctime.getTime();
-      return metadata[task.relative].fileDate > destDate;
+      return task.metadata.fileDate > destDate;
     } catch (ex) {
       return true;
     }
@@ -28,7 +28,7 @@ exports.exec = function(input, output, metadata, options, callback) {
     var ops = process.map(function(task) {
       return function(next) {
         fs.mkdirpSync(path.dirname(task.dest));
-        options.func(task.absolute, task.dest, function(err) {
+        options.func(task, function(err) {
           bar.tick();
           next(err);
         });
