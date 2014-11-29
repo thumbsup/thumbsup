@@ -32,7 +32,7 @@ exports.build = function(opts) {
 
     buildStep({
       message: 'Original media',
-      ext:     'jpg|jpeg|png|mp4|mov',
+      ext:     'jpg|jpeg|png|mp4|mov|mts',
       dest:    '/original/$path/$name.$ext',
       func:    fs.copy
     }),
@@ -52,22 +52,22 @@ exports.build = function(opts) {
     }),
 
     buildStep({
-      message: 'Videos (web)',
-      ext:     'mp4|mov',
+      message: 'Videos (resized)',
+      ext:     'mp4|mov|mts',
       dest:    '/large/$path/$name.mp4',
       func:    thumbs.videoWeb
     }),
 
     buildStep({
       message: 'Videos (poster)',
-      ext:     'mp4|mov',
+      ext:     'mp4|mov|mts',
       dest:    '/large/$path/$name.jpg',
       func:    thumbs.videoLarge
     }),
 
     buildStep({
       message: 'Videos (thumbs)',
-      ext:     'mp4|mov',
+      ext:     'mp4|mov|mts',
       dest:    '/thumbs/$path/$name.jpg',
       func:    thumbs.videoSquare
     }),

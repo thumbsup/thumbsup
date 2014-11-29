@@ -19,6 +19,7 @@
     "url": "https://github.com/rprieto/thumbsup.git"
   },
   "scripts": {
+    "clean": "rm -rf _site/*",
     "example": "node bin/thumbsup --config example.json",
     "open": "open _site/index.html"
   },

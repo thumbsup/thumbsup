@@ -27,7 +27,7 @@ exports.update = function(opts, callback) {
       nonull: false,
       nocase: true
     };
-    glob('**/*.{jpg,jpeg,png,mp4,mov}', globOptions, callback);
+    glob('**/*.{jpg,jpeg,png,mp4,mov,mts}', globOptions, callback);
   }
 
   function pathAndDate(filePath, next) {
@@ -78,7 +78,7 @@ exports.update = function(opts, callback) {
   }
 
   function mediaType(fileInfo) {
-    return fileInfo.relative.match(/\.(mp4|mov)$/i) ? 'video' : 'photo';
+    return fileInfo.relative.match(/\.(mp4|mov|mts)$/i) ? 'video' : 'photo';
   }
 
   findFiles(function(err, files) {
