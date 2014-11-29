@@ -50,10 +50,11 @@ $ npm install -g thumbsup
 $ thumbsup [args]
 
   Update metadata     [===================] 6/6 files
-  Original media      [===================] 6/6 files
+  Original photos     [===================] 6/6 files
+  Original videos     [===================] 6/6 files
   Photos (large)      [===================] 5/5 files
   Photos (thumbs)     [===================] 5/5 files
-  Videos (web)        [===================] 1/1 files
+  Videos (resized)    [===================] 1/1 files
   Videos (poster)     [===================] 1/1 files
   Videos (thumbs)     [===================] 1/1 files
   Static website      [===================] done
