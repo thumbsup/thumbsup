@@ -25,6 +25,14 @@ var opts = yargs
       description: 'Fullscreen size in pixels (height)',
       default: 1000
     },
+    'original-photos': {
+      description: 'Allow download of full-size photos (true|false)',
+      default: false
+    },
+    'original-videos': {
+      description: 'Allow download of full-size videos (true|false)',
+      default: false
+    },
     'sort-folders': {
       description: 'How to sort gallery folders (name | date)',
       default: 'date'
@@ -49,6 +57,8 @@ index.build({
   title:           opts['title'],
   thumbSize:       opts['thumb-size'],
   largeSize:       opts['large-size'],
+  originalPhotos:  opts['original-photos'] + '' === 'true',
+  originalVideos:  opts['original-videos'] + '' === 'true',
   sortFolders:     opts['sort-folders'],
   css:             opts['css'],
   googleAnalytics: opts['google-analytics']

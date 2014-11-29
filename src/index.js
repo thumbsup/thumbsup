@@ -17,7 +17,11 @@ exports.build = function(opts) {
 
   function buildStep(options) {
     return function(callback) {
-      make.exec(opts.input, media, meta, options, callback);
+      if (options.condition !== false) {
+        make.exec(opts.input, media, meta, options, callback);
+      } else {
+        callback();
+      }
     }
   }
 
@@ -31,8 +35,17 @@ exports.build = function(opts) {
     },
 
     buildStep({
-      message: 'Original media',
-      ext:     'jpg|jpeg|png|mp4|mov|mts',
+      condition: opts.originalPhotos,
+      message: 'Original photos',
+      ext:     'jpg|jpeg|png',
+      dest:    '/original/$path/$name.$ext',
+      func:    fs.copy
+    }),
+
+    buildStep({
+      condition: opts.originalVideos,
+      message: 'Original videos',
+      ext:     'mp4|mov|mts',
       dest:    '/original/$path/$name.$ext',
       func:    fs.copy
     }),

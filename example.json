@@ -4,6 +4,8 @@
   "title": "Photo gallery",
   "thumb-size": 120,
   "large-size": 400,
+  "original-photos": true,
+  "original-videos": true,
   "sort-folders": "date",
   "css": null,
   "google-analytics": null
