@@ -4,8 +4,8 @@ var path        = require('path');
 var glob        = require('glob');
 var async       = require('async');
 var pad         = require('pad');
-var ProgressBar = require('progress');
 var exif        = require('./exif');
+var progress    = require('./progress');
 
 exports.update = function(opts, callback) {
 
@@ -80,16 +80,15 @@ exports.update = function(opts, callback) {
   }
 
   findFiles(function(err, files) {
-    var format = pad('List all files', 20) + '[:bar] :current/:total files';
-    var bar = new ProgressBar(format, { total: files.length, width: 20 });
+    var bar = progress.create('List all files', files.length);
     bar.tick(files.length);
     async.map(files, pathAndDate, function (err, allFiles) {
       var deleted = removeDeletedFiles(allFiles);
       var toProcess = allFiles.filter(newer);
       var count = toProcess.length;
+      var bar = progress.create('Update metadata', count);
       if (count > 0) {
-        var format = pad('Update metadata', 20) + '[:bar] :current/:total files';
-        var bar = new ProgressBar(format, { total: count, width: 20 });
+        bar.tick(0);
         async.map(toProcess, function(fileInfo, next) {
           bar.tick();
           metadata(fileInfo, next);
@@ -101,6 +100,7 @@ exports.update = function(opts, callback) {
           callback(null, existing);
         });
       } else {
+        bar.tick(1);
         if (deleted) writeToDisk();
         callback(null, existing);
       }

@@ -2,7 +2,7 @@ var fs          = require('fs-extra');
 var path        = require('path');
 var pad         = require('pad');
 var async       = require('async');
-var ProgressBar = require('progress');
+var progress    = require('./progress');
 
 exports.exec = function(input, output, metadata, options, callback) {
   var message = pad(options.message, 20)
@@ -22,9 +22,8 @@ exports.exec = function(input, output, metadata, options, callback) {
       return true;
     }
   });
+  var bar = progress.create(options.message, process.length);
   if (process.length > 0) {
-    var format = pad(options.message, 20) + '[:bar] :current/:total files';
-    var bar = new ProgressBar(format, { total: process.length, width: 20 });
     var ops = process.map(function(task) {
       return function(next) {
         fs.mkdirpSync(path.dirname(task.dest));
@@ -37,6 +36,7 @@ exports.exec = function(input, output, metadata, options, callback) {
     bar.tick(0);
     async.series(ops, callback);
   } else {
+    bar.tick(1);
     callback();
   }
 }
