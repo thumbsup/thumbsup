@@ -42,7 +42,7 @@ function video(filePath, callback) {
     var dateMatch = FFPROBE_DATE.exec(stderr);
     var rotateMatch = FFPROBE_ROTATE.exec(stderr);
     callback(null, {
-      date: dateMatch ? dateMatch[1] : null,
+      date: dateMatch ? Date.parse(dateMatch[1]) : null,
       orientation: rotateMatch ? ROTATION_TABLE[rotateMatch[1]] : null
     });
   });
