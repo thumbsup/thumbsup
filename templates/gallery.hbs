@@ -36,10 +36,10 @@
       {{#each gallery.media}}<li>
         {{#if video}}
           <div class="video-overlay">&#9654;</div>
-          <a href="{{urls.web}}"
+          <a href="{{urls.video}}"
              type="video/mp4"
-             data-poster="{{urls.large}}"
-             data-download="{{urls.original}}">
+             data-poster="{{urls.poster}}"
+             data-download="{{urls.download}}">
              <img src="{{urls.thumb}}"
                   width="{{size}}"
                   height="{{size}}"
@@ -47,7 +47,7 @@
           </a>
         {{else}}
           <a href="{{urls.large}}"
-             data-download="{{urls.original}}">
+             data-download="{{urls.download}}">
             <img src="{{urls.thumb}}"
                  width="{{size}}"
                  height="{{size}}"

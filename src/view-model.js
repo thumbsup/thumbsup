@@ -17,20 +17,32 @@ exports.build = function(metadata, opts) {
   }
 
   function urls(file, data) {
+    var ret;
     if (data.mediaType === 'video') {
-      return {
-        original: path.join('media', 'original', file),
-        web:      path.join('media', 'large',  ext(file, 'mp4')),
-        large:    path.join('media', 'large',  ext(file, 'jpg')),
-        thumb:    path.join('media', 'thumbs', ext(file, 'jpg'))
+      ret = {
+        thumb:     path.join('media', 'thumbs', ext(file, 'jpg')),
+        poster:    path.join('media', 'large',  ext(file, 'jpg')),
+        video:     path.join('media', 'large',  ext(file, 'mp4')),
+        download:  path.join('media', 'large',  ext(file, 'mp4'))
       };
+      if (opts.originalVideos) {
+        ret.download = path.join('media', 'original', file);
+      }
     } else {
-      return {
-        original: path.join('media', 'original', file),
-        large:    path.join('media', 'large', file),
-        thumb:    path.join('media', 'thumbs', file)
+      ret = {
+        thumb:     path.join('media', 'thumbs', file),
+        large:     path.join('media', 'large', file),
+        download:  path.join('media', 'large', file)
+      }
+      if (opts.originalPhotos) {
+        ret.download = path.join('media', 'original', file);
       }
     }
+    return ret;
+  }
+
+  function download(file) {
+    path.join('media', 'original', file)
   }
 
   function ext(file, ext) {
