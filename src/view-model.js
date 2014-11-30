@@ -17,32 +17,32 @@ exports.build = function(metadata, opts) {
   }
 
   function urls(file, data) {
-    var ret;
     if (data.mediaType === 'video') {
-      ret = {
-        thumb:     path.join('media', 'thumbs', ext(file, 'jpg')),
-        poster:    path.join('media', 'large',  ext(file, 'jpg')),
-        video:     path.join('media', 'large',  ext(file, 'mp4')),
-        download:  path.join('media', 'large',  ext(file, 'mp4'))
-      };
-      if (opts.originalVideos) {
-        ret.download = path.join('media', 'original', file);
-      }
+      var urls = videoUrls(file);
+      urls.download = opts.originalVideos ? urls.original : urls.video;
+      return urls;
     } else {
-      ret = {
-        thumb:     path.join('media', 'thumbs', file),
-        large:     path.join('media', 'large', file),
-        download:  path.join('media', 'large', file)
-      }
-      if (opts.originalPhotos) {
-        ret.download = path.join('media', 'original', file);
-      }
+      var urls = photoUrls(file);
+      urls.download = opts.originalPhotos ? urls.original : urls.large;
+      return urls;
     }
-    return ret;
   }
 
-  function download(file) {
-    path.join('media', 'original', file)
+  function videoUrls(file) {
+    return {
+      thumb:     path.join('media', 'thumbs', ext(file, 'jpg')),
+      poster:    path.join('media', 'large',  ext(file, 'jpg')),
+      video:     path.join('media', 'large',  ext(file, 'mp4')),
+      original:  path.join('media', 'original', file)
+    };
+  }
+
+  function photoUrls(file) {
+    return {
+      thumb:     path.join('media', 'thumbs', file),
+      large:     path.join('media', 'large', file),
+      original:  path.join('media', 'original', file)
+    };
   }
 
   function ext(file, ext) {
