@@ -49,6 +49,7 @@ $ npm install -g thumbsup
 ```
 $ thumbsup [args]
 
+  List all files      [===================] 6/6 files
   Update metadata     [===================] 6/6 files
   Original photos     [===================] 6/6 files
   Original videos     [===================] 6/6 files
