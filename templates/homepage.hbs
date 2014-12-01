@@ -19,16 +19,26 @@
       <h2>{{subtitle}}</h2>
     </header>
 
-    <nav>
-      <ul>
-        {{#each gallery}}
-        <li>
-          <a href="{{name}}.html">{{name}}</a>
-          <div>{{media.length}} items</div>
-        </li>
-        {{/each}}
-      </ul>
-    </nav>
+    <ul id="galleries">
+      {{#each galleries}}
+      <li>
+        <a href="{{url}}">
+          <h3>{{name}}</h3>
+          <div class="meta">
+            {{stats}}<br />
+            {{fromDate}} - {{toDate}}
+          </div>
+          {{#if grid}}
+            <ul class="grid">
+              {{#each grid}}<li><img src="{{this}}" /></li>{{/each}}
+            </ul>
+          {{else}}
+            <img class="single" src="{{single}}" />
+          {{/if}}
+        </a>
+      </li>
+      {{/each}}
+    </ul>
 
     {{> analytics}}
 

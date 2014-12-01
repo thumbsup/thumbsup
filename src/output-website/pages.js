@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var path = require('path');
+var moment = require('moment');
 
 /*
   Common page data shared by all models
@@ -19,7 +20,19 @@ exports.common = function(opts) {
   Homepage data
 */
 exports.homepage = function(structure) {
-  return {};
+  var galleries = structure.map(function(folder) {
+    return {
+      name:     folder.name,
+      url:      folder.name + '.html',
+      stats:    stats(folder.media),
+      fromDate: date(_.min(folder.media, 'date').date),
+      toDate:   date(_.max(folder.media, 'date').date),
+      grid:     grid(folder.media)
+    };
+  });
+  return {
+    galleries: galleries
+  };
 };
 
 /*
@@ -38,3 +51,25 @@ exports.gallery = function(structure, index) {
     gallery: structure[index]
   };
 };
+
+function stats(media) {
+  var results = [];
+  var photos =  _.filter(media, {video: false}).length;
+  var videos =  _.filter(media, {video: true}).length;
+  if (photos > 0) results.push(photos + ' photos');
+  if (videos > 0) results.push(videos + ' videos');
+  return results.join(', ');
+}
+
+function date(timestamp) {
+  return moment(timestamp).format('D MMM YY');
+}
+
+function grid(media) {
+  return [
+    (media.length > 0) ? media[0].urls.thumb : 'public/missing.png',
+    (media.length > 1) ? media[1].urls.thumb : 'public/missing.png',
+    (media.length > 2) ? media[2].urls.thumb : 'public/missing.png',
+    (media.length > 3) ? media[3].urls.thumb : 'public/missing.png'
+  ];
+}

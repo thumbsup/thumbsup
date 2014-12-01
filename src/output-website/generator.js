@@ -39,9 +39,9 @@ exports.build = function(metadata, opts, callback) {
   }
 
   function support(callback) {
-    var src = path.join(__dirname, '..', 'public');
+    var src = path.join(__dirname, '..', '..', 'public');
     var dest = path.join(opts.output, 'public');
-    copyFolder(src, dest, callback);
+    fs.copy(src, dest, callback);
   }
 
   function customStyle(callback) {
@@ -64,14 +64,3 @@ exports.build = function(metadata, opts, callback) {
   });
 
 };
-
-
-function copyFolder(src, dest, callback) {
-  var src = path.resolve(src);
-  var dest = path.resolve(dest);
-  if (files.newer(src, dest)) {
-    fs.copy(src, dest, callback);
-  } else {
-    callback();
-  }
-}
