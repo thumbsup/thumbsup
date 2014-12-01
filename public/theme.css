@@ -21,6 +21,7 @@ body {
 header {
   font-size: 2em;
   padding: 1em 0;
+  margin-bottom: 0.5em;
 }
 
 h1 {
@@ -32,6 +33,16 @@ h1 {
 h2 {
   color: #666;
   display: inline-block;
+}
+
+h3 {
+  color: #33609c;
+  margin-bottom: 0.1em;
+  font-size: 1.3em;
+}
+
+a {
+  text-decoration: none;
 }
 
 nav {
@@ -61,6 +72,38 @@ nav li.active a {
 
 nav li:not(.active):hover {
   background-color: #eee;
+}
+
+#galleries a {
+  display: inline-block;
+}
+
+#galleries .meta {
+  font-size: 0.9em;
+  width: 100%;
+  margin: 0.5em 0;
+  color: #666;
+}
+
+#galleries > li {
+  display: inline-block;
+  margin-right: 2em;
+  margin-bottom: 3em;
+}
+
+#galleries .grid {
+  width: 200px;
+}
+
+#galleries .grid li {
+  float: left;
+  padding: 0.1em;
+  width: 50%;
+}
+
+#galleries .grid img {
+  display: block;
+  width: 100%;
 }
 
 #gallery {

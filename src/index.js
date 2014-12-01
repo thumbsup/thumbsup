@@ -1,10 +1,10 @@
 var fs          = require('fs-extra');
 var path        = require('path');
 var async       = require('async');
-var metadata    = require('./metadata');
-var website     = require('./website');
-var thumbs      = require('./thumbs');
-var make        = require('./make');
+var make        = require('./utils/make');
+var metadata    = require('./input/metadata');
+var thumbs      = require('./output-media/thumbs');
+var website     = require('./output-website/generator');
 
 exports.build = function(opts) {
 

@@ -3,7 +3,12 @@ var fs     = require('fs');
 var path   = require('path');
 var glob   = require('glob');
 
-exports.build = function(metadata, opts) {
+/*
+  In-memory structure of the galleries organised in folders
+  with relative links to the media, thumbnails, etc...
+*/
+
+exports.create = function(metadata, opts) {
 
   function fileInfo(data, file) {
     return {
