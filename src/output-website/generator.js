@@ -1,32 +1,41 @@
+var _           = require('lodash');
 var fs          = require('fs-extra');
 var path        = require('path');
 var async       = require('async');
 var pad         = require('pad');
-var viewModel   = require('./view-model');
-var render      = require('./render');
-var files       = require('./files');
-
+var files       = require('../utils/files');
+var template    = require('./template');
+var model       = require('./model');
+var pages       = require('./pages');
 
 exports.build = function(metadata, opts, callback) {
 
+  var common = pages.common(opts);
+
+  function render(filename, templateName, data) {
+    var fullPath = path.join(opts.output, filename);
+    var pageData = _.extend(data, common);
+    var contents = template.render(templateName, pageData);
+    return function(next) {
+      fs.writeFile(fullPath, contents, next);
+    };
+  }
+
   function website(callback) {
+    var structure = model.create(metadata, opts);
+    var homepage  = pages.homepage(structure);
 
-    var galleries = viewModel.build(metadata, opts);
+    var items = [
+      render('index.html', 'homepage', homepage)
+    ];
 
-    var style = opts.css ? path.basename(opts.css) : null;
-
-    var rendered = render.gallery(galleries, galleries[0], opts.title, style, opts.googleAnalytics);
-    var outputPath = path.join(opts.output, 'index.html');
-    fs.writeFileSync(outputPath, rendered);
-
-    galleries.forEach(function(folder) {
-      var rendered = render.gallery(galleries, folder, opts.title, style, opts.googleAnalytics);
-      var outputPath = path.join(opts.output, folder.url);
-      fs.writeFileSync(outputPath, rendered);
+    structure.forEach(function(folder, index) {
+      var gallery = pages.gallery(structure, index);
+      var page = render(folder.name + '.html', 'gallery', gallery);
+      items.push(page);
     });
 
-    callback();
-
+    async.parallel(items, callback);
   }
 
   function support(callback) {
@@ -50,7 +59,6 @@ exports.build = function(metadata, opts, callback) {
     support,
     customStyle
   ], function(err) {
-    process.stdout
     console.log('[===================] done');
     callback(err);
   });

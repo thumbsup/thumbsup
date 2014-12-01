@@ -4,8 +4,8 @@ var path        = require('path');
 var glob        = require('glob');
 var async       = require('async');
 var pad         = require('pad');
+var progress    = require('../utils/progress');
 var exif        = require('./exif');
-var progress    = require('./progress');
 
 exports.update = function(opts, callback) {
 

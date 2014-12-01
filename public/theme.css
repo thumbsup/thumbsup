@@ -23,6 +23,10 @@ header {
   padding: 1em 0;
 }
 
+header a {
+  text-decoration: none;
+}
+
 h1 {
   color: #33609c;
   display: inline-block;
