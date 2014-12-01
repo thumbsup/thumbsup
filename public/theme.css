@@ -21,6 +21,7 @@ body {
 header {
   font-size: 2em;
   padding: 1em 0;
+  margin-bottom: 0.5em;
 }
 
 h1 {
@@ -38,7 +39,6 @@ h3 {
   color: #33609c;
   margin-bottom: 0.1em;
   font-size: 1.3em;
-  font-weight: bold;
 }
 
 a {
@@ -87,7 +87,8 @@ nav li:not(.active):hover {
 
 #galleries > li {
   display: inline-block;
-  margin-right: 1em;
+  margin-right: 2em;
+  margin-bottom: 3em;
 }
 
 #galleries .grid {
@@ -96,6 +97,7 @@ nav li:not(.active):hover {
 
 #galleries .grid li {
   float: left;
+  padding: 0.1em;
   width: 50%;
 }
 
