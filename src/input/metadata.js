@@ -27,7 +27,7 @@ exports.update = function(opts, callback) {
       nonull: false,
       nocase: true
     };
-    glob('**/*.{jpg,jpeg,png,mp4,mov,mts}', globOptions, callback);
+    glob('**/*.{jpg,jpeg,png,mp4,mov,mts,m2ts}', globOptions, callback);
   }
 
   function pathAndDate(filePath, next) {
@@ -72,7 +72,7 @@ exports.update = function(opts, callback) {
   }
 
   function mediaType(fileInfo) {
-    return fileInfo.relative.match(/\.(mp4|mov|mts)$/i) ? 'video' : 'photo';
+    return fileInfo.relative.match(/\.(mp4|mov|mts|m2ts)$/i) ? 'video' : 'photo';
   }
 
   function writeToDisk() {

@@ -49,7 +49,7 @@ exports.build = function(opts) {
     buildStep({
       condition: opts.originalVideos,
       message: 'Original videos',
-      ext:     'mp4|mov|mts',
+      ext:     'mp4|mov|mts|m2ts',
       dest:    '/original/$path/$name.$ext',
       func:    copyFile
     }),
@@ -70,21 +70,21 @@ exports.build = function(opts) {
 
     buildStep({
       message: 'Videos (resized)',
-      ext:     'mp4|mov|mts',
+      ext:     'mp4|mov|mts|m2ts',
       dest:    '/large/$path/$name.mp4',
       func:    thumbs.videoWeb
     }),
 
     buildStep({
       message: 'Videos (poster)',
-      ext:     'mp4|mov|mts',
+      ext:     'mp4|mov|mts|m2ts',
       dest:    '/large/$path/$name.jpg',
       func:    thumbs.videoLarge
     }),
 
     buildStep({
       message: 'Videos (thumbs)',
-      ext:     'mp4|mov|mts',
+      ext:     'mp4|mov|mts|m2ts',
       dest:    '/thumbs/$path/$name.jpg',
       func:    thumbs.videoSquare
     }),

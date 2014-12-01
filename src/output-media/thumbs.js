@@ -69,12 +69,6 @@ exports.videoSquare = function(task, callback) {
         metadata: task.metadata
       }, next);
     }
-    // exports.videoLarge.bind(this, task),
-    // exports.photoSquare.bind(this, {
-    //   src: task.dest,
-    //   dest: task.dest,
-    //   metadata: {exif: {}}
-    // })
   ], callback);
 };
 
