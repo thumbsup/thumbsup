@@ -28,7 +28,11 @@ exports.read = function(filePath, callback) {
 function photo(filePath, callback) {
   fs.readFile(filePath, function(err, contents) {
     if (err) return callback(new Error('Failed to read file ' + filePath));
-    var result = exif.create(contents).parse();
+    try {
+      var result = exif.create(contents).parse();
+    } catch (ex) {
+      return callback(new Error('Failed to read EXIF from ' + filePath));
+    }
     callback(null, {
       date: result.tags.DateTimeOriginal ? (result.tags.DateTimeOriginal * 1000) : null,
       orientation: result.tags.Orientation || null

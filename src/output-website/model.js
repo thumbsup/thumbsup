@@ -35,18 +35,18 @@ exports.create = function(metadata, opts) {
 
   function videoUrls(file) {
     return {
-      thumb:     path.join('media', 'thumbs', ext(file, 'jpg')),
-      poster:    path.join('media', 'large',  ext(file, 'jpg')),
-      video:     path.join('media', 'large',  ext(file, 'mp4')),
-      original:  path.join('media', 'original', file)
+      thumb:     'media/thumbs/' + ext(file, 'jpg'),
+      poster:    'media/large/' + ext(file, 'jpg'),
+      video:     'media/large/' + ext(file, 'mp4'),
+      original:  'media/original/' + file
     };
   }
 
   function photoUrls(file) {
     return {
-      thumb:     path.join('media', 'thumbs', file),
-      large:     path.join('media', 'large', file),
-      original:  path.join('media', 'original', file)
+      thumb:     'media/thumbs/' + file,
+      large:     'media/large/' + file,
+      original:  'media/original/' + file
     };
   }
 
