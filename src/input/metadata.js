@@ -89,7 +89,7 @@ exports.update = function(opts, callback) {
       var bar = progress.create('Update metadata', count);
       if (count > 0) {
         bar.tick(0);
-        async.map(toProcess, function(fileInfo, next) {
+        async.mapLimit(toProcess, 100, function(fileInfo, next) {
           bar.tick();
           metadata(fileInfo, next);
         }, function(err, update) {
