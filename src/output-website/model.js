@@ -10,8 +10,11 @@ var glob   = require('glob');
 
 exports.create = function(metadata, opts) {
 
+  var index = 0;
+
   function fileInfo(data, file) {
     return {
+      id: ++index,
       date: data.exif.date || data.fileDate,
       path: file,
       name: path.basename(file),

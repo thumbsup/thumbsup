@@ -6,13 +6,11 @@
       <meta name="viewport" content="width=device-width, user-scalable=no" />
       <title>{{gallery.name}}</title>
       <link rel="stylesheet" href="public/reset.css" />
+      <link rel="stylesheet" href="public/light-gallery/css/lightGallery.css" />
       <link rel="stylesheet" href="public/theme.css" />
       {{#if css}}
         <link rel="stylesheet" href="public/{{css}}" />
       {{/if}}
-      <link rel="stylesheet" href="public/blueimp/css/blueimp-gallery.min.css">
-      <link rel="stylesheet" href="public/blueimp/css/blueimp-gallery-video.css">
-      <link rel="stylesheet" href="public/blueimp/css/blueimp-gallery-indicator.css">
   </head>
 
   <body>
@@ -35,61 +33,106 @@
     </nav>
 
     <ul id="gallery">
-      {{#each gallery.media}}<li>
+      {{#each gallery.media}}
         {{#if video}}
-          <div class="video-overlay">&#9654;</div>
-          <a href="{{urls.video}}"
-             type="video/mp4"
-             data-poster="{{urls.poster}}"
-             data-download="{{urls.download}}">
-             <img src="{{urls.thumb}}"
-                  width="{{size}}"
-                  height="{{size}}"
-                  alt="{{name}}" />
-          </a>
+          <li data-html="#media{{id}}">
+            <div class="video-overlay">▶</div>
+            <a href="{{urls.download}}">
+              <img src="{{urls.thumb}}"
+                   width="{{size}}"
+                   height="{{size}}"
+                   alt="{{name}}" />
+            </a>
+          </li>
         {{else}}
-          <a href="{{urls.large}}"
-             data-download="{{urls.download}}">
-            <img src="{{urls.thumb}}"
-                 width="{{size}}"
-                 height="{{size}}"
-                 alt="{{name}}" />
-          </a>
+          <li data-src="{{urls.large}}">
+            <a href="{{urls.download}}">
+              <img src="{{urls.thumb}}"
+                   width="{{size}}"
+                   height="{{size}}"
+                   alt="{{name}}" />
+           </a>
+          </li>
         {{/if}}
-      </li>{{/each}}
+      {{/each}}
     </ul>
 
-    <div id="blueimp-gallery" class="blueimp-gallery">
-        <div class="slides"></div>
-        <h3 class="title"></h3>
-        <a class="download" href="#" target="_blank" download>Download</a>
-        <a class="prev">‹</a>
-        <a class="next">›</a>
-        <a class="close">×</a>
-        <a class="play-pause"></a>
-        <ol class="indicator"></ol>
+    <div id="videos">
+      {{#each gallery.media}}
+        {{#if video}}
+          <div id="media{{id}}" style="display:none;">
+            <video height="100%" poster="{{urls.poster}}" preload="none" controls>
+              <source src="{{urls.video}}" type="video/mp4" />
+              Your browser does not support HTML5 video
+            </video>
+          </div>
+        {{/if}}
+      {{/each}}
     </div>
 
-    <script src="public/blueimp/js/blueimp-gallery.min.js"></script>
-    <script src="public/blueimp/js/blueimp-gallery-video.js"></script>
-    <script src="public/blueimp/js/blueimp-gallery-indicator.js"></script>
+    <script src="public/jquery.min.js"></script>
+    <script src="public/light-gallery/js/lightGallery.min.js"></script>
 
     <script>
-      document.getElementById('gallery').onclick = function(event) {
-        event = event || window.event;
-        var target = event.target || event.srcElement,
-            link = target.src ? target.parentNode : target,
-            links = this.getElementsByTagName('a');
-        blueimp.Gallery(links, {
-          index: link,
-          event: event,
-          onslide: function (index, slide) {
-            var anchor = this.container.find('.download');
-            var url = this.list[index].getAttribute('data-download');
-            anchor[0].href = url;
-          }
+      $(document).ready(function() {
+        $("#gallery").lightGallery({
+
+          // animations
+          mode      : 'fade',   // Type of transition between images. Either 'slide' or 'fade'.
+          useCSS    : true,     // Whether to always use jQuery animation for transitions or as a fallback.
+          cssEasing : 'ease',   // Value for CSS "transition-timing-function".
+          easing    : 'linear', //'for jquery animation',//
+          speed     : 600,      // Transition duration (in ms).
+          addClass  : '',       // Add custom class for gallery.
+
+          // preload
+          preload         : 1,    //number of preload slides. will exicute only after the current slide is fully loaded. ex:// you clicked on 4th image and if preload = 1 then 3rd slide and 5th slide will be loaded in the background after the 4th slide is fully loaded.. if preload is 2 then 2nd 3rd 5th 6th slides will be preloaded.. ... ...
+          showAfterLoad   : false,  // Show Content once it is fully loaded.
+          selector        : null,  // Custom selector property insted of just child.
+          index           : false, // Allows to set which image/video should load when using dynamicEl.
+
+          // static gallery
+          dynamic   : false, // Set to true to build a gallery based on the data from "dynamicEl" opt.
+          dynamicEl : [],    // Array of objects (src, thumb, caption, desc, mobileSrc) for gallery els.
+
+          // thumbnails
+          thumbnail            : true,     // Whether to display a button to show thumbnails.
+          showThumbByDefault   : false,     // Whether to display thumbnails by default..
+          exThumbImage         : false,    // Name of a "data-" attribute containing the paths to thumbnails.
+          animateThumb         : true,     // Enable thumbnail animation.
+          currentPagerPosition : 'middle', // Position of selected thumbnail.
+          thumbWidth           : 80,       // Width of each thumbnails
+          thumbMargin          : 5,        // Spacing between each thumbnails
+
+          // controls
+          controls         : true,  // Whether to display prev/next buttons.
+          hideControlOnEnd : false, // If true, prev/next button will be hidden on first/last image.
+          loop             : false, // Allows to go to the other end of the gallery at first/last img.
+          auto             : false, // Enables slideshow mode.
+          pause            : 4000,  // Delay (in ms) between transitions in slideshow mode.
+          escKey           : true,  // Whether lightGallery should be closed when user presses "Esc".
+          closable         : true,  //allows clicks on dimmer to close gallery
+
+          // photo counter
+          counter      : true, // Shows total number of images and index number of current image.
+          lang         : { allPhotos: 'All photos' }, // Text of labels.
+
+          // mobile view
+          mobileSrc         : false, // If "data-responsive-src" attr. should be used for mobiles.
+          mobileSrcMaxWidth : 640,   // Max screen resolution for alternative images to be loaded for.
+          swipeThreshold    : 50,    // How far user must swipe for the next/prev image (in px).
+          enableTouch       : true,  // Enables touch support
+          enableDrag        : true,  // Enables desktop mouse drag support
+
+          // videos
+          vimeoColor    : 'CCCCCC', // Vimeo video player theme color (hex color code).
+          youtubePlayerParams: false, // See: https://developers.google.com/youtube/player_parameters
+          videoAutoplay : true,     // Set to false to disable video autoplay option.
+          videoMaxWidth : '855px',  // Limits video maximal width (in px).
+
         });
-      };
+      });
+
     </script>
 
     {{> analytics}}
