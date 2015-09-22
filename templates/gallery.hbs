@@ -6,7 +6,8 @@
       <meta name="viewport" content="width=device-width, user-scalable=no" />
       <title>{{gallery.name}}</title>
       <link rel="stylesheet" href="public/reset.css" />
-      <link rel="stylesheet" href="public/light-gallery/css/lightGallery.css" />
+      <link rel="stylesheet" href="public/light-gallery/css/lightgallery.css" />
+      <link rel="stylesheet" href="http://vjs.zencdn.net/4.12/video-js.css" />
       <link rel="stylesheet" href="public/theme.css" />
       {{#if css}}
         <link rel="stylesheet" href="public/{{css}}" />
@@ -35,17 +36,21 @@
     <ul id="gallery">
       {{#each gallery.media}}
         {{#if video}}
-          <li data-html="#media{{id}}">
-            <div class="video-overlay">▶</div>
+          <li data-html="#media{{id}}"
+              data-poster="{{urls.poster}}"
+              data-download-url="{{urls.download}}">
             <a href="{{urls.download}}">
               <img src="{{urls.thumb}}"
                    width="{{size}}"
                    height="{{size}}"
                    alt="{{name}}" />
             </a>
+            <img class="video-overlay" src="public/play.png" />
           </li>
         {{else}}
-          <li data-src="{{urls.large}}">
+          <li data-src="{{urls.large}}"
+              data-sub-html="{{caption}}"
+              data-download-url="{{urls.download}}">
             <a href="{{urls.download}}">
               <img src="{{urls.thumb}}"
                    width="{{size}}"
@@ -61,7 +66,7 @@
       {{#each gallery.media}}
         {{#if video}}
           <div id="media{{id}}" style="display:none;">
-            <video height="100%" poster="{{urls.poster}}" preload="none" controls>
+            <video class="lg-video-object lg-html5 video-js vjs-default-skin"  preload="none" controls>
               <source src="{{urls.video}}" type="video/mp4" />
               Your browser does not support HTML5 video
             </video>
@@ -70,66 +75,26 @@
       {{/each}}
     </div>
 
-    <script src="public/jquery.min.js"></script>
-    <script src="public/light-gallery/js/lightGallery.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- VideoJS -->
+    <script src="http://vjs.zencdn.net/4.12/video.js"></script>
+    <!-- LightGallery -->
+    <script src="public/light-gallery/js/lightgallery.js"></script>
+    <script src="public/light-gallery/js/lg-autoplay.js"></script>
+    <script src="public/light-gallery/js/lg-pager.js"></script>
+    <script src="public/light-gallery/js/lg-thumbnail.js"></script>
+    <script src="public/light-gallery/js/lg-video.js"></script>
 
     <script>
       $(document).ready(function() {
         $("#gallery").lightGallery({
-
-          // animations
-          mode      : 'fade',   // Type of transition between images. Either 'slide' or 'fade'.
-          useCSS    : true,     // Whether to always use jQuery animation for transitions or as a fallback.
-          cssEasing : 'ease',   // Value for CSS "transition-timing-function".
-          easing    : 'linear', //'for jquery animation',//
-          speed     : 600,      // Transition duration (in ms).
-          addClass  : '',       // Add custom class for gallery.
-
-          // preload
-          preload         : 1,    //number of preload slides. will exicute only after the current slide is fully loaded. ex:// you clicked on 4th image and if preload = 1 then 3rd slide and 5th slide will be loaded in the background after the 4th slide is fully loaded.. if preload is 2 then 2nd 3rd 5th 6th slides will be preloaded.. ... ...
-          showAfterLoad   : false,  // Show Content once it is fully loaded.
-          selector        : null,  // Custom selector property insted of just child.
-          index           : false, // Allows to set which image/video should load when using dynamicEl.
-
-          // static gallery
-          dynamic   : false, // Set to true to build a gallery based on the data from "dynamicEl" opt.
-          dynamicEl : [],    // Array of objects (src, thumb, caption, desc, mobileSrc) for gallery els.
-
-          // thumbnails
-          thumbnail            : true,     // Whether to display a button to show thumbnails.
-          showThumbByDefault   : false,     // Whether to display thumbnails by default..
-          exThumbImage         : false,    // Name of a "data-" attribute containing the paths to thumbnails.
-          animateThumb         : true,     // Enable thumbnail animation.
-          currentPagerPosition : 'middle', // Position of selected thumbnail.
-          thumbWidth           : 80,       // Width of each thumbnails
-          thumbMargin          : 5,        // Spacing between each thumbnails
-
-          // controls
-          controls         : true,  // Whether to display prev/next buttons.
-          hideControlOnEnd : false, // If true, prev/next button will be hidden on first/last image.
-          loop             : false, // Allows to go to the other end of the gallery at first/last img.
-          auto             : false, // Enables slideshow mode.
-          pause            : 4000,  // Delay (in ms) between transitions in slideshow mode.
-          escKey           : true,  // Whether lightGallery should be closed when user presses "Esc".
-          closable         : true,  //allows clicks on dimmer to close gallery
-
-          // photo counter
-          counter      : true, // Shows total number of images and index number of current image.
-          lang         : { allPhotos: 'All photos' }, // Text of labels.
-
-          // mobile view
-          mobileSrc         : false, // If "data-responsive-src" attr. should be used for mobiles.
-          mobileSrcMaxWidth : 640,   // Max screen resolution for alternative images to be loaded for.
-          swipeThreshold    : 50,    // How far user must swipe for the next/prev image (in px).
-          enableTouch       : true,  // Enables touch support
-          enableDrag        : true,  // Enables desktop mouse drag support
-
-          // videos
-          vimeoColor    : 'CCCCCC', // Vimeo video player theme color (hex color code).
-          youtubePlayerParams: false, // See: https://developers.google.com/youtube/player_parameters
-          videoAutoplay : true,     // Set to false to disable video autoplay option.
-          videoMaxWidth : '855px',  // Limits video maximal width (in px).
-
+          thumbWidth: 80,
+          controls: true,
+          loop : false,
+          download: true,
+          counter: true,
+          videojs: true
         });
       });
 

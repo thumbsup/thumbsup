@@ -39,7 +39,7 @@ exports.build = function(metadata, opts, callback) {
   }
 
   function lightGallery(callback) {
-    var src = path.join(__dirname, '..', '..', 'node_modules/lightgallery/light-gallery');
+    var src = path.join(__dirname, '..', '..', 'node_modules/lightgallery/dist');
     var dest = path.join(opts.output, 'public', 'light-gallery');
     fs.copy(src, dest, callback);
   }

@@ -122,18 +122,16 @@ nav li:not(.active):hover {
 }
 
 #gallery li .video-overlay {
-  background: rgba(0,0,0,0.6);
-  border-radius: 3px;
-  bottom: 6px;
-  color: #fff;
-  font-size: 0.9em;
-  padding: 0.5em 0.6em 0.4em 0.7em;
+  left: 50%;
+  height: 48px;
+  margin-left: -24px;
+  margin-top: -24px;
   position: absolute;
-  right: 3px;
-  text-decoration: none;
+  top: 50%;
+  width: 48px;
 }
 
-#gallery .play-overlay {
+/*#gallery .play-overlay {
   color: #fff;
   font-size: 2em;
   height: 100%;
@@ -143,7 +141,7 @@ nav li:not(.active):hover {
   text-align: center;
   top: 0;
   width: 100%;
-}
+}*/
 
 #lg-gallery .lg-slide .object {
   transition-duration: 0.3s;
