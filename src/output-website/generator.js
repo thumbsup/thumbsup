@@ -38,6 +38,12 @@ exports.build = function(metadata, opts, callback) {
     async.parallel(items, callback);
   }
 
+  function lightGallery(callback) {
+    var src = path.join(__dirname, '..', '..', 'node_modules/lightgallery/dist');
+    var dest = path.join(opts.output, 'public', 'light-gallery');
+    fs.copy(src, dest, callback);
+  }
+
   function support(callback) {
     var src = path.join(__dirname, '..', '..', 'public');
     var dest = path.join(opts.output, 'public');
@@ -56,6 +62,7 @@ exports.build = function(metadata, opts, callback) {
   process.stdout.write(pad('Static website', 20));
   async.series([
     website,
+    lightGallery,
     support,
     customStyle
   ], function(err) {
