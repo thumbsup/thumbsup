@@ -35,7 +35,8 @@ function photo(filePath, callback) {
     }
     callback(null, {
       date: result.tags.DateTimeOriginal ? (result.tags.DateTimeOriginal * 1000) : null,
-      orientation: result.tags.Orientation || null
+      orientation: result.tags.Orientation || null,
+      caption: result.tags.ImageDescription
     });
   });
 }

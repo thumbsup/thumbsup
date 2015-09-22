@@ -131,18 +131,6 @@ nav li:not(.active):hover {
   width: 48px;
 }
 
-/*#gallery .play-overlay {
-  color: #fff;
-  font-size: 2em;
-  height: 100%;
-  left: 0;
-  line-height: 100%;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  width: 100%;
-}*/
-
 #lg-gallery .lg-slide .object {
   transition-duration: 0.3s;
 }
@@ -158,4 +146,9 @@ nav li:not(.active):hover {
 
 #lg-gallery video {
   max-width: 100%;
+}
+
+/* captions */
+.lg-sub-html {
+  bottom: 100px; /* always display above the thumbnails */
 }

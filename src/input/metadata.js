@@ -65,7 +65,8 @@ exports.update = function(opts, callback) {
         mediaType: mediaType(fileInfo),
         exif: {
           date: exifData ? exifData.date : null,
-          orientation: exifData ? exifData.orientation : null
+          orientation: exifData ? exifData.orientation : null,
+          caption: exifData ? exifData.caption: null
         }
       });
     });

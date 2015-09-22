@@ -20,7 +20,8 @@ exports.create = function(metadata, opts) {
       name: path.basename(file),
       video: data.mediaType === 'video',
       size: opts.thumbSize,
-      urls: urls(file, data)
+      urls: urls(file, data),
+      caption: data.exif.caption
     }
   }
 
