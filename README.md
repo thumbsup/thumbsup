@@ -22,6 +22,8 @@ Build static HTML galleries from local photos & videos.
 - [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
 - [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
 
+*Note: there currently is [an issue with Ubuntu 14.04](#27) if you build `ffmpeg` from source. Please upgrade to 14.10 and install it with `apt-get`.*
+
 ## Input
 
 Any folder with photos and videos. `thumbsup` currently supports 1 level of subfolders, where they each become a gallery.
