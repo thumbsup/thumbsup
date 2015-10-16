@@ -79,13 +79,26 @@ exports.create = function(metadata, opts) {
     }
   };
 
-  var chosenSort = sortFunctions[opts.sortFolders];
+  var chosenSort = sortFunctions[opts.sortAlbumsBy];
+
+  var orderFunctions = {
+    'asc': function(data) {
+      return data;
+    },
+    'desc': function(data) {
+        return _.map(data).reverse();
+    }
+  };
+
+  var orderSort = orderFunctions[opts.sortAlbumsOrder];
+
 
   return _(metadata).map(fileInfo)
                    .sortBy('date')
                    .groupBy(byFolder)
                    .map(folderInfo)
                    .sortBy(chosenSort)
+                   .sortBy(orderSort)
                    .value();
 
 };
