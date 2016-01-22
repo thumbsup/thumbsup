@@ -25,8 +25,8 @@ exports.homepage = function(structure) {
       name:     folder.name,
       url:      folder.name + '.html',
       stats:    stats(folder.media),
-      fromDate: date(_.min(folder.media, 'date').date),
-      toDate:   date(_.max(folder.media, 'date').date),
+      fromDate: date(_.minBy(folder.media, 'date').date),
+      toDate:   date(_.maxBy(folder.media, 'date').date),
       grid:     grid(folder.media)
     };
   });

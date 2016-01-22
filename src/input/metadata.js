@@ -49,7 +49,7 @@ exports.update = function(opts, callback) {
 
   function removeDeletedFiles(allFiles) {
     var existingPaths = _.keys(existing);
-    var actualPaths   = _.pluck(allFiles, 'relative');
+    var actualPaths   = _.map(allFiles, 'relative');
     var deleted = _.difference(existingPaths, actualPaths);
     deleted.forEach(function(key) {
       delete existing[key];
