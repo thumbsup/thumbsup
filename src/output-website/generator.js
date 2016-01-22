@@ -39,7 +39,10 @@ exports.build = function(metadata, opts, callback) {
   }
 
   function lightGallery(callback) {
-    var src = path.join(__dirname, '..', '..', 'node_modules/lightgallery/dist');
+    // note: this module might be deduped
+    // so we can't assume it's in the local node_modules
+    var lgPackage = require.resolve('lightgallery/package.json');
+    var src = path.join(path.dirname(lgPackage), 'dist');
     var dest = path.join(opts.output, 'public', 'light-gallery');
     fs.copy(src, dest, callback);
   }
