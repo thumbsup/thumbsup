@@ -66,7 +66,7 @@ exports.build = function(metadata, opts, callback) {
     support,
     customStyle
   ], function(err) {
-    console.log('[===================] done');
+    console.log('[====================] done');
     callback(err);
   });
 
