@@ -36,7 +36,7 @@ exports.update = function(opts, callback) {
       next(null, {
         absolute: absolute,
         relative: filePath,
-        fileDate: Math.max(stats.ctime.getTime(), stats.mtime.getTime())
+        fileDate: stats.mtime.getTime()
       });
     });
   }

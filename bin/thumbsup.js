@@ -33,9 +33,13 @@ var opts = yargs
       description: 'Allow download of full-size videos (true|false)',
       default: false
     },
-    'sort-folders': {
+    'sort-albums-by': {
       description: 'How to sort gallery folders (name | date)',
       default: 'date'
+    },
+    'sort-albums-order': {
+      description: 'Order for sorting (asc | desc)',
+      default: 'asc'
     },
     'css': {
       description: 'Extra CSS file for styling'
@@ -52,14 +56,16 @@ var opts = yargs
   .argv;
 
 index.build({
-  input:           path.resolve(opts['input']),
-  output:          path.resolve(opts['output']),
-  title:           opts['title'],
-  thumbSize:       opts['thumb-size'],
-  largeSize:       opts['large-size'],
-  originalPhotos:  opts['original-photos'] + '' === 'true',
-  originalVideos:  opts['original-videos'] + '' === 'true',
-  sortFolders:     opts['sort-folders'],
-  css:             opts['css'],
-  googleAnalytics: opts['google-analytics']
+  input:             path.resolve(opts['input']),
+  output:            path.resolve(opts['output']),
+  title:             opts['title'],
+  thumbSize:         opts['thumb-size'],
+  largeSize:         opts['large-size'],
+  originalPhotos:    opts['original-photos'] + '' === 'true',
+  originalVideos:    opts['original-videos'] + '' === 'true',
+  // sort-folders accepted for backwards for v1.0 and older
+  sortAlbumsBy:      opts['sort-albums-by'] || opts['sort-folders'],
+  sortAlbumsOrder:   opts['sort-albums-order'],
+  css:               opts['css'],
+  googleAnalytics:   opts['google-analytics']
 });

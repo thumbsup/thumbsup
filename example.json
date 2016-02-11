@@ -6,7 +6,8 @@
   "large-size": 400,
   "original-photos": true,
   "original-videos": true,
-  "sort-folders": "date",
+  "sort-albums-by": "date",
+  "sort-albums-order": "asc",
   "css": null,
   "google-analytics": null
 }
