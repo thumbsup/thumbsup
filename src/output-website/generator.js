@@ -24,9 +24,10 @@ exports.build = function(metadata, opts, callback) {
   function website(callback) {
     var structure = model.create(metadata, opts);
     var homepage  = pages.homepage(structure);
-
+    var index = opts.index || 'index.html';
+    
     var items = [
-      render('index.html', 'homepage', homepage)
+      render(index, 'homepage', homepage)
     ];
 
     structure.forEach(function(folder, index) {
