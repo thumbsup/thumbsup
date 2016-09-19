@@ -13,6 +13,9 @@ var opts = yargs
     'output': {
       description: 'Output path for the static website',
     },
+    'index': {
+      description: 'Name of the First page in the flow. Defaults to index.html'  
+    },
     'title': {
       description: 'Website title',
       default: 'My gallery'
@@ -61,5 +64,6 @@ index.build({
   originalVideos:  opts['original-videos'] + '' === 'true',
   sortFolders:     opts['sort-folders'],
   css:             opts['css'],
-  googleAnalytics: opts['google-analytics']
+  googleAnalytics: opts['google-analytics'],
+  index:           opts['index']
 });
