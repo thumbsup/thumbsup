@@ -1,4 +1,9 @@
-# thumbsup
+
+```
+┌───┐ ┌───┐ ┌───┐ ┌───┐ ┌───┐ ┌───┐ ┌───┐ ┌───┐
+│ t │ │ h │ │ u │ │ m │ │ b │ │ s │ │ u │ │ p │
+└───┘ └───┘ └───┘ └───┘ └───┘ └───┘ └───┘ └───┘
+```
 
 [![NPM](http://img.shields.io/npm/v/thumbsup.svg?style=flat)](https://npmjs.org/package/thumbsup)
 [![License](http://img.shields.io/npm/l/thumbsup.svg?style=flat)](https://github.com/rprieto/thumbsup)
@@ -12,21 +17,37 @@ Build static HTML galleries from local photos & videos.
 - uses relative paths so you can deploy the pages anywhere
 - works great with Amazon S3 for static hosting
 
-[View sample website](http://rprieto.github.io/thumbsup)
+## Table of contents
+
+<!-- START toc -->
+- [Table of contents](#table-of-contents)
+- [Example gallery](#example-gallery)
+- [Required folder structure](#required-folder-structure)
+- [Setup](#setup)
+  * [As an npm package](#as-an-npm-package)
+- [Expected output](#expected-output)
+- [Configuration](#configuration)
+- [Generated gallery structure](#generated-gallery-structure)
+- [Deployment](#deployment)
+- [Password protection](#password-protection)
+- [Dev notes](#dev-notes)
+<!-- END toc -->
+
+## Example gallery
+
+You can [view a sample gallery here](http://rprieto.github.io/thumbsup).
+The home/index page shows all folders, with a few stats and some previews:
 
 [![screenshot](https://raw.github.com/rprieto/thumbsup/master/screenshot.jpg)](http://rprieto.github.io/thumbsup)
 
-## Requirements
+The photo pages are a grid of photos:
 
-- [Node.js](http://nodejs.org/): `brew install Node`
-- [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
-- [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
+[![screenshot](https://raw.github.com/rprieto/thumbsup/master/screenshot.jpg)](http://rprieto.github.io/thumbsup)
 
-*Note: there currently is [an issue with Ubuntu 14.04](#27) if you build `ffmpeg` from source. Please upgrade to 14.10 and install it with `apt-get`.*
+## Required folder structure
 
-## Input
-
-Any folder with photos and videos. `thumbsup` currently supports 1 level of subfolders, where they each become a gallery.
+Any folder with photos and videos!
+`thumbsup` currently supports 1 level of subfolders, where they each become a gallery.
 
 ```
 input
@@ -40,15 +61,33 @@ input
        |__ img003.png
 ```
 
-## Generating the galleries
+## Setup
 
-Install the module globally, which puts the binary in your path:
+### As an npm package
 
-```
-$ npm install -g thumbsup
+**Requirements**
+
+- [Node.js](http://nodejs.org/): `brew install Node`
+- [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
+- [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
+
+*Note: there currently is [an issue with Ubuntu 14.04](#27) if you build `ffmpeg` from source. Please upgrade to 14.10 and install it with `apt-get`.*
+
+**Installation**
+
+```bash
+npm install -g thumbsup
 ```
 
+**Creating a basic gallery**
+
+```bash
+thumbsup --input ~/photos --output ~/gallery
 ```
+
+## Expected output
+
+```bash
 $ thumbsup [args]
 
   List all files      [===================] 6/6 files
@@ -64,6 +103,8 @@ $ thumbsup [args]
 
   Gallery generated successfully
 ```
+
+## Configuration
 
 The following args are required:
 
@@ -111,7 +152,7 @@ thumbsup --config config.json
 }
 ```
 
-## Website structure
+## Generated gallery structure
 
 The generated static website has the following structure:
 
@@ -148,7 +189,7 @@ An alternative is to deploy the galleries to UUID-based locations, like Dropbox 
 
 To create the sample gallery locally:
 
-```
+```bash
 npm run clean      # clean the output
 npm run example    # build the gallery
 npm run open       # open it in the browser

@@ -21,7 +21,8 @@
   "scripts": {
     "clean": "rm -rf _site/*",
     "example": "node bin/thumbsup --config example.json",
-    "open": "open _site/index.html"
+    "open": "open _site/index.html",
+    "readme": "markdown-toc README.md | node-injectmd -t toc -i README.md"
   },
   "bin": {
     "thumbsup": "./bin/thumbsup.js"
@@ -39,5 +40,9 @@
     "pad": "~1.0.0",
     "progress": "~1.1.8",
     "yargs": "^3.32.0"
+  },
+  "devDependencies": {
+    "injectmd": "^1.0.0",
+    "markdown-toc": "^0.12.5"
   }
 }
