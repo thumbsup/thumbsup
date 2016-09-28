@@ -25,12 +25,14 @@ Build static HTML galleries from local photos & videos.
 - [Required folder structure](#required-folder-structure)
 - [Setup](#setup)
   * [As an npm package](#as-an-npm-package)
+  * [As a docker container](#as-a-docker-container)
 - [Expected output](#expected-output)
 - [Configuration](#configuration)
 - [Generated gallery structure](#generated-gallery-structure)
 - [Deployment](#deployment)
 - [Password protection](#password-protection)
 - [Dev notes](#dev-notes)
+
 <!-- END toc -->
 
 ## Example gallery
@@ -63,6 +65,32 @@ input
 
 ## Setup
 
+There is 2 main ways to run `thumbsup`: straight up as an `npm` package, or using the pre-built Docker image.
+They each have trade-offs, which one you choose depends on your requirements.
+
+<table>
+  <tr>
+    <th></th>
+    <th>npm</th>
+    <th>docker</th>
+  </tr>
+  <tr>
+    <td>Dependencies</td>
+    <td>Need to install manually (e.g. `node`, `ffmpeg`)</td>
+    <td>All bundled in</td>
+  </tr>
+  <tr>
+    <td>Codecs</td>
+    <td>Need to provide your own. Useful if you have specific video formats to process.</td>
+    <td>Most common codecs built-in. You can create a derived image if you want to include new ones.</td>
+  </tr>
+  <tr>
+    <td>Performance</td>
+    <td>As fast as your computer</td>
+    <td>Up to 50% slower than the `npm` version.</td>
+  </tr>
+</table>
+
 ### As an npm package
 
 **Requirements**
@@ -85,7 +113,47 @@ npm install -g thumbsup
 thumbsup --input ~/photos --output ~/gallery
 ```
 
+### As a docker container
+
+**Requirements**
+
+- [Docker](https://www.docker.com/products/docker)
+
+**Installation**
+
+```bash
+docker pull asyncadventures/thumbsup
+```
+
+**Creating a basic gallery**
+
+```bash
+docker run -t              \
+  -v `pwd`:/docs           \
+  -R $(id -u):$(id -g)     \
+  asyncadventures/thumbsup \
+  thumbsup --input /docs/media --output /docs/gallery
+```
+
+You can of course mount the volumes differently.
+The only requirement is to make sure the files referenced in the config settings
+are accessible from within the Docker container.
+
+*Notes:*
+
+- the `-t` argument is for the progress bars to render properly
+- the `-R` argument is to avoid permission issues, where the generated gallery is owned by an unknown user
+
+Photo dates displayed on the website are based on the current machine timezone.
+When running in Docker, this is `GMT`. If the timezone is important to you, you should also add
+
+```bash
+docker run -v /etc/localtime:/etc/localtime [...]
+```
+
 ## Expected output
+
+If the gallery generation works, you should expect an output similar to this:
 
 ```bash
 $ thumbsup [args]
@@ -129,7 +197,8 @@ For example:
 thumbsup --input "/media/photos" --output "./website" --title "My holidays" --thumb-size 200 --large-size 1500 --full-size-photos true --sort-folders date --css "./custom.css" --google-analytics "UA-999999-9"
 ```
 
-You can also save all your arguments to a `JSON` file:
+You can also save all your arguments to a `JSON` file.
+When running with Docker, make sure the config file is also accessible inside the container.
 
 ```bash
 thumbsup --config config.json
@@ -187,10 +256,21 @@ An alternative is to deploy the galleries to UUID-based locations, like Dropbox 
 
 ## Dev notes
 
-To create the sample gallery locally:
+To create the final Docker image
 
 ```bash
-npm run clean      # clean the output
-npm run example    # build the gallery
-npm run open       # open it in the browser
+./scripts/make-docker
+```
+
+To create the sample gallery locally
+
+```bash
+./scripts/test-npm
+./scripts/test-docker
+```
+
+To update the README table of contents:
+
+```bash
+npm run readme
 ```

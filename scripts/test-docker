@@ -1,0 +1,7 @@
+#!/bin/bash -e
+
+rm -rf docs/*
+time docker run -t                                                   \
+                -v /etc/localtime:/etc/localtime                     \
+                -v `pwd`:/home/thumbsup asyncadventures/thumbsup     \
+                thumbsup --config example.json

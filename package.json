@@ -19,10 +19,7 @@
     "url": "https://github.com/rprieto/thumbsup.git"
   },
   "scripts": {
-    "clean": "rm -rf docs/*",
-    "example": "node bin/thumbsup --config example.json",
-    "open": "open docs/index.html",
-    "readme": "markdown-toc README.md | node-injectmd -t toc -i README.md"
+    "readme": "markdown-toc README.md | echo \"$(cat -)\" | node-injectmd -t toc -i README.md"
   },
   "bin": {
     "thumbsup": "./bin/thumbsup.js"
