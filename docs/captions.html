@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, user-scalable=no" />
+      <title>captions</title>
+      <link rel="stylesheet" href="public/reset.css" />
+      <link rel="stylesheet" href="public/light-gallery/css/lightgallery.css" />
+      <link rel="stylesheet" href="http://vjs.zencdn.net/4.12/video-js.css" />
+      <link rel="stylesheet" href="public/theme.css" />
+  </head>
+
+  <body>
+
+    <header>
+      <a href="index.html">
+        <h1>Photo</h1>
+        <h2>gallery</h2>
+      </a>
+    </header>
+
+    <nav>
+      <ul>
+        <li >
+          <a href="photos.html">photos</a>
+        </li>
+        <li >
+          <a href="videos.html">videos</a>
+        </li>
+        <li >
+          <a href="rotations.html">rotations</a>
+        </li>
+        <li class="active">
+          <a href="captions.html">captions</a>
+        </li>
+      </ul>
+    </nav>
+
+    <ul id="gallery">
+          <li data-src="media/large/captions/sunset.jpg"
+              data-sub-html="Beach"
+              data-download-url="media/large/captions/sunset.jpg">
+            <a href="media/large/captions/sunset.jpg">
+              <img src="media/thumbs/captions/sunset.jpg"
+                   width="120"
+                   height="120"
+                   alt="sunset.jpg" />
+           </a>
+          </li>
+          <li data-src="media/large/captions/tree.jpg"
+              data-sub-html="Autum"
+              data-download-url="media/large/captions/tree.jpg">
+            <a href="media/large/captions/tree.jpg">
+              <img src="media/thumbs/captions/tree.jpg"
+                   width="120"
+                   height="120"
+                   alt="tree.jpg" />
+           </a>
+          </li>
+          <li data-src="media/large/captions/water.jpg"
+              data-sub-html="Sea"
+              data-download-url="media/large/captions/water.jpg">
+            <a href="media/large/captions/water.jpg">
+              <img src="media/thumbs/captions/water.jpg"
+                   width="120"
+                   height="120"
+                   alt="water.jpg" />
+           </a>
+          </li>
+    </ul>
+
+    <div id="videos">
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- VideoJS -->
+    <script src="http://vjs.zencdn.net/4.12/video.js"></script>
+    <!-- LightGallery -->
+    <script src="public/light-gallery/js/lightgallery.js"></script>
+    <script src="public/light-gallery/js/lg-autoplay.js"></script>
+    <script src="public/light-gallery/js/lg-pager.js"></script>
+    <script src="public/light-gallery/js/lg-thumbnail.js"></script>
+    <script src="public/light-gallery/js/lg-video.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("#gallery").lightGallery({
+          thumbWidth: 80,
+          controls: true,
+          loop : false,
+          download: true,
+          counter: true,
+          videojs: true
+        });
+      });
+
+    </script>
+
+
+  </body>
+
+</html>

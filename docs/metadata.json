@@ -1,0 +1,78 @@
+{
+  "captions/sunset.jpg": {
+    "fileDate": 1442917026000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 1,
+      "caption": "Beach"
+    }
+  },
+  "captions/tree.jpg": {
+    "fileDate": 1442917036000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 1,
+      "caption": "Autum"
+    }
+  },
+  "captions/water.jpg": {
+    "fileDate": 1442917043000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 1,
+      "caption": "Sea"
+    }
+  },
+  "photos/port-douglas1.jpg": {
+    "fileDate": 1398500588000,
+    "mediaType": "photo",
+    "exif": {
+      "date": 1383083620000,
+      "orientation": 1
+    }
+  },
+  "photos/port-douglas2.jpg": {
+    "fileDate": 1397730749000,
+    "mediaType": "photo",
+    "exif": {
+      "date": 1383140156000,
+      "orientation": 1
+    }
+  },
+  "photos/port-stephens.jpg": {
+    "fileDate": 1397730672000,
+    "mediaType": "photo",
+    "exif": {
+      "date": 1345911757000,
+      "orientation": 1
+    }
+  },
+  "rotations/landscape.jpg": {
+    "fileDate": 1417437612000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 8
+    }
+  },
+  "videos/countdown.mp4": {
+    "fileDate": 1397816697000,
+    "mediaType": "video",
+    "exif": {
+      "date": 1397780697000,
+      "orientation": null
+    }
+  },
+  "videos/momentum.m2ts": {
+    "fileDate": 1417439019000,
+    "mediaType": "video",
+    "exif": {
+      "date": null,
+      "orientation": null,
+      "caption": null
+    }
+  }
+}
