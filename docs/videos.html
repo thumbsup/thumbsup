@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, user-scalable=no" />
+      <title>videos</title>
+      <link rel="stylesheet" href="public/reset.css" />
+      <link rel="stylesheet" href="public/light-gallery/css/lightgallery.css" />
+      <link rel="stylesheet" href="http://vjs.zencdn.net/4.12/video-js.css" />
+      <link rel="stylesheet" href="public/theme.css" />
+  </head>
+
+  <body>
+
+    <header>
+      <a href="index.html">
+        <h1>Photo</h1>
+        <h2>gallery</h2>
+      </a>
+    </header>
+
+    <nav>
+      <ul>
+        <li >
+          <a href="photos.html">photos</a>
+        </li>
+        <li class="active">
+          <a href="videos.html">videos</a>
+        </li>
+        <li >
+          <a href="rotations.html">rotations</a>
+        </li>
+        <li >
+          <a href="captions.html">captions</a>
+        </li>
+      </ul>
+    </nav>
+
+    <ul id="gallery">
+          <li data-html="#media8"
+              data-poster="media/large/videos/countdown.jpg"
+              data-download-url="media/large/videos/countdown.mp4">
+            <a href="media/large/videos/countdown.mp4">
+              <img src="media/thumbs/videos/countdown.jpg"
+                   width="120"
+                   height="120"
+                   alt="countdown.mp4" />
+            </a>
+            <img class="video-overlay" src="public/play.png" />
+          </li>
+          <li data-html="#media9"
+              data-poster="media/large/videos/momentum.jpg"
+              data-download-url="media/large/videos/momentum.mp4">
+            <a href="media/large/videos/momentum.mp4">
+              <img src="media/thumbs/videos/momentum.jpg"
+                   width="120"
+                   height="120"
+                   alt="momentum.m2ts" />
+            </a>
+            <img class="video-overlay" src="public/play.png" />
+          </li>
+    </ul>
+
+    <div id="videos">
+          <div id="media8" style="display:none;">
+            <video class="lg-video-object lg-html5 video-js vjs-default-skin"  preload="none" controls>
+              <source src="media/large/videos/countdown.mp4" type="video/mp4" />
+              Your browser does not support HTML5 video
+            </video>
+          </div>
+          <div id="media9" style="display:none;">
+            <video class="lg-video-object lg-html5 video-js vjs-default-skin"  preload="none" controls>
+              <source src="media/large/videos/momentum.mp4" type="video/mp4" />
+              Your browser does not support HTML5 video
+            </video>
+          </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- VideoJS -->
+    <script src="http://vjs.zencdn.net/4.12/video.js"></script>
+    <!-- LightGallery -->
+    <script src="public/light-gallery/js/lightgallery.js"></script>
+    <script src="public/light-gallery/js/lg-autoplay.js"></script>
+    <script src="public/light-gallery/js/lg-pager.js"></script>
+    <script src="public/light-gallery/js/lg-thumbnail.js"></script>
+    <script src="public/light-gallery/js/lg-video.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("#gallery").lightGallery({
+          thumbWidth: 80,
+          controls: true,
+          loop : false,
+          download: true,
+          counter: true,
+          videojs: true
+        });
+      });
+
+    </script>
+
+
+  </body>
+
+</html>

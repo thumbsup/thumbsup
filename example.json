@@ -1,11 +1,11 @@
 {
   "input": "example/media",
-  "output": "_site",
+  "output": "docs",
   "title": "Photo gallery",
   "thumb-size": 120,
   "large-size": 400,
-  "original-photos": true,
-  "original-videos": true,
+  "original-photos": false,
+  "original-videos": false,
   "sort-folders": "date",
   "css": null,
   "google-analytics": null
