@@ -130,7 +130,7 @@ docker pull asyncadventures/thumbsup
 ```bash
 docker run -t              \
   -v `pwd`:/docs           \
-  -R $(id -u):$(id -g)     \
+  -u $(id -u):$(id -g)     \
   asyncadventures/thumbsup \
   thumbsup --input /docs/media --output /docs/gallery
 ```
@@ -142,7 +142,7 @@ are accessible from within the Docker container.
 *Notes:*
 
 - the `-t` argument is for the progress bars to render properly
-- the `-R` argument is to avoid permission issues, where the generated gallery is owned by an unknown user
+- the `-u` argument is to avoid permission issues, where the generated gallery is owned by an unknown user
 
 Photo dates displayed on the website are based on the current machine timezone.
 When running in Docker, this is `GMT`. If the timezone is important to you, you should also add
