@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+rm -rf docs/*
+time node bin/thumbsup --config example.json

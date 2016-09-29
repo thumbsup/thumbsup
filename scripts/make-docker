@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+IMAGE=asyncadventures/thumbsup
+
+docker build -t ${IMAGE} .
+echo "Successfully built ${IMAGE}"

@@ -1,0 +1,3 @@
+# We don't need any context to build the docker image
+# Since it relies on the latest published version of thumbsup
+*
