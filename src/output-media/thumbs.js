@@ -10,22 +10,22 @@ exports.sizes = {
 
 // Small square photo thumbnail
 exports.photoSquare = function(task, callback) {
-  var img = gm(task.src);
-  img = rotatePhoto(img, task.metadata.exif.orientation);
-  img.resize(exports.sizes.thumb, exports.sizes.thumb, '^')
-     .gravity('Center')
-     .crop(exports.sizes.thumb, exports.sizes.thumb)
-     .quality(90)
-     .write(task.dest, callback);
+  gm(task.src)
+    .autoOrient()
+    .resize(exports.sizes.thumb, exports.sizes.thumb, '^')
+    .gravity('Center')
+    .crop(exports.sizes.thumb, exports.sizes.thumb)
+    .quality(90)
+    .write(task.dest, callback);
 };
 
 // Large photo
 exports.photoLarge = function(task, callback) {
-  var img = gm(task.src);
-  img = rotatePhoto(img, task.metadata.exif.orientation);
-  img.resize(null, exports.sizes.large, '>')
-     .quality(90)
-     .write(task.dest, callback);
+  gm(task.src)
+    .autoOrient()
+    .resize(null, exports.sizes.large, '>')
+    .quality(90)
+    .write(task.dest, callback);
 };
 
 // Web-streaming friendly video
@@ -75,18 +75,4 @@ exports.videoSquare = function(task, callback) {
 function extractFrame(task, callback) {
   var ffmpeg = 'ffmpeg -itsoffset -1 -i "' + task.src + '" -ss 0.1 -vframes 1 -y "' + task.dest + '"';
   exec(ffmpeg, callback);
-}
-
-// Many browsers don't display EXIF orientation properly
-// We need to rotate all photos so their orientation is back to 1
-function rotatePhoto(img, orientation) {
-  if (orientation === 1) return img;
-  if (orientation === 2) return img.flop();
-  if (orientation === 3) return img.rotate("black", 180);
-  if (orientation === 4) return img.flip();
-  if (orientation === 5) return img.rotate("black", 90).flop();
-  if (orientation === 6) return img.rotate("black", 90);
-  if (orientation === 7) return img.rotate("black", 270).flop();
-  if (orientation === 8) return img.rotate("black", 270);
-  return img;
 }
