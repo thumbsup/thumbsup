@@ -4,7 +4,8 @@ var async       = require('async');
 var make        = require('./utils/make');
 var metadata    = require('./input/metadata');
 var thumbs      = require('./output-media/thumbs');
-var website     = require('./output-website/generator');
+var website     = require('./output-website/website');
+var collection  = require('./collection');
 
 exports.build = function(opts) {
 
@@ -13,7 +14,8 @@ exports.build = function(opts) {
 
   fs.mkdirpSync(opts.output);
   var media = path.join(opts.output, 'media');
-  var meta  = null;
+  var meta = null;
+  var allFiles = collection.fromMetadata({});
 
   function buildStep(options) {
     return function(callback) {
@@ -34,6 +36,7 @@ exports.build = function(opts) {
     function updateMetadata(callback) {
       metadata.update(opts, function(err, data) {
         meta = data;
+        allFiles = collection.fromMetadata(data);
         callback(err);
       });
     },
@@ -90,7 +93,7 @@ exports.build = function(opts) {
     }),
 
     function staticWebsite(callback) {
-      website.build(meta, opts, callback);
+      website.build(allFiles, opts, callback);
     }
 
   ], finish);

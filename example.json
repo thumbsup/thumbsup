@@ -1,7 +1,7 @@
 {
   "input": "example/media",
   "output": "docs",
-  "title": "Photo gallery",
+  "title": "Photo album",
   "thumb-size": 120,
   "large-size": 400,
   "original-photos": false,

@@ -50,6 +50,134 @@
       "orientation": 1
     }
   },
+  "rotations/Landscape_1.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 1
+    }
+  },
+  "rotations/Landscape_2.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 2
+    }
+  },
+  "rotations/Landscape_3.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 3
+    }
+  },
+  "rotations/Landscape_4.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 4
+    }
+  },
+  "rotations/Landscape_5.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 5
+    }
+  },
+  "rotations/Landscape_6.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 6
+    }
+  },
+  "rotations/Landscape_7.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 7
+    }
+  },
+  "rotations/Landscape_8.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 8
+    }
+  },
+  "rotations/Portrait_1.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 1
+    }
+  },
+  "rotations/Portrait_2.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 2
+    }
+  },
+  "rotations/Portrait_3.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 3
+    }
+  },
+  "rotations/Portrait_4.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 4
+    }
+  },
+  "rotations/Portrait_5.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 5
+    }
+  },
+  "rotations/Portrait_6.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 6
+    }
+  },
+  "rotations/Portrait_7.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 7
+    }
+  },
+  "rotations/Portrait_8.jpg": {
+    "fileDate": 1475977293000,
+    "mediaType": "photo",
+    "exif": {
+      "date": null,
+      "orientation": 8
+    }
+  },
   "videos/countdown.mp4": {
     "fileDate": 1397816697000,
     "mediaType": "video",
@@ -65,134 +193,6 @@
       "date": null,
       "orientation": null,
       "caption": null
-    }
-  },
-  "rotations/Landscape_1.jpg": {
-    "fileDate": 1475923610000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 1
-    }
-  },
-  "rotations/Landscape_2.jpg": {
-    "fileDate": 1475923617000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 2
-    }
-  },
-  "rotations/Landscape_3.jpg": {
-    "fileDate": 1475923621000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 3
-    }
-  },
-  "rotations/Landscape_4.jpg": {
-    "fileDate": 1475923625000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 4
-    }
-  },
-  "rotations/Landscape_5.jpg": {
-    "fileDate": 1475923628000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 5
-    }
-  },
-  "rotations/Landscape_6.jpg": {
-    "fileDate": 1475923634000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 6
-    }
-  },
-  "rotations/Landscape_7.jpg": {
-    "fileDate": 1475923636000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 7
-    }
-  },
-  "rotations/Landscape_8.jpg": {
-    "fileDate": 1475923640000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 8
-    }
-  },
-  "rotations/Portrait_1.jpg": {
-    "fileDate": 1475923644000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 1
-    }
-  },
-  "rotations/Portrait_2.jpg": {
-    "fileDate": 1475923647000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 2
-    }
-  },
-  "rotations/Portrait_3.jpg": {
-    "fileDate": 1475923650000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 3
-    }
-  },
-  "rotations/Portrait_4.jpg": {
-    "fileDate": 1475923653000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 4
-    }
-  },
-  "rotations/Portrait_5.jpg": {
-    "fileDate": 1475923659000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 5
-    }
-  },
-  "rotations/Portrait_6.jpg": {
-    "fileDate": 1475923663000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 6
-    }
-  },
-  "rotations/Portrait_7.jpg": {
-    "fileDate": 1475923666000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 7
-    }
-  },
-  "rotations/Portrait_8.jpg": {
-    "fileDate": 1475923670000,
-    "mediaType": "photo",
-    "exif": {
-      "date": null,
-      "orientation": 8
     }
   }
 }

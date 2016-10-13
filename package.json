@@ -19,6 +19,7 @@
     "url": "https://github.com/rprieto/thumbsup.git"
   },
   "scripts": {
+    "test": "mocha",
     "clean": "rm -rf docs/*",
     "example": "node bin/thumbsup --config example.json",
     "open": "open docs/index.html",
@@ -43,6 +44,9 @@
   },
   "devDependencies": {
     "injectmd": "^1.0.0",
-    "markdown-toc": "^0.12.5"
+    "markdown-toc": "^0.12.5",
+    "mocha": "^3.1.0",
+    "should": "^11.1.0",
+    "sinon": "^1.17.6"
   }
 }

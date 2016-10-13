@@ -14,11 +14,11 @@ var opts = yargs
       description: 'Output path for the static website',
     },
     'index': {
-      description: 'Name of the First page in the flow. Defaults to index.html'  
+      description: 'Name of the First page in the flow. Defaults to index.html'
     },
     'title': {
       description: 'Website title',
-      default: 'My gallery'
+      default: 'Photo album'
     },
     'thumb-size': {
       description: 'Thumbnail size in pixels (square)',

@@ -4,7 +4,7 @@
   <head>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, user-scalable=no" />
-      <title>Photo album - Home</title>
+      <title>Photo album - videos</title>
       <link rel="stylesheet" href="public/reset.css" />
       <link rel="stylesheet" href="public/light-gallery/css/lightgallery.css" />
       <link rel="stylesheet" href="public/video-js.css" />
@@ -71,56 +71,50 @@
     <section id="content">
 
       <nav class="breadcrumbs">
-<span class="breadcrumb-item active">Home</span>
+<a class="breadcrumb-item" href="index.html">Home </a><span class="breadcrumb-item active">videos</span>
       </nav>
 
       <ul id="albums">
-        <li>
-          <a href="index-photos.html">
-            <ul class="grid clearfix"><li><img src="media/thumbs/photos/port-stephens.jpg" /></li><li><img src="media/thumbs/photos/port-douglas1.jpg" /></li>            </ul>
-            <h3>photos</h3>
-            <div class="meta">
-              3 photos<br />
-              26 Aug 2012 - 31 Oct 2013
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="index-videos.html">
-            <ul class="grid clearfix"><li><img src="media/thumbs/videos/countdown.jpg" /></li><li><img src="media/thumbs/videos/momentum.jpg" /></li>            </ul>
-            <h3>videos</h3>
-            <div class="meta">
-              2 videos<br />
-              18 Apr 2014 - 02 Dec 2014
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="index-captions.html">
-            <ul class="grid clearfix"><li><img src="media/thumbs/captions/sunset.jpg" /></li><li><img src="media/thumbs/captions/tree.jpg" /></li>            </ul>
-            <h3>captions</h3>
-            <div class="meta">
-              3 photos<br />
-              22 Sep 2015 - 22 Sep 2015
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="index-rotations.html">
-            <ul class="grid clearfix"><li><img src="media/thumbs/rotations/Landscape_1.jpg" /></li><li><img src="media/thumbs/rotations/Landscape_2.jpg" /></li>            </ul>
-            <h3>rotations</h3>
-            <div class="meta">
-              16 photos<br />
-              09 Oct 2016 - 09 Oct 2016
-            </div>
-          </a>
-        </li>
       </ul>
 
       <ul id="gallery">
+            <li data-html="#media23"
+                data-poster="media/large/videos/countdown.jpg"
+                data-download-url="">
+              <a href="">
+                <img src="media/thumbs/videos/countdown.jpg"
+                     width=""
+                     height="120"
+                     alt="countdown.mp4" />
+              </a>
+              <img class="video-overlay" src="public/play.png" />
+            </li>
+            <li data-html="#media24"
+                data-poster="media/large/videos/momentum.jpg"
+                data-download-url="">
+              <a href="">
+                <img src="media/thumbs/videos/momentum.jpg"
+                     width=""
+                     height="120"
+                     alt="momentum.m2ts" />
+              </a>
+              <img class="video-overlay" src="public/play.png" />
+            </li>
       </ul>
 
       <div id="videos">
+            <div id="media23" style="display:none;">
+              <video class="lg-video-object lg-html5 video-js vjs-default-skin"  preload="none" controls>
+                <source src="media/large/videos/countdown.mp4" type="video/mp4" />
+                Your browser does not support HTML5 video
+              </video>
+            </div>
+            <div id="media24" style="display:none;">
+              <video class="lg-video-object lg-html5 video-js vjs-default-skin"  preload="none" controls>
+                <source src="media/large/videos/momentum.mp4" type="video/mp4" />
+                Your browser does not support HTML5 video
+              </video>
+            </div>
       </div>
 
     </section>
