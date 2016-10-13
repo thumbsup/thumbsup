@@ -2,7 +2,7 @@ var _ = require('lodash');
 var index = 0;
 
 // number of images to show in the album preview grid
-var PREVIEW_COUNT = 2;
+var PREVIEW_COUNT = 4;
 
 var SORT_ALBUMS_BY = {
   title: function(album) { return album.title; },
@@ -21,6 +21,7 @@ function Album(opts) {
   this.files = opts.files || [];
   this.albums = opts.albums || [];
   this.depth = 0;
+  this.home = false;
   this.stats = null;
   this.previews = null;
 }
@@ -30,6 +31,8 @@ Album.prototype.finalize = function(options) {
     sortAlbumsBy: 'date',
     sortMediaBy: 'date'
   });
+  // is this the top-level album?
+  this.home = this.depth === 0;
   // lock all nested albums first (recursive)
   // and set a nested filename
   for (var i = 0; i < this.albums.length; ++i) {

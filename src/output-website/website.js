@@ -3,18 +3,19 @@ var fs          = require('fs-extra');
 var path        = require('path');
 var async       = require('async');
 var pad         = require('pad');
+var less        = require('less');
 var files       = require('../utils/files');
 var template    = require('./template');
 var Album       = require('./album');
 var byFolder    = require('./by-folder');
 
+var DIR_PUBLIC = path.join(__dirname, '..', '..', 'public');
+var DIR_TEMPLATES = path.join(__dirname, '..', '..', 'templates');
+
 exports.build = function(collection, opts, callback) {
 
   // set the download link to the right place
-  template.setOptions({
-    originalPhotos: opts.originalPhotos,
-    originalVideos: opts.originalVideos
-  });
+  var renderer = template.create(opts);
 
   function website(callback) {
     // top-level album for the home page
@@ -57,10 +58,15 @@ exports.build = function(collection, opts, callback) {
   function renderTemplate(filename, templateName, data) {
     // render a given HBS template
     var fullPath = path.join(opts.output, filename);
-    var contents = template.render(templateName, data);
+    var contents = renderer.render(templateName, data);
     return function(next) {
       fs.writeFile(fullPath, contents, next);
     };
+  }
+
+  function support(callback) {
+    var dest = path.join(opts.output, 'public');
+    fs.copy(DIR_PUBLIC, dest, callback);
   }
 
   function lightGallery(callback) {
@@ -72,27 +78,25 @@ exports.build = function(collection, opts, callback) {
     fs.copy(src, dest, callback);
   }
 
-  function support(callback) {
-    var src = path.join(__dirname, '..', '..', 'public');
-    var dest = path.join(opts.output, 'public');
-    fs.copy(src, dest, callback);
-  }
-
-  function customStyle(callback) {
+  function renderStyles(callback) {
+    var themeFile = path.join(DIR_TEMPLATES, 'themes', opts.theme, 'theme.less');
+    var themeLess = fs.readFileSync(themeFile, 'utf-8');
     if (opts.css) {
-      var dest = path.join(opts.output, 'public', path.basename(opts.css));
-      fs.copy(opts.css, dest, callback);
-    } else {
-      callback();
+      themeLess += '\n' + fs.readFileSync(opts.css, 'utf-8');
     }
+    less.render(themeLess, function (err, output) {
+      if (err) return callback(err);
+      var dest = path.join(opts.output, 'public', 'style.css');
+      fs.writeFile(dest, output.css, callback);
+    });
   }
 
   process.stdout.write(pad('Static website', 20));
   async.series([
     website,
-    lightGallery,
     support,
-    customStyle
+    lightGallery,
+    renderStyles
   ], function(err) {
     console.log('[====================] done');
     callback(err);

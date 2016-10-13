@@ -6,98 +6,29 @@
       <meta name="viewport" content="width=device-width, user-scalable=no" />
       <title>{{gallery.title}} - {{album.title}}</title>
       <link rel="stylesheet" href="public/reset.css" />
+      <link rel="stylesheet" href="public/style.css" />
+      <link rel="stylesheet" href="public/font-awesome/css/font-awesome.min.css">
       <link rel="stylesheet" href="public/light-gallery/css/lightgallery.css" />
       <link rel="stylesheet" href="public/video-js.css" />
-      <link rel="stylesheet" href="public/theme.css" />
-      {{#if gallery.css}}
-        <link rel="stylesheet" href="public/{{gallery.css}}" />
-      {{/if}}
   </head>
 
   <body>
 
-    <header>
-      <h1>{{gallery.title}}</h1>
-      <h2>{{gallery.subtitle}}</h2>
-    </header>
+    {{> theme}}
 
-    <section id="sidebar">
-      <nav>
-        {{> sidebar-album gallery.home }}
-      </nav>
-    </section>
-
-    <section id="content">
-
-      <nav class="breadcrumbs">
-        {{#each breadcrumbs~}}
-          <a class="breadcrumb-item" href="{{filename}}.html">{{title}} </a>
-        {{~/each~}}
-        <span class="breadcrumb-item active">{{album.title}}</span>
-      </nav>
-
-      <ul id="albums">
-        {{#each album.albums}}
-        <li>
-          <a href="{{filename}}.html">
-            <ul class="grid clearfix">
-              {{~#each previews ~}}
-                <li><img src="{{this.urls.thumb}}" /></li>
-              {{~/each}}
-            </ul>
-            <h3>{{title}}</h3>
-            <div class="meta">
-              {{summary}}<br />
-              {{{date stats.fromDate}}} - {{{date stats.toDate}}}
-            </div>
-          </a>
-        </li>
-        {{/each}}
-      </ul>
-
-      <ul id="gallery">
-        {{#each album.files}}
-          {{#if isVideo}}
-            <li data-html="#media{{id}}"
-                data-poster="{{urls.poster}}"
-                data-download-url="{{{download this}}}">
-              <a href="{{{download this}}}">
-                <img src="{{urls.thumb}}"
-                     width="{{../gallery.thumbsSize}}"
-                     height="{{../gallery.thumbSize}}"
-                     alt="{{filename}}" />
-              </a>
-              <img class="video-overlay" src="public/play.png" />
-            </li>
-          {{else}}
-            <li data-src="{{urls.large}}"
-                data-sub-html="{{caption}}"
-                data-download-url="{{{download this}}}">
-              <a href="{{{download this}}}">
-                <img src="{{urls.thumb}}"
-                     width="{{../gallery.thumbSize}}"
-                     height="{{../gallery.thumbSize}}"
-                     alt="{{filename}}" />
-             </a>
-            </li>
-          {{/if}}
-        {{/each}}
-      </ul>
-
-      <div id="videos">
-        {{#each album.files}}
-          {{#if isVideo}}
-            <div id="media{{id}}" style="display:none;">
-              <video class="lg-video-object lg-html5 video-js vjs-default-skin"  preload="none" controls>
-                <source src="{{urls.video}}" type="video/mp4" />
-                Your browser does not support HTML5 video
-              </video>
-            </div>
-          {{/if}}
-        {{/each}}
-      </div>
-
-    </section>
+    <!-- Video loader -->
+    <div id="videos">
+      {{#each album.files}}
+        {{#if isVideo}}
+          <div id="media{{id}}" style="display:none;">
+            <video class="lg-video-object lg-html5 video-js vjs-default-skin"  preload="none" controls>
+              <source src="{{urls.video}}" type="video/mp4" />
+              Your browser does not support HTML5 video
+            </video>
+          </div>
+        {{/if}}
+      {{/each}}
+    </div>
 
     <!-- jQuery -->
     <script src="public/jquery.min.js"></script>
@@ -112,7 +43,7 @@
 
     <script>
       $(document).ready(function() {
-        $("#gallery").lightGallery({
+        $("#media").lightGallery({
           thumbWidth: 80,
           controls: true,
           loop : false,

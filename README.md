@@ -36,11 +36,6 @@ Build static HTML galleries from local photos & videos.
 ## Example gallery
 
 You can [view a sample gallery here](http://rprieto.github.io/thumbsup).
-The home/index page shows all folders, with a few stats and some previews:
-
-[![screenshot](https://raw.github.com/rprieto/thumbsup/master/screenshot.jpg)](http://rprieto.github.io/thumbsup)
-
-The photo pages are a grid of photos:
 
 [![screenshot](https://raw.github.com/rprieto/thumbsup/master/screenshot.jpg)](http://rprieto.github.io/thumbsup)
 
@@ -87,6 +82,8 @@ thumbsup --input ~/photos --output ~/gallery
 
 ## Expected output
 
+If everything worked well, you should expect:
+
 ```bash
 $ thumbsup [args]
 
@@ -104,6 +101,10 @@ $ thumbsup [args]
   Gallery generated successfully
 ```
 
+`thumbsup` keeps track of which files need updating.
+Re-running the command above when nothing has changed will show the same
+output but only take a second, even on a gallery of thousands of photos and videos.
+
 ## Configuration
 
 The following args are required:
@@ -119,7 +120,8 @@ And you can optionally specify:
 - `--original-photos [true|false]` to allow download of full-size photos (default: `false`)
 - `--original-videos [true|false]` to allow download of full-size videos (default: `false`)
 - `--sort-folders [name|date]` how to sort the folders/galleries (default: `date`)
-- `--css [file]` styles to be applied on top of the default theme (no default)
+- `--theme [name]` name of the gallery theme to apply (default: `default`)
+- `--css [file]` CSS or LESS styles to be applied on top of the theme (no default)
 - `--google-analytics [code]` code for Google Analytics tracking (no default)
 
 *Note:* all paths are relative to the current working directory.
@@ -166,6 +168,21 @@ website
   |    |__ original
   |    |__ large
   |    |__ thumbs
+```
+
+##  Themes
+
+The `--theme` flag allows you to select a style for the generated gallery.
+The only theme so far is called `default`, but please submit more ideas to share!
+
+Some themes have [LESS](http://lesscss.org/) variables that you can customise.
+Check [THEMES.md](THEMES.md) for more details.
+Simply use the `--css` option and pass a LESS file with your values, e.g.
+
+```less
+// thumbsup --css custom.less
+
+@myvariable: #cef9b6;
 ```
 
 ## Deployment

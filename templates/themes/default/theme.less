@@ -1,0 +1,291 @@
+
+// -----------------------------------
+// Variables for user customisation
+// -----------------------------------
+
+@body-background: #f6f6f6;
+@header-background: #444;
+@header-foreground: #fff;
+@nav-background: #fafafa;
+@nav-highlight: #fff;
+@album-background: #fafafa;
+@text-color: #444;
+@text-light: #999;
+@borders: #ddd;
+@mobile-trigger: 900px;
+
+// -----------------------------------
+// Page structure
+// -----------------------------------
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+#wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#container {
+  display: flex;
+  flex: 1;
+}
+
+#sidebar {
+  overflow: hidden;
+  order: -1;
+}
+
+#content {
+  flex: 1;
+}
+
+// -----------------------------------
+// Slide-out navigation
+// -----------------------------------
+
+.hamburger-checkbox {
+  position: absolute;
+  opacity: 0;
+}
+
+.hamburger-label {
+  display: none;
+}
+
+#sidebar {
+  flex: 0 0 15em;
+}
+
+@media only screen and (max-width: @mobile-trigger) {
+
+  .hamburger-label {
+    display: inline-block;
+  }
+
+  #sidebar {
+    flex: 0 0 0;
+    transition: all .2s;
+    white-space: nowrap;
+  }
+
+  #sidebar .count {
+    opacity: 0;
+  }
+
+  .hamburger-checkbox:checked ~ #sidebar {
+    flex: 0 0 100%;
+    font-size: 1.1em;
+  }
+
+  .hamburger-checkbox:checked ~ #content {
+    flex: 0 0 0;
+  }
+
+  .hamburger-checkbox:checked ~ #sidebar .count {
+    opacity: 100;
+  }
+
+}
+
+// -----------------------------------
+// Generic styles
+// -----------------------------------
+
+body {
+  background: @body-background;
+  color: @text-color;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: lighter;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+}
+
+.clearfix:after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+
+.noselect {
+  cursor: default;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+// -----------------------------------
+// Header
+// -----------------------------------
+
+header {
+  background: @header-background;
+  color: @header-foreground;
+  font-size: 1.8em;
+  padding: 1em;
+}
+
+header .hamburger-label {
+  // color: #fff;
+  margin-right: 0.4em;
+}
+
+h1 {
+  // color: #fff;
+  display: inline-block;
+  font-weight: bold;
+}
+
+// -----------------------------------
+// Sidebar navigation
+// -----------------------------------
+
+#sidebar {
+  background: @nav-background;
+  border-right: 1px solid @borders;
+}
+
+#sidebar i.fa {
+  margin-right: 0.3em;
+}
+
+#sidebar a {
+  border-bottom: 1px solid @borders;
+  color: @text-color;
+  display: block;
+  padding: 0.8em 1em;
+  position: relative;
+}
+
+#sidebar .count {
+  background-color: #fcfcfc;
+  border: 1px solid @borders;
+  border-radius: 0.4em;
+  color: @text-light;
+  font-size: 0.7em;
+  padding: 0.4em 0.6em 0.3em 0.5em;
+  position: absolute;
+  right: 1em;
+  margin-top: -2px;
+}
+
+// -----------------------------------
+// Breadcrumbs navigation
+// -----------------------------------
+
+nav.breadcrumbs {
+  border-bottom: 1px solid @borders;
+  margin: 2em;
+  padding: 0em 0em 0.8em 0.1em;
+}
+
+nav.breadcrumbs a, nav span {
+  display: inline;
+}
+
+nav.breadcrumbs a {
+  color: @text-color;
+  text-decoration: none;
+}
+
+// -----------------------------------
+// Nested albums
+// -----------------------------------
+
+#albums, #media {
+  margin: 2em;
+}
+
+#albums a {
+  background-color: @album-background;
+  display: inline-block;
+  padding: 0.7em;
+}
+
+#albums h3 {
+  color: @text-color;
+  margin: 0.7em;
+  margin-top: 1em;
+  font-size: 1em;
+  text-align: center;
+}
+
+#albums .meta {
+  color: @text-light;
+  font-size: 0.9em;
+  font-style: italic;
+  line-height: 1.2em;
+  margin: 0.5em 0;
+  text-align: center;
+  width: 100%;
+}
+
+#albums > li {
+  display: inline-block;
+  margin-right: 2em;
+  margin-bottom: 3em;
+  border: 1px solid @borders;
+}
+
+#albums .grid {
+  width: 200px;
+}
+
+#albums .grid li {
+  float: left;
+  padding: 0 0.2em 0.2em 0;
+  width: 50%;
+}
+
+#albums .grid img {
+  display: block;
+  width: 100%;
+}
+
+// -----------------------------------
+// Navigation hovers
+// -----------------------------------
+
+#sidebar a:hover {
+  background-color: @nav-highlight;
+}
+
+// -----------------------------------
+// Photo and video thumbnails
+// -----------------------------------
+
+#media li {
+  float: left;
+  margin-right: 0.4em;
+  margin-bottom: 0.2em;
+  position: relative;
+}
+
+#media li .video-overlay {
+  left: 50%;
+  height: 48px;
+  margin-left: -24px;
+  margin-top: -24px;
+  position: absolute;
+  top: 50%;
+  width: 48px;
+}
