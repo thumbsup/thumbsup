@@ -28,9 +28,11 @@ Build static HTML galleries from local photos & videos.
 - [Expected output](#expected-output)
 - [Configuration](#configuration)
 - [Generated gallery structure](#generated-gallery-structure)
+- [Themes](#themes)
 - [Deployment](#deployment)
 - [Password protection](#password-protection)
 - [Dev notes](#dev-notes)
+
 <!-- END toc -->
 
 ## Example gallery
