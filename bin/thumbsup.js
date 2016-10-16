@@ -40,8 +40,12 @@ var opts = yargs
       description: 'How to sort gallery folders (name | date)',
       default: 'date'
     },
+    'theme': {
+      description: 'Name of the gallery theme to apply',
+      default: 'default'
+    },
     'css': {
-      description: 'Extra CSS file for styling'
+      description: 'Extra CSS/LESS file for styling'
     },
     'config': {
       description: 'Optional JSON config file (one key per argument)'
@@ -63,6 +67,7 @@ index.build({
   originalPhotos:  opts['original-photos'] + '' === 'true',
   originalVideos:  opts['original-videos'] + '' === 'true',
   sortFolders:     opts['sort-folders'],
+  theme:           opts['theme'],
   css:             opts['css'],
   googleAnalytics: opts['google-analytics'],
   index:           opts['index']

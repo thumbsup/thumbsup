@@ -7,6 +7,6 @@
   "original-photos": false,
   "original-videos": false,
   "sort-folders": "date",
-  "css": null,
+  "css": "example/custom.less",
   "google-analytics": null
 }

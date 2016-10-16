@@ -3,54 +3,68 @@ var path        = require('path');
 var handlebars  = require('handlebars');
 var moment      = require('moment');
 
-var options = {};
-var templates = {
-  'album': compileTemplate('album.hbs')
-};
+exports.create = function(options) {
 
-function compileTemplate(hbsFile) {
-  var src = fs.readFileSync(path.join(__dirname, '..', '..', 'templates', hbsFile));
-  return handlebars.compile(src.toString());
-}
+  var DIR_TEMPLATES = path.join(__dirname, '..', '..', 'templates');
+  var DIR_THEME = path.join(DIR_TEMPLATES, 'themes', options.theme);
 
-handlebars.registerPartial('analytics', compileTemplate('analytics.hbs'));
-handlebars.registerPartial('sidebar-album', compileTemplate('sidebar-album.hbs'));
+  function isTemplate(filepath) {
+    return path.extname(filepath) === '.hbs';
+  }
 
-handlebars.registerHelper('date', function(date) {
-  return moment(date).format('DD MMM YYYY');
-});
+  function compileTemplate(hbsFile) {
+    var src = fs.readFileSync(hbsFile);
+    return handlebars.compile(src.toString());
+  }
 
-/*
-* Repeat given markup with given times
-* provides @index for the repeated iteraction
-*/
-handlebars.registerHelper("times", function (times, opts) {
-  var out = "";
-  var i;
-  var data = {};
-  if (times) {
-    for ( i = 0; i < times; i += 1 ) {
-      data.index = i;
-      out += opts.fn(this, {data: data});
+  // main entry points
+  var templates = {
+    'album': compileTemplate(path.join(DIR_TEMPLATES, 'album.hbs'))
+  };
+
+  // common partials
+  handlebars.registerPartial('analytics', compileTemplate(path.join(DIR_TEMPLATES, 'analytics.hbs')));
+
+  // theme partials
+  var files = fs.readdirSync(DIR_THEME);
+  files.filter(isTemplate).forEach(function(filename) {
+    var templateName = path.basename(filename, path.extname(filename));
+    handlebars.registerPartial(templateName, compileTemplate(path.join(DIR_THEME, filename)));
+  })
+
+  // utility helper
+  // render a date in a legible format
+  handlebars.registerHelper('date', function(date) {
+    return moment(date).format('DD MMM YYYY');
+  });
+
+  // utility helper
+  // render the first X items in an array
+  handlebars.registerHelper('slice', function(context, block) {
+    var ret = "";
+    var count = parseInt(block.hash.count) || 1;
+    var i = 0;
+    var j = (count < context.length) ? count : context.length;
+    for(i,j; i<j; i++) {
+      ret += block.fn(context[i]);
     }
-  } else {
-    out = opts.inverse(this);
-  }
-  return out;
-});
+    return ret;
+  });
 
-handlebars.registerHelper('download', function(file) {
-  if (file.mediaType === 'video') {
-    return options.originalVideos ? file.urls.original : file.urls.video;
-  } else {
-    return options.originalPhotos ? file.urls.original : file.urls.large;
-  }
-});
+  // utility helper
+  // render the correct download path based on user options
+  handlebars.registerHelper('download', function(file) {
+    if (file.mediaType === 'video') {
+      return options.originalVideos ? file.urls.original : file.urls.video;
+    } else {
+      return options.originalPhotos ? file.urls.original : file.urls.large;
+    }
+  });
 
-exports.setOptions = function(opts) {
-  options = opts;
-};
+  return {
+    render: function(template, data) {
+      return templates[template](data);
+    }
+  };
 
-exports.render = function(template, data) {
-  return templates[template](data);
 };

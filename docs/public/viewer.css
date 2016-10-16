@@ -1,0 +1,28 @@
+/*
+-----------------------------------
+      Photo and video viewer
+  This is shared by all templates
+-----------------------------------
+*/
+
+#lg-gallery .lg-slide .object {
+  transition-duration: 0.3s;
+}
+
+#lg-gallery .video {
+  height: 100%;
+  left: 0;
+  padding-bottom: 100px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+#lg-gallery video {
+  max-width: 100%;
+}
+
+/* always display captions above the thumbnails */
+.lg-sub-html {
+  bottom: 100px;
+}

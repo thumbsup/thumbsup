@@ -47,6 +47,34 @@ describe('Album', function() {
 
     describe('nested albums', function() {
 
+      it('calculates the depth of every album', function() {
+        var a = new Album('single');
+        var b = new Album('single');
+        var c = new Album('single');
+        var d = new Album('single');
+        a.albums = [b, c];
+        c.albums = [d];
+        a.finalize();
+        should(a.depth).eql(0);
+        should(b.depth).eql(1);
+        should(c.depth).eql(1);
+        should(d.depth).eql(2);
+      });
+
+      it('sets the home flag on the top-level album', function() {
+        var a = new Album('single');
+        var b = new Album('single');
+        var c = new Album('single');
+        var d = new Album('single');
+        a.albums = [b, c];
+        c.albums = [d];
+        a.finalize();
+        should(a.home).eql(true);
+        should(b.home).eql(false);
+        should(c.home).eql(false);
+        should(d.home).eql(false);
+      });
+
     });
 
     describe('summary', function() {
