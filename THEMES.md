@@ -1,26 +1,35 @@
 
-TODO: explain themes
+# Themes
 
-Most themes can be configured/tweaked using LESS variables in your `-css` styles.
-e.g.
+Here are the themes available for Thumbsup.
+Please submit a pull-request to submit new themes.
+
+Themes can be configured/tweaked by overriding [LESS](http://lesscss.org/) variables,
+using the `--css` option.
 
 ```bash
-thumbsup --css custom.less
+thumbsup --theme default --css custom.less
 ```
 
 ```less
-@myvar: #cef9b6;
-@flag: false;
+@text-color: #cef9b6;
 ```
 
-# Default
+## Default
 
-![default theme](docs/screenshot-default.jpg)
+![default theme](screenshot.jpg)
 
-Config variables
+Configuration variables
 
 | Variable    | Description |
 |-------------|-------------|
-| @accent     | Main theme color: title, some borders... |
-| @background | Background color of the navigation and albums |
-| @borders    | Border of all navigation and albums |
+| @body-background | Page background color |
+| @header-background | Header background color |
+| @header-foreground | Header title color |
+| @nav-background | Sidebar navigation background color |
+| @nav-highlight | Sidebar hover effect color |
+| @album-background | Album cover background color |
+| @text-color | Main text color |
+| @text-light | Lighter text color |
+| @borders | General border color |
+| @mobile-trigger | Width below which is switches to mobile mode |

@@ -12,8 +12,8 @@
 Build static HTML galleries from local photos & videos.
 
 - thumbnails & multiple resolutions for fast previews
+- mobile friendly website with customisable themes
 - only rebuilds changed files: it's fast!
-- supports custom styles
 - uses relative paths so you can deploy the pages anywhere
 - works great with Amazon S3 for static hosting
 
@@ -104,8 +104,9 @@ $ thumbsup [args]
 ```
 
 `thumbsup` keeps track of which files need updating.
-Re-running the command above when nothing has changed will show the same
-output but only take a second, even on a gallery of thousands of photos and videos.
+
+Re-running the command above when nothing has changed will show the same output but only take a second,
+even on a 50GB folder with thousands of photos and videos.
 
 ## Configuration
 
@@ -200,9 +201,11 @@ You can also use [s3cmd](http://s3tools.org/) which offer a few more options.
 
 ## Password protection
 
-Amazon S3 buckets do not offer any type of authentication. However you can choose to deploy to another web server that offers password protection, such as HTTP Basic Auth.
+Amazon S3 buckets do not offer any type of authentication. If you want to protect your galleries, you can
 
-An alternative is to deploy the galleries to UUID-based locations, like Dropbox shared galleries.
+- deploy the galleries to UUID-based locations, like Dropbox shared galleries
+- use [CloudFront with signed cookies](http://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in front of S3
+- deploy to another web server that offers password protection, such as Varnish/Apache/Nginx with `HTTP Basic Auth`
 
 ## Dev notes
 
