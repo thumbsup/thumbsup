@@ -6,19 +6,33 @@ var Album  = require('./album');
 // e.g. an album might be called "holidays/newyork" or "holidays/tokyo"n
 // eventually we could return nested albums as an option
 exports.albums = function(collection, opts) {
-  var folders = {};
+  var albumsByFullPath = {};
+  // put all files in the right album
   collection.files.forEach(function(file) {
-    var dir = path.dirname(file.filepath);
-    if (!folders.hasOwnProperty(dir)) {
-      folders[dir] = [];
-    }
-    folders[dir].push(file);
+    var fullDir = path.dirname(file.filepath);
+    createAlbumHierarchy(albumsByFullPath, fullDir);
+    albumsByFullPath[fullDir].files.push(file);
   });
-  var albums = _.map(folders, function(val, key) {
-    return new Album({
-      title: key,
-      files: folders[key]
-    });
-  })
-  return albums;
+  // only return top-level albums
+  var topLevel = _.keys(albumsByFullPath).filter(function(dir) {
+    return path.dirname(dir) === '.';
+  });
+  return _.values(_.pick(albumsByFullPath, topLevel));
 };
+
+function createAlbumHierarchy(albumsByFullPath, fullDir) {
+  if (!albumsByFullPath.hasOwnProperty(fullDir)) {
+    // create parent albums first
+    var parentDir = path.dirname(fullDir);
+    if (parentDir !== '.') {
+      createAlbumHierarchy(albumsByFullPath, parentDir);
+    }
+    // then create album if it doesn't exist
+    var dirname = path.basename(fullDir);
+    albumsByFullPath[fullDir] = new Album({title: dirname});
+    // then attach to parent
+    if (parentDir !== '.') {
+      albumsByFullPath[parentDir].albums.push(albumsByFullPath[fullDir]);
+    }
+  }
+}

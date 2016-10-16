@@ -139,6 +139,28 @@ describe('Album', function() {
         should(a.previews[3].urls.thumb).eql('public/missing.png');
       });
 
+      it('uses files from nested albums too', function() {
+        var a = new Album({
+          title: 'a',
+          albums: [
+            new Album({
+              title: 'b',
+              files: [fixtures.photo(), fixtures.photo()]
+            }),
+            new Album({
+              title: 'c',
+              files: [fixtures.photo(), fixtures.photo()]
+            })
+          ]
+        });
+        a.finalize();
+        should(a.previews).have.length(4);
+        console.log('-----\n', a.previews)
+        for (var i = 0; i < 4; ++i) {
+          should(a.previews[i].urls.thumb).not.eql('public/missing.png');
+        }
+      });
+
     });
 
   });
