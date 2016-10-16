@@ -52,6 +52,15 @@ exports.create = function(options) {
   });
 
   // utility helper
+  // execute the child block N times
+  handlebars.registerHelper('times', function(n, block) {
+      var accum = '';
+      for(var i = 0; i < n; ++i)
+          accum += block.fn(i);
+      return accum;
+  });
+
+  // utility helper
   // render the correct download path based on user options
   handlebars.registerHelper('download', function(file) {
     if (file.mediaType === 'video') {
