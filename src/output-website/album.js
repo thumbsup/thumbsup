@@ -14,6 +14,12 @@ var SORT_MEDIA_BY = {
   date: function(file) { return file.date; }
 };
 
+var PREVIEW_MISSING = {
+  urls: {
+    thumb: 'public/missing.png'
+  }
+};
+
 function Album(opts) {
   if (typeof opts === 'string') opts = { title: opts };
   this.title = opts.title || ('Album ' + index++);
@@ -33,13 +39,15 @@ Album.prototype.finalize = function(options) {
   });
   // is this the top-level album?
   this.home = this.depth === 0;
-  // lock all nested albums first (recursive)
+  // finalize all nested albums first (recursive)
   // and set a nested filename
   for (var i = 0; i < this.albums.length; ++i) {
     this.albums[i].filename = this.filename + '-' + this.albums[i].filename;
     this.albums[i].depth = this.depth + 1;
     this.albums[i].finalize();
   }
+  // perform stats & other calculations
+  // once the nested albums have been finalized too
   this.calculateStats();
   this.calculateSummary();
   this.sort(options);
@@ -86,12 +94,17 @@ Album.prototype.sort = function(options) {
 };
 
 Album.prototype.pickPreviews = function() {
-  this.previews = this.files.slice(0, PREVIEW_COUNT);
+  // also consider previews from nested albums
+  var nestedPicks =  _.flatten(_.map(this.albums, 'previews')).filter(function(file) {
+    return file !== PREVIEW_MISSING;
+  });
+  // then pick the top 4 overall
+  var potentialPicks = _.concat(this.files, nestedPicks);
+  this.previews = potentialPicks.slice(0, PREVIEW_COUNT);
+  // and fill the gap with a placeholder
   var missing = PREVIEW_COUNT - this.previews.length;
   for (var i = 0; i < missing; ++i) {
-    this.previews.push({
-      urls: { thumb: 'public/missing.png' }
-    });
+    this.previews.push(PREVIEW_MISSING);
   }
 };
 

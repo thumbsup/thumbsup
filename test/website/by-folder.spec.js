@@ -27,4 +27,37 @@ describe('ByFolder', function() {
     ]);
   });
 
+  it('creates nested albums for nested folders', function () {
+    // create files in nested folders
+    var photo1 = fixtures.photo({path: 'a/b/c/IMG_000001.jpg'});
+    var photo2 = fixtures.photo({path: 'a/d/IMG_000002.jpg'});
+    // group them per folder
+    var collection = {files: [photo1, photo2]};
+    var albums = byfolder.albums(collection, {});
+    console.log(albums);
+    // assert on the result
+    should(albums).eql([
+      new Album({
+        title: 'a',
+        files: [],
+        albums: [
+          new Album({
+            title: 'b',
+            files: [],
+            albums: [
+              new Album({
+                title: 'c',
+                files: [photo1]
+              })
+            ]
+          }),
+          new Album({
+            title: 'd',
+            files: [photo2]
+          })
+        ]
+      })
+    ]);
+  });
+
 });
