@@ -155,7 +155,6 @@ describe('Album', function() {
         });
         a.finalize();
         should(a.previews).have.length(4);
-        console.log('-----\n', a.previews)
         for (var i = 0; i < 4; ++i) {
           should(a.previews[i].urls.thumb).not.eql('public/missing.png');
         }

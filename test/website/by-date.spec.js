@@ -5,38 +5,66 @@ var fixtures = require('../fixtures');
 
 describe('ByDate', function() {
 
-  describe('date format', function() {
-
-    it('formats a date as YYYY-MM', function() {
-      should(bydate.format(fixtures.date('2016-06-13T16:43:19'))).eql('2016-06')
-    });
-
-    it('formats based on the local timezone', function() {
-      // TODO: why doesn't 23:59:59 work? Seems to be converted
-      should(bydate.format(fixtures.date('1999-01-01T00:00:00'))).eql('1999-01')
-      should(bydate.format(fixtures.date('1999-12-31T00:00:00'))).eql('1999-12')
-    });
-
-  });
-
-  it('creates albums by date', function () {
+  it('creates top-level albums grouped by month', function () {
     // create files from different dates
-    var june1 = fixtures.photo({path: 'some/IMG_000001.jpg', date: fixtures.date('2016-06-01')});
-    var june2 = fixtures.photo({path: 'folders/IMG_000003.jpg', date: fixtures.date('2016-06-10')});
-    var july1 = fixtures.photo({path: 'random/IMG_000002.jpg', date: fixtures.date('2016-07-23')});
-    var july2 = fixtures.video({path: 'and/subfolders/IMG_000004.mp4', date: fixtures.date('2016-07-18')});
+    var a_2016_06 = fixtures.photo({date: fixtures.date('2016-06-01')});
+    var b_2016_06 = fixtures.photo({date: fixtures.date('2016-06-10')});
+    var c_2016_07 = fixtures.photo({date: fixtures.date('2016-07-23')});
+    var d_2016_07 = fixtures.video({date: fixtures.date('2016-07-18')});
     // group them per month
-    var collection = { files: [june1, june2, july1, july2] };
-    var albums = bydate.albums(collection, {});
+    var collection = { files: [a_2016_06, b_2016_06, c_2016_07, d_2016_07] };
+    var albums = bydate.albums(collection, {
+      grouping: 'YYYY-MM'
+    });
     // assert on the result
     should(albums).eql([
       new Album({
         'title': '2016-06',
-        files: [june1, june2]
+        files: [a_2016_06, b_2016_06]
       }),
       new Album({
         title: '2016-07',
-        files: [july1, july2]
+        files: [c_2016_07, d_2016_07]
+      })
+    ]);
+  });
+
+  it('creates albums using a date hierarchy', function () {
+    // create files from different dates
+    var a_2015_06 = fixtures.photo({date: fixtures.date('2015-06-01')});
+    var b_2015_06 = fixtures.photo({date: fixtures.date('2015-06-10')});
+    var c_2016_07 = fixtures.photo({date: fixtures.date('2016-07-23')});
+    var d_2016_08 = fixtures.video({date: fixtures.date('2016-08-18')});
+    // group them per year, and nested month
+    var collection = { files: [a_2015_06, b_2015_06, c_2016_07, d_2016_08] };
+    var albums = bydate.albums(collection, {
+      grouping: 'YYYY/MM'
+    });
+    // assert on the result
+    should(albums).eql([
+      new Album({
+        'title': '2015',
+        files: [],
+        albums: [
+          new Album({
+            title: '06',
+            files: [a_2015_06, b_2015_06]
+          })
+        ]
+      }),
+      new Album({
+        title: '2016',
+        files: [],
+        albums: [
+          new Album({
+            title: '07',
+            files: [c_2016_07]
+          }),
+          new Album({
+            title: '08',
+            files: [d_2016_08]
+          })
+        ]
       })
     ]);
   });

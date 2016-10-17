@@ -8,6 +8,7 @@ var files       = require('../utils/files');
 var template    = require('./template');
 var Album       = require('./album');
 var byFolder    = require('./by-folder');
+var byDate      = require('./by-date');
 
 var DIR_PUBLIC = path.join(__dirname, '..', '..', 'public');
 var DIR_TEMPLATES = path.join(__dirname, '..', '..', 'templates');

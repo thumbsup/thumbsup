@@ -1,31 +1,42 @@
 var _      = require('lodash');
 var path   = require('path');
+var moment = require('moment');
 var Album  = require('./album');
 
-// for now, a single level of albums by month named "{year}-{month}"
-// eventually could support nested albums e.g. "{year}/{month}"
-// it could be an option like "format: yyyy/mm"
+// creates nested albums based on the media date, e.g. "{year}/{month}"
+// opts = {format}, where format is a valid <moment> format
+// e.g. "YYYY-MM" or "YYYY/MMMM" for nested albums
 exports.albums = function(collection, opts) {
-  var groups = {};
-  collection.files.forEach(function(file) {
-    var groupName = exports.format(file.date);
-    if (!groups.hasOwnProperty(groupName)) {
-      groups[groupName] = [];
-    }
-    groups[groupName].push(file);
+  opts = _.defaults(opts, {
+    grouping: 'YYYY-MMMM'
   });
-  var albums = _.map(groups, function(val, key) {
-    return new Album({
-      title: key,
-      files: groups[key]
-    });
-  })
-  return albums;
+  var groups = {};
+  // put all files in the right albums
+  collection.files.forEach(function(file) {
+    var groupName = moment(file.date).format(opts.grouping);
+    createAlbumHierarchy(groups, groupName);
+    groups[groupName].files.push(file);
+  });
+  // only return top-level albums
+  var topLevel = _.keys(groups).filter(function(dir) {
+    return path.dirname(dir) === '.';
+  });
+  return _.values(_.pick(groups, topLevel));
 };
 
-exports.format = function(date) {
-  var year = date.getFullYear().toString();
-  var month = new String(date.getMonth() + 1);
-  if (month.length === 1) month = '0' + month;
-  return year + '-' + month;
-};
+function createAlbumHierarchy(albumsByFullDate, dateSegment) {
+  if (!albumsByFullDate.hasOwnProperty(dateSegment)) {
+    // create parent albums first
+    var parentDate = path.dirname(dateSegment);
+    if (parentDate !== '.') {
+      createAlbumHierarchy(albumsByFullDate, parentDate);
+    }
+    // then create album if it doesn't exist
+    var lastDateSegment = path.basename(dateSegment);
+    albumsByFullDate[dateSegment] = new Album({title: lastDateSegment});
+    // then attach to parent
+    if (parentDate !== '.') {
+      albumsByFullDate[parentDate].albums.push(albumsByFullDate[dateSegment]);
+    }
+  }
+}

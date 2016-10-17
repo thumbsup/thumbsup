@@ -34,7 +34,6 @@ describe('ByFolder', function() {
     // group them per folder
     var collection = {files: [photo1, photo2]};
     var albums = byfolder.albums(collection, {});
-    console.log(albums);
     // assert on the result
     should(albums).eql([
       new Album({
