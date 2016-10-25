@@ -14,7 +14,9 @@ var opts = yargs
       description: 'Output path for the static website',
     },
     'index': {
-      description: 'Name of the First page in the flow. Defaults to index.html'
+      description: 'Filename of the home page, without extension. Defaults to <index>',
+      default: 'index'
+    },
     },
     'title': {
       description: 'Website title',
@@ -36,13 +38,29 @@ var opts = yargs
       description: 'Allow download of full-size videos (true|false)',
       default: false
     },
+    'albums-from': {
+      description: 'How to group media into albums (folders|date)',
+      default: 'folders'
+    },
+    'albums-date-format': {
+      description: 'How albums are named in <date> mode (moment.js pattern)',
+      default: 'YYYY-MM'
+    },
+    // Deprecated for <sort-albums>
     'sort-folders': {
-      description: 'How to sort gallery folders (name | date)',
+      description: 'How to sort gallery folders (name | date)'
+    },
+    'sort-albums': {
+      description: 'How to sort albums (name | date)',
+      default: 'date'
+    },
+    'sort-media': {
+      description: 'How to sort photos and videos (name | date)',
       default: 'date'
     },
     'theme': {
       description: 'Name of the gallery theme to apply',
-      default: 'default'
+      default: 'cards'
     },
     'css': {
       description: 'Extra CSS/LESS file for styling'
@@ -59,16 +77,19 @@ var opts = yargs
   .argv;
 
 index.build({
-  input:           path.resolve(opts['input']),
-  output:          path.resolve(opts['output']),
-  title:           opts['title'],
-  thumbSize:       opts['thumb-size'],
-  largeSize:       opts['large-size'],
-  originalPhotos:  opts['original-photos'] + '' === 'true',
-  originalVideos:  opts['original-videos'] + '' === 'true',
-  sortFolders:     opts['sort-folders'],
-  theme:           opts['theme'],
-  css:             opts['css'],
-  googleAnalytics: opts['google-analytics'],
-  index:           opts['index']
+  input:             path.resolve(opts['input']),
+  output:            path.resolve(opts['output']),
+  title:             opts['title'],
+  thumbSize:         opts['thumb-size'],
+  largeSize:         opts['large-size'],
+  originalPhotos:    opts['original-photos'] + '' === 'true',
+  originalVideos:    opts['original-videos'] + '' === 'true',
+  sortAlbums:        opts['sort-folders'] || opts['sort-albums'],
+  sortMedia:         opts['sort-media'],
+  albumsFrom:        opts['albums-from'],
+  albumsDateFormat:  opts['albums-date-format'],
+  theme:             opts['theme'],
+  css:               opts['css'],
+  googleAnalytics:   opts['google-analytics'],
+  index:             opts['index']
 });
