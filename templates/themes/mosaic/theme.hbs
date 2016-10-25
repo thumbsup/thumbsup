@@ -1,0 +1,105 @@
+<div id="wrapper">
+
+  <!--
+    Sidebar with album hierarchy
+  -->
+  <!-- <input id="hamburger" class="hamburger-checkbox" type="checkbox" />
+  <nav id="sidebar">
+    <ul>
+      {{> sidebar-album gallery.home }}
+    </ul>
+  </nav> -->
+
+  <div id="container">
+
+    <!--
+      Gallery title
+    -->
+    <header style="color: #17baef;">
+      <h1>
+        <label for="hamburger" class="hamburger-label noselect" role="button">
+          <i class="fa fa-navicon"></i>
+        </label>
+        {{gallery.title}}
+      </h1>
+    </header>
+
+    <!--
+      Breadcrumbs of parent albums
+    -->
+
+    <nav class="breadcrumbs">
+      <div class="mask"></div>
+      {{#each breadcrumbs~}}
+        <a class="breadcrumb-item" href="{{filename}}.html">{{title}}</a>&nbsp;/&nbsp;
+      {{~/each~}}
+      <a class="breadcrumb-item" href="{{album.filename}}.html">{{album.title}}</a>
+    </nav>
+
+    <!--
+      Main gallery panel
+    -->
+    <section id="content">
+
+      <!--
+        Nested albums, if any
+      -->
+      <ul id="albums">
+        {{#each album.albums~}}
+        <li>
+          <a href="{{filename}}.html">
+            <h3>{{title}}</h3>
+            <div class="meta">
+              <time>{{{date stats.fromDate}}} - {{{date stats.toDate}}}</time>,
+              <span class="summary">{{summary}}</span>
+            </div>
+            <!-- <div class="mosaic" style="opacity: 0.8">
+              <img src="{{filename}}.png" />
+            </div> -->
+            <ul class="grid clearfix">
+              {{~#slice previews count=8~}}
+                <li><img src="{{this.urls.thumb}}" /></li>
+              {{~/slice}}
+            </ul>
+          </a>
+        </li>
+        {{~/each}}
+      </ul>
+
+      <!--
+        All photos and videos
+      -->
+      <ul id="media">
+        {{#each album.files}}
+          {{#if isVideo}}
+            <li data-html="#media{{id}}"
+                data-poster="{{urls.poster}}"
+                data-download-url="{{{download this}}}">
+              <a href="{{{download this}}}">
+                <img src="{{urls.thumb}}"
+                     width="{{../gallery.thumbsSize}}"
+                     height="{{../gallery.thumbSize}}"
+                     alt="{{filename}}" />
+              </a>
+              <img class="video-overlay" src="public/play.png" />
+            </li>
+          {{else}}
+            <li data-src="{{urls.large}}"
+                data-sub-html="{{caption}}"
+                data-download-url="{{{download this}}}">
+              <a href="{{{download this}}}">
+                <img src="{{urls.thumb}}"
+                     width="{{../gallery.thumbSize}}"
+                     height="{{../gallery.thumbSize}}"
+                     alt="{{filename}}" />
+             </a>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ul>
+
+    </section>
+
+  </div>
+
+</div>
