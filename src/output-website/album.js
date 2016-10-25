@@ -34,8 +34,8 @@ function Album(opts) {
 
 Album.prototype.finalize = function(options) {
   options = _.defaults(options, {
-    sortAlbumsBy: 'date',
-    sortMediaBy: 'date'
+    sortAlbums: 'date',
+    sortMedia: 'date'
   });
   // is this the top-level album?
   this.home = this.depth === 0;
@@ -86,8 +86,8 @@ Album.prototype.calculateSummary = function() {
 };
 
 Album.prototype.sort = function(options) {
-  this.files = _.sortBy(this.files, SORT_MEDIA_BY[options.sortMediaBy]);
-  this.albums = _.sortBy(this.albums, SORT_ALBUMS_BY[options.sortAlbumsBy]);
+  this.files = _.sortBy(this.files, SORT_MEDIA_BY[options.sortMedia]);
+  this.albums = _.sortBy(this.albums, SORT_ALBUMS_BY[options.sortAlbums]);
   this.albums.forEach(function(nested) {
     nested.sort(options);
   });
