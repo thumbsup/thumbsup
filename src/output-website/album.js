@@ -2,7 +2,7 @@ var _ = require('lodash');
 var index = 0;
 
 // number of images to show in the album preview grid
-var PREVIEW_COUNT = 4;
+var PREVIEW_COUNT = 20;
 
 var SORT_ALBUMS_BY = {
   title: function(album) { return album.title; },
