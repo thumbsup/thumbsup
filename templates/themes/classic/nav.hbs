@@ -1,0 +1,12 @@
+{{#compare id '==' @root.album.id}}
+  <li class="active">
+{{else}}
+  <li>
+{{/compare}}
+  <!-- This album -->
+  <a href="{{filename}}.html">{{title}}</a>
+  <!-- And nested album -->
+  <ul>
+    {{#each albums}}{{> nav}}{{/each}}
+  </ul>
+</li>

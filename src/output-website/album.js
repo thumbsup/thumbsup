@@ -22,7 +22,8 @@ var PREVIEW_MISSING = {
 
 function Album(opts) {
   if (typeof opts === 'string') opts = { title: opts };
-  this.title = opts.title || ('Album ' + index++);
+  this.id = ++index;
+  this.title = opts.title || ('Album ' + this.id);
   this.filename = sanitise(this.title);
   this.files = opts.files || [];
   this.albums = opts.albums || [];

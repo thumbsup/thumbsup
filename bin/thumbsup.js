@@ -17,7 +17,6 @@ var opts = yargs
       description: 'Filename of the home page, without extension. Defaults to <index>',
       default: 'index'
     },
-    },
     'title': {
       description: 'Website title',
       default: 'Photo album'
