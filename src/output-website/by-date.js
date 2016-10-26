@@ -8,7 +8,7 @@ var Album  = require('./album');
 // e.g. "YYYY-MM" or "YYYY/MMMM" for nested albums
 exports.albums = function(collection, opts) {
   opts = _.defaults(opts, {
-    grouping: 'YYYY-MMMM'
+    grouping: opts.albumsDateFormat || 'YYYY-MMMM'
   });
   var groups = {};
   // put all files in the right albums

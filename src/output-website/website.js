@@ -15,15 +15,21 @@ var DIR_TEMPLATES = path.join(__dirname, '..', '..', 'templates');
 
 exports.build = function(collection, opts, callback) {
 
-  // set the download link to the right place
+  // create the right renderer (theme, download path, etc...)
   var renderer = template.create(opts);
 
   function website(callback) {
     // top-level album for the home page
     var home = new Album('Home');
     home.filename = opts.index || 'index';
-    // create folder albums
-    home.albums = byFolder.albums(collection, {});
+    // create albums
+    if (opts.albumsFrom === 'folders') {
+      home.albums = byFolder.albums(collection, opts);
+    } else if (opts.albumsFrom === 'date') {
+      home.albums = byDate.albums(collection, opts);
+    } else {
+      throw 'Invalid <albumsFrom> option';
+    }
     home.finalize();
     // create top level gallery
     var gallery = {
