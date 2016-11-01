@@ -1,9 +1,11 @@
 var fs          = require('fs-extra');
+var pad         = require('pad');
 var path        = require('path');
 var async       = require('async');
 var make        = require('./utils/make');
 var metadata    = require('./input/metadata');
 var thumbs      = require('./output-media/thumbs');
+var hierarchy   = require('./output-website/album-hierarchy.js')
 var website     = require('./output-website/website');
 var collection  = require('./collection');
 
@@ -14,7 +16,12 @@ exports.build = function(opts) {
 
   fs.mkdirpSync(opts.output);
   var media = path.join(opts.output, 'media');
-  var meta = null;
+
+  // ---------------------
+  // These variables are set later during the async phase
+  // ---------------------
+  var meta = null;   // metadata file to be read later
+  var album = null;  // root album with nested albums
   var allFiles = collection.fromMetadata({});
 
   function buildStep(options) {
@@ -24,6 +31,21 @@ exports.build = function(opts) {
       } else {
         callback();
       }
+    }
+  }
+
+  function callbackStep(name, fn) {
+    return function(next) {
+      process.stdout.write(pad(name, 20));
+      fn(function(err) {
+        if (err) {
+          console.log('[====================] error');
+          next(err);
+        } else {
+          console.log('[====================] done');
+          next();
+        }
+      });
     }
   }
 
@@ -92,9 +114,14 @@ exports.build = function(opts) {
       func:    thumbs.videoSquare
     }),
 
-    function staticWebsite(callback) {
-      website.build(allFiles, opts, callback);
-    }
+    callbackStep('Album hierarchy', function(next) {
+      albums = hierarchy.from(allFiles, opts);
+      next();
+    }),
+
+    callbackStep('Static website', function(next) {
+      website.build(albums, opts, next);
+    })
 
   ], finish);
 

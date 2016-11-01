@@ -13,27 +13,15 @@ var byDate      = require('./by-date');
 var DIR_PUBLIC = path.join(__dirname, '..', '..', 'public');
 var DIR_TEMPLATES = path.join(__dirname, '..', '..', 'templates');
 
-exports.build = function(collection, opts, callback) {
+exports.build = function(rootAlbum, opts, callback) {
 
   // create the right renderer (theme, download path, etc...)
   var renderer = template.create(opts);
 
   function website(callback) {
-    // top-level album for the home page
-    var home = new Album('Home');
-    home.filename = opts.index || 'index';
-    // create albums
-    if (opts.albumsFrom === 'folders') {
-      home.albums = byFolder.albums(collection, opts);
-    } else if (opts.albumsFrom === 'date') {
-      home.albums = byDate.albums(collection, opts);
-    } else {
-      throw 'Invalid <albumsFrom> option';
-    }
-    home.finalize();
     // create top level gallery
     var gallery = {
-      home: home,
+      home: rootAlbum,
       css: opts.css ? path.basename(opts.css) : null,
       title: opts.title,
       titleWords: opts.title.split(' '),
@@ -42,7 +30,7 @@ exports.build = function(collection, opts, callback) {
       googleAnalytics: opts.googleAnalytics
     };
     // render entire album hierarchy
-    var tasks = renderAlbum(gallery, [], home);
+    var tasks = renderAlbum(gallery, [], rootAlbum);
     async.parallel(tasks, callback);
   }
 
@@ -98,14 +86,12 @@ exports.build = function(collection, opts, callback) {
     });
   }
 
-  process.stdout.write(pad('Static website', 20));
   async.series([
-    website,
     support,
+    website,
     lightGallery,
     renderStyles
   ], function(err) {
-    console.log('[====================] done');
     callback(err);
   });
 
