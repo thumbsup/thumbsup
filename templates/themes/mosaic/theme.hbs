@@ -31,7 +31,8 @@
     <nav class="breadcrumbs">
       <div class="mask"></div>
       {{#each breadcrumbs~}}
-        <a class="breadcrumb-item" href="{{filename}}.html">{{title}}</a>&nbsp;/&nbsp;
+        <a class="breadcrumb-item" href="{{filename}}.html">{{title}}</a>
+        <span class="separator">&gt;</span>
       {{~/each~}}
       <a class="breadcrumb-item" href="{{album.filename}}.html">{{album.title}}</a>
     </nav>
@@ -50,7 +51,7 @@
           <a href="{{filename}}.html">
             <h3>{{title}}</h3>
             <div class="meta">
-              <time>{{{date stats.fromDate}}} - {{{date stats.toDate}}}</time>,
+              <time>{{{date stats.fromDate}}} - {{{date stats.toDate}}}</time><span class="separator">,</span>
               <span class="summary">{{summary}}</span>
             </div>
             <!-- <div class="mosaic" style="opacity: 0.8">

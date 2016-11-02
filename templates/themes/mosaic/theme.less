@@ -12,7 +12,7 @@
 @text-color: #444;
 @text-light: #999;
 @borders: #ddd;
-@mobile-trigger: 900px;
+@mobile-trigger: 450px;
 
 // -----------------------------------
 // Page structure
@@ -230,6 +230,12 @@ nav.breadcrumbs a {
   text-decoration: none;
 }
 
+nav.breadcrumbs .separator {
+  color: #fff;
+  display: inline-block;
+  margin: 0 0.5em;
+}
+
 // -----------------------------------
 // Nested albums
 // -----------------------------------
@@ -284,12 +290,13 @@ nav.breadcrumbs a {
   width: 50px;
 }
 
-// -----------------------------------
-// Navigation hovers
-// -----------------------------------
-
-#sidebar a:hover {
-  background-color: @nav-highlight;
+@media only screen and (max-width: @mobile-trigger) {
+  #albums .meta .separator {
+    display: none;
+  }
+  #albums .meta .summary {
+    display: block;
+  }
 }
 
 // -----------------------------------
