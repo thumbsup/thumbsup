@@ -1,4 +1,4 @@
-var File = require('../src/file');
+var File = require('../src/model/file');
 
 exports.metadata = function() {
   return {

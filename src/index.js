@@ -4,8 +4,8 @@ var path        = require('path');
 var async       = require('async');
 var make        = require('./utils/make');
 var metadata    = require('./input/metadata');
+var hierarchy   = require('./model/hierarchy.js')
 var thumbs      = require('./output-media/thumbs');
-var hierarchy   = require('./output-website/album-hierarchy.js')
 var website     = require('./output-website/website');
 var collection  = require('./collection');
 
@@ -115,7 +115,7 @@ exports.build = function(opts) {
     }),
 
     callbackStep('Album hierarchy', function(next) {
-      albums = hierarchy.from(allFiles, opts);
+      albums = hierarchy.createAlbums(allFiles, opts);
       next();
     }),
 

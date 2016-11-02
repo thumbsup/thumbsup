@@ -1,6 +1,6 @@
 var should = require('should/as-function');
-var File = require('../src/file');
-var fixtures = require('./fixtures');
+var File = require('../../src/model/file');
+var fixtures = require('../fixtures');
 
 describe('File', function() {
 

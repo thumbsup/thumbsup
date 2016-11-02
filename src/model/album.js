@@ -2,7 +2,7 @@ var _ = require('lodash');
 var index = 0;
 
 // number of images to show in the album preview grid
-var PREVIEW_COUNT = 20;
+var PREVIEW_COUNT = 4;
 
 var SORT_ALBUMS_BY = {
   title: function(album) { return album.title; },
@@ -22,7 +22,7 @@ var PREVIEW_MISSING = {
 
 function Album(opts) {
   if (typeof opts === 'string') opts = { title: opts };
-  this.id = ++index;
+  this.id = opts.id || ++index;
   this.title = opts.title || ('Album ' + this.id);
   this.filename = sanitise(this.title);
   this.files = opts.files || [];
@@ -31,6 +31,7 @@ function Album(opts) {
   this.home = false;
   this.stats = null;
   this.previews = null;
+  this.allFiles = [];
 }
 
 Album.prototype.finalize = function(options) {
@@ -53,6 +54,7 @@ Album.prototype.finalize = function(options) {
   this.calculateSummary();
   this.sort(options);
   this.pickPreviews();
+  this.aggregateAllFiles();
 };
 
 Album.prototype.calculateStats = function() {
@@ -109,6 +111,11 @@ Album.prototype.pickPreviews = function() {
   }
 };
 
+Album.prototype.aggregateAllFiles = function() {
+  var nestedFiles = _.flatten(_.map(this.albums, 'allFiles'))
+  this.allFiles = _.concat(nestedFiles, this.files);
+};
+
 function sanitise(filename) {
   return filename.replace(/[^a-z0-9-_]/ig, '');
 }
@@ -118,5 +125,10 @@ function itemCount(count, type) {
   var plural = (count > 1) ? 's' : '';
   return '' + count + ' ' + type + plural;
 }
+
+// for testing purposes
+Album.resetIds = function() {
+  index = 0;
+};
 
 module.exports = Album;

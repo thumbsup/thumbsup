@@ -1,9 +1,13 @@
 var should   = require('should/as-function');
-var Album    = require('../../src/output-website/album.js');
-var bydate   = require('../../src/output-website/by-date.js');
+var Album    = require('../../src/model/album.js');
+var bydate   = require('../../src/model/by-date.js');
 var fixtures = require('../fixtures');
 
 describe('ByDate', function() {
+
+  beforeEach(function() {
+    Album.resetIds();
+  });
 
   it('creates top-level albums grouped by month', function () {
     // create files from different dates
@@ -19,10 +23,12 @@ describe('ByDate', function() {
     // assert on the result
     should(albums).eql([
       new Album({
+        id: 1,
         'title': '2016-06',
         files: [a_2016_06, b_2016_06]
       }),
       new Album({
+        id: 2,
         title: '2016-07',
         files: [c_2016_07, d_2016_07]
       })
@@ -43,24 +49,29 @@ describe('ByDate', function() {
     // assert on the result
     should(albums).eql([
       new Album({
+        id: 1,
         'title': '2015',
         files: [],
         albums: [
           new Album({
+            id: 2,
             title: '06',
             files: [a_2015_06, b_2015_06]
           })
         ]
       }),
       new Album({
+        id: 3,
         title: '2016',
         files: [],
         albums: [
           new Album({
+            id: 4,
             title: '07',
             files: [c_2016_07]
           }),
           new Album({
+            id: 5,
             title: '08',
             files: [d_2016_08]
           })

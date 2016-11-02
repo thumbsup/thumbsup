@@ -1,5 +1,5 @@
 var should   = require('should/as-function');
-var Album    = require('../../src/output-website/album');
+var Album    = require('../../src/model/album');
 var fixtures = require('../fixtures');
 
 describe('Album', function() {

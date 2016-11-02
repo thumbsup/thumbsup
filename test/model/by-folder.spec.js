@@ -1,9 +1,13 @@
 var should   = require('should/as-function');
-var Album    = require('../../src/output-website/album.js');
-var byfolder = require('../../src/output-website/by-folder.js');
+var Album    = require('../../src/model/album.js');
+var byfolder = require('../../src/model/by-folder.js');
 var fixtures = require('../fixtures');
 
 describe('ByFolder', function() {
+
+  beforeEach(function() {
+    Album.resetIds();
+  });
 
   it('creates albums by folders', function () {
     // create files in different folders
@@ -17,10 +21,12 @@ describe('ByFolder', function() {
     // assert on the result
     should(albums).eql([
       new Album({
+        id: 1,
         title: 'london',
         files: [london1, london2]
       }),
       new Album({
+        id: 2,
         title: 'newyork',
         files: [newyork1, newyork2]
       })
@@ -37,20 +43,24 @@ describe('ByFolder', function() {
     // assert on the result
     should(albums).eql([
       new Album({
+        id: 1,
         title: 'a',
         files: [],
         albums: [
           new Album({
+            id: 2,
             title: 'b',
             files: [],
             albums: [
               new Album({
+                id: 3,
                 title: 'c',
                 files: [photo1]
               })
             ]
           }),
           new Album({
+            id: 4,
             title: 'd',
             files: [photo2]
           })

@@ -6,7 +6,7 @@ var Album       = require('./album');
 var byFolder    = require('./by-folder');
 var byDate      = require('./by-date');
 
-exports.from = function(collection, opts) {
+exports.createAlbums = function(collection, opts) {
 
   // top-level album for the home page
   var home = new Album('Home');
