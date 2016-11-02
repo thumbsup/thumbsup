@@ -5,10 +5,10 @@ var async       = require('async');
 var pad         = require('pad');
 var less        = require('less');
 var files       = require('../utils/files');
+var Album       = require('../model/album');
+var byFolder    = require('../model//by-folder');
+var byDate      = require('../model//by-date');
 var template    = require('./template');
-var Album       = require('./album');
-var byFolder    = require('./by-folder');
-var byDate      = require('./by-date');
 
 var DIR_PUBLIC = path.join(__dirname, '..', '..', 'public');
 var DIR_TEMPLATES = path.join(__dirname, '..', '..', 'templates');
