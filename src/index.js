@@ -65,50 +65,50 @@ exports.build = function(opts) {
 
     buildStep({
       condition: opts.originalPhotos,
-      message: 'Original photos',
+      message: 'Photos: original',
       ext:     'jpg|jpeg|png',
       dest:    '/original/$path/$name.$ext',
       func:    copyFile
     }),
 
     buildStep({
-      condition: opts.originalVideos,
-      message: 'Original videos',
-      ext:     'mp4|mov|mts|m2ts',
-      dest:    '/original/$path/$name.$ext',
-      func:    copyFile
-    }),
-
-    buildStep({
-      message: 'Photos (large)',
+      message: 'Photos: large',
       ext:     'jpg|jpeg|png',
       dest:    '/large/$path/$name.$ext',
       func:    thumbs.photoLarge
     }),
 
     buildStep({
-      message: 'Photos (thumbs)',
+      message: 'Photos: thumbnails',
       ext:     'jpg|jpeg|png',
       dest:    '/thumbs/$path/$name.$ext',
       func:    thumbs.photoSquare
     }),
 
     buildStep({
-      message: 'Videos (resized)',
+      condition: opts.originalVideos,
+      message: 'Videos: original',
+      ext:     'mp4|mov|mts|m2ts',
+      dest:    '/original/$path/$name.$ext',
+      func:    copyFile
+    }),
+
+    buildStep({
+      message: 'Videos: resized',
       ext:     'mp4|mov|mts|m2ts',
       dest:    '/large/$path/$name.mp4',
       func:    thumbs.videoWeb
     }),
 
     buildStep({
-      message: 'Videos (poster)',
+      message: 'Videos: poster',
       ext:     'mp4|mov|mts|m2ts',
       dest:    '/large/$path/$name.jpg',
       func:    thumbs.videoLarge
     }),
 
     buildStep({
-      message: 'Videos (thumbs)',
+      message: 'Videos: thumbnails',
       ext:     'mp4|mov|mts|m2ts',
       dest:    '/thumbs/$path/$name.jpg',
       func:    thumbs.videoSquare
