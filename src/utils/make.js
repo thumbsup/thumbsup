@@ -16,7 +16,7 @@ exports.exec = function(input, output, metadata, options, callback) {
   });
   var process = tasks.filter(function(task) {
     try {
-      var destDate = fs.statSync(task.dest).ctime.getTime();
+      var destDate = fs.statSync(task.dest).mtime.getTime();
       return task.metadata.fileDate > destDate;
     } catch (ex) {
       return true;
