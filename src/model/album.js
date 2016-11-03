@@ -5,13 +5,14 @@ var index = 0;
 var PREVIEW_COUNT = 4;
 
 var SORT_ALBUMS_BY = {
-  title: function(album) { return album.title; },
-  date: function(album) { return album.stats.fromDate; }
+  'title': function(album) { return album.title; },
+  'start-date': function(album) { return album.stats.fromDate; },
+  'end-date': function(album) { return album.stats.toDate; }
 };
 
 var SORT_MEDIA_BY = {
-  filename: function(file) { return file.filename; },
-  date: function(file) { return file.date; }
+  'filename': function(file) { return file.filename; },
+  'date': function(file) { return file.date; }
 };
 
 var PREVIEW_MISSING = {
@@ -35,10 +36,6 @@ function Album(opts) {
 }
 
 Album.prototype.finalize = function(options) {
-  options = _.defaults(options, {
-    sortAlbums: 'date',
-    sortMedia: 'date'
-  });
   // is this the top-level album?
   this.home = this.depth === 0;
   // finalize all nested albums first (recursive)
@@ -89,8 +86,8 @@ Album.prototype.calculateSummary = function() {
 };
 
 Album.prototype.sort = function(options) {
-  this.files = _.sortBy(this.files, SORT_MEDIA_BY[options.sortMedia]);
-  this.albums = _.sortBy(this.albums, SORT_ALBUMS_BY[options.sortAlbums]);
+  this.files = _.orderBy(this.files, SORT_MEDIA_BY[options.sortMediaBy], options.sortMediaDirection);
+  this.albums = _.orderBy(this.albums, SORT_ALBUMS_BY[options.sortAlbumsBy], options.sortAlbumsDirection);
   this.albums.forEach(function(nested) {
     nested.sort(options);
   });

@@ -72,18 +72,28 @@ var opts = yargs
     },
     // Deprecated for <sort-albums>
     'sort-folders': {
-      description: 'How to sort gallery folders',
+      description: 'How to sort albums [deprecated]',
       choices: ['name', 'date']
     },
-    'sort-albums': {
+    'sort-albums-by': {
       description: 'How to sort albums',
-      choices: ['name', 'date'],
+      choices: ['title', 'start-date', 'end-date'],
       default: 'date'
     },
-    'sort-media': {
+    'sort-albums-direction': {
+      description: 'Album sorting direction',
+      choices: ['asc', 'desc'],
+      default: 'asc'
+    },
+    'sort-media-by': {
       description: 'How to sort photos and videos',
-      choices: ['name', 'date'],
+      choices: ['filename', 'date'],
       default: 'date'
+    },
+    'sort-media-direction': {
+      description: 'Media sorting direction',
+      choices: ['asc', 'desc'],
+      default: 'asc'
     },
     'theme': {
       description: 'Name of the gallery theme to apply',
@@ -106,8 +116,13 @@ var opts = yargs
   .config('config')
   .epilogue('The optional JSON config should contain a single object with one key ' +
             'per argument, not including the trailing "--". For example:\n\n' +
-            '{ "sort-albums": "date" }')
+            '{ "sort-albums-by": "start-date" }')
   .argv;
+
+
+// Compatibility
+if (opts['sort-folders'] == 'name') opts['sort-albums-by'] = 'title';
+if (opts['sort-folders'] == 'name') opts['sort-albums-by'] = 'start-date';
 
 index.build({
   input:             path.resolve(opts['input']),
@@ -117,10 +132,12 @@ index.build({
   largeSize:         opts['large-size'],
   originalPhotos:    opts['original-photos'],
   originalVideos:    opts['original-videos'],
-  sortAlbums:        opts['sort-folders'] || opts['sort-albums'],
-  sortMedia:         opts['sort-media'],
   albumsFrom:        opts['albums-from'],
   albumsDateFormat:  opts['albums-date-format'],
+  sortAlbumsBy:      opts['sort-albums-by'],
+  sortAlbumsDirection: opts['sort-albums-direction'],
+  sortMediaBy:       opts['sort-media-by'],
+  sortMediaDirection: opts['sort-media-direction'],
   theme:             opts['theme'],
   css:               opts['css'],
   googleAnalytics:   opts['google-analytics'],
