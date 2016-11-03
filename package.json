@@ -41,7 +41,7 @@
     "moment": "^2.11.1",
     "pad": "~1.0.0",
     "progress": "~1.1.8",
-    "yargs": "^3.32.0"
+    "yargs": "^6.3.0"
   },
   "devDependencies": {
     "injectmd": "^1.0.0",
