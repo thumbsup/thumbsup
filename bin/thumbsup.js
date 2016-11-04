@@ -7,11 +7,12 @@ var index = require('../src/index');
 console.log('');
 var opts = yargs
   .usage('Usages:\n' +
-         '  $0 [required] [options]\n' +
-         '  $0 --config config.json')
+         '  thumbsup [required] [options]\n' +
+         '  thumbsup --config config.json')
   .wrap(null)
   .group('input', 'Required:')
   .group('output', 'Required:')
+  .help('help')
   .options({
 
     // ------------------------------------

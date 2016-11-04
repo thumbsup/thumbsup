@@ -35,6 +35,7 @@
     "glob": "^6.0.4",
     "gm": "^1.21.1",
     "handlebars": "~4.0.5",
+    "injectmd": "^1.0.0",
     "less": "^2.7.1",
     "lightgallery": "^1.2.14",
     "lodash": "~4.0.0",
