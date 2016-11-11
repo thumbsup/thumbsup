@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+PATH=$PATH:./node_modules/.bin
+
+function cli {
+  echo "\`\`\`"
+  node bin/thumbsup.js --help
+  echo "\`\`\`"
+}
+
+echo "$(cli)" | node-injectmd -t cli -i README.md
