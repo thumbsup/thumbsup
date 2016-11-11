@@ -41,7 +41,7 @@ See a sample gallery online at https://thumbsup.github.io/demos/themes/mosaic/
 
 ## Command line arguments
 
-This reflect the CLI for the latest code on `master`.
+This reflects the CLI for the latest code on `master`.
 For the latest published version please refer to the [docs on the website](https://thumbsup.github.io).
 
 <!-- START cli -->
@@ -75,7 +75,7 @@ Options:
   --config                 Path to JSON config file  [string]
   --google-analytics       Code for Google Analytics tracking  [string]
 
-The optional JSON config should contain a single object with one key per argument, not including the trailing "--". For example:
+The optional JSON config should contain a single object with one key per argument, not including the leading "--". For example:
 
 { "sort-albums-by": "start-date" }
 

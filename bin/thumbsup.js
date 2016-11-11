@@ -116,7 +116,7 @@ var opts = yargs
   })
   .config('config')
   .epilogue('The optional JSON config should contain a single object with one key ' +
-            'per argument, not including the trailing "--". For example:\n\n' +
+            'per argument, not including the leading "--". For example:\n\n' +
             '{ "sort-albums-by": "start-date" }')
   .argv;
 
