@@ -36,6 +36,7 @@ function Album(opts) {
 }
 
 Album.prototype.finalize = function(options) {
+  options = options || {};
   // is this the top-level album?
   this.home = this.depth === 0;
   // finalize all nested albums first (recursive)
