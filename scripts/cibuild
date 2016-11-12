@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Fail the build on any error
+set -eou pipefail
+
+# Make sure binary package.json dependencies are available
+PATH=$(pwd)/node-modules/.bin:$PATH
+
+echo "--- Check all dependencies in package.json"
+require-lint --src bin/thumbsup.js --ignore-extra lightgallery
+
+echo "--- Verify lightgallery dependenciy is built in"
+grep \"lightgallery\" package.json 1>/dev/null
+
+echo "--- Run unit tests"
+mocha
+
+echo "--- Update CLI arguments in README"
+./scripts/readme
+
+echo "================"
+echo "Build successful"
+echo "================"

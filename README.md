@@ -85,6 +85,10 @@ The optional JSON config should contain a single object with one key per argumen
 
 ## Contributing
 
+We welcome all [issues](https://github.com/thumbsup/node-thumbsup/issues)
+and [pull requests](https://github.com/thumbsup/node-thumbsup/pulls)!
+Please make sure the tests are passing when submitting a code change:
+
 ```bash
-npm test
+./scripts/cibuild
 ```
