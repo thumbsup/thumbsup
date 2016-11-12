@@ -3,6 +3,7 @@
 [![NPM](http://img.shields.io/npm/v/thumbsup.svg?style=flat)](https://npmjs.org/package/thumbsup)
 [![License](http://img.shields.io/npm/l/thumbsup.svg?style=flat)](https://github.com/thumbsup/node-thumbsup)
 [![Dependencies](http://img.shields.io/david/thumbsup/node-thumbsup.svg?style=flat)](https://david-dm.org/thumbsup/node-thumbsup)
+[![Dev dependencies](https://david-dm.org/thumbsup/node-thumbsup/dev-status.svg?style=flat)](https://david-dm.org/thumbsup/node-thumbsup?type=dev)
 
 ![banner](banner.jpg)
 
