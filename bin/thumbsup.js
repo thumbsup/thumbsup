@@ -79,7 +79,7 @@ var opts = yargs
     'sort-albums-by': {
       description: 'How to sort albums',
       choices: ['title', 'start-date', 'end-date'],
-      default: 'date'
+      default: 'start-date'
     },
     'sort-albums-direction': {
       description: 'Album sorting direction',
