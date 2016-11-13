@@ -127,39 +127,39 @@ describe('Album', function() {
 
     });
 
-    describe('previews', function() {
+  });
 
-      it('adds <missing> thumbnails to fill the 2x2 grid', function() {
-        var a = new Album({files: [
-          fixtures.photo(), fixtures.photo(),
-        ]});
-        a.finalize();
-        should(a.previews).have.length(4);
-        should(a.previews[2].urls.thumb).eql('public/missing.png');
-        should(a.previews[3].urls.thumb).eql('public/missing.png');
+  describe('previews', function() {
+
+    it('adds <missing> thumbnails to fill the 2x2 grid', function() {
+      var a = new Album({files: [
+        fixtures.photo(), fixtures.photo(),
+      ]});
+      a.finalize();
+      should(a.previews).have.length(4);
+      should(a.previews[2].urls.thumb).eql('public/missing.png');
+      should(a.previews[3].urls.thumb).eql('public/missing.png');
+    });
+
+    it('uses files from nested albums too', function() {
+      var a = new Album({
+        title: 'a',
+        albums: [
+          new Album({
+            title: 'b',
+            files: [fixtures.photo(), fixtures.photo()]
+          }),
+          new Album({
+            title: 'c',
+            files: [fixtures.photo(), fixtures.photo()]
+          })
+        ]
       });
-
-      it('uses files from nested albums too', function() {
-        var a = new Album({
-          title: 'a',
-          albums: [
-            new Album({
-              title: 'b',
-              files: [fixtures.photo(), fixtures.photo()]
-            }),
-            new Album({
-              title: 'c',
-              files: [fixtures.photo(), fixtures.photo()]
-            })
-          ]
-        });
-        a.finalize();
-        should(a.previews).have.length(4);
-        for (var i = 0; i < 4; ++i) {
-          should(a.previews[i].urls.thumb).not.eql('public/missing.png');
-        }
-      });
-
+      a.finalize();
+      should(a.previews).have.length(4);
+      for (var i = 0; i < 4; ++i) {
+        should(a.previews[i].urls.thumb).not.eql('public/missing.png');
+      }
     });
 
   });
