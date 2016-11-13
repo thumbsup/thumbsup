@@ -9,7 +9,7 @@ PATH=$(pwd)/node-modules/.bin:$PATH
 echo "--- Check all dependencies in package.json"
 require-lint --src bin/thumbsup.js --ignore-extra lightgallery
 
-echo "--- Verify lightgallery dependenciy is built in"
+echo "--- Verify lightgallery dependency is built in"
 grep \"lightgallery\" package.json 1>/dev/null
 
 echo "--- Run unit tests"
