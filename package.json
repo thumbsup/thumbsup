@@ -21,6 +21,9 @@
   "bin": {
     "thumbsup": "./bin/thumbsup.js"
   },
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "async": "^2.1.2",
     "exif-parser": "~0.1.9",
