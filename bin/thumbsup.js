@@ -123,7 +123,7 @@ var opts = yargs
 
 // Compatibility
 if (opts['sort-folders'] == 'name') opts['sort-albums-by'] = 'title';
-if (opts['sort-folders'] == 'name') opts['sort-albums-by'] = 'start-date';
+if (opts['sort-folders'] == 'date') opts['sort-albums-by'] = 'start-date';
 
 index.build({
   input:             path.resolve(opts['input']),
