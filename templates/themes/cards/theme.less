@@ -15,7 +15,7 @@
 @mobile-trigger: 900px;
 
 // -----------------------------------
-// Page structure
+// Generic styles
 // -----------------------------------
 
 * {
@@ -31,78 +31,6 @@ html, body {
   padding: 0;
   margin: 0;
 }
-
-#wrapper {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-#container {
-  display: flex;
-  flex: 1;
-}
-
-#sidebar {
-  overflow: hidden;
-  order: -1;
-}
-
-#content {
-  flex: 1;
-}
-
-// -----------------------------------
-// Slide-out navigation
-// -----------------------------------
-
-.hamburger-checkbox {
-  position: absolute;
-  opacity: 0;
-}
-
-.hamburger-label {
-  display: none;
-}
-
-#sidebar {
-  flex: 0 0 15em;
-}
-
-@media only screen and (max-width: @mobile-trigger) {
-
-  .hamburger-label {
-    display: inline-block;
-  }
-
-  #sidebar {
-    flex: 0 0 0;
-    transition: all .2s;
-    white-space: nowrap;
-  }
-
-  #sidebar .count {
-    opacity: 0;
-  }
-
-  .hamburger-checkbox:checked ~ #sidebar {
-    flex: 0 0 100%;
-    font-size: 1.1em;
-  }
-
-  .hamburger-checkbox:checked ~ #content {
-    flex: 0 0 0;
-  }
-
-  .hamburger-checkbox:checked ~ #sidebar .count {
-    opacity: 100;
-  }
-
-}
-
-// -----------------------------------
-// Generic styles
-// -----------------------------------
 
 body {
   background: @body-background;
@@ -153,43 +81,6 @@ h1 {
   // color: #fff;
   display: inline-block;
   font-weight: bold;
-}
-
-// -----------------------------------
-// Sidebar navigation
-// -----------------------------------
-
-#sidebar {
-  background: @nav-background;
-  border-right: 1px solid @borders;
-}
-
-#sidebar ul:not(:first-child) {
-  margin-left: 1.5em;
-}
-
-#sidebar i.fa {
-  margin-right: 0.3em;
-}
-
-#sidebar a {
-  border-bottom: 1px solid @borders;
-  color: @text-color;
-  display: block;
-  padding: 0.8em 1em;
-  position: relative;
-}
-
-#sidebar .count {
-  background-color: #fcfcfc;
-  border: 1px solid @borders;
-  border-radius: 0.4em;
-  color: @text-light;
-  font-size: 0.7em;
-  padding: 0.4em 0.6em 0.3em 0.5em;
-  position: absolute;
-  right: 1em;
-  margin-top: -2px;
 }
 
 // -----------------------------------
@@ -263,14 +154,6 @@ nav.breadcrumbs a {
 #albums .grid img {
   display: block;
   width: 100%;
-}
-
-// -----------------------------------
-// Navigation hovers
-// -----------------------------------
-
-#sidebar a:hover {
-  background-color: @nav-highlight;
 }
 
 // -----------------------------------
