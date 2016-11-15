@@ -36,7 +36,7 @@ exports.build = function(rootAlbum, opts, callback) {
 
   function renderAlbum(gallery, breadcrumbs, album) {
     // render this album
-    var thisAlbumTask = renderTemplate(album.filename + '.html', 'album', {
+    var thisAlbumTask = renderTemplate(path.join(album.folder, album.filename), 'album', {
       gallery: gallery,
       breadcrumbs: breadcrumbs,
       album: album
@@ -52,9 +52,11 @@ exports.build = function(rootAlbum, opts, callback) {
 
   function renderTemplate(filename, templateName, data) {
     // render a given HBS template
+    var baseDir = path.dirname(filename);
     var fullPath = path.join(opts.output, filename);
-    var contents = renderer.render(templateName, data);
     return function(next) {
+      var contents = renderer.render(templateName, data, baseDir);
+      fs.mkdirsSync(path.dirname(fullPath));
       fs.writeFile(fullPath, contents, next);
     };
   }

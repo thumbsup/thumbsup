@@ -14,10 +14,10 @@
   <nav class="breadcrumbs">
     <div class="mask"></div>
     {{#each breadcrumbs~}}
-      <a class="breadcrumb-item" href="{{filename}}.html">{{title}}</a>
+      <a class="breadcrumb-item" href="{{relative folder}}/{{filename}}">{{title}}</a>
       <span class="separator">&gt;</span>
     {{~/each~}}
-    <a class="breadcrumb-item" href="{{album.filename}}.html">{{album.title}}</a>
+    <a class="breadcrumb-item" href="{{album.filename}}">{{album.title}}</a>
   </nav>
 
   <!--
@@ -31,7 +31,7 @@
     <ul id="albums">
       {{#each album.albums~}}
       <li>
-        <a href="{{filename}}.html">
+        <a href="{{relative folder}}/{{filename}}">
           <h3>{{title}}</h3>
           <div class="meta">
             <time>{{{date stats.fromDate}}} - {{{date stats.toDate}}}</time><span class="separator">,</span>
@@ -39,7 +39,7 @@
           </div>
           <ul class="grid clearfix">
             {{~#slice previews count=8~}}
-              <li><img src="{{this.urls.thumb}}" /></li>
+              <li><img src="{{relative this.urls.thumb}}" /></li>
             {{~/slice}}
           </ul>
         </a>
@@ -57,7 +57,7 @@
               data-poster="{{urls.poster}}"
               data-download-url="{{{download this}}}">
             <a href="{{{download this}}}">
-              <img src="{{urls.thumb}}"
+              <img src="{{relative urls.thumb}}"
                    width="{{@root.gallery.thumbSize}}"
                    height="{{@root.gallery.thumbSize}}"
                    alt="{{filename}}" />
@@ -65,11 +65,11 @@
             <img class="video-overlay" src="public/play.png" />
           </li>
         {{else}}
-          <li data-src="{{urls.large}}"
+          <li data-src="{{relative urls.large}}"
               data-sub-html="{{caption}}"
               data-download-url="{{{download this}}}">
             <a href="{{{download this}}}">
-              <img src="{{urls.thumb}}"
+              <img src="{{relative urls.thumb}}"
                    width="{{@root.gallery.thumbSize}}"
                    height="{{@root.gallery.thumbSize}}"
                    alt="{{filename}}" />

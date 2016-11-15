@@ -10,7 +10,8 @@ exports.createAlbums = function(collection, opts) {
 
   // top-level album for the home page
   var home = new Album('Home');
-  home.filename = opts.index || 'index';
+  home.folder = '';
+  home.filename = opts.index || 'index.html';
 
   // create albums
   if (opts.albumsFrom === 'folders') {
@@ -22,6 +23,6 @@ exports.createAlbums = function(collection, opts) {
   }
 
   // finalize all albums recursively (calculate stats, etc...)
-  home.finalize();
+  home.finalize(opts);
   return home;
 };

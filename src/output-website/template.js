@@ -8,6 +8,9 @@ exports.create = function(options) {
   var DIR_TEMPLATES = path.join(__dirname, '..', '..', 'templates');
   var DIR_THEME = path.join(DIR_TEMPLATES, 'themes', options.theme);
 
+  // used for rendering relative paths
+  var currentFolder = '';
+
   function isTemplate(filepath) {
     return path.extname(filepath) === '.hbs';
   }
@@ -76,14 +79,14 @@ exports.create = function(options) {
         operator = "===";
       }
       operators = {
-        '==': function (l, r) { return l == r; },
+        '==':  function (l, r) { return l == r;  },
         '===': function (l, r) { return l === r; },
-        '!=': function (l, r) { return l != r; },
+        '!=':  function (l, r) { return l != r;  },
         '!==': function (l, r) { return l !== r; },
-        '<': function (l, r) { return l < r; },
-        '>': function (l, r) { return l > r; },
-        '<=': function (l, r) { return l <= r; },
-        '>=': function (l, r) { return l >= r; }
+        '<':   function (l, r) { return l < r;   },
+        '>':   function (l, r) { return l > r;   },
+        '<=':  function (l, r) { return l <= r;  },
+        '>=':  function (l, r) { return l >= r;  }
       };
       if (!operators[operator]) {
         throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
@@ -106,8 +109,15 @@ exports.create = function(options) {
     }
   });
 
+  // utility helper
+  // return the relative path from the current folder to the argument
+  handlebars.registerHelper('relative', function(target) {
+    return path.relative(currentFolder, target);
+  });
+
   return {
-    render: function(template, data) {
+    render: function(template, data, targetDir) {
+      currentFolder = targetDir;
       return templates[template](data);
     }
   };
