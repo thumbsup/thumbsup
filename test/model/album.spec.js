@@ -4,6 +4,21 @@ var fixtures = require('../fixtures');
 
 describe('Album', function() {
 
+  describe('options', function() {
+
+    it('can pass the title as a single argument', function() {
+      var a = new Album('Holidays');
+      should(a.title).eql('Holidays');
+    });
+
+    it('can pass a full hash of options', function() {
+      var a = new Album({id: 12, title: 'Holidays'});
+      should(a.id).eql(12);
+      should(a.title).eql('Holidays');
+    });
+
+  });
+
   it('sanitises album titles for the file name', function() {
     var a = new Album('hello & world');
     should(a.filename).eql('helloworld');
@@ -164,4 +179,69 @@ describe('Album', function() {
 
   });
 
+  describe('sorting', function() {
+
+    describe('photos and videos', function() {
+
+      it('can sort media by filename', function() {
+        var a = fixtures.photo({path: 'a'});
+        var b = fixtures.photo({path: 'b'});
+        var c = fixtures.photo({path: 'c'});
+        var album = new Album({files: [c, a, b]});
+        album.finalize({sortMediaBy: 'filename'});
+        should(album.files).eql([a, b, c]);
+      });
+
+      it('can sort media by reverse filename', function() {
+        var a = fixtures.photo({path: 'a'});
+        var b = fixtures.photo({path: 'b'});
+        var c = fixtures.photo({path: 'c'});
+        var album = new Album({files: [c, a, b]});
+        album.finalize({sortMediaBy: 'filename', sortMediaDirection: 'desc'});
+        should(album.files).eql([c, b, a]);
+      });
+
+    });
+
+    describe('albums', function() {
+
+      it('can sort albums by title', function() {
+        var a = new Album('A');
+        var b = new Album('B');
+        var c = new Album('C');
+        var root = new Album({albums: [c, a, b]});
+        root.finalize({sortAlbumsBy: 'title'});
+        should(root.albums).eql([a, b, c]);
+      });
+
+      it('can sort albums by start date', function() {
+        var startJan = albumWithFileDates(['2010-01-01', '2010-05-01']);
+        var startFeb = albumWithFileDates(['2010-02-01', '2010-04-01']);
+        var startMar = albumWithFileDates(['2010-03-01', '2010-03-01']);
+        var root = new Album({albums: [startFeb, startMar, startJan]});
+        root.finalize({sortAlbumsBy: 'start-date'});
+        should(root.albums).eql([startJan, startFeb, startMar]);
+      });
+
+      it('can sort albums by end date', function() {
+        var endMay = albumWithFileDates(['2010-01-01', '2010-05-01']);
+        var endApr = albumWithFileDates(['2010-02-01', '2010-04-01']);
+        var endMar = albumWithFileDates(['2010-03-01', '2010-03-01']);
+        var root = new Album({albums: [endMay, endMar, endApr]});
+        root.finalize({sortAlbumsBy: 'end-date'});
+        should(root.albums).eql([endMar, endApr, endMay]);
+      });
+
+    });
+
+  });
+
 });
+
+
+function albumWithFileDates(dates) {
+  var files = dates.map(function(d) {
+    return fixtures.photo({date: d});
+  });
+  return new Album({files: files});
+}
