@@ -3,16 +3,13 @@
 // Variables for user customisation
 // -----------------------------------
 
-@body-background: #f6f6f6;
-@header-background: #444;
-@header-foreground: #fff;
-@nav-background: #fafafa;
-@nav-highlight: #fff;
-@album-background: #fafafa;
+@body-background: #fff;
+@header-background: #fff;
+@header-foreground: #444;
 @text-color: #444;
 @text-light: #999;
 @borders: #ddd;
-@mobile-trigger: 900px;
+@mobile-trigger: 400px;
 
 // -----------------------------------
 // Generic styles
@@ -62,6 +59,14 @@ a {
 }
 
 // -----------------------------------
+// Structure
+// -----------------------------------
+
+#container {
+  padding: 2em;
+}
+
+// -----------------------------------
 // Header
 // -----------------------------------
 
@@ -69,18 +74,16 @@ header {
   background: @header-background;
   color: @header-foreground;
   font-size: 1.8em;
-  padding: 1em;
-}
-
-header .hamburger-label {
-  // color: #fff;
-  margin-right: 0.4em;
+  margin-bottom: 1.1em;
 }
 
 h1 {
-  // color: #fff;
   display: inline-block;
   font-weight: bold;
+}
+
+h1 a {
+  color: @header-foreground;
 }
 
 // -----------------------------------
@@ -89,7 +92,8 @@ h1 {
 
 nav.breadcrumbs {
   border-bottom: 1px solid @borders;
-  margin: 2em;
+  font-size: 1.2em;
+  margin-bottom: 2em;
   padding: 0em 0em 0.8em 0.1em;
 }
 
@@ -107,53 +111,37 @@ nav.breadcrumbs a {
 // -----------------------------------
 
 #albums, #media {
-  margin: 2em;
+  margin: 0em;
 }
 
 #albums a {
-  background-color: @album-background;
-  display: inline-block;
-  padding: 0.7em;
-}
-
-#albums h3 {
-  color: @text-color;
-  margin: 0.7em;
-  margin-top: 1em;
-  font-size: 1em;
-  text-align: center;
-}
-
-#albums .meta {
-  color: @text-light;
-  font-size: 0.9em;
-  font-style: italic;
-  line-height: 1.2em;
-  margin: 0.5em 0;
-  text-align: center;
-  width: 100%;
-}
-
-#albums > li {
   display: inline-block;
   margin-right: 2em;
   margin-bottom: 3em;
-  border: 1px solid @borders;
+  position: relative;
+  overflow: hidden;
+  width: 300px;
+  height: 220px;
+  background-size: cover;
+  border-radius: 8px;
 }
 
-#albums .grid {
-  width: 200px;
-}
-
-#albums .grid li {
-  float: left;
-  padding: 0 0.2em 0.2em 0;
-  width: 50%;
-}
-
-#albums .grid img {
-  display: block;
+#albums .info {
+  position: absolute;
+  padding: 1em;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-size: 0.9em;
+  line-height: 1.2em;
+  margin: 0;
   width: 100%;
+  font-weight: bold;
+  bottom: 0;
+}
+
+#albums h3 {
+  font-size: 1.3em;
+  margin-bottom: 0.2em;
 }
 
 // -----------------------------------
@@ -165,6 +153,16 @@ nav.breadcrumbs a {
   margin-right: 0.4em;
   margin-bottom: 0.2em;
   position: relative;
+  cursor: zoom-in;
+}
+
+#media a {
+  display: inline-block;
+}
+
+#media img {
+  border-radius: 8px;
+  display: block;
 }
 
 #media li .video-overlay {
@@ -175,4 +173,15 @@ nav.breadcrumbs a {
   position: absolute;
   top: 50%;
   width: 48px;
+}
+
+// -----------------------------------
+// Photo and video thumbnails
+// -----------------------------------
+
+@media only screen and (max-width: @mobile-trigger) {
+  #albums a {
+    width: 250px;
+    height: 190px;
+  }
 }
