@@ -102,6 +102,7 @@ exports.create = function(options) {
   // utility helper
   // render the correct download path based on user options
   handlebars.registerHelper('download', function(file) {
+    // var rel = path.relative(currentFolder, target);
     if (file.mediaType === 'video') {
       return options.originalVideos ? file.urls.original : file.urls.video;
     } else {
