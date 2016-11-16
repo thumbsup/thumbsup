@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var path = require('path');
 var index = 0;
 
 // number of images to show in the album preview grid
@@ -25,9 +26,13 @@ function Album(opts) {
   if (typeof opts === 'string') opts = { title: opts };
   this.id = opts.id || ++index;
   this.title = opts.title || ('Album ' + this.id);
-  this.filename = sanitise(this.title);
+  // target folder/filename on disk
+  this.filename = 'index.html';
+  this.folder = sanitise(this.title);
+  // photos, videos and nested albums
   this.files = opts.files || [];
   this.albums = opts.albums || [];
+  // some stats
   this.depth = 0;
   this.home = false;
   this.stats = null;
@@ -42,7 +47,8 @@ Album.prototype.finalize = function(options) {
   // finalize all nested albums first (recursive)
   // and set a nested filename
   for (var i = 0; i < this.albums.length; ++i) {
-    this.albums[i].filename = this.filename + '-' + this.albums[i].filename;
+    var prefix = this.home ? 'albums' : this.folder;
+    this.albums[i].folder = path.join(prefix, this.albums[i].folder);
     this.albums[i].depth = this.depth + 1;
     this.albums[i].finalize();
   }
@@ -115,7 +121,7 @@ Album.prototype.aggregateAllFiles = function() {
 };
 
 function sanitise(filename) {
-  return filename.replace(/[^a-z0-9-_]/ig, '');
+  return filename.replace(/[^a-z0-9-_]/ig, '-');
 }
 
 function itemCount(count, type) {

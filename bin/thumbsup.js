@@ -35,8 +35,8 @@ var opts = yargs
     // ------------------------------------
 
     'index': {
-      description: 'Filename of the home page, without extension',
-      default: 'index'
+      description: 'Filename of the home page',
+      default: 'index.html'
     },
     'title': {
       description: 'Website title',
