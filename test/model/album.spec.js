@@ -62,6 +62,31 @@ describe('Album', function() {
 
     describe('nested albums', function() {
 
+      it('concatenates the titles for uniqueness', function() {
+        // to avoid having two nested albums called "October" overwrite each other
+        // note: doesn't use the root title to avoid "home-" or "index-"
+        var root = new Album({
+          title: 'home',
+          albums: [
+            new Album({
+              title: '2010',
+              albums: [
+                new Album({title: 'October'})
+              ]
+            }),
+            new Album({
+              title: '2011',
+              albums: [
+                new Album({title: 'October'})
+              ]
+            }),
+          ]
+        });
+        root.finalize();
+        should(root.albums[0].albums[0].filename).eql('2010-October');
+        should(root.albums[1].albums[0].filename).eql('2011-October');
+      });
+
       it('calculates the depth of every album', function() {
         var a = new Album('single');
         var b = new Album('single');

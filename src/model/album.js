@@ -42,7 +42,8 @@ Album.prototype.finalize = function(options) {
   // finalize all nested albums first (recursive)
   // and set a nested filename
   for (var i = 0; i < this.albums.length; ++i) {
-    this.albums[i].filename = this.filename + '-' + this.albums[i].filename;
+    var prefix = this.home ? '' : (this.filename + '-');
+    this.albums[i].filename = prefix + this.albums[i].filename;
     this.albums[i].depth = this.depth + 1;
     this.albums[i].finalize();
   }
