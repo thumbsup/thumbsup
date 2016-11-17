@@ -36,7 +36,7 @@ body {
   background: @body-background;
   color: #444;
   font-family: 'Open Sans', sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: lighter;
   -webkit-font-smoothing: antialiased;
 }
@@ -67,15 +67,19 @@ a {
 
 header {
   background: @header-background;
+  color: @header-foreground;
   font-size: 1.4em;
   font-family: 'Montserrat', sans-serif;
   padding: 0;
-  color: @header-foreground;
 }
 
 h1 {
   margin: 1em;
   display: inline-block;
+}
+
+h1 a {
+  color: @header-foreground;
 }
 
 // -----------------------------------
@@ -125,7 +129,7 @@ nav.breadcrumbs .separator {
 // Nested albums
 // -----------------------------------
 
-#albums, #media {
+#albums {
   margin: 1em;
   overflow: hidden;
 }
@@ -158,13 +162,13 @@ nav.breadcrumbs .separator {
 
 #albums .grid {
   opacity: 0.9;
-  width: 400px;
-  height: 50px;
+  width: 360px;
+  height: 60px;
   overflow: hidden;
 }
 
 #albums .mosaic {
-  width: 400px;
+  width: 360px;
   opacity: 0.9;
   overflow: hidden;
 }
@@ -178,7 +182,7 @@ nav.breadcrumbs .separator {
 
 #albums .grid img {
   display: block;
-  width: 50px;
+  width: 60px;
 }
 
 @media only screen and (max-width: @mobile-trigger) {
@@ -193,6 +197,10 @@ nav.breadcrumbs .separator {
 // -----------------------------------
 // Photo and video thumbnails
 // -----------------------------------
+
+#media {
+  margin: 0 0.5em 0 1.5em;
+}
 
 #media li {
   float: left;
