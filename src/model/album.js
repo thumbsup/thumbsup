@@ -2,7 +2,7 @@ var _ = require('lodash');
 var index = 0;
 
 // number of images to show in the album preview grid
-var PREVIEW_COUNT = 4;
+var PREVIEW_COUNT = 10;
 
 var SORT_ALBUMS_BY = {
   'title': function(album) { return album.title; },
@@ -99,7 +99,7 @@ Album.prototype.pickPreviews = function() {
   var nestedPicks =  _.flatten(_.map(this.albums, 'previews')).filter(function(file) {
     return file !== PREVIEW_MISSING;
   });
-  // then pick the top 4 overall
+  // then pick the top ones
   var potentialPicks = _.concat(this.files, nestedPicks);
   this.previews = potentialPicks.slice(0, PREVIEW_COUNT);
   // and fill the gap with a placeholder

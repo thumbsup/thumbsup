@@ -146,14 +146,23 @@ describe('Album', function() {
 
   describe('previews', function() {
 
-    it('adds <missing> thumbnails to fill the 2x2 grid', function() {
+    it('picks the first 10 files as previews', function() {
+      var a = new Album({files: [
+        fixtures.photo(), fixtures.photo(), fixtures.photo(), fixtures.photo(),
+        fixtures.photo(), fixtures.photo(), fixtures.photo(), fixtures.photo(),
+        fixtures.photo(), fixtures.photo(), fixtures.photo(), fixtures.photo(),
+      ]});
+      a.finalize();
+      should(a.previews).have.length(10);
+    });
+
+    it('adds <missing> thumbnails to fill', function() {
       var a = new Album({files: [
         fixtures.photo(), fixtures.photo(),
       ]});
       a.finalize();
-      should(a.previews).have.length(4);
       should(a.previews[2].urls.thumb).eql('public/missing.png');
-      should(a.previews[3].urls.thumb).eql('public/missing.png');
+      should(a.previews[9].urls.thumb).eql('public/missing.png');
     });
 
     it('uses files from nested albums too', function() {
@@ -171,7 +180,7 @@ describe('Album', function() {
         ]
       });
       a.finalize();
-      should(a.previews).have.length(4);
+      should(a.previews).have.length(10);
       for (var i = 0; i < 4; ++i) {
         should(a.previews[i].urls.thumb).not.eql('public/missing.png');
       }
