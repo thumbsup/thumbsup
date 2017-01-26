@@ -18,6 +18,7 @@ function urls(filepath, mediaType) {
 function videoUrls(filepath) {
   return {
     thumb:     'media/thumbs/' + ext(filepath, 'jpg'),
+    large:     'media/large/' + ext(filepath, 'jpg'),
     poster:    'media/large/' + ext(filepath, 'jpg'),
     video:     'media/large/' + ext(filepath, 'mp4'),
     original:  'media/original/' + filepath
