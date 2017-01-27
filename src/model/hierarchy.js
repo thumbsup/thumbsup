@@ -22,6 +22,6 @@ exports.createAlbums = function(collection, opts) {
   }
 
   // finalize all albums recursively (calculate stats, etc...)
-  home.finalize();
+  home.finalize(opts);
   return home;
 };
