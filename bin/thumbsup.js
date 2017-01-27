@@ -112,6 +112,10 @@ var opts = yargs
     'google-analytics': {
       description: 'Code for Google Analytics tracking',
       type: 'string'
+    },
+    'footer': {
+      description: 'Optional text or HTML footer',
+      default: null
     }
   })
   .config('config')
@@ -142,5 +146,6 @@ index.build({
   theme:             opts['theme'],
   css:               opts['css'],
   googleAnalytics:   opts['google-analytics'],
-  index:             opts['index']
+  index:             opts['index'],
+  footer:            opts['footer']
 });

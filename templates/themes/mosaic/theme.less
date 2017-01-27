@@ -83,6 +83,24 @@ h1 a {
 }
 
 // -----------------------------------
+// Footer
+// -----------------------------------
+
+footer {
+  border-top: 1px solid @header-foreground;
+  color: @header-foreground;
+  font-size: 0.8em;
+  font-style: italic;
+  margin-left: 2em;
+  margin-top: 3em;
+  padding-top: 0.5em;
+}
+
+footer a {
+  color: #555;
+}
+
+// -----------------------------------
 // Breadcrumbs navigation
 // -----------------------------------
 
@@ -203,6 +221,12 @@ nav.breadcrumbs .separator {
 
 #media {
   margin: 0 0.5em 0 1.5em;
+}
+
+#media:after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 #media li {

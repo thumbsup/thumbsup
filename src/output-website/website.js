@@ -25,6 +25,7 @@ exports.build = function(rootAlbum, opts, callback) {
       css: opts.css ? path.basename(opts.css) : null,
       title: opts.title,
       titleWords: opts.title.split(' '),
+      footer: opts.footer,
       thumbSize: opts.thumbSize,
       largeSize: opts.largeSize,
       googleAnalytics: opts.googleAnalytics
