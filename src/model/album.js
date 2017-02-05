@@ -45,7 +45,7 @@ Album.prototype.finalize = function(options) {
     var prefix = this.home ? '' : (this.filename + '-');
     this.albums[i].filename = prefix + this.albums[i].filename;
     this.albums[i].depth = this.depth + 1;
-    this.albums[i].finalize();
+    this.albums[i].finalize(options);
   }
   // perform stats & other calculations
   // once the nested albums have been finalized too
@@ -90,9 +90,6 @@ Album.prototype.calculateSummary = function() {
 Album.prototype.sort = function(options) {
   this.files = _.orderBy(this.files, SORT_MEDIA_BY[options.sortMediaBy], options.sortMediaDirection);
   this.albums = _.orderBy(this.albums, SORT_ALBUMS_BY[options.sortAlbumsBy], options.sortAlbumsDirection);
-  this.albums.forEach(function(nested) {
-    nested.sort(options);
-  });
 };
 
 Album.prototype.pickPreviews = function() {

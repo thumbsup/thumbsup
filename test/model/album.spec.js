@@ -115,6 +115,17 @@ describe('Album', function() {
         should(d.home).eql(false);
       });
 
+      it('passes finalising options to all nested albums (e.g. sorting)', function() {
+        var nested = new Album({title: 'nested', files: [
+          fixtures.photo({path: 'b'}),
+          fixtures.photo({path: 'a'}),
+        ]});
+        var root = new Album({title: 'home', albums: [nested]});
+        root.finalize({sortMediaBy: 'filename'});
+        should(nested.files[0].filepath).eql('a');
+        should(nested.files[1].filepath).eql('b');
+      });
+
     });
 
     describe('summary', function() {
