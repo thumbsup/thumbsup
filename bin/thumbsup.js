@@ -36,40 +36,40 @@ var opts = yargs
 
     'index': {
       description: 'Filename of the home page, without extension',
-      default: 'index'
+      'default': 'index'
     },
     'title': {
       description: 'Website title',
-      default: 'Photo album'
+      'default': 'Photo album'
     },
     'thumb-size': {
       description: 'Pixel size of the square thumbnails',
       type: 'number',
-      default: 120
+      'default': 120
     },
     'large-size': {
       description: 'Pixel height of the fullscreen photos',
       type: 'number',
-      default: 1000
+      'default': 1000
     },
     'original-photos': {
       description: 'Allow download of full-size photos',
       type: 'boolean',
-      default: false
+      'default': false
     },
     'original-videos': {
       description: 'Allow download of full-size videos',
       type: 'boolean',
-      default: false
+      'default': false
     },
     'albums-from': {
       description: 'How to group media into albums',
       choices: ['folders', 'date'],
-      default: 'folders'
+      'default': 'folders'
     },
     'albums-date-format': {
       description: 'How albums are named in <date> mode [moment.js pattern]',
-      default: 'YYYY-MM'
+      'default': 'YYYY-MM'
     },
     // Deprecated for <sort-albums>
     'sort-folders': {
@@ -79,34 +79,34 @@ var opts = yargs
     'sort-albums-by': {
       description: 'How to sort albums',
       choices: ['title', 'start-date', 'end-date'],
-      default: 'start-date'
+      'default': 'start-date'
     },
     'sort-albums-direction': {
       description: 'Album sorting direction',
       choices: ['asc', 'desc'],
-      default: 'asc'
+      'default': 'asc'
     },
     'sort-media-by': {
       description: 'How to sort photos and videos',
       choices: ['filename', 'date'],
-      default: 'date'
+      'default': 'date'
     },
     'sort-media-direction': {
       description: 'Media sorting direction',
       choices: ['asc', 'desc'],
-      default: 'asc'
+      'default': 'asc'
     },
     'theme': {
       description: 'Name of the gallery theme to apply',
       choices: ['classic', 'cards', 'mosaic'],
-      default: 'classic'
+      'default': 'classic'
     },
     'css': {
       description: 'Path to a CSS/LESS file for styling',
       normalize: true
     },
     'config': {
-      description: 'Optional JSON config file (one key per argument)',
+      description: 'JSON config file (one key per argument)',
       normalize: true
     },
     'google-analytics': {
@@ -114,8 +114,9 @@ var opts = yargs
       type: 'string'
     },
     'footer': {
-      description: 'Optional text or HTML footer',
-      default: null
+      description: 'Text or HTML footer',
+      'default': null
+    },
     }
   })
   .config('config')

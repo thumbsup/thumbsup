@@ -67,7 +67,7 @@ Options:
   --albums-from            How to group media into albums  [choices: "folders", "date"] [default: "folders"]
   --albums-date-format     How albums are named in <date> mode [moment.js pattern]  [default: "YYYY-MM"]
   --sort-folders           How to sort albums [deprecated]  [choices: "name", "date"]
-  --sort-albums-by         How to sort albums  [choices: "title", "start-date", "end-date"] [default: "date"]
+  --sort-albums-by         How to sort albums  [choices: "title", "start-date", "end-date"] [default: "start-date"]
   --sort-albums-direction  Album sorting direction  [choices: "asc", "desc"] [default: "asc"]
   --sort-media-by          How to sort photos and videos  [choices: "filename", "date"] [default: "date"]
   --sort-media-direction   Media sorting direction  [choices: "asc", "desc"] [default: "asc"]
@@ -75,6 +75,7 @@ Options:
   --css                    Path to a CSS/LESS file for styling  [string]
   --config                 Path to JSON config file  [string]
   --google-analytics       Code for Google Analytics tracking  [string]
+  --footer                 Text or HTML footer  [default: null]
 
 The optional JSON config should contain a single object with one key per argument, not including the leading "--". For example:
 
