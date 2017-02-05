@@ -116,7 +116,6 @@ var opts = yargs
     'footer': {
       description: 'Text or HTML footer',
       'default': null
-    },
     }
   })
   .config('config')
