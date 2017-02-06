@@ -1,6 +1,8 @@
 var path = require('path');
 var index = 0;
 
+var GIF_REGEX = /\.gif$/i
+
 function File(filepath, metadata) {
   this.id = ++index;
   this.filepath = filepath;
@@ -8,6 +10,7 @@ function File(filepath, metadata) {
   this.date = new Date(metadata.exif.date || metadata.fileDate);
   this.caption = metadata.exif.caption;
   this.isVideo = (metadata.mediaType === 'video');
+  this.isAnimated = GIF_REGEX.test(filepath);
   this.urls = urls(filepath, metadata.mediaType);
 }
 
@@ -27,7 +30,7 @@ function videoUrls(filepath) {
 
 function photoUrls(filepath) {
   return {
-    thumb:     'media/thumbs/' + filepath,
+    thumb:     'media/thumbs/' + ext(filepath, 'jpg'),
     large:     'media/large/' + filepath,
     original:  'media/original/' + filepath
   };

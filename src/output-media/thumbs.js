@@ -12,6 +12,7 @@ exports.sizes = {
 exports.photoSquare = function(task, callback) {
   gm(task.src)
     .autoOrient()
+    .coalesce()
     .resize(exports.sizes.thumb, exports.sizes.thumb, '^')
     .gravity('Center')
     .crop(exports.sizes.thumb, exports.sizes.thumb)

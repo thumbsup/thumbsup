@@ -27,7 +27,7 @@ exports.update = function(opts, callback) {
       nonull: false,
       nocase: true
     };
-    glob('**/*.{jpg,jpeg,png,mp4,mov,mts,m2ts}', globOptions, callback);
+    glob('**/*.{jpg,jpeg,png,gif,mp4,mov,mts,m2ts}', globOptions, callback);
   }
 
   function pathAndDate(filePath, next) {

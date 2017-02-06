@@ -65,7 +65,10 @@
                  width="{{@root.gallery.thumbSize}}"
                  height="{{@root.gallery.thumbSize}}"
                  alt="{{filename}}" />
-         </a>
+          </a>
+          {{#if isAnimated}}
+            <img class="video-overlay" src="public/play.png" />
+          {{/if}}
         </li>
       {{~/if}}
     {{~/each}}

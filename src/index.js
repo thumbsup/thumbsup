@@ -66,22 +66,22 @@ exports.build = function(opts) {
     buildStep({
       condition: opts.originalPhotos,
       message: 'Photos: original',
-      ext:     'jpg|jpeg|png',
+      ext:     'jpg|jpeg|png|gif',
       dest:    '/original/$path/$name.$ext',
       func:    copyFile
     }),
 
     buildStep({
       message: 'Photos: large',
-      ext:     'jpg|jpeg|png',
+      ext:     'jpg|jpeg|png|gif',
       dest:    '/large/$path/$name.$ext',
       func:    thumbs.photoLarge
     }),
 
     buildStep({
       message: 'Photos: thumbnails',
-      ext:     'jpg|jpeg|png',
-      dest:    '/thumbs/$path/$name.$ext',
+      ext:     'jpg|jpeg|png|gif',
+      dest:    '/thumbs/$path/$name.jpg',
       func:    thumbs.photoSquare
     }),
 
