@@ -1,5 +1,5 @@
 <header>
-  <a href="{{gallery.home.filename}}.html">
+  <a href="{{relative gallery.home.url}}">
     <h1>{{gallery.title}}</h1>
     <h2>{{gallery.subtitle}}</h2>
   </a>
@@ -16,7 +16,7 @@
 <ul id="galleries">
  {{#each album.albums}}
  <li>
-   <a href="{{filename}}.html">
+   <a href="{{relative url}}">
      <h3>{{title}}</h3>
      <div class="meta">
        {{summary}}<br />
@@ -24,7 +24,7 @@
      </div>
      <ul class="grid">
        {{~#slice previews count=4~}}
-       <li><img src="{{this.urls.thumb}}" /></li>
+       <li><img src="{{relative this.urls.thumb}}" /></li>
        {{~/slice}}
      </ul>
    </a>
@@ -36,28 +36,28 @@
  {{#each album.files}}
    {{#if isVideo~}}
      <li data-html="#media{{id}}"
-         data-poster="{{urls.poster}}"
-         data-download-url="{{urls.download}}">
-       <a href="{{urls.download}}">
-         <img src="{{urls.thumb}}"
+         data-poster="{{relative urls.poster}}"
+         data-download-url="{{relative (download this)}}">
+       <a href="{{relative (download this)}}">
+         <img src="{{relative urls.thumb}}"
               width="{{@root.gallery.thumbSize}}"
               height="{{@root.gallery.thumbSize}}"
               alt="{{name}}" />
        </a>
-       <img class="video-overlay" src="public/play.png" />
+       <img class="video-overlay" src="{{relative 'public/play.png'}}" />
      </li>
    {{else}}
-     <li data-src="{{urls.large}}"
+     <li data-src="{{relative urls.large}}"
          data-sub-html="{{caption}}"
-         data-download-url="{{urls.download}}">
-       <a href="{{urls.download}}">
-         <img src="{{urls.thumb}}"
+         data-download-url="{{relative (download this)}}">
+       <a href="{{relative (download this)}}">
+         <img src="{{relative urls.thumb}}"
               width="{{@root.gallery.thumbSize}}"
               height="{{@root.gallery.thumbSize}}"
               alt="{{name}}" />
        </a>
        {{#if isAnimated}}
-         <img class="video-overlay" src="public/play.png" />
+         <img class="video-overlay" src="{{relative 'public/play.png'}}" />
        {{/if}}
      </li>
    {{/if}}

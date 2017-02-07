@@ -59,12 +59,14 @@ Required:
 
 Options:
   --help                   Show help  [boolean]
-  --index                  Filename of the home page, without extension  [default: "index"]
+  --index                  Filename of the home page  [default: "index.html"]
   --title                  Website title  [default: "Photo album"]
+  --footer                 Text or HTML footer  [default: null]
   --thumb-size             Pixel size of the square thumbnails  [number] [default: 120]
   --large-size             Pixel height of the fullscreen photos  [number] [default: 1000]
   --original-photos        Allow download of full-size photos  [boolean] [default: false]
   --original-videos        Allow download of full-size videos  [boolean] [default: false]
+  --albums-output-folder   Output subfolder for HTML albums (default: root of gallery)  [default: "."]
   --albums-from            How to group media into albums  [choices: "folders", "date"] [default: "folders"]
   --albums-date-format     How albums are named in <date> mode [moment.js pattern]  [default: "YYYY-MM"]
   --sort-folders           How to sort albums [deprecated]  [choices: "name", "date"]
@@ -74,9 +76,8 @@ Options:
   --sort-media-direction   Media sorting direction  [choices: "asc", "desc"] [default: "asc"]
   --theme                  Name of the gallery theme to apply  [choices: "classic", "cards", "mosaic"] [default: "classic"]
   --css                    Path to a CSS/LESS file for styling  [string]
-  --config                 Path to JSON config file  [string]
   --google-analytics       Code for Google Analytics tracking  [string]
-  --footer                 Text or HTML footer  [default: null]
+  --config                 Path to JSON config file  [string]
 
 The optional JSON config should contain a single object with one key per argument, not including the leading "--". For example:
 

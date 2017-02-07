@@ -1,6 +1,7 @@
 var should   = require('should/as-function');
 var Album    = require('../../src/model/album');
 var fixtures = require('../fixtures');
+var path = require('path');
 
 describe('Album', function() {
 
@@ -23,7 +24,7 @@ describe('Album', function() {
 
     it('sanitises album titles for the file name', function() {
       var a = new Album('hello & world');
-      should(a.filename).eql('helloworld');
+      should(a.basename).eql('helloworld');
     });
 
     it('concatenates nested filenames for uniqueness', function() {
@@ -47,8 +48,51 @@ describe('Album', function() {
         ]
       });
       root.finalize();
-      should(root.albums[0].albums[0].filename).eql('2010-October');
-      should(root.albums[1].albums[0].filename).eql('2011-October');
+      should(root.basename).eql('home');
+      should(root.albums[0].basename).eql('2010');
+      should(root.albums[1].basename).eql('2011');
+      should(root.albums[0].albums[0].basename).eql('2010-October');
+      should(root.albums[1].albums[0].basename).eql('2011-October');
+    });
+
+    it('calculates the output file path', function() {
+      var root = new Album({
+        title: 'home',
+        albums: [new Album({title: '2010'})]
+      });
+      root.finalize({index: 'index.html'});
+      should(root.path).eql('index.html');
+      should(root.albums[0].path).eql('2010.html');
+    });
+
+    it('calculates the URL for the browser', function() {
+      var root = new Album({
+        title: 'home',
+        albums: [new Album({title: '2010'})]
+      });
+      root.finalize({index: 'index.html'});
+      should(root.url).eql('index.html');
+      should(root.albums[0].url).eql('2010.html');
+    });
+
+    it('calculates the output path with a target folder (slashes match the OS)', function() {
+      var root = new Album({
+        title: 'home',
+        albums: [new Album({title: '2010'})]
+      });
+      root.finalize({index: 'index.html', albumsOutputFolder: 'albums'});
+      should(root.path).eql('index.html');
+      should(root.albums[0].path).eql(path.join('albums', '2010.html'));
+    });
+
+    it('calculates the URL with a target folder (always forward slashes)', function() {
+      var root = new Album({
+        title: 'home',
+        albums: [new Album({title: '2010'})]
+      });
+      root.finalize({index: 'index.html', albumsOutputFolder: 'albums'});
+      should(root.path).eql('index.html');
+      should(root.albums[0].path).eql('albums/2010.html');
     });
 
   });

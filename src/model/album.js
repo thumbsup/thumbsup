@@ -1,4 +1,6 @@
 var _ = require('lodash');
+var path = require('path');
+var url = require('url');
 var index = 0;
 
 // number of images to show in the album preview grid
@@ -25,7 +27,7 @@ function Album(opts) {
   if (typeof opts === 'string') opts = { title: opts };
   this.id = opts.id || ++index;
   this.title = opts.title || ('Album ' + this.id);
-  this.filename = sanitise(this.title);
+  this.basename = sanitise(this.title);
   this.files = opts.files || [];
   this.albums = opts.albums || [];
   this.depth = 0;
@@ -35,20 +37,29 @@ function Album(opts) {
   this.allFiles = [];
 }
 
-Album.prototype.finalize = function(options) {
+Album.prototype.finalize = function(options, parent) {
   options = options || {};
-  // is this the top-level album?
-  this.home = this.depth === 0;
-  // finalize all nested albums first (recursive)
-  // and set a nested filename
+  var albumsOutputFolder = options.albumsOutputFolder || '.';
+  // calculate final file paths and URLs
+  if (parent == null) {
+    this.path = options.index;
+    this.url = options.index;
+    this.depth = 0;
+  } else {
+    if (parent.depth > 0) {
+      this.basename = parent.basename + '-' + this.basename;
+    }
+    this.path = path.join(albumsOutputFolder, this.basename + '.html');
+    this.url = url.resolve(albumsOutputFolder + '/', this.basename + '.html');
+    this.depth = parent.depth + 1;
+  }
+  // then finalize all nested albums (which uses the parent basename)
   for (var i = 0; i < this.albums.length; ++i) {
-    var prefix = this.home ? '' : (this.filename + '-');
-    this.albums[i].filename = prefix + this.albums[i].filename;
-    this.albums[i].depth = this.depth + 1;
-    this.albums[i].finalize(options);
+    this.albums[i].finalize(options, this);
   }
   // perform stats & other calculations
   // once the nested albums have been finalized too
+  this.home = this.depth === 0;
   this.calculateStats();
   this.calculateSummary();
   this.sort(options);

@@ -5,12 +5,12 @@
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, user-scalable=no" />
       <title>{{gallery.title}} - {{album.title}}</title>
-      <link rel="stylesheet" href="public/reset.css" />
-      <link rel="stylesheet" href="public/style.css" />
-      <link rel="stylesheet" href="public/viewer.css" />
-      <link rel="stylesheet" href="public/font-awesome/css/font-awesome.min.css">
-      <link rel="stylesheet" href="public/light-gallery/css/lightgallery.css" />
-      <link rel="stylesheet" href="public/video-js.css" />
+      <link rel="stylesheet" href="{{relative 'public/reset.css'}}" />
+      <link rel="stylesheet" href="{{relative 'public/style.css'}}" />
+      <link rel="stylesheet" href="{{relative 'public/viewer.css'}}" />
+      <link rel="stylesheet" href="{{relative 'public/font-awesome/css/font-awesome.min.css'}}">
+      <link rel="stylesheet" href="{{relative 'public/light-gallery/css/lightgallery.css'}}" />
+      <link rel="stylesheet" href="{{relative 'public/video-js.css'}}" />
   </head>
 
   <body>
@@ -23,7 +23,7 @@
         {{#if isVideo}}
           <div id="media{{id}}" style="display:none;">
             <video class="lg-video-object lg-html5 video-js vjs-default-skin"  preload="none" controls>
-              <source src="{{urls.video}}" type="video/mp4" />
+              <source src="{{relative urls.video}}" type="video/mp4" />
               Your browser does not support HTML5 video
             </video>
           </div>
@@ -32,15 +32,15 @@
     </div>
 
     <!-- jQuery -->
-    <script src="public/jquery.min.js"></script>
+    <script src="{{relative 'public/jquery.min.js'}}"></script>
     <!-- VideoJS -->
-    <script src="public/video.js"></script>
+    <script src="{{relative 'public/video.js'}}"></script>
     <!-- LightGallery -->
-    <script src="public/light-gallery/js/lightgallery.js"></script>
-    <script src="public/light-gallery/js/lg-autoplay.js"></script>
-    <script src="public/light-gallery/js/lg-pager.js"></script>
-    <script src="public/light-gallery/js/lg-thumbnail.js"></script>
-    <script src="public/light-gallery/js/lg-video.js"></script>
+    <script src="{{relative 'public/light-gallery/js/lightgallery.js'}}"></script>
+    <script src="{{relative 'public/light-gallery/js/lg-autoplay.js'}}"></script>
+    <script src="{{relative 'public/light-gallery/js/lg-pager.js'}}"></script>
+    <script src="{{relative 'public/light-gallery/js/lg-thumbnail.js'}}"></script>
+    <script src="{{relative 'public/light-gallery/js/lg-video.js'}}"></script>
 
     <script>
       $(document).ready(function() {

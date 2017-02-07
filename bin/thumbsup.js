@@ -35,12 +35,16 @@ var opts = yargs
     // ------------------------------------
 
     'index': {
-      description: 'Filename of the home page, without extension',
-      'default': 'index'
+      description: 'Filename of the home page',
+      'default': 'index.html'
     },
     'title': {
       description: 'Website title',
       'default': 'Photo album'
+    },
+    'footer': {
+      description: 'Text or HTML footer',
+      'default': null
     },
     'thumb-size': {
       description: 'Pixel size of the square thumbnails',
@@ -61,6 +65,10 @@ var opts = yargs
       description: 'Allow download of full-size videos',
       type: 'boolean',
       'default': false
+    },
+    'albums-output-folder': {
+      description: 'Output subfolder for HTML albums (default: root of gallery)',
+      'default': '.'
     },
     'albums-from': {
       description: 'How to group media into albums',
@@ -105,17 +113,13 @@ var opts = yargs
       description: 'Path to a CSS/LESS file for styling',
       normalize: true
     },
-    'config': {
-      description: 'JSON config file (one key per argument)',
-      normalize: true
-    },
     'google-analytics': {
       description: 'Code for Google Analytics tracking',
       type: 'string'
     },
-    'footer': {
-      description: 'Text or HTML footer',
-      'default': null
+    'config': {
+      description: 'JSON config file (one key per argument)',
+      normalize: true
     }
   })
   .config('config')
@@ -147,5 +151,6 @@ index.build({
   css:               opts['css'],
   googleAnalytics:   opts['google-analytics'],
   index:             opts['index'],
-  footer:            opts['footer']
+  footer:            opts['footer'],
+  albumsOutputFolder: opts['albums-output-folder']
 });

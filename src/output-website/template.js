@@ -76,14 +76,14 @@ exports.create = function(options) {
         operator = "===";
       }
       operators = {
-        '==': function (l, r) { return l == r; },
+        '==':  function (l, r) { return l == r;  },
         '===': function (l, r) { return l === r; },
-        '!=': function (l, r) { return l != r; },
+        '!=':  function (l, r) { return l != r;  },
         '!==': function (l, r) { return l !== r; },
-        '<': function (l, r) { return l < r; },
-        '>': function (l, r) { return l > r; },
-        '<=': function (l, r) { return l <= r; },
-        '>=': function (l, r) { return l >= r; }
+        '<':   function (l, r) { return l < r;   },
+        '>':   function (l, r) { return l > r;   },
+        '<=':  function (l, r) { return l <= r;  },
+        '>=':  function (l, r) { return l >= r;  }
       };
       if (!operators[operator]) {
         throw new Error("Handlerbars Helper 'compare' doesn't know the operator " + operator);
@@ -106,8 +106,16 @@ exports.create = function(options) {
     }
   });
 
+  // utility helper
+  // return the relative path from the current folder to the argument
+  var currentFolder = '.';
+  handlebars.registerHelper('relative', function(target, options) {
+    return path.relative(currentFolder, target);
+  });
+
   return {
-    render: function(template, data) {
+    render: function(template, data, folder) {
+      currentFolder = folder;
       return templates[template](data);
     }
   };

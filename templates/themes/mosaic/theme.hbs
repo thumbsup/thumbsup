@@ -4,7 +4,7 @@
     Gallery title
   -->
   <header style="color: #17baef;">
-    <h1><a href="{{gallery.home.filename}}.html">{{gallery.title}}</a></h1>
+    <h1><a href="{{relative gallery.home.url}}">{{gallery.title}}</a></h1>
   </header>
 
   <!--
@@ -14,10 +14,10 @@
   <nav class="breadcrumbs">
     <div class="mask"></div>
     {{#each breadcrumbs~}}
-      <a class="breadcrumb-item" href="{{filename}}.html">{{title}}</a>
+      <a class="breadcrumb-item" href="{{relative url}}">{{title}}</a>
       <span class="separator">&gt;</span>
     {{~/each~}}
-    <a class="breadcrumb-item" href="{{album.filename}}.html">{{album.title}}</a>
+    <a class="breadcrumb-item" href="{{relative album.url}}">{{album.title}}</a>
   </nav>
 
   <!--
@@ -31,7 +31,7 @@
     <ul id="albums">
       {{#each album.albums~}}
       <li>
-        <a href="{{filename}}.html">
+        <a href="{{relative url}}">
           <h3>{{title}}</h3>
           <div class="meta">
             <time>{{{date stats.fromDate}}} - {{{date stats.toDate}}}</time><span class="separator">,</span>
@@ -39,7 +39,7 @@
           </div>
           <ul class="grid clearfix">
             {{~#slice previews count=8~}}
-              <li><img src="{{this.urls.thumb}}" /></li>
+              <li><img src="{{relative this.urls.thumb}}" /></li>
             {{~/slice}}
           </ul>
         </a>
@@ -54,28 +54,28 @@
       {{#each album.files}}
         {{#if isVideo~}}
           <li data-html="#media{{id}}"
-              data-poster="{{urls.poster}}"
-              data-download-url="{{{download this}}}">
-            <a href="{{{download this}}}">
-              <img src="{{urls.thumb}}"
+              data-poster="{{relative urls.poster}}"
+              data-download-url="{{{relative (download this)}}}">
+            <a href="{{{relative (download this)}}}">
+              <img src="{{relative urls.thumb}}"
                    width="{{@root.gallery.thumbSize}}"
                    height="{{@root.gallery.thumbSize}}"
-                   alt="{{filename}}" />
+                   alt="{{relative filename}}" />
             </a>
-            <img class="video-overlay" src="public/play.png" />
+            <img class="video-overlay" src="{{relative 'public/play.png'}}" />
           </li>
         {{else}}
-          <li data-src="{{urls.large}}"
+          <li data-src="{{relative urls.large}}"
               data-sub-html="{{caption}}"
-              data-download-url="{{{download this}}}">
-            <a href="{{{download this}}}">
-              <img src="{{urls.thumb}}"
+              data-download-url="{{{relative (download this)}}}">
+            <a href="{{{relative (download this)}}}">
+              <img src="{{relative urls.thumb}}"
                    width="{{@root.gallery.thumbSize}}"
                    height="{{@root.gallery.thumbSize}}"
-                   alt="{{filename}}" />
+                   alt="{{relative filename}}" />
             </a>
             {{#if isAnimated}}
-              <img class="video-overlay" src="public/play.png" />
+              <img class="video-overlay" src="{{relative 'public/play.png'}}" />
             {{/if}}
           </li>
         {{~/if}}
