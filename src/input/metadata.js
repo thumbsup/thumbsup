@@ -12,6 +12,7 @@ exports.update = function(opts, callback) {
   var metadataPath = path.join(opts.output, 'metadata.json');
   var existing = null;
   var existingDate = null;
+  var videoRegex = new RegExp('\.(' + opts.videoExtensions + ')$', 'i');
 
   try {
     existing = require(metadataPath);
@@ -27,7 +28,8 @@ exports.update = function(opts, callback) {
       nonull: false,
       nocase: true
     };
-    glob('**/*.{jpg,jpeg,png,gif,mp4,mov,mts,m2ts}', globOptions, callback);
+    var fileExtensions = (opts.photoExtensions + ',' + opts.videoExtensions).replace(/\|/g, ',');
+    glob('**/*.{' + fileExtensions + '}', globOptions, callback);
   }
 
   function pathAndDate(filePath, next) {
@@ -73,7 +75,7 @@ exports.update = function(opts, callback) {
   }
 
   function mediaType(fileInfo) {
-    return fileInfo.relative.match(/\.(mp4|mov|mts|m2ts)$/i) ? 'video' : 'photo';
+    return fileInfo.relative.match(videoRegex) ? 'video' : 'photo';
   }
 
   function writeToDisk() {

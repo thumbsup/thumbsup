@@ -34,6 +34,14 @@ var opts = yargs
     // Optional arguments
     // ------------------------------------
 
+    'video-extensions' : {
+      description: 'Extensions of videos',
+      'default': 'mp4|mov|mts|m2ts'
+    },
+    'photo-extensions' : {
+      description: 'Extensions of photos',
+      'default': 'jpg|jpeg|png|gif'
+    },
     'index': {
       description: 'Filename of the home page',
       'default': 'index.html'
@@ -152,5 +160,7 @@ index.build({
   googleAnalytics:   opts['google-analytics'],
   index:             opts['index'],
   footer:            opts['footer'],
-  albumsOutputFolder: opts['albums-output-folder']
+  albumsOutputFolder: opts['albums-output-folder'],
+  videoExtensions:   opts['video-extensions'],
+  photoExtensions:   opts['photo-extensions']
 });
