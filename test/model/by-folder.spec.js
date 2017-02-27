@@ -16,7 +16,7 @@ describe('ByFolder', function() {
     var newyork1 = fixtures.photo({path: 'newyork/IMG_000003.jpg'});
     var newyork2 = fixtures.video({path: 'newyork/IMG_000004.mp4'});
     // group them per folder
-    var collection = {files: [london1, london2, newyork1, newyork2]};
+    var collection = [london1, london2, newyork1, newyork2]
     var albums = byfolder.albums(collection, {});
     // assert on the result
     should(albums).eql([
@@ -38,7 +38,7 @@ describe('ByFolder', function() {
     var photo1 = fixtures.photo({path: 'a/b/c/IMG_000001.jpg'});
     var photo2 = fixtures.photo({path: 'a/d/IMG_000002.jpg'});
     // group them per folder
-    var collection = {files: [photo1, photo2]};
+    var collection = [photo1, photo2]
     var albums = byfolder.albums(collection, {});
     // assert on the result
     should(albums).eql([

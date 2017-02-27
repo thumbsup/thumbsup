@@ -4,16 +4,17 @@ var pad         = require('pad');
 var async       = require('async');
 var progress    = require('./progress');
 
-exports.exec = function(input, output, metadata, options, callback) {
+exports.exec = function(input, output, collection, options, callback) {
   var message = pad(options.message, 20)
-  var paths = Object.keys(metadata).filter(extension(options.ext));
-  var tasks = paths.map(function(relativePath) {
+  // create {src, dest} tasks
+  var tasks = collection.filter(extension(options.ext)).map(file => {
     return {
-      src: path.join(input, relativePath),
-      dest: path.join(output, transform(relativePath, options.dest)),
-      metadata: metadata[relativePath]
+      src: path.join(input, file.path),
+      dest: path.join(output, transform(file.path, options.dest)),
+      metadata: file
     };
   });
+  // only keep the ones where dest is out of date
   var process = tasks.filter(function(task) {
     try {
       var destDate = fs.statSync(task.dest).mtime.getTime();
@@ -22,6 +23,7 @@ exports.exec = function(input, output, metadata, options, callback) {
       return true;
     }
   });
+  // run all in sequence
   var bar = progress.create(options.message, process.length);
   if (process.length > 0) {
     var ops = process.map(function(task) {
@@ -42,8 +44,8 @@ exports.exec = function(input, output, metadata, options, callback) {
 }
 
 function extension(regex) {
-  return function(p) {
-    return p.match(new RegExp('\.(' + regex + ')$', 'i'));
+  return function(file) {
+    return file.path.match(new RegExp('\.(' + regex + ')$', 'i'));
   }
 }
 

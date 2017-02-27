@@ -8,7 +8,7 @@ var Album  = require('./album');
 exports.albums = function(collection, opts) {
   var albumsByFullPath = {};
   // put all files in the right album
-  collection.files.forEach(function(file) {
+  collection.forEach(function(file) {
     var fullDir = path.dirname(file.filepath);
     createAlbumHierarchy(albumsByFullPath, fullDir);
     albumsByFullPath[fullDir].files.push(file);

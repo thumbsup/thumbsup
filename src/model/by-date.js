@@ -12,7 +12,7 @@ exports.albums = function(collection, opts) {
   });
   var groups = {};
   // put all files in the right albums
-  collection.files.forEach(function(file) {
+  collection.forEach(function(file) {
     var groupName = moment(file.date).format(opts.grouping);
     createAlbumHierarchy(groups, groupName);
     groups[groupName].files.push(file);

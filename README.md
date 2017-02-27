@@ -22,6 +22,7 @@ Simply point `thumbsup` to a folder with photos &amp; videos. All nested folders
 
 *Requirements*
 - [Node.js](http://nodejs.org/): `brew install Node`
+- [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/): `brew install exiftool`
 - [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
 - [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
 

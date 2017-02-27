@@ -1,13 +1,14 @@
-var fs          = require('fs-extra');
-var pad         = require('pad');
-var path        = require('path');
-var async       = require('async');
-var make        = require('./utils/make');
-var metadata    = require('./input/metadata');
-var collection  = require('./model/collection');
-var hierarchy   = require('./model/hierarchy.js')
-var thumbs      = require('./output-media/thumbs');
-var website     = require('./output-website/website');
+const async = require('async')
+const fs = require('fs-extra')
+const make = require('./utils/make')
+const pad = require('pad')
+const path = require('path')
+const database = require('./input/database')
+const File = require('./input/file')
+const MediaFile = require('./model/file')
+const hierarchy = require('./model/hierarchy.js')
+const thumbs = require('./output-media/thumbs')
+const website = require('./output-website/website')
 
 exports.build = function(opts) {
 
@@ -16,18 +17,18 @@ exports.build = function(opts) {
 
   fs.mkdirpSync(opts.output);
   var media = path.join(opts.output, 'media');
+  var databaseFile = path.join(opts.output, 'metadata.json');
 
   // ---------------------
   // These variables are set later during the async phase
   // ---------------------
-  var meta = null;   // metadata file to be read later
-  var album = null;  // root album with nested albums
-  var allFiles = collection.fromMetadata({});
+  var album = null        // root album with nested albums
+  var collection = null   // all files in the database
 
   function buildStep(options) {
     return function(callback) {
       if (options.condition !== false) {
-        make.exec(opts.input, media, meta, options, callback);
+        make.exec(opts.input, media, collection, options, callback);
       } else {
         callback();
       }
@@ -55,12 +56,11 @@ exports.build = function(opts) {
 
   async.series([
 
-    function updateMetadata(callback) {
-      metadata.update(opts, function(err, data) {
-        meta = data;
-        allFiles = collection.fromMetadata(data);
-        callback(err);
-      });
+    function updateDatabase(callback) {
+      database.update(opts.input, databaseFile, (err, dbFiles) => {
+        collection = dbFiles.map(f => new File(f))
+        callback(err)
+      })
     },
 
     buildStep({
@@ -115,7 +115,8 @@ exports.build = function(opts) {
     }),
 
     callbackStep('Album hierarchy', function(next) {
-      albums = hierarchy.createAlbums(allFiles, opts);
+      const mediaCollection = collection.map(f => new MediaFile(f.path, f))
+      albums = hierarchy.createAlbums(mediaCollection, opts);
       next();
     }),
 

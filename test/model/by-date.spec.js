@@ -16,7 +16,7 @@ describe('ByDate', function() {
     var c_2016_07 = fixtures.photo({date: fixtures.date('2016-07-23')});
     var d_2016_07 = fixtures.video({date: fixtures.date('2016-07-18')});
     // group them per month
-    var collection = { files: [a_2016_06, b_2016_06, c_2016_07, d_2016_07] };
+    var collection = [a_2016_06, b_2016_06, c_2016_07, d_2016_07]
     var albums = bydate.albums(collection, {
       grouping: 'YYYY-MM'
     });
@@ -42,7 +42,7 @@ describe('ByDate', function() {
     var c_2016_07 = fixtures.photo({date: fixtures.date('2016-07-23')});
     var d_2016_08 = fixtures.video({date: fixtures.date('2016-08-18')});
     // group them per year, and nested month
-    var collection = { files: [a_2015_06, b_2015_06, c_2016_07, d_2016_08] };
+    var collection = [a_2015_06, b_2015_06, c_2016_07, d_2016_08]
     var albums = bydate.albums(collection, {
       grouping: 'YYYY/MM'
     });

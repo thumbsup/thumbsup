@@ -26,9 +26,9 @@
   },
   "dependencies": {
     "async": "^2.1.2",
-    "exif-parser": "~0.1.9",
+    "debug": "^2.6.1",
+    "exiftool-json-db": "~1.0.0",
     "fs-extra": "^1.0.0",
-    "glob": "^7.1.1",
     "gm": "^1.23.0",
     "handlebars": "~4.0.5",
     "less": "^2.7.1",
