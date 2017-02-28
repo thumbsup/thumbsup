@@ -3,6 +3,7 @@ var path        = require('path');
 var pad         = require('pad');
 var async       = require('async');
 var progress    = require('./progress');
+const debug = require('debug')('thumbsup')
 
 exports.exec = function(input, output, collection, options, callback) {
   var message = pad(options.message, 20)
@@ -28,6 +29,7 @@ exports.exec = function(input, output, collection, options, callback) {
   if (process.length > 0) {
     var ops = process.map(function(task) {
       return function(next) {
+        debug(`Transforming ${task.src} into ${task.dest}`)
         fs.mkdirpSync(path.dirname(task.dest));
         options.func(task, function(err) {
           bar.tick();

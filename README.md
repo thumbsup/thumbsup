@@ -92,6 +92,14 @@ The optional JSON config should contain a single object with one key per argumen
 
 We welcome all [issues](https://github.com/thumbsup/node-thumbsup/issues)
 and [pull requests](https://github.com/thumbsup/node-thumbsup/pulls)!
+
+If you are facing any issues or getting crashes, you can run `thumbsup` in debug mode
+to get a verbose troubleshooting log of all operations:
+
+```bash
+DEBUG="*" thumbsup [options]
+```
+
 Please make sure the tests are passing when submitting a code change:
 
 ```bash
