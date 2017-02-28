@@ -1,9 +1,9 @@
-var fs          = require('fs-extra');
-var path        = require('path');
-var pad         = require('pad');
-var async       = require('async');
-var progress    = require('./progress');
 const debug = require('debug')('thumbsup')
+const fs = require('fs-extra')
+const path = require('path')
+const pad  = require('pad')
+const async = require('async')
+const progress = require('./progress')
 
 exports.exec = function(input, output, collection, options, callback) {
   var message = pad(options.message, 20)
@@ -37,10 +37,8 @@ exports.exec = function(input, output, collection, options, callback) {
         });
       };
     });
-    bar.tick(0);
-    async.series(ops, callback);
+    async.parallelLimit(ops, 2, callback);
   } else {
-    bar.tick(1);
     callback();
   }
 }

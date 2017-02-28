@@ -21,9 +21,6 @@ exports.update = function(media, databasePath, callback) {
     const totalBar = progress.create('List media files', stats.total)
     totalBar.tick(stats.total)
     updateBar = progress.create('Updating database', stats.added + stats.modified)
-    if (stats.added + stats.modified === 0) {
-      updateBar.tick(1)
-    }
   })
 
   emitter.on('file', (file) => {
