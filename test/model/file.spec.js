@@ -33,7 +33,7 @@ describe('File', function() {
 
   it('can tell if a file is an animated GIF', function() {
     var meta = fixtures.metadata();
-    meta.mediaType = 'photo';
+    meta.mediaType = 'image';
     var file = new File('test.gif', meta);
     should(file.isVideo).eql(false);
     should(file.isAnimated).eql(true);

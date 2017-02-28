@@ -1,6 +1,6 @@
 const moment = require('moment')
 
-const MIME_REGEX = /([^/])\/(.*)/
+const MIME_REGEX = /([^/]+)\/(.*)/
 const EXIF_DATE_FORMAT = 'YYYY:MM:DD HH:mm:ssZ'
 
 function File (dbFile) {

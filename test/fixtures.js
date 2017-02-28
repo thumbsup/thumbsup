@@ -3,7 +3,7 @@ var File = require('../src/model/file');
 exports.metadata = function() {
   return {
     fileDate: new Date(),
-    mediaType: 'photo',
+    mediaType: 'image',
     exif: {
       date: null,
       orientation: 1,
@@ -21,7 +21,7 @@ exports.photo = function(opts) {
   var date = opts.date ? new Date(Date.parse(opts.date)) : new Date();
   return new File(opts.path || 'tmp', {
     fileDate: date,
-    mediaType: 'photo',
+    mediaType: 'image',
     exif: {
       date: null,
       orientation: 1,
