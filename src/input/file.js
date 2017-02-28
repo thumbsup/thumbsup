@@ -29,7 +29,9 @@ function exifDate (dbFile) {
 }
 
 function caption (dbFile) {
-  return dbFile.EXIF ? dbFile.EXIF.ImageDescription : null
+  const desc = dbFile.EXIF ? dbFile.EXIF.ImageDescription : null
+  const caption = dbFile.IPTC ? dbFile.IPTC['Caption-Abstract'] : null
+  return desc || caption
 }
 
 module.exports = File
