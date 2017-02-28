@@ -30,7 +30,7 @@ function videoUrls(filepath) {
 
 function photoUrls(filepath) {
   return {
-    thumb:     'media/thumbs/' + ext(filepath, 'jpg'),
+    thumb:     'media/thumbs/' + filepath,
     large:     'media/large/' + filepath,
     original:  'media/original/' + filepath
   };

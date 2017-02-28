@@ -81,7 +81,7 @@ exports.build = function(opts) {
     buildStep({
       message: 'Photos: thumbnails',
       ext:     'jpg|jpeg|png|gif',
-      dest:    '/thumbs/$path/$name.jpg',
+      dest:    '/thumbs/$path/$name.$ext',
       func:    thumbs.photoSquare
     }),
 
