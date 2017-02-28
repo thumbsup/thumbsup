@@ -63,6 +63,7 @@ exports.build = function(rootAlbum, opts, callback) {
   }
 
   function support(callback) {
+    // copy all external JS/CSS
     var dest = path.join(opts.output, 'public');
     fs.copy(DIR_PUBLIC, dest, callback);
   }
@@ -74,6 +75,12 @@ exports.build = function(rootAlbum, opts, callback) {
     var src = path.join(path.dirname(lgPackage), 'dist');
     var dest = path.join(opts.output, 'public', 'light-gallery');
     fs.copy(src, dest, callback);
+  }
+
+  function videoJS (callback) {
+    // copy VideoJS fonts that need to be one level above in a folder called "f"
+    var dest = path.join(opts.output, 'f');
+    fs.copy(path.join(DIR_PUBLIC, 'f'), dest, callback);
   }
 
   function renderStyles(callback) {
@@ -93,6 +100,7 @@ exports.build = function(rootAlbum, opts, callback) {
     support,
     website,
     lightGallery,
+    videoJS,
     renderStyles
   ], function(err) {
     callback(err);
