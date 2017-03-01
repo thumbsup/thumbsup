@@ -28,7 +28,7 @@ Simply point `thumbsup` to a folder with photos &amp; videos. All nested folders
 
 
 ```bash
-npm install thumbsup
+npm install -g thumbsup
 thumbsup --input ./media --output ./website
 ```
 
