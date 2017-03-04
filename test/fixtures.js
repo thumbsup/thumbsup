@@ -1,45 +1,34 @@
-var File = require('../src/model/file');
+const File = require('../src/input/file')
+const Media = require('../src/model/media')
 
-exports.metadata = function() {
+exports.file = function (opts) {
+  opts = opts || {}
   return {
-    fileDate: new Date(),
-    mediaType: 'image',
-    exif: {
-      date: null,
-      orientation: 1,
-      caption: ''
+    path: opts.path || 'path/image.jpg',
+    date: opts.date ? new Date(opts.date).getTime() : new Date().getTime(),
+    type: opts.type || 'image',
+    meta: {
+      SourceFile: 'path/image.jpg',
+      File: {},
+      EXIF: {},
+      IPTC: {},
+      XMP: {}
     }
-  };
-};
+  }
+}
 
-exports.date = function(str) {
-  return new Date(Date.parse(str));
-};
+exports.date = function (str) {
+  return new Date(Date.parse(str))
+}
 
-exports.photo = function(opts) {
-  opts = opts || {};
-  var date = opts.date ? new Date(Date.parse(opts.date)) : new Date();
-  return new File(opts.path || 'tmp', {
-    fileDate: date,
-    mediaType: 'image',
-    exif: {
-      date: null,
-      orientation: 1,
-      caption: ''
-    }
-  });
-};
+exports.photo = function (opts) {
+  opts = opts || {}
+  opts.type = 'image'
+  return new Media(exports.file(opts))
+}
 
-exports.video = function(opts) {
-  opts = opts || {};
-  var date = opts.date ? new Date(Date.parse(opts.date)) : new Date();
-  return new File(opts.path || 'tmp', {
-    fileDate: date,
-    mediaType: 'video',
-    exif: {
-      date: null,
-      orientation: 1,
-      caption: ''
-    }
-  });
-};
+exports.video = function (opts) {
+  opts = opts || {}
+  opts.type = 'video'
+  return new Media(exports.file(opts))
+}

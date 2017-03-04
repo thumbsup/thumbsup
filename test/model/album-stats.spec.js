@@ -36,8 +36,8 @@ describe('Album', function() {
           ]
         });
         a.finalize();
-        should(a.stats.fromDate).eql(fixtures.date('2016-09-02'));
-        should(a.stats.toDate).eql(fixtures.date('2016-10-21'));
+        should(a.stats.fromDate).eql(fixtures.date('2016-09-02').getTime());
+        should(a.stats.toDate).eql(fixtures.date('2016-10-21').getTime());
       });
 
     });
@@ -91,8 +91,8 @@ describe('Album', function() {
           ]
         });
         a.finalize();
-        should(a.stats.fromDate).eql(fixtures.date('2016-09-02'));
-        should(a.stats.toDate).eql(fixtures.date('2016-10-21'));
+        should(a.stats.fromDate).eql(fixtures.date('2016-09-02').getTime());
+        should(a.stats.toDate).eql(fixtures.date('2016-10-21').getTime());
       });
 
     });

@@ -114,8 +114,8 @@ describe('Album', function() {
         fixtures.photo(), fixtures.photo(),
       ]});
       a.finalize();
-      should(a.previews[2].urls.thumb).eql('public/missing.png');
-      should(a.previews[9].urls.thumb).eql('public/missing.png');
+      should(a.previews[2].urls.thumbnail).eql('public/missing.png');
+      should(a.previews[9].urls.thumbnail).eql('public/missing.png');
     });
 
     it('uses files from nested albums too', function() {
@@ -135,7 +135,7 @@ describe('Album', function() {
       a.finalize();
       should(a.previews).have.length(10);
       for (var i = 0; i < 4; ++i) {
-        should(a.previews[i].urls.thumb).not.eql('public/missing.png');
+        should(a.previews[i].urls.thumbnail).not.eql('public/missing.png');
       }
     });
 
@@ -195,8 +195,8 @@ describe('Album', function() {
       ]});
       var root = new Album({title: 'home', albums: [nested]});
       root.finalize({sortMediaBy: 'filename'});
-      should(nested.files[0].filepath).eql('a');
-      should(nested.files[1].filepath).eql('b');
+      should(nested.files[0].file.path).eql('a');
+      should(nested.files[1].file.path).eql('b');
     });
 
   });
@@ -238,8 +238,8 @@ describe('Album', function() {
       ]});
       var root = new Album({title: 'home', albums: [nested]});
       root.finalize({sortMediaBy: 'filename'});
-      should(nested.files[0].filepath).eql('a');
-      should(nested.files[1].filepath).eql('b');
+      should(nested.files[0].file.path).eql('a');
+      should(nested.files[1].file.path).eql('b');
     });
 
   });

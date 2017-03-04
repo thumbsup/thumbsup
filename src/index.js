@@ -5,12 +5,12 @@ const pad = require('pad')
 const path = require('path')
 const database = require('./input/database')
 const File = require('./input/file')
-const MediaFile = require('./model/file')
+const Media = require('./model/media')
 const hierarchy = require('./model/hierarchy.js')
 const thumbs = require('./output-media/thumbs')
 const website = require('./output-website/website')
 
-exports.build = function(opts) {
+exports.build = function (opts) {
 
   thumbs.sizes.thumb = opts.thumbSize;
   thumbs.sizes.large = opts.largeSize;
@@ -25,7 +25,7 @@ exports.build = function(opts) {
   var album = null        // root album with nested albums
   var collection = null   // all files in the database
 
-  function buildStep(options) {
+  function buildStep (options) {
     return function(callback) {
       if (options.condition !== false) {
         make.exec(opts.input, media, collection, options, callback);
@@ -35,7 +35,7 @@ exports.build = function(opts) {
     }
   }
 
-  function callbackStep(name, fn) {
+  function callbackStep (name, fn) {
     return function(next) {
       process.stdout.write(pad(name, 20));
       fn(function(err) {
@@ -58,7 +58,7 @@ exports.build = function(opts) {
 
     function updateDatabase(callback) {
       database.update(opts.input, databaseFile, (err, dbFiles) => {
-        collection = dbFiles.map(f => new File(f))
+        collection = dbFiles.map(f => new File(f, opts))
         callback(err)
       })
     },
@@ -115,20 +115,20 @@ exports.build = function(opts) {
     }),
 
     callbackStep('Album hierarchy', function(next) {
-      const mediaCollection = collection.map(f => new MediaFile(f.path, f))
-      albums = hierarchy.createAlbums(mediaCollection, opts);
-      next();
+      const mediaCollection = collection.map(f => new Media(f))
+      albums = hierarchy.createAlbums(mediaCollection, opts)
+      next()
     }),
 
     callbackStep('Static website', function(next) {
-      website.build(albums, opts, next);
+      website.build(albums, opts, next)
     })
 
   ], finish);
 
-};
+}
 
-function finish(err) {
+function finish (err) {
   console.log();
   console.log(err || 'Gallery generated successfully');
   console.log();

@@ -97,16 +97,6 @@ exports.create = function(options) {
   });
 
   // utility helper
-  // render the correct download path based on user options
-  handlebars.registerHelper('download', function(file) {
-    if (file.isVideo) {
-      return options.originalVideos ? file.urls.original : file.urls.video;
-    } else {
-      return options.originalPhotos ? file.urls.original : file.urls.large;
-    }
-  });
-
-  // utility helper
   // return the relative path from the current folder to the argument
   var currentFolder = '.';
   handlebars.registerHelper('relative', function(target, options) {

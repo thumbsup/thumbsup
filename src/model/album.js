@@ -19,7 +19,7 @@ var SORT_MEDIA_BY = {
 
 var PREVIEW_MISSING = {
   urls: {
-    thumb: 'public/missing.png'
+    thumbnail: 'public/missing.png'
   }
 };
 

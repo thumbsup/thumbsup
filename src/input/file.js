@@ -1,37 +1,30 @@
 const moment = require('moment')
+const output = require('./output')
 
 const MIME_REGEX = /([^/]+)\/(.*)/
 const EXIF_DATE_FORMAT = 'YYYY:MM:DD HH:mm:ssZ'
 
-function File (dbFile) {
-  this.path = dbFile.SourceFile
-  this.fileDate = fileDate(dbFile)
-  this.mediaType = mediaType(dbFile)
-  this.exif = {
-    date: exifDate(dbFile),
-    caption: caption(dbFile)
-  }
+/*
+  Represents a source file on disk and how it maps to output files
+  + all known metadata
+*/
+function File (dbEntry, opts) {
+  this.meta = dbEntry
+  this.path = dbEntry.SourceFile
+  this.date = fileDate(dbEntry)
+  this.type = mediaType(dbEntry)
+  this.output = output.paths(this.path, this.mediaType, opts)
 }
 
-function mediaType (dbFile) {
-  const match = MIME_REGEX.exec(dbFile.File.MIMEType)
+function fileDate (dbEntry) {
+  return moment(dbEntry.File.FileModifyDate, EXIF_DATE_FORMAT).valueOf()
+}
+
+function mediaType (dbEntry) {
+  const match = MIME_REGEX.exec(dbEntry.File.MIMEType)
+  // "image" or "video"
   if (match) return match[1]
   return 'unknown'
-}
-
-function fileDate (dbFile) {
-  return moment(dbFile.File.FileModifyDate, EXIF_DATE_FORMAT).valueOf()
-}
-
-function exifDate (dbFile) {
-  if (!dbFile.EXIF) return null
-  return moment(dbFile.EXIF.DateTimeOriginal, EXIF_DATE_FORMAT).valueOf()
-}
-
-function caption (dbFile) {
-  const desc = dbFile.EXIF ? dbFile.EXIF.ImageDescription : null
-  const caption = dbFile.IPTC ? dbFile.IPTC['Caption-Abstract'] : null
-  return desc || caption
 }
 
 module.exports = File

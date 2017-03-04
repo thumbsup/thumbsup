@@ -12,10 +12,10 @@ exports.albums = function(collection, opts) {
   });
   var groups = {};
   // put all files in the right albums
-  collection.forEach(function(file) {
-    var groupName = moment(file.date).format(opts.grouping);
+  collection.forEach(function(media) {
+    var groupName = moment(media.date).format(opts.grouping);
     createAlbumHierarchy(groups, groupName);
-    groups[groupName].files.push(file);
+    groups[groupName].files.push(media);
   });
   // only return top-level albums
   var topLevel = _.keys(groups).filter(function(dir) {
