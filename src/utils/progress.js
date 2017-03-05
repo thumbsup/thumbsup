@@ -2,16 +2,26 @@ const pad = require('pad')
 const ProgressBar = require('progress')
 const util = require('util')
 
-function BetterProgressBar (message, count) {
+exports.create = function(message, count) {
+  if (typeof count === 'undefined') {
+    var format = pad(message, 20) + '[:bar] :eta'
+    return new BetterProgressBar(format, 1)
+  }
+  if (Array.isArray(count)) count = count.length
   if (count > 0) {
-    var format = pad(message, 20) + '[:bar] :current/:total files :eta'
-    ProgressBar.call(this, format, { total: count, width: 20 })
-    this.tick(0)
+    var format = pad(message, 20) + '[:bar] :current/:total :eta'
+    return new BetterProgressBar(format, count)
   } else {
     var format = pad(message, 20) + '[:bar] up to date'
-    ProgressBar.call(this, format, { total: 1, width: 20, incomplete: '=' })
-    this.tick(1)
+    var bar = new BetterProgressBar(format, 1)
+    bar.tick(1)
+    return bar
   }
+}
+
+function BetterProgressBar (format, count) {
+  ProgressBar.call(this, format, { total: count, width: 25 })
+  this.tick(0)
 }
 
 util.inherits(BetterProgressBar, ProgressBar)
@@ -34,7 +44,7 @@ BetterProgressBar.prototype.render = function (tokens) {
 }
 
 function formatEta (ms) {
-  if (isNaN(ms) || !isFinite(ms)) return '(calculating...)'
+  if (isNaN(ms) || !isFinite(ms)) return ''
   if (ms > 60 * 1000) {
     var min = Math.floor(ms / 60 / 1000)
     return `(${min.toFixed(0)}min left)`
@@ -45,10 +55,6 @@ function formatEta (ms) {
     var sec = ms / 1000
     return `(a few seconds left)`
   } else {
-    return ''
+    return 'done'
   }
-}
-
-exports.create = function(message, count) {
-  return new BetterProgressBar(message, count)
 }

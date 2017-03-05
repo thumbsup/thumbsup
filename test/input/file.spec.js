@@ -40,7 +40,8 @@ describe('Input file', function () {
 })
 
 function dbFile (data) {
-  // needs at least a file date
+  // some required data
+  if (!data.SourceFile) data.SourceFile = 'photo.jpg'
   if (!data.File) data.File = {}
   if (!data.File.FileModifyDate)  data.File.FileModifyDate = '1999:12:31 23:59:59+00:00'
   return data

@@ -1,136 +1,84 @@
 const async = require('async')
 const fs = require('fs-extra')
-const make = require('./utils/make')
 const pad = require('pad')
 const path = require('path')
 const database = require('./input/database')
+const progress = require('./utils/progress')
 const File = require('./input/file')
 const Media = require('./model/media')
 const hierarchy = require('./model/hierarchy.js')
-const thumbs = require('./output-media/thumbs')
+const resize = require('./output-media/resize')
 const website = require('./output-website/website')
 
 exports.build = function (opts) {
 
-  thumbs.sizes.thumb = opts.thumbSize;
-  thumbs.sizes.large = opts.largeSize;
+  resize.sizes.thumb = opts.thumbSize
+  resize.sizes.large = opts.largeSize
 
-  fs.mkdirpSync(opts.output);
-  var media = path.join(opts.output, 'media');
-  var databaseFile = path.join(opts.output, 'metadata.json');
+  fs.mkdirpSync(opts.output)
+  const media = path.join(opts.output, 'media')
+  const databaseFile = path.join(opts.output, 'metadata.json')
 
-  // ---------------------
-  // These variables are set later during the async phase
-  // ---------------------
   var album = null        // root album with nested albums
   var collection = null   // all files in the database
 
-  function buildStep (options) {
-    return function(callback) {
-      if (options.condition !== false) {
-        make.exec(opts.input, media, collection, options, callback);
-      } else {
-        callback();
-      }
-    }
-  }
-
-  function callbackStep (name, fn) {
-    return function(next) {
-      process.stdout.write(pad(name, 20));
-      fn(function(err) {
-        if (err) {
-          console.log('[====================] error');
-          next(err);
-        } else {
-          console.log('[====================] done');
-          next();
-        }
-      });
-    }
-  }
-
-  function copyFile(task, callback) {
-    fs.copy(task.src, task.dest, callback);
-  }
-
   async.series([
 
-    function updateDatabase(callback) {
+    function updateDatabase (callback) {
       database.update(opts.input, databaseFile, (err, dbFiles) => {
         collection = dbFiles.map(f => new File(f, opts))
         callback(err)
       })
     },
 
-    buildStep({
-      condition: opts.originalPhotos,
-      message: 'Photos: original',
-      ext:     'jpg|jpeg|png|gif',
-      dest:    '/original/$path/$name.$ext',
-      func:    copyFile
-    }),
+    function processPhotos (callback) {
+      const tasks = require('./output-media/tasks')
+      const imageTasks = tasks.create(opts, collection, 'image')
+      const imageBar = progress.create('Processing photos', imageTasks.length)
+      async.parallelLimit(imageTasks.map(asyncProgress(imageBar)), 2, callback)
+    },
 
-    buildStep({
-      message: 'Photos: large',
-      ext:     'jpg|jpeg|png|gif',
-      dest:    '/large/$path/$name.$ext',
-      func:    thumbs.photoLarge
-    }),
+    function processVideos (callback) {
+      const tasks = require('./output-media/tasks')
+      const videoTasks = tasks.create(opts, collection, 'video')
+      const videoBar = progress.create('Processing videos', videoTasks.length)
+      async.parallelLimit(videoTasks.map(asyncProgress(videoBar)), 2, callback)
+    },
 
-    buildStep({
-      message: 'Photos: thumbnails',
-      ext:     'jpg|jpeg|png|gif',
-      dest:    '/thumbs/$path/$name.$ext',
-      func:    thumbs.photoSquare
-    }),
-
-    buildStep({
-      condition: opts.originalVideos,
-      message: 'Videos: original',
-      ext:     'mp4|mov|mts|m2ts',
-      dest:    '/original/$path/$name.$ext',
-      func:    copyFile
-    }),
-
-    buildStep({
-      message: 'Videos: resized',
-      ext:     'mp4|mov|mts|m2ts',
-      dest:    '/large/$path/$name.mp4',
-      func:    thumbs.videoWeb
-    }),
-
-    buildStep({
-      message: 'Videos: poster',
-      ext:     'mp4|mov|mts|m2ts',
-      dest:    '/large/$path/$name.jpg',
-      func:    thumbs.videoLarge
-    }),
-
-    buildStep({
-      message: 'Videos: thumbnails',
-      ext:     'mp4|mov|mts|m2ts',
-      dest:    '/thumbs/$path/$name.jpg',
-      func:    thumbs.videoSquare
-    }),
-
-    callbackStep('Album hierarchy', function(next) {
+    function createAlbums (callback) {
+      const bar = progress.create('Creating albums')
       const mediaCollection = collection.map(f => new Media(f))
-      albums = hierarchy.createAlbums(mediaCollection, opts)
-      next()
-    }),
+      album = hierarchy.createAlbums(mediaCollection, opts)
+      bar.tick(1)
+      callback()
+    },
 
-    callbackStep('Static website', function(next) {
-      website.build(albums, opts, next)
-    })
+    function createWebsite (callback) {
+      const bar = progress.create('Building website')
+      website.build(album, opts, (err) => {
+        bar.tick(1)
+        callback(err)
+      })
+    }
 
-  ], finish);
+  ], finish)
 
 }
 
+function asyncProgress (bar) {
+  return fn => {
+    return done => {
+      fn(err => {
+        bar.tick(1)
+        done(err)
+      })
+    }
+  }
+}
+
 function finish (err) {
-  console.log();
-  console.log(err || 'Gallery generated successfully');
-  console.log();
+  console.log(err ? 'Unexpected error' : '')
+  console.log(err || 'Gallery generated successfully')
+  console.log()
   process.exit(err ? 1 : 0)
 }
