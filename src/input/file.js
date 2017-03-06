@@ -13,7 +13,7 @@ function File (dbEntry, opts) {
   this.path = dbEntry.SourceFile
   this.date = fileDate(dbEntry)
   this.type = mediaType(dbEntry)
-  this.output = output.paths(this.path, this.mediaType, opts)
+  this.output = output.paths(this.path, this.type, opts)
 }
 
 function fileDate (dbEntry) {
@@ -22,8 +22,8 @@ function fileDate (dbEntry) {
 
 function mediaType (dbEntry) {
   const match = MIME_REGEX.exec(dbEntry.File.MIMEType)
-  // "image" or "video"
-  if (match) return match[1]
+  if (match && match[1] === 'image') return 'image'
+  if (match && match[1] === 'video') return 'video'
   return 'unknown'
 }
 

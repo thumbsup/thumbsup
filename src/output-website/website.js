@@ -4,7 +4,6 @@ var path        = require('path');
 var async       = require('async');
 var pad         = require('pad');
 var less        = require('less');
-var files       = require('../utils/files');
 var Album       = require('../model/album');
 var byFolder    = require('../model//by-folder');
 var byDate      = require('../model//by-date');
