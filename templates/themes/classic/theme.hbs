@@ -24,7 +24,7 @@
      </div>
      <ul class="grid">
        {{~#slice previews count=4~}}
-       <li><img src="{{relative this.urls.thumb}}" /></li>
+       <li><img src="{{relative urls.thumbnail}}" /></li>
        {{~/slice}}
      </ul>
    </a>
@@ -36,25 +36,25 @@
  {{#each album.files}}
    {{#if isVideo~}}
      <li data-html="#media{{id}}"
-         data-poster="{{relative urls.poster}}"
-         data-download-url="{{relative (download this)}}">
-       <a href="{{relative (download this)}}">
-         <img src="{{relative urls.thumb}}"
+         data-poster="{{relative urls.large}}"
+         data-download-url="{{relative urls.download}}">
+       <a href="{{relative urls.download}}">
+         <img src="{{relative urls.thumbnail}}"
               width="{{@root.gallery.thumbSize}}"
               height="{{@root.gallery.thumbSize}}"
-              alt="{{name}}" />
+              alt="{{file.name}}" />
        </a>
        <img class="video-overlay" src="{{relative 'public/play.png'}}" />
      </li>
    {{else}}
      <li data-src="{{relative urls.large}}"
          data-sub-html="{{caption}}"
-         data-download-url="{{relative (download this)}}">
-       <a href="{{relative (download this)}}">
-         <img src="{{relative urls.thumb}}"
+         data-download-url="{{relative urls.download}}">
+       <a href="{{relative urls.download}}">
+         <img src="{{relative urls.thumbnail}}"
               width="{{@root.gallery.thumbSize}}"
               height="{{@root.gallery.thumbSize}}"
-              alt="{{name}}" />
+              alt="{{file.name}}" />
        </a>
        {{#if isAnimated}}
          <img class="video-overlay" src="{{relative 'public/play.png'}}" />

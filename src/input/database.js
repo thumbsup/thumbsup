@@ -18,7 +18,7 @@ exports.update = function(media, databasePath, callback) {
 
   emitter.on('stats', (stats) => {
     debug(`Database stats: total=${stats.total}`)
-    const totalBar = progress.create('List media files', stats.total)
+    const totalBar = progress.create('Finding media files', stats.total)
     totalBar.tick(stats.total)
     updateBar = progress.create('Updating database', stats.added + stats.modified)
   })

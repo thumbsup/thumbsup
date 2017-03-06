@@ -8,10 +8,10 @@ var Album  = require('./album');
 exports.albums = function(collection, opts) {
   var albumsByFullPath = {};
   // put all files in the right album
-  collection.forEach(function(file) {
-    var fullDir = path.dirname(file.filepath);
+  collection.forEach(function(media) {
+    var fullDir = path.dirname(media.file.path);
     createAlbumHierarchy(albumsByFullPath, fullDir);
-    albumsByFullPath[fullDir].files.push(file);
+    albumsByFullPath[fullDir].files.push(media);
   });
   // only return top-level albums
   var topLevel = _.keys(albumsByFullPath).filter(function(dir) {
