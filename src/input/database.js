@@ -1,10 +1,8 @@
 const debug = require('debug')('thumbsup')
 const exifdb = require('exiftool-json-db')
-const pad = require('pad')
 const progress = require('../utils/progress')
 
-exports.update = function(media, databasePath, callback) {
-
+exports.update = function (media, databasePath, callback) {
   var updateBar = null
   var emitter = null
 
@@ -32,5 +30,4 @@ exports.update = function(media, databasePath, callback) {
   })
 
   emitter.on('error', callback)
-
 }

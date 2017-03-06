@@ -1,6 +1,5 @@
 const async = require('async')
 const fs = require('fs-extra')
-const pad = require('pad')
 const path = require('path')
 const database = require('./input/database')
 const progress = require('./utils/progress')
@@ -11,12 +10,10 @@ const resize = require('./output-media/resize')
 const website = require('./output-website/website')
 
 exports.build = function (opts) {
-
   resize.sizes.thumb = opts.thumbSize
   resize.sizes.large = opts.largeSize
 
   fs.mkdirpSync(opts.output)
-  const media = path.join(opts.output, 'media')
   const databaseFile = path.join(opts.output, 'metadata.json')
 
   var album = null        // root album with nested albums
@@ -62,7 +59,6 @@ exports.build = function (opts) {
     }
 
   ], finish)
-
 }
 
 function asyncProgress (bar) {

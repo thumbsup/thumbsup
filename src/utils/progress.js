@@ -2,17 +2,18 @@ const pad = require('pad')
 const ProgressBar = require('progress')
 const util = require('util')
 
-exports.create = function(message, count) {
+exports.create = function (message, count) {
+  var format = ''
   if (typeof count === 'undefined') {
-    var format = pad(message, 20) + '[:bar] :eta'
+    format = pad(message, 20) + '[:bar] :eta'
     return new BetterProgressBar(format, 1)
   }
   if (Array.isArray(count)) count = count.length
   if (count > 0) {
-    var format = pad(message, 20) + '[:bar] :current/:total :eta'
+    format = pad(message, 20) + '[:bar] :current/:total :eta'
     return new BetterProgressBar(format, count)
   } else {
-    var format = pad(message, 20) + '[:bar] up to date'
+    format = pad(message, 20) + '[:bar] up to date'
     var bar = new BetterProgressBar(format, 1)
     bar.tick(1)
     return bar
@@ -30,8 +31,8 @@ BetterProgressBar.prototype.eta = function () {
   var ratio = this.curr / this.total
   ratio = Math.min(Math.max(ratio, 0), 1)
   var percent = ratio * 100
-  var elapsed = new Date - this.start
-  return (percent == 100) ? 0 : elapsed * (this.total / this.curr - 1)
+  var elapsed = new Date() - this.start
+  return (percent === 100) ? 0 : elapsed * ((this.total / this.curr) - 1)
 }
 
 BetterProgressBar.prototype.render = function (tokens) {
@@ -44,15 +45,17 @@ BetterProgressBar.prototype.render = function (tokens) {
 }
 
 function formatEta (ms) {
+  var min = 0
+  var sec = 0
   if (isNaN(ms) || !isFinite(ms)) return ''
   if (ms > 60 * 1000) {
-    var min = Math.floor(ms / 60 / 1000)
+    min = Math.floor(ms / 60 / 1000)
     return `(${min.toFixed(0)}min left)`
   } else if (ms > 10 * 1000) {
-    var sec = Math.floor(ms / 10000) * 10
+    sec = Math.floor(ms / 10000) * 10
     return `(${sec.toFixed(0)}s left)`
   } else if (ms > 0) {
-    var sec = ms / 1000
+    sec = ms / 1000
     return `(a few seconds left)`
   } else {
     return 'done'

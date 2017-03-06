@@ -5,6 +5,7 @@
 [![Travis CI](https://travis-ci.org/thumbsup/node-thumbsup.svg?branch=master)](https://travis-ci.org/thumbsup/node-thumbsup)
 [![Dependencies](http://img.shields.io/david/thumbsup/node-thumbsup.svg?style=flat)](https://david-dm.org/thumbsup/node-thumbsup)
 [![Dev dependencies](https://david-dm.org/thumbsup/node-thumbsup/dev-status.svg?style=flat)](https://david-dm.org/thumbsup/node-thumbsup?type=dev)
+[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
 
 ![banner](banner.jpg)
 

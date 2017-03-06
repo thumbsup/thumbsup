@@ -44,6 +44,19 @@
     "markdown-toc": "^0.13.0",
     "mocha": "^3.1.2",
     "require-lint": "^1.1.2",
-    "should": "^11.1.1"
+    "should": "^11.1.1",
+    "standard": "^9.0.0"
+  },
+  "standard": {
+    "ignore": [
+      "public/**"
+    ],
+    "globals": [
+      "afterEach",
+      "beforeEach",
+      "describe",
+      "it",
+      "xit"
+    ]
   }
 }

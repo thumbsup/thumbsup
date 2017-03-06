@@ -2,7 +2,6 @@ const should = require('should/as-function')
 const File = require('../../src/input/file')
 
 describe('Input file', function () {
-
   it('reads the relative file path', function () {
     var file = new File(dbFile({
       SourceFile: 'holidays/beach.jpg'
@@ -36,13 +35,12 @@ describe('Input file', function () {
     }))
     should(file.type).eql('video')
   })
-
 })
 
 function dbFile (data) {
   // some required data
   if (!data.SourceFile) data.SourceFile = 'photo.jpg'
   if (!data.File) data.File = {}
-  if (!data.File.FileModifyDate)  data.File.FileModifyDate = '1999:12:31 23:59:59+00:00'
+  if (!data.File.FileModifyDate) data.File.FileModifyDate = '1999:12:31 23:59:59+00:00'
   return data
 }

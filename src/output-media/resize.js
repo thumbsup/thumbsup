@@ -6,7 +6,7 @@ const path = require('path')
 
 exports.sizes = {
   thumb: 120,
-  large: 1000,
+  large: 1000
 }
 
 exports.copy = function (task, callback) {
@@ -36,7 +36,7 @@ exports.photoLarge = function (task, callback) {
 
 // Web-streaming friendly video
 exports.videoWeb = function (task, callback) {
-  var ffmpeg = 'ffmpeg -i "' + task.src + '" -y "'+ task.dest +'" -f mp4 -vcodec libx264 -ab 96k'
+  var ffmpeg = 'ffmpeg -i "' + task.src + '" -y "' + task.dest + '" -f mp4 -vcodec libx264 -ab 96k'
   // AVCHD/MTS videos need a full-frame export to avoid interlacing artefacts
   if (path.extname(task.src).toLowerCase() === '.mts') {
     ffmpeg += ' -vf yadif=1 -qscale:v 4'
@@ -49,10 +49,10 @@ exports.videoWeb = function (task, callback) {
 // Large video preview (before you click play)
 exports.videoLarge = function (task, callback) {
   async.series([
-    function(next) {
+    function (next) {
       extractFrame(task, next)
     },
-    function(next) {
+    function (next) {
       exports.photoLarge({
         src: task.dest,
         dest: task.dest
@@ -64,10 +64,10 @@ exports.videoLarge = function (task, callback) {
 // Small square video preview
 exports.videoSquare = function (task, callback) {
   async.series([
-    function(next) {
+    function (next) {
       extractFrame(task, next)
     },
-    function(next) {
+    function (next) {
       exports.photoSquare({
         src: task.dest,
         dest: task.dest

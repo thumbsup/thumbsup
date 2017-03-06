@@ -1,14 +1,8 @@
-var _ = require('lodash')
-var gm = require('gm')
-var pad = require('pad')
-var path = require('path')
 var Album = require('./album')
-var Media = require('./media')
 var byFolder = require('./by-folder')
 var byDate = require('./by-date')
 
 exports.createAlbums = function (collection, opts) {
-
   // top-level album for the home page
   var home = new Album('Home')
   home.filename = opts.index || 'index'
@@ -19,7 +13,7 @@ exports.createAlbums = function (collection, opts) {
   } else if (opts.albumsFrom === 'date') {
     home.albums = byDate.albums(collection, opts)
   } else {
-    throw 'Invalid <albumsFrom> option'
+    throw new Error('Invalid <albumsFrom> option')
   }
 
   // finalize all albums recursively (calculate stats, etc...)

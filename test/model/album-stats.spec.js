@@ -1,58 +1,53 @@
-var should   = require('should/as-function');
-var Album    = require('../../src/model/album');
-var fixtures = require('../fixtures');
+var should = require('should/as-function')
+var Album = require('../../src/model/album')
+var fixtures = require('../fixtures')
 
-describe('Album', function() {
-
-  describe('stats', function() {
-
-    describe('single level stats', function() {
-
-      it('has no nested albums', function() {
-        var a = new Album({});
-        a.finalize();
-        should(a.stats.albums).eql(0);
+describe('Album', function () {
+  describe('stats', function () {
+    describe('single level stats', function () {
+      it('has no nested albums', function () {
+        var a = new Album({})
+        a.finalize()
+        should(a.stats.albums).eql(0)
       })
 
-      it('calculates counts for a single level', function() {
+      it('calculates counts for a single level', function () {
         var a = new Album({
           files: [
             fixtures.photo(), fixtures.photo(),
             fixtures.photo(), fixtures.photo(),
-            fixtures.video(), fixtures.video(),
+            fixtures.video(), fixtures.video()
           ]
-        });
-        a.finalize();
-        should(a.stats.photos).eql(4);
-        should(a.stats.videos).eql(2);
-      });
+        })
+        a.finalize()
+        should(a.stats.photos).eql(4)
+        should(a.stats.videos).eql(2)
+      })
 
-      it('calculates from/to dates', function() {
+      it('calculates from/to dates', function () {
         var a = new Album({
           files: [
             fixtures.photo({date: '2016-09-14'}),
             fixtures.photo({date: '2016-09-02'}),
-            fixtures.photo({date: '2016-10-21'}),
+            fixtures.photo({date: '2016-10-21'})
           ]
-        });
-        a.finalize();
-        should(a.stats.fromDate).eql(fixtures.date('2016-09-02').getTime());
-        should(a.stats.toDate).eql(fixtures.date('2016-10-21').getTime());
-      });
+        })
+        a.finalize()
+        should(a.stats.fromDate).eql(fixtures.date('2016-09-02').getTime())
+        should(a.stats.toDate).eql(fixtures.date('2016-10-21').getTime())
+      })
+    })
 
-    });
-
-    describe('nested albums stats', function() {
-
-      it('counts all nested albums', function() {
+    describe('nested albums stats', function () {
+      it('counts all nested albums', function () {
         var root = new Album({
           albums: [new Album('a'), new Album('b')]
-        });
-        root.finalize();
-        should(root.stats.albums).eql(2);
-      });
+        })
+        root.finalize()
+        should(root.stats.albums).eql(2)
+      })
 
-      it('counts all nested photos', function() {
+      it('counts all nested photos', function () {
         var root = new Album({
           files: [fixtures.photo()],
           albums: [
@@ -60,12 +55,12 @@ describe('Album', function() {
               files: [fixtures.photo(), fixtures.photo()]
             })
           ]
-        });
-        root.finalize();
-        should(root.stats.photos).eql(3);
-      });
+        })
+        root.finalize()
+        should(root.stats.photos).eql(3)
+      })
 
-      it('counts all nested photos', function() {
+      it('counts all nested photos', function () {
         var root = new Album({
           files: [fixtures.video()],
           albums: [
@@ -73,12 +68,12 @@ describe('Album', function() {
               files: [fixtures.video(), fixtures.video()]
             })
           ]
-        });
-        root.finalize();
-        should(root.stats.videos).eql(3);
-      });
+        })
+        root.finalize()
+        should(root.stats.videos).eql(3)
+      })
 
-      it('calculates from/to dates across all albums', function() {
+      it('calculates from/to dates across all albums', function () {
         var a = new Album({
           files: [fixtures.photo({date: '2016-09-14'})],
           albums: [
@@ -89,79 +84,74 @@ describe('Album', function() {
               })]
             })
           ]
-        });
-        a.finalize();
-        should(a.stats.fromDate).eql(fixtures.date('2016-09-02').getTime());
-        should(a.stats.toDate).eql(fixtures.date('2016-10-21').getTime());
-      });
+        })
+        a.finalize()
+        should(a.stats.fromDate).eql(fixtures.date('2016-09-02').getTime())
+        should(a.stats.toDate).eql(fixtures.date('2016-10-21').getTime())
+      })
+    })
+  })
 
-    });
-
-  });
-
-  describe('summary', function() {
-
-    it('creates a summary with a single photo', function() {
-      var a = new Album('single');
+  describe('summary', function () {
+    it('creates a summary with a single photo', function () {
+      var a = new Album('single')
       a.files = [
         fixtures.photo()
-      ];
-      a.finalize();
+      ]
+      a.finalize()
       should(a.summary).eql('1 photo')
-    });
+    })
 
-    it('creates a summary with a single video', function() {
-      var a = new Album('single');
+    it('creates a summary with a single video', function () {
+      var a = new Album('single')
       a.files = [
         fixtures.video()
-      ];
-      a.finalize();
+      ]
+      a.finalize()
       should(a.summary).eql('1 video')
-    });
+    })
 
-    it('creates a summary with a single album', function() {
-      var a = new Album('single');
-      a.albums = [new Album('nested')];
-      a.finalize();
+    it('creates a summary with a single album', function () {
+      var a = new Album('single')
+      a.albums = [new Album('nested')]
+      a.finalize()
       should(a.summary).eql('1 album')
-    });
+    })
 
-    it('creates a summary with several photos', function() {
-      var a = new Album('single');
+    it('creates a summary with several photos', function () {
+      var a = new Album('single')
       a.files = [
-        fixtures.photo(), fixtures.photo(),
-      ];
-      a.finalize();
+        fixtures.photo(), fixtures.photo()
+      ]
+      a.finalize()
       should(a.summary).eql('2 photos')
-    });
+    })
 
-    it('creates a summary with several videos', function() {
-      var a = new Album('single');
+    it('creates a summary with several videos', function () {
+      var a = new Album('single')
       a.files = [
-        fixtures.video(), fixtures.video(),
-      ];
-      a.finalize();
+        fixtures.video(), fixtures.video()
+      ]
+      a.finalize()
       should(a.summary).eql('2 videos')
-    });
+    })
 
-    it('creates a summary with several albums', function() {
-      var a = new Album('single');
-      a.albums = [new Album('nested 1'), new Album('nested 2')];
-      a.finalize();
+    it('creates a summary with several albums', function () {
+      var a = new Album('single')
+      a.albums = [new Album('nested 1'), new Album('nested 2')]
+      a.finalize()
       should(a.summary).eql('2 albums')
-    });
+    })
 
-    it('creates a summary with a mix of albums, photos and videos', function() {
-      var a = new Album('single');
-      a.albums = [new Album('nested')];
+    it('creates a summary with a mix of albums, photos and videos', function () {
+      var a = new Album('single')
+      a.albums = [new Album('nested')]
       a.files = [
         fixtures.photo(), fixtures.photo(),
-        fixtures.video(), fixtures.video(),
-      ];
-      a.finalize();
+        fixtures.video(), fixtures.video()
+      ]
+      a.finalize()
       should(a.summary).eql('1 album, 2 photos, 2 videos')
-    });
-
-  });
-
-});
+    })
+  })
+})

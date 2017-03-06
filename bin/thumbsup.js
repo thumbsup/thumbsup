@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-var yargs = require('yargs');
-var path  = require('path');
-var index = require('../src/index');
+var yargs = require('yargs')
+var path = require('path')
+var index = require('../src/index')
 
-console.log('');
+console.log('')
 var opts = yargs
   .usage('Usages:\n' +
          '  thumbsup [required] [options]\n' +
@@ -126,31 +126,30 @@ var opts = yargs
   .epilogue('The optional JSON config should contain a single object with one key ' +
             'per argument, not including the leading "--". For example:\n\n' +
             '{ "sort-albums-by": "start-date" }')
-  .argv;
-
+  .argv
 
 // Compatibility
-if (opts['sort-folders'] == 'name') opts['sort-albums-by'] = 'title';
-if (opts['sort-folders'] == 'date') opts['sort-albums-by'] = 'start-date';
+if (opts['sort-folders'] === 'name') opts['sort-albums-by'] = 'title'
+if (opts['sort-folders'] === 'date') opts['sort-albums-by'] = 'start-date'
 
 index.build({
-  input:             path.resolve(opts['input']),
-  output:            path.resolve(opts['output']),
-  title:             opts['title'],
-  thumbSize:         opts['thumb-size'],
-  largeSize:         opts['large-size'],
-  originalPhotos:    opts['original-photos'],
-  originalVideos:    opts['original-videos'],
-  albumsFrom:        opts['albums-from'],
-  albumsDateFormat:  opts['albums-date-format'],
-  sortAlbumsBy:      opts['sort-albums-by'],
+  input: path.resolve(opts['input']),
+  output: path.resolve(opts['output']),
+  title: opts['title'],
+  thumbSize: opts['thumb-size'],
+  largeSize: opts['large-size'],
+  originalPhotos: opts['original-photos'],
+  originalVideos: opts['original-videos'],
+  albumsFrom: opts['albums-from'],
+  albumsDateFormat: opts['albums-date-format'],
+  sortAlbumsBy: opts['sort-albums-by'],
   sortAlbumsDirection: opts['sort-albums-direction'],
-  sortMediaBy:       opts['sort-media-by'],
+  sortMediaBy: opts['sort-media-by'],
   sortMediaDirection: opts['sort-media-direction'],
-  theme:             opts['theme'],
-  css:               opts['css'],
-  googleAnalytics:   opts['google-analytics'],
-  index:             opts['index'],
-  footer:            opts['footer'],
+  theme: opts['theme'],
+  css: opts['css'],
+  googleAnalytics: opts['google-analytics'],
+  index: opts['index'],
+  footer: opts['footer'],
   albumsOutputFolder: opts['albums-output-folder']
-});
+})

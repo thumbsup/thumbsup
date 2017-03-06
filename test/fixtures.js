@@ -1,4 +1,3 @@
-const File = require('../src/input/file')
 const Media = require('../src/model/media')
 
 exports.file = function (opts) {

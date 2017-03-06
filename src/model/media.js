@@ -3,7 +3,7 @@ const moment = require('moment')
 const path = require('path')
 
 const EXIF_DATE_FORMAT = 'YYYY:MM:DD HH:mm:ssZ'
-var index = 0;
+var index = 0
 
 /*
   View model for album entries

@@ -1,11 +1,12 @@
 const debug = require('debug')('thumbsup')
 
 exports.paths = function (filepath, mediaType, config) {
+  var originals = false
   if (mediaType === 'image') {
-    var originals = config ? config.originalPhotos : false
+    originals = config ? config.originalPhotos : false
     return imageOutput(filepath, originals)
   } else if (mediaType === 'video') {
-    var originals = config ? config.originalVideos : false
+    originals = config ? config.originalVideos : false
     return videoOutput(filepath, originals)
   } else {
     debug(`Unsupported file type: ${mediaType}`)
@@ -58,9 +59,9 @@ function videoOutput (filepath, originals) {
   } else {
     output.download = output.video
   }
-  return output;
+  return output
 }
 
-function ext(file, ext) {
+function ext (file, ext) {
   return file.replace(/\.[a-z0-9]+$/i, '.' + ext)
 }
