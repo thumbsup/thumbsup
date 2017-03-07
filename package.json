@@ -22,7 +22,8 @@
     "thumbsup": "./bin/thumbsup.js"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "./scripts/cibuild",
+    "test-only": "mocha"
   },
   "dependencies": {
     "async": "^2.1.2",
