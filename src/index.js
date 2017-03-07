@@ -1,12 +1,14 @@
 const async = require('async')
 const fs = require('fs-extra')
 const path = require('path')
+const os = require('os')
 const database = require('./input/database')
 const progress = require('./utils/progress')
 const File = require('./input/file')
-const Media = require('./model/media')
 const hierarchy = require('./model/hierarchy.js')
+const Media = require('./model/media')
 const resize = require('./output-media/resize')
+const tasks = require('./output-media/tasks')
 const website = require('./output-website/website')
 
 exports.build = function (opts) {
@@ -29,17 +31,15 @@ exports.build = function (opts) {
     },
 
     function processPhotos (callback) {
-      const tasks = require('./output-media/tasks')
-      const imageTasks = tasks.create(opts, collection, 'image')
-      const imageBar = progress.create('Processing photos', imageTasks.length)
-      async.parallelLimit(imageTasks.map(asyncProgress(imageBar)), 2, callback)
+      const photos = tasks.create(opts, collection, 'image')
+      const bar = progress.create('Processing photos', photos.length)
+      parallel(photos, bar, callback)
     },
 
     function processVideos (callback) {
-      const tasks = require('./output-media/tasks')
-      const videoTasks = tasks.create(opts, collection, 'video')
-      const videoBar = progress.create('Processing videos', videoTasks.length)
-      async.parallelLimit(videoTasks.map(asyncProgress(videoBar)), 2, callback)
+      const videos = tasks.create(opts, collection, 'video')
+      const bar = progress.create('Processing videos', videos.length)
+      parallel(videos, bar, callback)
     },
 
     function createAlbums (callback) {
@@ -61,15 +61,14 @@ exports.build = function (opts) {
   ], finish)
 }
 
-function asyncProgress (bar) {
-  return fn => {
-    return done => {
-      fn(err => {
-        bar.tick(1)
-        done(err)
-      })
-    }
-  }
+function parallel (tasks, bar, callback) {
+  const decorated = tasks.map(t => done => {
+    t(err => {
+      bar.tick(1)
+      done(err)
+    })
+  })
+  async.parallelLimit(decorated, os.cpus(), callback)
 }
 
 function finish (err) {
