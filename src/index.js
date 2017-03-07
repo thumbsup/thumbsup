@@ -68,7 +68,7 @@ function parallel (tasks, bar, callback) {
       done(err)
     })
   })
-  async.parallelLimit(decorated, os.cpus(), callback)
+  async.parallelLimit(decorated, os.cpus().length, callback)
 }
 
 function finish (err) {
