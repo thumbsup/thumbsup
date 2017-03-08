@@ -32,15 +32,23 @@ function exifDate (file) {
 }
 
 function caption (file) {
-  const desc = file.meta.EXIF ? file.meta.EXIF['ImageDescription'] : null
-  const caption = file.meta.IPTC ? file.meta.IPTC['Caption-Abstract'] : null
-  return desc || caption
+  return tagValue(file, 'EXIF', 'ImageDescription') ||
+         tagValue(file, 'IPTC', 'Caption-Abstract') ||
+         tagValue(file, 'IPTC', 'Headline') ||
+         tagValue(file, 'XMP', 'Description') ||
+         tagValue(file, 'XMP', 'Title') ||
+         tagValue(file, 'XMP', 'Label')
 }
 
 function animated (file) {
   if (file.meta.File['MIMEType'] !== 'image/gif') return false
   if (file.meta.GIF && file.meta.GIF.FrameCount > 0) return true
   return false
+}
+
+function tagValue (file, type, name) {
+  if (!file.meta[type]) return null
+  return file.meta[type][name]
 }
 
 module.exports = Media

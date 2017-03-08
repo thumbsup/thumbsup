@@ -53,26 +53,21 @@ describe('Media', function () {
   })
 
   describe('caption', function () {
-    it('uses the EXIF caption if present', function () {
-      const file = fixtures.file()
-      file.meta.EXIF['ImageDescription'] = 'some caption'
-      const media = new Media(file)
-      should(media.caption).eql('some caption')
-    })
-
-    it('uses the IPTC caption if present', function () {
-      const file = fixtures.file()
-      file.meta.IPTC['Caption-Abstract'] = 'some caption'
-      const media = new Media(file)
-      should(media.caption).eql('some caption')
-    })
-
-    it('uses the EXIF caption if both EXIF and IPTC exist', function () {
-      const file = fixtures.file()
-      file.meta.EXIF['ImageDescription'] = 'exif caption'
-      file.meta.IPTC['Caption-Abstract'] = 'iptc caption'
-      const media = new Media(file)
-      should(media.caption).eql('exif caption')
+    it('is read from all standard EXIF/IPTC/XMP tags', function () {
+      const tags = [
+        { type: 'EXIF', tag: 'ImageDescription' },
+        { type: 'IPTC', tag: 'Caption-Abstract' },
+        { type: 'IPTC', tag: 'Headline' },
+        { type: 'XMP', tag: 'Description' },
+        { type: 'XMP', tag: 'Title' },
+        { type: 'XMP', tag: 'Label' }
+      ]
+      tags.forEach(t => {
+        const file = fixtures.file()
+        file.meta[t.type][t.tag] = 'some caption'
+        const media = new Media(file)
+        should(media.caption).eql('some caption')
+      })
     })
   })
 })
