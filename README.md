@@ -1,10 +1,10 @@
 # thumbsup
 
 [![NPM](http://img.shields.io/npm/v/thumbsup.svg?style=flat)](https://npmjs.org/package/thumbsup)
-[![License](http://img.shields.io/npm/l/thumbsup.svg?style=flat)](https://github.com/thumbsup/node-thumbsup)
-[![Travis CI](https://travis-ci.org/thumbsup/node-thumbsup.svg?branch=master)](https://travis-ci.org/thumbsup/node-thumbsup)
-[![Dependencies](http://img.shields.io/david/thumbsup/node-thumbsup.svg?style=flat)](https://david-dm.org/thumbsup/node-thumbsup)
-[![Dev dependencies](https://david-dm.org/thumbsup/node-thumbsup/dev-status.svg?style=flat)](https://david-dm.org/thumbsup/node-thumbsup?type=dev)
+[![License](http://img.shields.io/npm/l/thumbsup.svg?style=flat)](https://github.com/thumbsup/thumbsup)
+[![Travis CI](https://travis-ci.org/thumbsup/thumbsup.svg?branch=master)](https://travis-ci.org/thumbsup/thumbsup)
+[![Dependencies](http://img.shields.io/david/thumbsup/thumbsup.svg?style=flat)](https://david-dm.org/thumbsup/thumbsup)
+[![Dev dependencies](https://david-dm.org/thumbsup/thumbsup/dev-status.svg?style=flat)](https://david-dm.org/thumbsup/thumbsup?type=dev)
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
 
 ![banner](banner.jpg)
@@ -91,8 +91,8 @@ The optional JSON config should contain a single object with one key per argumen
 
 ## Contributing
 
-We welcome all [issues](https://github.com/thumbsup/node-thumbsup/issues)
-and [pull requests](https://github.com/thumbsup/node-thumbsup/pulls)!
+We welcome all [issues](https://github.com/thumbsup/thumbsup/issues)
+and [pull requests](https://github.com/thumbsup/thumbsup/pulls)!
 
 If you are facing any issues or getting crashes, you can run `thumbsup` in debug mode
 to get a verbose troubleshooting log of all operations:
