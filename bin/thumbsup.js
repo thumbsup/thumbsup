@@ -10,8 +10,6 @@ var opts = yargs
          '  thumbsup [required] [options]\n' +
          '  thumbsup --config config.json')
   .wrap(null)
-  .group('input', 'Required:')
-  .group('output', 'Required:')
   .help('help')
   .options({
 
@@ -20,98 +18,132 @@ var opts = yargs
     // ------------------------------------
 
     'input': {
+      group: 'Required:',
       description: 'Path to the folder with all photos/videos',
       normalize: true,
       demand: true
     },
     'output': {
+      group: 'Required:',
       description: 'Output path for the static website',
       normalize: true,
       demand: true
     },
 
     // ------------------------------------
-    // Optional arguments
+    // Output options
     // ------------------------------------
 
-    'index': {
-      description: 'Filename of the home page',
-      'default': 'index.html'
-    },
-    'title': {
-      description: 'Website title',
-      'default': 'Photo album'
-    },
-    'footer': {
-      description: 'Text or HTML footer',
-      'default': null
-    },
     'thumb-size': {
+      group: 'Output options:',
       description: 'Pixel size of the square thumbnails',
       type: 'number',
       'default': 120
     },
     'large-size': {
+      group: 'Output options:',
       description: 'Pixel height of the fullscreen photos',
       type: 'number',
       'default': 1000
     },
     'original-photos': {
-      description: 'Allow download of full-size photos',
+      group: 'Output options:',
+      description: 'Copy and allow download of full-size photos',
       type: 'boolean',
       'default': false
     },
     'original-videos': {
-      description: 'Allow download of full-size videos',
+      group: 'Output options:',
+      description: 'Copy and allow download of full-size videos',
       type: 'boolean',
       'default': false
     },
-    'albums-output-folder': {
-      description: 'Output subfolder for HTML albums (default: root of gallery)',
-      'default': '.'
-    },
+
+    // ------------------------------------
+    // Album options
+    // ------------------------------------
+
     'albums-from': {
+      group: 'Album options:',
       description: 'How to group media into albums',
       choices: ['folders', 'date'],
       'default': 'folders'
     },
     'albums-date-format': {
+      group: 'Album options:',
       description: 'How albums are named in <date> mode [moment.js pattern]',
       'default': 'YYYY-MM'
     },
     'sort-albums-by': {
+      group: 'Album options:',
       description: 'How to sort albums',
       choices: ['title', 'start-date', 'end-date'],
       'default': 'start-date'
     },
     'sort-albums-direction': {
+      group: 'Album options:',
       description: 'Album sorting direction',
       choices: ['asc', 'desc'],
       'default': 'asc'
     },
     'sort-media-by': {
+      group: 'Album options:',
       description: 'How to sort photos and videos',
       choices: ['filename', 'date'],
       'default': 'date'
     },
     'sort-media-direction': {
+      group: 'Album options:',
       description: 'Media sorting direction',
       choices: ['asc', 'desc'],
       'default': 'asc'
     },
+
+    // ------------------------------------
+    // Website options
+    // ------------------------------------
+
+    'index': {
+      group: 'Website options:',
+      description: 'Filename of the home page',
+      'default': 'index.html'
+    },
+    'albums-output-folder': {
+      group: 'Website options:',
+      description: 'Output subfolder for HTML albums (default: website root)',
+      'default': '.'
+    },
     'theme': {
+      group: 'Website options:',
       description: 'Name of the gallery theme to apply',
       choices: ['classic', 'cards', 'mosaic'],
       'default': 'classic'
     },
+    'title': {
+      group: 'Website options:',
+      description: 'Website title',
+      'default': 'Photo album'
+    },
+    'footer': {
+      group: 'Website options:',
+      description: 'Text or HTML footer',
+      'default': null
+    },
     'css': {
-      description: 'Path to a CSS/LESS file for styling',
+      group: 'Website options:',
+      description: 'Path to a custom provided CSS/LESS file for styling',
       normalize: true
     },
     'google-analytics': {
+      group: 'Website options:',
       description: 'Code for Google Analytics tracking',
       type: 'string'
     },
+
+    // ------------------------------------
+    // Misc options
+    // ------------------------------------
+
     'config': {
       description: 'JSON config file (one key per argument)',
       normalize: true
