@@ -42,8 +42,8 @@ Album.prototype.finalize = function (options, parent) {
   var albumsOutputFolder = options.albumsOutputFolder || '.'
   // calculate final file paths and URLs
   if (parent == null) {
-    this.path = options.index
-    this.url = options.index
+    this.path = options.index || 'index.html'
+    this.url = options.index || 'index.html'
     this.depth = 0
   } else {
     if (parent.depth > 0) {

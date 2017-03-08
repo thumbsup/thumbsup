@@ -6,6 +6,7 @@ const database = require('./input/database')
 const progress = require('./utils/progress')
 const File = require('./input/file')
 const hierarchy = require('./model/hierarchy.js')
+const mapper = require('./model/mapper')
 const Media = require('./model/media')
 const resize = require('./output-media/resize')
 const tasks = require('./output-media/tasks')
@@ -19,33 +20,34 @@ exports.build = function (opts) {
   const databaseFile = path.join(opts.output, 'metadata.json')
 
   var album = null        // root album with nested albums
-  var collection = null   // all files in the database
+  var fileCollection = null   // all files in the database
 
   async.series([
 
     function updateDatabase (callback) {
       database.update(opts.input, databaseFile, (err, dbFiles) => {
-        collection = dbFiles.map(f => new File(f, opts))
+        fileCollection = dbFiles.map(f => new File(f, opts))
         callback(err)
       })
     },
 
     function processPhotos (callback) {
-      const photos = tasks.create(opts, collection, 'image')
+      const photos = tasks.create(opts, fileCollection, 'image')
       const bar = progress.create('Processing photos', photos.length)
       parallel(photos, bar, callback)
     },
 
     function processVideos (callback) {
-      const videos = tasks.create(opts, collection, 'video')
+      const videos = tasks.create(opts, fileCollection, 'video')
       const bar = progress.create('Processing videos', videos.length)
       parallel(videos, bar, callback)
     },
 
     function createAlbums (callback) {
       const bar = progress.create('Creating albums')
-      const mediaCollection = collection.map(f => new Media(f))
-      album = hierarchy.createAlbums(mediaCollection, opts)
+      const albumMapper = mapper.create(opts)
+      const mediaCollection = fileCollection.map(f => new Media(f))
+      album = hierarchy.createAlbums(mediaCollection, albumMapper, opts)
       bar.tick(1)
       callback()
     },
