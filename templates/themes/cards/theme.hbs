@@ -46,7 +46,7 @@
             <img src="{{relative urls.thumbnail}}"
                  width="{{@root.gallery.thumbSize}}"
                  height="{{@root.gallery.thumbSize}}"
-                 alt="{{file.name}}" />
+                 alt="{{filename}}" />
           </a>
           <img class="video-overlay" src="{{relative 'public/play.png'}}" />
         </li>
@@ -58,7 +58,7 @@
             <img src="{{relative urls.thumbnail}}"
                  width="{{@root.gallery.thumbSize}}"
                  height="{{@root.gallery.thumbSize}}"
-                 alt="{{relative file.name}}" />
+                 alt="{{filename}}" />
           </a>
           {{#if isAnimated}}
             <img class="video-overlay" src="{{relative 'public/play.png'}}" />

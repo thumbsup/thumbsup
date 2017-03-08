@@ -39,7 +39,7 @@
           </div>
           <ul class="grid clearfix">
             {{~#slice previews count=8~}}
-              <li><img src="{{relative this.urls.thumbnail}}" /></li>
+              <li><img src="{{relative urls.thumbnail}}" /></li>
             {{~/slice}}
           </ul>
         </a>
@@ -54,13 +54,13 @@
       {{#each album.files}}
         {{#if isVideo~}}
           <li data-html="#media{{id}}"
-              data-poster="{{relative urls.poster}}"
+              data-poster="{{relative urls.large}}"
               data-download-url="{{relative urls.download}}">
             <a href="{{relative urls.download}}">
               <img src="{{relative urls.thumbnail}}"
                    width="{{@root.gallery.thumbSize}}"
                    height="{{@root.gallery.thumbSize}}"
-                   alt="{{relative file.name}}" />
+                   alt="{{filename}}" />
             </a>
             <img class="video-overlay" src="{{relative 'public/play.png'}}" />
           </li>
@@ -72,7 +72,7 @@
               <img src="{{relative urls.thumbnail}}"
                    width="{{@root.gallery.thumbSize}}"
                    height="{{@root.gallery.thumbSize}}"
-                   alt="{{relative file.name}}" />
+                   alt="{{filename}}" />
             </a>
             {{#if isAnimated}}
               <img class="video-overlay" src="{{relative 'public/play.png'}}" />
