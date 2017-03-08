@@ -70,4 +70,18 @@ describe('Media', function () {
       })
     })
   })
+
+  describe('rating', function () {
+    it('defaults to a rating of 0', function () {
+      const file = fixtures.file()
+      const media = new Media(file)
+      should(media.rating).eql(0)
+    })
+    it('reads the rating from the XMP tags', function () {
+      const file = fixtures.file()
+      file.meta.XMP['Rating'] = 3
+      const media = new Media(file)
+      should(media.rating).eql(3)
+    })
+  })
 })

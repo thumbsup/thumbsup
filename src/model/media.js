@@ -17,6 +17,7 @@ function Media (file) {
   this.caption = caption(file)
   this.isVideo = (file.type === 'video')
   this.isAnimated = animated(file)
+  this.rating = rating(file)
   // view model could also include fields like
   //  - country = "England"
   //  - city = "London"
@@ -44,6 +45,11 @@ function animated (file) {
   if (file.meta.File['MIMEType'] !== 'image/gif') return false
   if (file.meta.GIF && file.meta.GIF.FrameCount > 0) return true
   return false
+}
+
+function rating (file) {
+  if (!file.meta.XMP) return 0
+  return file.meta.XMP['Rating'] || 0
 }
 
 function tagValue (file, type, name) {
