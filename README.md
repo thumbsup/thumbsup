@@ -71,7 +71,6 @@ Options:
   --albums-output-folder   Output subfolder for HTML albums (default: root of gallery)  [default: "."]
   --albums-from            How to group media into albums  [choices: "folders", "date"] [default: "folders"]
   --albums-date-format     How albums are named in <date> mode [moment.js pattern]  [default: "YYYY-MM"]
-  --sort-folders           How to sort albums [deprecated]  [choices: "name", "date"]
   --sort-albums-by         How to sort albums  [choices: "title", "start-date", "end-date"] [default: "start-date"]
   --sort-albums-direction  Album sorting direction  [choices: "asc", "desc"] [default: "asc"]
   --sort-media-by          How to sort photos and videos  [choices: "filename", "date"] [default: "date"]

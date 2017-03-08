@@ -79,11 +79,6 @@ var opts = yargs
       description: 'How albums are named in <date> mode [moment.js pattern]',
       'default': 'YYYY-MM'
     },
-    // Deprecated for <sort-albums>
-    'sort-folders': {
-      description: 'How to sort albums [deprecated]',
-      choices: ['name', 'date']
-    },
     'sort-albums-by': {
       description: 'How to sort albums',
       choices: ['title', 'start-date', 'end-date'],
@@ -121,16 +116,13 @@ var opts = yargs
       description: 'JSON config file (one key per argument)',
       normalize: true
     }
+
   })
   .config('config')
   .epilogue('The optional JSON config should contain a single object with one key ' +
             'per argument, not including the leading "--". For example:\n\n' +
             '{ "sort-albums-by": "start-date" }')
   .argv
-
-// Compatibility
-if (opts['sort-folders'] === 'name') opts['sort-albums-by'] = 'title'
-if (opts['sort-folders'] === 'date') opts['sort-albums-by'] = 'start-date'
 
 index.build({
   input: path.resolve(opts['input']),
