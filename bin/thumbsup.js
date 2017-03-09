@@ -58,6 +58,12 @@ var opts = yargs
       type: 'boolean',
       'default': false
     },
+    'cleanup': {
+      group: 'Output options:',
+      description: 'Remove any output file that\'s no longer needed',
+      type: 'boolean',
+      'default': false
+    },
 
     // ------------------------------------
     // Album options
@@ -159,6 +165,7 @@ var opts = yargs
 index.build({
   input: path.resolve(opts['input']),
   output: path.resolve(opts['output']),
+  cleanup: opts['cleanup'],
   title: opts['title'],
   thumbSize: opts['thumb-size'],
   largeSize: opts['large-size'],

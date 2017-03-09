@@ -2,6 +2,7 @@ const async = require('async')
 const fs = require('fs-extra')
 const path = require('path')
 const os = require('os')
+const cleanup = require('./output-media/cleanup')
 const database = require('./input/database')
 const progress = require('./utils/progress')
 const File = require('./input/file')
@@ -41,6 +42,11 @@ exports.build = function (opts) {
       const videos = tasks.create(opts, fileCollection, 'video')
       const bar = progress.create('Processing videos', videos.length)
       parallel(videos, bar, callback)
+    },
+
+    function removeOldOutput (callback) {
+      if (!opts.cleanup) return callback()
+      cleanup.run(fileCollection, opts.output, callback)
     },
 
     function createAlbums (callback) {

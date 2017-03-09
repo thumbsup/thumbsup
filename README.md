@@ -64,6 +64,7 @@ Output options:
   --large-size       Pixel height of the fullscreen photos  [number] [default: 1000]
   --original-photos  Copy and allow download of full-size photos  [boolean] [default: false]
   --original-videos  Copy and allow download of full-size videos  [boolean] [default: false]
+  --cleanup          Remove any output file that's no longer needed  [boolean] [default: false]
 
 Album options:
   --albums-from            How to group media into albums  [choices: "folders", "date"] [default: "folders"]
