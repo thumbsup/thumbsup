@@ -13,8 +13,8 @@ var SORT_ALBUMS_BY = {
 }
 
 var SORT_MEDIA_BY = {
-  'filename': function (file) { return file.filename },
-  'date': function (file) { return file.date }
+  'filename': function (media) { return media.filename },
+  'date': function (media) { return media.date }
 }
 
 var PREVIEW_MISSING = {
