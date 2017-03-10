@@ -71,9 +71,17 @@ exports.build = function (rootAlbum, opts, callback) {
   }
 
   function videoJS (callback) {
-    // copy VideoJS fonts that need to be one level above in a folder called "f"
-    var dest = path.join(opts.output, 'f')
-    fs.copy(path.join(DIR_PUBLIC, 'f'), dest, callback)
+    var src = nodeModulePath('video.js', 'dist')
+    var dest = path.join(opts.output, 'public', 'videojs')
+    fs.mkdirsSync(dest)
+    try {
+      fs.copySync(path.join(src, 'video.js'), path.join(dest, 'video.js'))
+      fs.copySync(path.join(src, 'video-js.min.css'), path.join(dest, 'video-js.min.css'))
+      fs.copySync(path.join(src, 'font'), path.join(dest, 'font'))
+    } catch (ex) {
+      return callback(ex)
+    }
+    callback()
   }
 
   function renderStyles (callback) {
@@ -98,4 +106,9 @@ exports.build = function (rootAlbum, opts, callback) {
   ], function (err) {
     callback(err)
   })
+}
+
+function nodeModulePath (pkg, file) {
+  var packagePath = require.resolve(`${pkg}/package.json`)
+  return path.join(path.dirname(packagePath), file)
 }
