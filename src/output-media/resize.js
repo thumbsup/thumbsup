@@ -1,6 +1,6 @@
 const async = require('async')
 const exec = require('child_process').exec
-const fs = require('fs')
+const fs = require('fs-extra')
 const gm = require('gm')
 const path = require('path')
 
