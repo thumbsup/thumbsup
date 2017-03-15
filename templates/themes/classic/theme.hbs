@@ -36,7 +36,6 @@
  {{#each album.files}}
    {{#if isVideo~}}
      <li data-html="#media{{id}}"
-         data-poster="{{relative urls.large}}"
          data-download-url="{{relative urls.download}}">
        <a href="{{relative urls.download}}">
          <img src="{{relative urls.thumbnail}}"
