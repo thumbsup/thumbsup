@@ -7,7 +7,7 @@ set -eou pipefail
 PATH=$(pwd)/node_modules/.bin:$PATH
 
 echo "--- Check all dependencies in package.json"
-require-lint --src bin/thumbsup.js --ignore-extra lightgallery
+require-lint --src bin/thumbsup.js --ignore-extra lightgallery --ignore-extra video.js
 
 echo "--- Static code analysis"
 standard
