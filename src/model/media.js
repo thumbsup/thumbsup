@@ -27,9 +27,14 @@ function Media (file) {
 }
 
 function exifDate (file) {
-  if (!file.meta.EXIF) return file.date
-  const exifDate = moment(file.meta.EXIF['DateTimeOriginal'], EXIF_DATE_FORMAT).valueOf()
-  return exifDate || file.date
+  const date = tagValue(file, 'EXIF', 'DateTimeOriginal') ||
+               tagValue(file, 'H264', 'DateTimeOriginal') ||
+               tagValue(file, 'QuickTime', 'CreationDate')
+  if (date) {
+    return moment(date, EXIF_DATE_FORMAT).valueOf()
+  } else {
+    return file.date
+  }
 }
 
 function caption (file) {

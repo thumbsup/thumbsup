@@ -11,7 +11,23 @@ describe('Media', function () {
       should(media.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
     })
 
-    it('defaults to the file date if there is no EXIF date', function () {
+    it('reads the H264 date if present', function () {
+      const file = fixtures.file()
+      file.meta.H264 = {}
+      file.meta.H264.DateTimeOriginal = '2016:10:28 17:34:58' // EXIF date format
+      const media = new Media(file)
+      should(media.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
+    })
+
+    it('reads the QuickTime date if present', function () {
+      const file = fixtures.file()
+      file.meta.QuickTime = {}
+      file.meta.QuickTime.CreationDate = '2016:10:28 17:34:58' // EXIF date format
+      const media = new Media(file)
+      should(media.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
+    })
+
+    it('defaults to the file date if there is no date in the metadata', function () {
       const file = fixtures.file({date: '2016-10-28 17:34:58'})
       const media = new Media(file)
       should(media.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
