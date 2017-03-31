@@ -27,7 +27,35 @@ describe('Media', function () {
       should(media.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
     })
 
-    it('defaults to the file date if there is no date in the metadata', function () {
+    it('infers the date from the filename (Android format)', function () {
+      const file = fixtures.file({path: 'folder/VID_20170220_114006.mp4'})
+      const media = new Media(file)
+      should(media.date).eql(fixtures.date('2017-02-20 11:40:06').getTime())
+    })
+
+    it('infers the date from the filename (Dropbox format)', function () {
+      const file = fixtures.file({path: 'folder/2017-03-24 19.42.30.jpg'})
+      const media = new Media(file)
+      should(media.date).eql(fixtures.date('2017-03-24 19:42:30').getTime())
+    })
+
+    it('only infers dates from valid formats', function () {
+      const file = fixtures.file({
+        path: 'folder/IMG_1234.jpg',
+        date: '2016-10-28 17:34:58'
+      })
+      const media = new Media(file)
+      should(media.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
+    })
+
+    it('does not look at the file name if it already has EXIF data', function () {
+      const file = fixtures.file({path: '2017-03-24 19.42.30.jpg'})
+      file.meta.EXIF.DateTimeOriginal = '2016:10:28 17:34:58'
+      const media = new Media(file)
+      should(media.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
+    })
+
+    it('defaults to the file date if there is no other date', function () {
       const file = fixtures.file({date: '2016-10-28 17:34:58'})
       const media = new Media(file)
       should(media.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
