@@ -1,5 +1,5 @@
 const async = require('async')
-const exec = require('child_process').exec
+const childProcess = require('child_process')
 const fs = require('fs-extra')
 const gm = require('gm')
 const path = require('path')
@@ -36,14 +36,14 @@ exports.photoLarge = function (task, callback) {
 
 // Web-streaming friendly video
 exports.videoWeb = function (task, callback) {
-  var ffmpeg = 'ffmpeg -i "' + task.src + '" -y "' + task.dest + '" -f mp4 -vcodec libx264 -ab 96k'
+  const args = ['-i', task.src, '-y', task.dest, '-f', 'mp4', '-vcodec', 'libx264', '-ab', '96k']
   // AVCHD/MTS videos need a full-frame export to avoid interlacing artefacts
   if (path.extname(task.src).toLowerCase() === '.mts') {
-    ffmpeg += ' -vf yadif=1 -qscale:v 4'
+    args.push('-vf', 'yadif=1', '-qscale:v', '4')
   } else {
-    ffmpeg += ' -vb 1200k'
+    args.push('-vb', '1200k')
   }
-  exec(ffmpeg, callback)
+  exec('ffmpeg', args, callback)
 }
 
 // Large video preview (before you click play)
@@ -77,6 +77,17 @@ exports.videoSquare = function (task, callback) {
 }
 
 function extractFrame (task, callback) {
-  const ffmpeg = 'ffmpeg -itsoffset -1 -i "' + task.src + '" -ss 0.1 -vframes 1 -y "' + task.dest + '"'
-  exec(ffmpeg, callback)
+  const args = ['-itsoffset', '-1', '-i', task.src, '-ss', '0.1', '-vframes', 1, '-y', task.dest]
+  exec('ffmpeg', args, callback)
+}
+
+function exec (command, args, callback) {
+  const child = childProcess.spawn(command, args, {
+    stdio: 'ignore'
+  })
+  child.on('error', err => callback(err))
+  child.on('exit', (code, signal) => {
+    if (code > 0) callback(new Error(`${command} exited with code ${code}`))
+    else callback(null)
+  })
 }
