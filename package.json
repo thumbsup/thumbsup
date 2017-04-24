@@ -1,8 +1,8 @@
 {
-  "name": "thumbsup",
-  "version": "2.0.0",
-  "description": "Photo / video gallery generator",
-  "author": "Romain Prieto",
+  "name": "thumbsup-blackbox",
+  "version": "0.1",
+  "description": "thumbsup photo / video gallery generator with blackbox theme",
+  "author": "Romain Prieto, b2954",
   "license": "MIT",
   "keywords": [
     "photo",
@@ -16,10 +16,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/thumbsup/node-thumbsup.git"
+    "url": "https://github.com/b2954/thumbsup-blackbox-theme.git"
   },
   "bin": {
-    "thumbsup": "./bin/thumbsup.js"
+    "thumbsup-blackbox": "./bin/thumbsup-blackbox.js"
   },
   "scripts": {
     "test": "./scripts/cibuild",
