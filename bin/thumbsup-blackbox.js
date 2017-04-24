@@ -7,8 +7,8 @@ var index = require('../src/index')
 console.log('')
 var opts = yargs
   .usage('Usages:\n' +
-         '  thumbsup [required] [options]\n' +
-         '  thumbsup --config config.json')
+         '  thumbsup-blackbox [required] [options]\n' +
+         '  thumbsup-blackbox --config config.json')
   .wrap(null)
   .help('help')
   .options({
@@ -122,8 +122,8 @@ var opts = yargs
     'theme': {
       group: 'Website options:',
       description: 'Name of the gallery theme to apply',
-      choices: ['classic', 'cards', 'mosaic'],
-      'default': 'classic'
+      choices: ['classic', 'cards', 'mosaic', 'blackbox'],
+      'default': 'blackbox'
     },
     'title': {
       group: 'Website options:',
