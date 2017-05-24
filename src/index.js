@@ -27,8 +27,9 @@ exports.build = function (opts) {
 
     function updateDatabase (callback) {
       database.update(opts.input, databaseFile, (err, dbFiles) => {
+        if (err) return callback(err)
         fileCollection = dbFiles.map(f => new File(f, opts))
-        callback(err)
+        callback()
       })
     },
 
