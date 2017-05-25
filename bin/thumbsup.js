@@ -46,17 +46,22 @@ var opts = yargs
       type: 'number',
       'default': 1000
     },
-    'original-photos': {
+    'download-photos': {
       group: 'Output options:',
-      description: 'Copy and allow download of full-size photos',
-      type: 'boolean',
-      'default': false
+      description: 'Target of the photo download links',
+      choices: ['large', 'copy', 'symlink', 'link'],
+      'default': 'large'
     },
-    'original-videos': {
+    'download-videos': {
       group: 'Output options:',
-      description: 'Copy and allow download of full-size videos',
-      type: 'boolean',
-      'default': false
+      description: 'Target of the video download links',
+      choices: ['large', 'copy', 'symlink', 'link'],
+      'default': 'large'
+    },
+    'download-link-prefix': {
+      group: 'Output options:',
+      description: 'Path or URL prefix for linked downloads',
+      type: 'string'
     },
     'cleanup': {
       group: 'Output options:',
@@ -153,6 +158,23 @@ var opts = yargs
     'config': {
       description: 'JSON config file (one key per argument)',
       normalize: true
+    },
+
+    // ------------------------------------
+    // Deprecated options
+    // ------------------------------------
+
+    'original-photos': {
+      group: 'Deprecated:',
+      description: 'Copy and allow download of full-size photos',
+      type: 'boolean',
+      'default': false
+    },
+    'original-videos': {
+      group: 'Deprecated:',
+      description: 'Copy and allow download of full-size videos',
+      type: 'boolean',
+      'default': false
     }
 
   })
@@ -162,15 +184,27 @@ var opts = yargs
             '{ "sort-albums-by": "start-date" }')
   .argv
 
+// Post-processing and smart defaults
+opts['input'] = path.resolve(opts['input'])
+opts['output'] = path.resolve(opts['output'])
+if (!opts['download-link-prefix']) {
+  opts['download-link-prefix'] = path.relative(opts['output'], opts['input'])
+}
+
+// Convert deprecated options to the new replacement
+if (opts['original-photos']) opts['download-photos'] = 'copy'
+if (opts['original-videos']) opts['download-videos'] = 'copy'
+
 index.build({
-  input: path.resolve(opts['input']),
-  output: path.resolve(opts['output']),
+  input: opts['input'],
+  output: opts['output'],
   cleanup: opts['cleanup'],
   title: opts['title'],
   thumbSize: opts['thumb-size'],
   largeSize: opts['large-size'],
-  originalPhotos: opts['original-photos'],
-  originalVideos: opts['original-videos'],
+  downloadPhotos: opts['download-photos'],
+  downloadVideos: opts['download-videos'],
+  downloadLinkPrefix: opts['download-link-prefix'],
   albumsFrom: opts['albums-from'],
   albumsDateFormat: opts['albums-date-format'],
   sortAlbumsBy: opts['sort-albums-by'],
