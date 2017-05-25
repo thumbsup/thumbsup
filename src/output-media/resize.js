@@ -1,16 +1,11 @@
 const async = require('async')
 const childProcess = require('child_process')
-const fs = require('fs-extra')
 const gm = require('gm')
 const path = require('path')
 
 exports.sizes = {
   thumb: 120,
   large: 1000
-}
-
-exports.copy = function (task, callback) {
-  fs.copy(task.src, task.dest, callback)
 }
 
 // Small square photo thumbnail

@@ -1,20 +1,21 @@
 const debug = require('debug')('thumbsup')
+const path = require('path')
+const urljoin = require('url-join')
 
 exports.paths = function (filepath, mediaType, config) {
-  var originals = false
   if (mediaType === 'image') {
-    originals = config ? config.originalPhotos : false
-    return imageOutput(filepath, originals)
+    // originals = config ? config.originalPhotos : false
+    return imageOutput(filepath, config)
   } else if (mediaType === 'video') {
-    originals = config ? config.originalVideos : false
-    return videoOutput(filepath, originals)
+    // originals = config ? config.originalVideos : false
+    return videoOutput(filepath, config)
   } else {
     debug(`Unsupported file type: ${mediaType}`)
     return {}
   }
 }
 
-function imageOutput (filepath, originals) {
+function imageOutput (filepath, config) {
   const output = {
     thumbnail: {
       path: 'media/thumbs/' + filepath,
@@ -25,18 +26,11 @@ function imageOutput (filepath, originals) {
       rel: 'photo:large'
     }
   }
-  if (originals) {
-    output.download = {
-      path: 'media/original/' + filepath,
-      rel: 'original'
-    }
-  } else {
-    output.download = output.large
-  }
+  setDownload(filepath, config, 'image', output)
   return output
 }
 
-function videoOutput (filepath, originals) {
+function videoOutput (filepath, config) {
   var output = {
     thumbnail: {
       path: 'media/thumbs/' + ext(filepath, 'jpg'),
@@ -51,17 +45,46 @@ function videoOutput (filepath, originals) {
       rel: 'video:resized'
     }
   }
-  if (originals) {
-    output.download = {
-      path: 'media/original/' + filepath,
-      rel: 'original'
-    }
-  } else {
-    output.download = output.video
-  }
+  setDownload(filepath, config, 'video', output)
   return output
+}
+
+function setDownload (filepath, config, type, output) {
+  const configKey = (type === 'image' ? 'downloadPhotos' : 'downloadVideos')
+  const largeVersion = (type === 'image' ? output.large : output.video)
+  switch (config[configKey]) {
+    case 'large':
+      output.download = largeVersion
+      break
+    case 'copy':
+      output.download = {
+        path: path.join('media', 'original', filepath),
+        rel: 'fs:copy'
+      }
+      break
+    case 'symlink':
+      output.download = {
+        path: path.join('media', 'original', filepath),
+        rel: 'fs:symlink'
+      }
+      break
+    case 'link':
+      output.download = {
+        path: join(config.downloadLinkPrefix, filepath),
+        rel: 'fs:link'
+      }
+      break
+  }
 }
 
 function ext (file, ext) {
   return file.replace(/\.[a-z0-9]+$/i, '.' + ext)
+}
+
+function join (prefix, filepath) {
+  if (prefix.match(/^https?:\/\//)) {
+    return urljoin(prefix, filepath)
+  } else {
+    return path.join(prefix, filepath)
+  }
 }

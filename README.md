@@ -60,11 +60,12 @@ Required:
   --output  Output path for the static website  [string] [required]
 
 Output options:
-  --thumb-size       Pixel size of the square thumbnails  [number] [default: 120]
-  --large-size       Pixel height of the fullscreen photos  [number] [default: 1000]
-  --original-photos  Copy and allow download of full-size photos  [boolean] [default: false]
-  --original-videos  Copy and allow download of full-size videos  [boolean] [default: false]
-  --cleanup          Remove any output file that's no longer needed  [boolean] [default: false]
+  --thumb-size            Pixel size of the square thumbnails  [number] [default: 120]
+  --large-size            Pixel height of the fullscreen photos  [number] [default: 1000]
+  --download-photos       Target of the photo download links  [choices: "large", "copy", "symlink", "link"] [default: "large"]
+  --download-videos       Target of the video download links  [choices: "large", "copy", "symlink", "link"] [default: "large"]
+  --download-link-prefix  Path or URL prefix for linked downloads  [string]
+  --cleanup               Remove any output file that's no longer needed  [boolean] [default: false]
 
 Album options:
   --albums-from            How to group media into albums  [choices: "folders", "date"] [default: "folders"]
@@ -82,6 +83,10 @@ Website options:
   --footer                Text or HTML footer  [default: null]
   --css                   Path to a custom provided CSS/LESS file for styling  [string]
   --google-analytics      Code for Google Analytics tracking  [string]
+
+Deprecated:
+  --original-photos  Copy and allow download of full-size photos  [boolean] [default: false]
+  --original-videos  Copy and allow download of full-size videos  [boolean] [default: false]
 
 Options:
   --help    Show help  [boolean]

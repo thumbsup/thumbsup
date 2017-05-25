@@ -13,7 +13,7 @@ function File (dbEntry, opts) {
   this.path = dbEntry.SourceFile
   this.date = fileDate(dbEntry)
   this.type = mediaType(dbEntry)
-  this.output = output.paths(this.path, this.type, opts)
+  this.output = output.paths(this.path, this.type, opts || {})
 }
 
 function fileDate (dbEntry) {

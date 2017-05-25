@@ -3,8 +3,17 @@ const fs = require('fs-extra')
 const path = require('path')
 const resize = require('./resize')
 
+function copy (task, callback) {
+  fs.copy(task.src, task.dest, callback)
+}
+
+function symlink (task, callback) {
+  fs.symlink(task.src, task.dest, callback)
+}
+
 const ACTION_MAP = {
-  'original': resize.copy,
+  'fs:copy': copy,
+  'fs:symlink': symlink,
   'photo:thumbnail': resize.photoSquare,
   'photo:large': resize.photoLarge,
   'video:thumbnail': resize.videoSquare,
@@ -26,8 +35,9 @@ exports.create = function (opts, files, filterType) {
       var src = path.join(opts.input, f.path)
       var dest = path.join(opts.output, f.output[out].path)
       var destDate = modifiedDate(dest)
-      if (f.date > destDate) {
-        var action = ACTION_MAP[f.output[out].rel]
+      var action = ACTION_MAP[f.output[out].rel]
+      // ignore output files that don't have an action (e.g. existing links)
+      if (action && f.date > destDate) {
         tasks[dest] = (done) => {
           fs.mkdirsSync(path.dirname(dest))
           debug(`${f.output[out].rel} from ${src} to ${dest}`)
