@@ -17,7 +17,8 @@ var index = 0
 */
 function Media (file) {
   this.id = ++index
-  this.file = file
+  // TODO: see if this is useful in the future
+  // this.file = _.omit(file, ['meta', 'output'])
   this.filename = path.basename(file.path)
   this.urls = _.mapValues(file.output, o => o.path)
   this.date = getDate(file)

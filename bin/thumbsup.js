@@ -69,6 +69,18 @@ var opts = yargs
       type: 'boolean',
       'default': false
     },
+    'create-website': {
+      group: 'Output options:',
+      description: 'Create HTML galleries in the output folder',
+      type: 'boolean',
+      'default': true
+    },
+    'export-model': {
+      group: 'Output options:',
+      description: 'Creates <albums.json> in the output folder',
+      type: 'boolean',
+      'default': false
+    },
 
     // ------------------------------------
     // Album options
@@ -205,6 +217,8 @@ index.build({
   downloadPhotos: opts['download-photos'],
   downloadVideos: opts['download-videos'],
   downloadLinkPrefix: opts['download-link-prefix'],
+  createWebsite: opts['create-website'],
+  exportModel: opts['export-model'],
   albumsFrom: opts['albums-from'],
   albumsDateFormat: opts['albums-date-format'],
   sortAlbumsBy: opts['sort-albums-by'],

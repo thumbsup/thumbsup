@@ -34,7 +34,6 @@ function Album (opts) {
   this.home = false
   this.stats = null
   this.previews = null
-  this.allFiles = []
 }
 
 Album.prototype.finalize = function (options, parent) {
@@ -64,7 +63,6 @@ Album.prototype.finalize = function (options, parent) {
   this.calculateSummary()
   this.sort(options)
   this.pickPreviews()
-  this.aggregateAllFiles()
 }
 
 Album.prototype.calculateStats = function () {
@@ -116,11 +114,6 @@ Album.prototype.pickPreviews = function () {
   for (var i = 0; i < missing; ++i) {
     this.previews.push(PREVIEW_MISSING)
   }
-}
-
-Album.prototype.aggregateAllFiles = function () {
-  var nestedFiles = _.flatten(_.map(this.albums, 'allFiles'))
-  this.allFiles = _.concat(nestedFiles, this.files)
 }
 
 function sanitise (filename) {

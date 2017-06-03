@@ -9,6 +9,7 @@ const File = require('./input/file')
 const hierarchy = require('./model/hierarchy.js')
 const mapper = require('./model/mapper')
 const Media = require('./model/media')
+const pkg = require('../package')
 const resize = require('./output-media/resize')
 const tasks = require('./output-media/tasks')
 const website = require('./output-website/website')
@@ -60,8 +61,23 @@ exports.build = function (opts) {
     },
 
     function createWebsite (callback) {
+      if (!opts.createWebsite) return callback()
       const bar = progress.create('Building website')
       website.build(album, opts, (err) => {
+        bar.tick(1)
+        callback(err)
+      })
+    },
+
+    function exportModel (callback) {
+      if (!opts.exportModel) return callback()
+      const bar = progress.create('Exporting JSON albums')
+      const targetPath = path.join(opts.output, 'albums.json')
+      const content = JSON.stringify({
+        version: pkg.version,
+        album: album
+      })
+      fs.writeFile(targetPath, content, (err) => {
         bar.tick(1)
         callback(err)
       })
