@@ -9,10 +9,10 @@ const File = require('./input/file')
 const hierarchy = require('./model/hierarchy.js')
 const mapper = require('./model/mapper')
 const Media = require('./model/media')
-const pkg = require('../package')
 const resize = require('./output-media/resize')
 const tasks = require('./output-media/tasks')
 const website = require('./output-website/website')
+const jsonModel = require('./output-website/json-model')
 
 exports.build = function (opts) {
   resize.sizes.thumb = opts.thumbSize
@@ -73,11 +73,8 @@ exports.build = function (opts) {
       if (!opts.exportModel) return callback()
       const bar = progress.create('Exporting JSON albums')
       const targetPath = path.join(opts.output, 'albums.json')
-      const content = JSON.stringify({
-        version: pkg.version,
-        album: album
-      })
-      fs.writeFile(targetPath, content, (err) => {
+      const json = jsonModel.from(album)
+      fs.writeFile(targetPath, json, (err) => {
         bar.tick(1)
         callback(err)
       })

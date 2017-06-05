@@ -1,6 +1,5 @@
 const _ = require('lodash')
 const moment = require('moment')
-const path = require('path')
 
 const EXIF_DATE_FORMAT = 'YYYY:MM:DD HH:mm:ssZ'
 
@@ -17,10 +16,13 @@ var index = 0
 */
 function Media (file) {
   this.id = ++index
-  // TODO: see if this is useful in the future
-  // this.file = _.omit(file, ['meta', 'output'])
-  this.filename = path.basename(file.path)
+  // Corresponding file on disk
+  // This can be used by mappers (e.g. to group media by folder)
+  this.file = file
+  // URLs for thumbnails/large/download
   this.urls = _.mapValues(file.output, o => o.path)
+  // Processed or derived data
+  this.filename = file.name
   this.date = getDate(file)
   this.caption = caption(file)
   this.isVideo = (file.type === 'video')
