@@ -40,8 +40,9 @@ function getDate (file) {
   if (date) {
     return moment(date, EXIF_DATE_FORMAT).valueOf()
   } else {
-    if (FILENAME_DATE_REGEX.test(file.path)) {
-      const namedate = moment(file.path, FILENAME_DATE_FORMAT)
+    const filename = path.basename(file.path)
+    if (FILENAME_DATE_REGEX.test(filename)) {
+      const namedate = moment(filename, FILENAME_DATE_FORMAT)
       if (namedate.isValid()) return namedate.valueOf()
     }
     return file.date

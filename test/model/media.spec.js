@@ -39,6 +39,12 @@ describe('Media', function () {
       should(media.date).eql(fixtures.date('2017-03-24 19:42:30').getTime())
     })
 
+    it('only uses the file name, not digits from the folder name', function () {
+      const file = fixtures.file({path: '1000 photos/2017-03-24 19.42.30.jpg'})
+      const media = new Media(file)
+      should(media.date).eql(fixtures.date('2017-03-24 19:42:30').getTime())
+    })
+
     it('only infers dates from valid formats', function () {
       const file = fixtures.file({
         path: 'folder/IMG_1234.jpg',
