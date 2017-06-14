@@ -21,6 +21,10 @@ mocha
 echo "--- Update CLI arguments in README"
 ./scripts/readme
 
+# TODO: add all dependencies like <ffmpeg> if we want this to run on Travis CI
+# echo "--- Running integration tests"
+# ./test-integration/test.sh
+
 echo "================"
 echo "Build successful"
 echo "================"

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, user-scalable=no" />
+      <title>Photo album - Home</title>
+      <link rel="stylesheet" href="public/reset.css" />
+      <link rel="stylesheet" href="public/viewer.css" />
+      <link rel="stylesheet" href="public/font-awesome/css/font-awesome.min.css">
+      <link rel="stylesheet" href="public/light-gallery/css/lightgallery.css" />
+      <link rel="stylesheet" href="public/videojs/video-js.min.css" />
+      <link rel="stylesheet" href="public/style.css" />
+  </head>
+
+  <body>
+
+    <div id="content">
+    
+      <!--
+        Gallery title
+      -->
+      <header style="color: #17baef;">
+        <h1><a href="index.html">Photo album</a></h1>
+      </header>
+    
+      <!--
+        Breadcrumbs of parent albums
+      -->
+    
+      <nav class="breadcrumbs">
+        <div class="mask"></div>
+    <a class="breadcrumb-item" href="index.html">Home</a>
+      </nav>
+    
+      <!--
+        Main gallery panel
+      -->
+      <section id="content">
+    
+        <!--
+          Nested albums, if any
+        -->
+        <ul id="albums">
+    <li>
+            <a href="2016.html">
+              <h3>2016</h3>
+              <div class="meta">
+                <time>23 May 2016 - 30 Oct 2016</time><span class="separator">,</span>
+                <span class="summary">3 photos</span>
+              </div>
+              <ul class="grid clearfix"><li><img src="media/thumbs/2016/2016-05-23 13.42.16.jpg" /></li><li><img src="media/thumbs/2016/2016-06-14 09.19.03.jpg" /></li><li><img src="media/thumbs/2016/2016-10-30 18.41.28.jpg" /></li><li><img src="public/missing.png" /></li><li><img src="public/missing.png" /></li><li><img src="public/missing.png" /></li><li><img src="public/missing.png" /></li><li><img src="public/missing.png" /></li>          </ul>
+            </a>
+          </li><li>
+            <a href="2017.html">
+              <h3>2017</h3>
+              <div class="meta">
+                <time>15 Jan 2017 - 22 Mar 2017</time><span class="separator">,</span>
+                <span class="summary">1 photo, 1 video</span>
+              </div>
+              <ul class="grid clearfix"><li><img src="media/thumbs/2017/2017-01-15 12.38.41.jpg" /></li><li><img src="media/thumbs/2017/2017-03-22 20.12.58.jpg" /></li><li><img src="public/missing.png" /></li><li><img src="public/missing.png" /></li><li><img src="public/missing.png" /></li><li><img src="public/missing.png" /></li><li><img src="public/missing.png" /></li><li><img src="public/missing.png" /></li>          </ul>
+            </a>
+          </li>    </ul>
+    
+        <!--
+          All photos and videos
+        -->
+        <ul id="media">
+        </ul>
+    
+      </section>
+    
+      <!--
+        Optional footer
+      -->
+    
+    </div>
+
+    <!-- Video loader -->
+    <div id="videos">
+    </div>
+
+    <!-- jQuery -->
+    <script src="public/jquery.min.js"></script>
+    <!-- VideoJS -->
+    <script src="public/videojs/video.js"></script>
+    <!-- LightGallery -->
+    <script src="public/light-gallery/js/lightgallery.js"></script>
+    <script src="public/light-gallery/js/lg-autoplay.js"></script>
+    <script src="public/light-gallery/js/lg-pager.js"></script>
+    <script src="public/light-gallery/js/lg-thumbnail.js"></script>
+    <script src="public/light-gallery/js/lg-video.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("#media").lightGallery({
+          thumbWidth: 80,
+          controls: true,
+          loop : false,
+          download: true,
+          counter: true,
+          videojs: true
+        });
+      });
+    </script>
+
+
+  </body>
+
+</html>

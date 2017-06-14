@@ -1,0 +1,11 @@
+{
+  "input": "input",
+  "title": "Photo album",
+  "download-photos": "large",
+  "download-videos": "large",
+  "sort-albums-by": "title",
+  "sort-media-by": "date",
+  "albums-from": "folders",
+  "theme": "mosaic",
+  "cleanup": true
+}

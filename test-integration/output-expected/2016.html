@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, user-scalable=no" />
+      <title>Photo album - 2016</title>
+      <link rel="stylesheet" href="public/reset.css" />
+      <link rel="stylesheet" href="public/viewer.css" />
+      <link rel="stylesheet" href="public/font-awesome/css/font-awesome.min.css">
+      <link rel="stylesheet" href="public/light-gallery/css/lightgallery.css" />
+      <link rel="stylesheet" href="public/videojs/video-js.min.css" />
+      <link rel="stylesheet" href="public/style.css" />
+  </head>
+
+  <body>
+
+    <div id="content">
+    
+      <!--
+        Gallery title
+      -->
+      <header style="color: #17baef;">
+        <h1><a href="index.html">Photo album</a></h1>
+      </header>
+    
+      <!--
+        Breadcrumbs of parent albums
+      -->
+    
+      <nav class="breadcrumbs">
+        <div class="mask"></div>
+    <a class="breadcrumb-item" href="index.html">Home</a>
+          <span class="separator">&gt;</span><a class="breadcrumb-item" href="2016.html">2016</a>
+      </nav>
+    
+      <!--
+        Main gallery panel
+      -->
+      <section id="content">
+    
+        <!--
+          Nested albums, if any
+        -->
+        <ul id="albums">
+        </ul>
+    
+        <!--
+          All photos and videos
+        -->
+        <ul id="media">
+              <li data-src="media/large/2016/2016-05-23 13.42.16.jpg"
+                  data-sub-html=""
+                  data-download-url="media/large/2016/2016-05-23 13.42.16.jpg">
+                <a href="media/large/2016/2016-05-23 13.42.16.jpg">
+                  <img src="media/thumbs/2016/2016-05-23 13.42.16.jpg"
+                       width="120"
+                       height="120"
+                       alt="2016-05-23 13.42.16.jpg" />
+                </a>
+              </li>          <li data-src="media/large/2016/2016-06-14 09.19.03.jpg"
+                  data-sub-html=""
+                  data-download-url="media/large/2016/2016-06-14 09.19.03.jpg">
+                <a href="media/large/2016/2016-06-14 09.19.03.jpg">
+                  <img src="media/thumbs/2016/2016-06-14 09.19.03.jpg"
+                       width="120"
+                       height="120"
+                       alt="2016-06-14 09.19.03.jpg" />
+                </a>
+              </li>          <li data-src="media/large/2016/2016-10-30 18.41.28.jpg"
+                  data-sub-html=""
+                  data-download-url="media/large/2016/2016-10-30 18.41.28.jpg">
+                <a href="media/large/2016/2016-10-30 18.41.28.jpg">
+                  <img src="media/thumbs/2016/2016-10-30 18.41.28.jpg"
+                       width="120"
+                       height="120"
+                       alt="2016-10-30 18.41.28.jpg" />
+                </a>
+              </li>    </ul>
+    
+      </section>
+    
+      <!--
+        Optional footer
+      -->
+    
+    </div>
+
+    <!-- Video loader -->
+    <div id="videos">
+    </div>
+
+    <!-- jQuery -->
+    <script src="public/jquery.min.js"></script>
+    <!-- VideoJS -->
+    <script src="public/videojs/video.js"></script>
+    <!-- LightGallery -->
+    <script src="public/light-gallery/js/lightgallery.js"></script>
+    <script src="public/light-gallery/js/lg-autoplay.js"></script>
+    <script src="public/light-gallery/js/lg-pager.js"></script>
+    <script src="public/light-gallery/js/lg-thumbnail.js"></script>
+    <script src="public/light-gallery/js/lg-video.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("#media").lightGallery({
+          thumbWidth: 80,
+          controls: true,
+          loop : false,
+          download: true,
+          counter: true,
+          videojs: true
+        });
+      });
+    </script>
+
+
+  </body>
+
+</html>
