@@ -1,25 +1,7 @@
-const debug = require('debug')('thumbsup')
 const fs = require('fs-extra')
 const path = require('path')
-const resize = require('./resize')
-
-function copy (task, callback) {
-  fs.copy(task.src, task.dest, callback)
-}
-
-function symlink (task, callback) {
-  fs.symlink(task.src, task.dest, callback)
-}
-
-const ACTION_MAP = {
-  'fs:copy': copy,
-  'fs:symlink': symlink,
-  'photo:thumbnail': resize.photoSquare,
-  'photo:large': resize.photoLarge,
-  'video:thumbnail': resize.videoSquare,
-  'video:poster': resize.videoLarge,
-  'video:resized': resize.videoWeb
-}
+const debug = require('debug')('thumbsup')
+const downsize = require('thumbsup-downsize')
 
 /*
   Return a list of task to build all required outputs (new or updated)
@@ -27,6 +9,7 @@ const ACTION_MAP = {
 */
 exports.create = function (opts, files, filterType) {
   var tasks = {}
+  const actionMap = getActionMap(opts)
   // accumulate all tasks into an object
   // to remove duplicate destinations
   files.filter(f => f.type === filterType).forEach(f => {
@@ -35,7 +18,7 @@ exports.create = function (opts, files, filterType) {
       var src = path.join(opts.input, f.path)
       var dest = path.join(opts.output, f.output[out].path)
       var destDate = modifiedDate(dest)
-      var action = ACTION_MAP[f.output[out].rel]
+      var action = actionMap[f.output[out].rel]
       // ignore output files that don't have an action (e.g. existing links)
       if (action && f.date > destDate) {
         tasks[dest] = (done) => {
@@ -57,5 +40,21 @@ function modifiedDate (filepath) {
     return fs.statSync(filepath).mtime.getTime()
   } catch (ex) {
     return 0
+  }
+}
+
+function getActionMap (opts) {
+  const thumbSize = opts.thumbSize || 120
+  const largeSize = opts.largeSize || 1000
+  const thumbnail = { height: thumbSize, width: thumbSize }
+  const large = { width: largeSize }
+  return {
+    'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),
+    'fs:symlink': (task, done) => fs.symlink(task.src, task.dest, done),
+    'photo:thumbnail': (task, done) => downsize.image(task.src, task.dest, thumbnail, done),
+    'photo:large': (task, done) => downsize.image(task.src, task.dest, large, done),
+    'video:thumbnail': (task, done) => downsize.still(task.src, task.dest, thumbnail, done),
+    'video:poster': (task, done) => downsize.still(task.src, task.dest, large, done),
+    'video:resized': (task, done) => downsize.video(task.src, task.dest, {}, done)
   }
 }

@@ -9,14 +9,10 @@ const File = require('./input/file')
 const hierarchy = require('./model/hierarchy.js')
 const mapper = require('./model/mapper')
 const Media = require('./model/media')
-const resize = require('./output-media/resize')
 const tasks = require('./output-media/tasks')
 const website = require('./output-website/website')
 
 exports.build = function (opts) {
-  resize.sizes.thumb = opts.thumbSize
-  resize.sizes.large = opts.largeSize
-
   fs.mkdirpSync(opts.output)
   const databaseFile = path.join(opts.output, 'metadata.json')
 
