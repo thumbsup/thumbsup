@@ -31,6 +31,24 @@ describe('hierarchy', function () {
     })
   })
 
+  describe('empty mappers', function () {
+    const emptyMappers = ['', '.', null]
+    emptyMappers.forEach(value => {
+      it(`adds any photos mapped to <${value}> to the root gallery`, function () {
+        const media = [
+          fixtures.photo({path: 'IMG_000001.jpg'}),
+          fixtures.photo({path: 'IMG_000002.jpg'})
+        ]
+        const mapper = media => value
+        const home = hierarchy.createAlbums(media, mapper)
+        should(home.albums.length).eql(0)
+        should(home.files.length).eql(2)
+        should(home.files[0].filename).eql('IMG_000001.jpg')
+        should(home.files[1].filename).eql('IMG_000002.jpg')
+      })
+    })
+  })
+
   describe('nested albums', function () {
     it('can group media into a single folder', function () {
       const media = [
