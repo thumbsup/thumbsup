@@ -4,6 +4,7 @@ const path = require('path')
 const os = require('os')
 const cleanup = require('./output-media/cleanup')
 const database = require('./input/database')
+const Picasa = require('./input/picasa')
 const progress = require('./utils/progress')
 const hierarchy = require('./input/hierarchy.js')
 const mapper = require('./input/mapper')
@@ -25,11 +26,14 @@ exports.build = function (opts) {
   async.series([
 
     function updateDatabase (callback) {
+      const picasaReader = new Picasa()
       database.update(opts.input, databaseFile, (err, entries) => {
         if (err) return callback(err)
         files = entries.map(entry => {
           // create standarised metadata model
-          const meta = new Metadata(entry)
+          const picasa = picasaReader.file(entry.SourceFile)
+          const meta = new Metadata(entry, picasa || {})
+          // create a file entry for the albums
           return new File(entry, meta, opts)
         })
         callback()

@@ -131,7 +131,7 @@ describe('Metadata', function () {
       should(meta.keywords).eql(['beach', 'sunset'])
     })
 
-    xit('can read Picasa keywords', function () {
+    it('can read Picasa keywords', function () {
       const exiftool = fixtures.exiftool()
       const picasa = {keywords: 'beach,sunset'}
       const meta = new Metadata(exiftool, picasa)
@@ -154,7 +154,7 @@ describe('Metadata', function () {
     })
   })
 
-  xdescribe('favourite', function () {
+  describe('favourite', function () {
     it('defaults to false', function () {
       const exiftool = fixtures.exiftool()
       const meta = new Metadata(exiftool)
