@@ -1,2 +1,5 @@
+.github
+.travis.yml
 test
+test-integration
 scripts
