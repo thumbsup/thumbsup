@@ -1,33 +1,46 @@
-const Media = require('../src/model/media')
+const moment = require('moment')
+const File = require('../src/model/file')
+const Metadata = require('../src/model/metadata')
 
-exports.file = function (opts) {
+exports.exiftool = function (opts) {
   opts = opts || {}
   return {
-    path: opts.path || 'path/image.jpg',
-    date: opts.date ? new Date(opts.date).getTime() : new Date().getTime(),
-    type: opts.type || 'image',
-    meta: {
-      SourceFile: 'path/image.jpg',
-      File: {},
-      EXIF: {},
-      IPTC: {},
-      XMP: {}
-    }
+    SourceFile: opts.path || 'path/image.jpg',
+    File: {
+      FileModifyDate: opts.date || '2016:08:24 14:51:36',
+      MIMEType: opts.mimeType || 'image/jpg'
+    },
+    EXIF: {},
+    IPTC: {},
+    XMP: {},
+    H264: {},
+    QuickTime: {}
   }
 }
 
+exports.metadata = function (opts) {
+  return new Metadata(exports.exiftool(opts))
+}
+
+exports.file = function (opts) {
+  const exiftool = exports.exiftool(opts)
+  const meta = new Metadata(exiftool)
+  return new File(exiftool, meta)
+}
+
 exports.date = function (str) {
-  return new Date(Date.parse(str))
+  return new Date(moment(str, 'YYYYMMDD HHmmss').valueOf())
+  // return new Date(Date.parse(str))
 }
 
 exports.photo = function (opts) {
   opts = opts || {}
-  opts.type = 'image'
-  return new Media(exports.file(opts))
+  opts.mimeType = 'image/jpg'
+  return exports.file(opts)
 }
 
 exports.video = function (opts) {
   opts = opts || {}
-  opts.type = 'video'
-  return new Media(exports.file(opts))
+  opts.mimeType = 'video/mp4'
+  return exports.file(opts)
 }

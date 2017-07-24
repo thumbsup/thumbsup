@@ -1,5 +1,5 @@
 const path = require('path')
-const Album = require('./album')
+const Album = require('../model/album')
 
 exports.createAlbums = function (collection, mapper, opts) {
   // returns a top-level album for the home page
@@ -20,13 +20,13 @@ function group (collection, mapper) {
     '.': new Album('Home')
   }
   // put all files in the right albums
-  collection.forEach(function (media) {
-    var groupName = mapper(media)
+  collection.forEach(function (file) {
+    var groupName = mapper(file)
     if (!groupName) {
       groupName = '.'
     }
     createAlbumHierarchy(groups, groupName)
-    groups[groupName].files.push(media)
+    groups[groupName].files.push(file)
   })
   // return the top-level album
   return groups['.']
@@ -42,9 +42,7 @@ function createAlbumHierarchy (allGroupNames, segment) {
     // then create album if it doesn't exist
     // and attach it to its parent
     var lastSegment = path.basename(segment)
-    if (!allGroupNames.hasOwnProperty(segment)) {
-      allGroupNames[segment] = new Album({title: lastSegment})
-      allGroupNames[parent].albums.push(allGroupNames[segment])
-    }
+    allGroupNames[segment] = new Album({title: lastSegment})
+    allGroupNames[parent].albums.push(allGroupNames[segment])
   }
 }

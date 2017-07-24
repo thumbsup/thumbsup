@@ -1,7 +1,7 @@
 const should = require('should/as-function')
-const File = require('../../src/input/file')
+const File = require('../../src/model/file')
 
-describe('Input file', function () {
+describe('File', function () {
   it('reads the relative file path', function () {
     var file = new File(dbFile({
       SourceFile: 'holidays/beach.jpg'
@@ -34,6 +34,22 @@ describe('Input file', function () {
       }
     }))
     should(file.type).eql('video')
+  })
+
+  it('marks all other data types as unknown', function () {
+    var file = new File(dbFile({
+      File: {
+        MIMEType: 'text/html'
+      }
+    }))
+    should(file.type).eql('unknown')
+  })
+
+  it('has a boolean flag for videos to simplify templates', function () {
+    var photo = new File(dbFile({File: {MIMEType: 'image/jpeg'}}))
+    should(photo.isVideo).eql(false)
+    var video = new File(dbFile({File: {MIMEType: 'video/quicktime'}}))
+    should(video.isVideo).eql(true)
   })
 })
 

@@ -1,0 +1,38 @@
+{{~#if isVideo~}}
+
+  {{!--
+    Video thumbnails
+  --}}
+
+  <li data-html="#media{{id}}"
+      data-download-url="{{relative urls.download}}">
+    <a href="{{relative urls.download}}">
+      <img src="{{relative urls.thumbnail}}"
+           width="{{@root.gallery.thumbSize}}"
+           height="{{@root.gallery.thumbSize}}"
+           alt="{{filename}}" />
+    </a>
+    <img class="video-overlay" src="{{relative 'public/play.png'}}" />
+  </li>
+
+{{~else~}}
+
+  {{!--
+    Image thumbnails
+  --}}
+
+  <li data-src="{{relative urls.large}}"
+      data-sub-html="{{caption}}"
+      data-download-url="{{relative urls.download}}">
+    <a href="{{relative urls.download}}">
+      <img src="{{relative urls.thumbnail}}"
+           width="{{@root.gallery.thumbSize}}"
+           height="{{@root.gallery.thumbSize}}"
+           alt="{{filename}}" />
+    </a>
+    {{#if isAnimated}}
+      <img class="video-overlay" src="{{relative 'public/play.png'}}" />
+    {{/if}}
+  </li>
+
+{{~/if~}}

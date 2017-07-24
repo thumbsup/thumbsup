@@ -1,23 +1,31 @@
-var _ = require('lodash')
-var path = require('path')
-var url = require('url')
+/*
+--------------------------------------------------------------------------------
+Represents an album, which is made of many photos and videos
+This is a virtual grouping of files, independent of the location on disk
+A single photo/video could exist in multiple albums
+--------------------------------------------------------------------------------
+*/
+
+const _ = require('lodash')
+const path = require('path')
+const url = require('url')
 var index = 0
 
 // number of images to show in the album preview grid
-var PREVIEW_COUNT = 10
+const PREVIEW_COUNT = 10
 
-var SORT_ALBUMS_BY = {
+const SORT_ALBUMS_BY = {
   'title': function (album) { return album.title },
   'start-date': function (album) { return album.stats.fromDate },
   'end-date': function (album) { return album.stats.toDate }
 }
 
-var SORT_MEDIA_BY = {
-  'filename': function (media) { return media.filename },
-  'date': function (media) { return media.date }
+const SORT_MEDIA_BY = {
+  'filename': function (file) { return file.filename },
+  'date': function (file) { return file.meta.date }
 }
 
-var PREVIEW_MISSING = {
+const PREVIEW_MISSING = {
   urls: {
     thumbnail: 'public/missing.png'
   }
@@ -34,7 +42,6 @@ function Album (opts) {
   this.home = false
   this.stats = null
   this.previews = null
-  this.allFiles = []
 }
 
 Album.prototype.finalize = function (options, parent) {
@@ -64,7 +71,6 @@ Album.prototype.finalize = function (options, parent) {
   this.calculateSummary()
   this.sort(options)
   this.pickPreviews()
-  this.aggregateAllFiles()
 }
 
 Album.prototype.calculateStats = function () {
@@ -74,10 +80,10 @@ Album.prototype.calculateStats = function () {
   var nestedFromDates = _.map(this.albums, 'stats.fromDate')
   var nestedToDates = _.map(this.albums, 'stats.toDate')
   // current level
-  var currentPhotos = _.filter(this.files, {isVideo: false}).length
-  var currentVideos = _.filter(this.files, {isVideo: true}).length
-  var currentFromDate = _.map(this.files, 'date')
-  var currentToDate = _.map(this.files, 'date')
+  var currentPhotos = _.filter(this.files, {type: 'image'}).length
+  var currentVideos = _.filter(this.files, {type: 'video'}).length
+  var currentFromDate = _.map(this.files, 'meta.date')
+  var currentToDate = _.map(this.files, 'meta.date')
   // aggregate all stats
   this.stats = {
     albums: this.albums.length,
@@ -116,11 +122,6 @@ Album.prototype.pickPreviews = function () {
   for (var i = 0; i < missing; ++i) {
     this.previews.push(PREVIEW_MISSING)
   }
-}
-
-Album.prototype.aggregateAllFiles = function () {
-  var nestedFiles = _.flatten(_.map(this.albums, 'allFiles'))
-  this.allFiles = _.concat(nestedFiles, this.files)
 }
 
 function sanitise (filename) {

@@ -1,3 +1,10 @@
+/*
+--------------------------------------------------------------------------------
+Provides most metadata based on the output of <exiftool>
+Caches the resulting DB in <metadata.json> for faster re-runs
+--------------------------------------------------------------------------------
+*/
+
 const debug = require('debug')('thumbsup')
 const exifdb = require('exiftool-json-db')
 const progress = require('../utils/progress')

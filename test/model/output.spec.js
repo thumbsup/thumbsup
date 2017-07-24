@@ -1,5 +1,5 @@
 const should = require('should/as-function')
-const output = require('../../src/input/output')
+const output = require('../../src/model/output')
 
 describe('Output paths', function () {
   describe('Images', function () {

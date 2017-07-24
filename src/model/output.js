@@ -2,21 +2,23 @@ const debug = require('debug')('thumbsup')
 const path = require('path')
 const urljoin = require('url-join')
 
-exports.paths = function (filepath, mediaType, config) {
+exports.paths = function (filepath, mediaType, opts) {
   if (mediaType === 'image') {
-    // originals = config ? config.originalPhotos : false
-    return imageOutput(filepath, config)
+    const items = imageOutput(filepath)
+    items.download = download(filepath, opts['downloadPhotos'], opts['downloadLinkPrefix'], items.large)
+    return items
   } else if (mediaType === 'video') {
-    // originals = config ? config.originalVideos : false
-    return videoOutput(filepath, config)
+    const items = videoOutput(filepath)
+    items.download = download(filepath, opts['downloadVideos'], opts['downloadLinkPrefix'], items.video)
+    return items
   } else {
     debug(`Unsupported file type: ${mediaType}`)
     return {}
   }
 }
 
-function imageOutput (filepath, config) {
-  const output = {
+function imageOutput (filepath) {
+  return {
     thumbnail: {
       path: 'media/thumbs/' + filepath,
       rel: 'photo:thumbnail'
@@ -26,12 +28,10 @@ function imageOutput (filepath, config) {
       rel: 'photo:large'
     }
   }
-  setDownload(filepath, config, 'image', output)
-  return output
 }
 
-function videoOutput (filepath, config) {
-  var output = {
+function videoOutput (filepath) {
+  return {
     thumbnail: {
       path: 'media/thumbs/' + ext(filepath, 'jpg'),
       rel: 'video:thumbnail'
@@ -45,35 +45,28 @@ function videoOutput (filepath, config) {
       rel: 'video:resized'
     }
   }
-  setDownload(filepath, config, 'video', output)
-  return output
 }
 
-function setDownload (filepath, config, type, output) {
-  const configKey = (type === 'image' ? 'downloadPhotos' : 'downloadVideos')
-  const largeVersion = (type === 'image' ? output.large : output.video)
-  switch (config[configKey]) {
-    case 'large':
-      output.download = largeVersion
-      break
+function download (filepath, downloadConfig, linkPrefix, largeVersion) {
+  switch (downloadConfig) {
     case 'copy':
-      output.download = {
+      return {
         path: path.join('media', 'original', filepath),
         rel: 'fs:copy'
       }
-      break
     case 'symlink':
-      output.download = {
+      return {
         path: path.join('media', 'original', filepath),
         rel: 'fs:symlink'
       }
-      break
     case 'link':
-      output.download = {
-        path: join(config.downloadLinkPrefix, filepath),
+      return {
+        path: join(linkPrefix, filepath),
         rel: 'fs:link'
       }
-      break
+    case 'large':
+    default:
+      return largeVersion
   }
 }
 

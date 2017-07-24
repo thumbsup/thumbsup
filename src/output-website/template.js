@@ -23,6 +23,7 @@ exports.create = function (options) {
 
   // common partials
   handlebars.registerPartial('analytics', compileTemplate(path.join(DIR_TEMPLATES, 'analytics.hbs')))
+  handlebars.registerPartial('thumbnail', compileTemplate(path.join(DIR_TEMPLATES, 'thumbnail.hbs')))
 
   // theme partials
   var files = fs.readdirSync(DIR_THEME)
