@@ -11,6 +11,7 @@ const mapper = require('./model/mapper')
 const Media = require('./model/media')
 const tasks = require('./output-media/tasks')
 const website = require('./output-website/website')
+const jsonModel = require('./output-website/json-model')
 
 exports.build = function (opts) {
   fs.mkdirpSync(opts.output)
@@ -56,8 +57,20 @@ exports.build = function (opts) {
     },
 
     function createWebsite (callback) {
+      if (!opts.createWebsite) return callback()
       const bar = progress.create('Building website')
       website.build(album, opts, (err) => {
+        bar.tick(1)
+        callback(err)
+      })
+    },
+
+    function exportModel (callback) {
+      if (!opts.exportModel) return callback()
+      const bar = progress.create('Exporting JSON albums')
+      const targetPath = path.join(opts.output, 'albums.json')
+      const json = jsonModel.from(album)
+      fs.writeFile(targetPath, json, (err) => {
         bar.tick(1)
         callback(err)
       })

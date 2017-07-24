@@ -1,9 +1,11 @@
+const path = require('path')
 const Media = require('../src/model/media')
 
 exports.file = function (opts) {
   opts = opts || {}
   return {
     path: opts.path || 'path/image.jpg',
+    name: path.basename(opts.path || 'path/image.jpg'),
     date: opts.date ? new Date(opts.date).getTime() : new Date().getTime(),
     type: opts.type || 'image',
     meta: {

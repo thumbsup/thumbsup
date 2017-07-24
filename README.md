@@ -66,6 +66,8 @@ Output options:
   --download-videos       Target of the video download links  [choices: "large", "copy", "symlink", "link"] [default: "large"]
   --download-link-prefix  Path or URL prefix for linked downloads  [string]
   --cleanup               Remove any output file that's no longer needed  [boolean] [default: false]
+  --create-website        Create HTML galleries in the output folder  [boolean] [default: true]
+  --export-model          Creates <albums.json> in the output folder  [boolean] [default: false]
 
 Album options:
   --albums-from            How to group media into albums  [choices: "folders", "date"] [default: "folders"]
