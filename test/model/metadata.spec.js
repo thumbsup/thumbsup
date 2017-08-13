@@ -18,9 +18,16 @@ describe('Metadata', function () {
       should(meta.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
     })
 
-    it('reads the QuickTime date if present', function () {
+    it('reads the QuickTime CreationDate if present', function () {
       const exiftool = fixtures.exiftool()
       exiftool.QuickTime.CreationDate = '2016:10:28 17:34:58' // EXIF date format
+      const meta = new Metadata(exiftool)
+      should(meta.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
+    })
+
+    it('reads the QuickTime CreateDate if present', function () {
+      const exiftool = fixtures.exiftool()
+      exiftool.QuickTime.CreateDate = '2016:10:28 17:34:58' // EXIF date format
       const meta = new Metadata(exiftool)
       should(meta.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
     })

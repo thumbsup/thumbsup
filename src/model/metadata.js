@@ -42,7 +42,8 @@ class Metadata {
 function getDate (exif) {
   const date = tagValue(exif, 'EXIF', 'DateTimeOriginal') ||
                tagValue(exif, 'H264', 'DateTimeOriginal') ||
-               tagValue(exif, 'QuickTime', 'CreationDate')
+               tagValue(exif, 'QuickTime', 'CreationDate') ||
+               tagValue(exif, 'QuickTime', 'CreateDate')
   if (date) {
     return moment(date, EXIF_DATE_FORMAT).valueOf()
   } else {
