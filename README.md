@@ -26,11 +26,14 @@ npm install -g thumbsup
 thumbsup --input ./media --output ./website
 ```
 
+![Screen recording](demo.gif)
+
 There are many more command line arguments to customise the output.
 See the website for the full documentation: https://thumbsup.github.io.
 
-*Requirements*
+## Requirements
 
+Thumbsup requires the following dependencies:
 - [Node.js](http://nodejs.org/): `brew install Node`
 - [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/): `brew install exiftool`
 - [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
@@ -107,11 +110,18 @@ The optional JSON config should contain a single object with one key per argumen
 We welcome all [issues](https://github.com/thumbsup/thumbsup/issues)
 and [pull requests](https://github.com/thumbsup/thumbsup/pulls)!
 
-If you are facing any issues or getting crashes, you can run `thumbsup` in debug mode
-to get a verbose troubleshooting log of all operations:
+If you are facing any issues or getting crashes, please try the following options to help troubleshoot:
 
 ```bash
-DEBUG="*" thumbsup [options]
+thumbsup [options] | tee
+# [16:04:56] media/thumbs/photo-1446822622709-e1c7ad6e82d52.jpg [started]
+# [16:04:57] media/thumbs/photo-1446822622709-e1c7ad6e82d52.jpg [completed]
+
+DEBUG="*" thumbsup [options] | tee
+# [16:04:56] media/thumbs/photo-1446822622709-e1c7ad6e82d52.jpg [started]
+# gm "identify" "-ping" "-format" "%[EXIF:Orientation]" [...]
+# gm "convert" "-quality" "90" "-resize" "x400>" "+profile" [...]
+# [16:04:57] media/thumbs/photo-1446822622709-e1c7ad6e82d52.jpg [completed]
 ```
 
 Please make sure the tests are passing when submitting a code change:

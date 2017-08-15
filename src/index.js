@@ -1,94 +1,61 @@
-const async = require('async')
 const fs = require('fs-extra')
 const path = require('path')
-const os = require('os')
-const cleanup = require('./output-media/cleanup')
-const database = require('./input/database')
-const Picasa = require('./input/picasa')
-const progress = require('./utils/progress')
-const hierarchy = require('./input/hierarchy.js')
-const mapper = require('./input/mapper')
-const File = require('./model/file')
-const Metadata = require('./model/metadata')
-const tasks = require('./output-media/tasks')
-const website = require('./output-website/website')
+const Listr = require('listr')
+const steps = require('./steps/index')
+const summary = require('./steps/summary')
+const website = require('./website/website')
 
 exports.build = function (opts) {
-  fs.mkdirpSync(opts.output)
-  const databaseFile = path.join(opts.output, 'metadata.json')
-
-  // all files, unsorted
-  var files = null
-
-  // root album with nested albums
-  var album = null
-
-  async.series([
-
-    function updateDatabase (callback) {
-      const picasaReader = new Picasa()
-      database.update(opts.input, databaseFile, (err, entries) => {
-        if (err) return callback(err)
-        files = entries.map(entry => {
-          // create standarised metadata model
-          const picasa = picasaReader.file(entry.SourceFile)
-          const meta = new Metadata(entry, picasa || {})
-          // create a file entry for the albums
-          return new File(entry, meta, opts)
+  const tasks = new Listr([
+    {
+      title: 'Updating database',
+      task: (ctx, task) => {
+        // returns an observable which will complete when the database is loaded
+        fs.mkdirpSync(opts.output)
+        const databaseFile = path.join(opts.output, 'metadata.json')
+        return steps.database(opts.input, databaseFile, (err, res) => {
+          if (!err) {
+            ctx.database = res.database
+          }
         })
-        callback()
-      })
+      }
     },
-
-    function processPhotos (callback) {
-      const photos = tasks.create(opts, files, 'image')
-      const bar = progress.create('Processing photos', photos.length)
-      parallel(photos, bar, callback)
+    {
+      title: 'Creating model',
+      task: (ctx) => {
+        const res = steps.model(ctx.database, opts)
+        ctx.files = res.files
+        ctx.album = res.album
+      }
     },
-
-    function processVideos (callback) {
-      const videos = tasks.create(opts, files, 'video')
-      const bar = progress.create('Processing videos', videos.length)
-      parallel(videos, bar, callback)
+    {
+      title: 'Processing media',
+      task: (ctx, task) => {
+        return steps.process(ctx.files, opts, task)
+      }
     },
-
-    function removeOldOutput (callback) {
-      if (!opts.cleanup) return callback()
-      cleanup.run(files, opts.output, callback)
+    {
+      title: 'Cleaning up',
+      enabled: (ctx) => opts.cleanup,
+      task: (ctx) => {
+        return steps.cleanup(ctx.files, opts.output)
+      }
     },
-
-    function createAlbums (callback) {
-      const bar = progress.create('Creating albums')
-      const albumMapper = mapper.create(opts)
-      album = hierarchy.createAlbums(files, albumMapper, opts)
-      bar.tick(1)
-      callback()
-    },
-
-    function createWebsite (callback) {
-      const bar = progress.create('Building website')
-      website.build(album, opts, (err) => {
-        bar.tick(1)
-        callback(err)
+    {
+      title: 'Creating website',
+      task: (ctx) => new Promise((resolve, reject) => {
+        website.build(ctx.album, opts, err => {
+          err ? reject(err) : resolve()
+        })
       })
     }
+  ])
 
-  ], finish)
-}
-
-function parallel (tasks, bar, callback) {
-  const decorated = tasks.map(t => done => {
-    t(err => {
-      bar.tick(1)
-      done(err)
-    })
+  tasks.run().then(ctx => {
+    console.log('\n' + summary.create(ctx) + '\n')
+    process.exit(0)
+  }).catch(err => {
+    console.log('\nUnexpected error', err)
+    process.exit(1)
   })
-  async.parallelLimit(decorated, os.cpus().length, callback)
-}
-
-function finish (err) {
-  console.log(err ? 'Unexpected error' : '')
-  console.log(err || 'Gallery generated successfully')
-  console.log()
-  process.exit(err ? 1 : 0)
 }

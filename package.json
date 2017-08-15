@@ -35,14 +35,15 @@
     "ini": "^1.3.4",
     "less": "^2.7.1",
     "lightgallery": "1.2.14",
+    "listr": "^0.12.0",
+    "listr-work-queue": "https://github.com/thumbsup/listr-work-queue.git",
     "lodash": "^4.16.6",
     "moment": "^2.16.0",
-    "pad": "^2.0.1",
-    "progress": "^2.0.0",
     "thumbsup-downsize": "^1.0.0",
     "url-join": "^2.0.2",
     "video.js": "^6.2.8",
-    "yargs": "^9.0.1"
+    "yargs": "^9.0.1",
+    "zen-observable": "^0.6.0"
   },
   "devDependencies": {
     "injectmd": "^1.0.0",

@@ -1,18 +1,33 @@
-const fs = require('fs-extra')
-const path = require('path')
 const debug = require('debug')('thumbsup')
 const downsize = require('thumbsup-downsize')
+const os = require('os')
+const fs = require('fs-extra')
+const ListrWorkQueue = require('listr-work-queue')
+const path = require('path')
+
+exports.run = function (files, opts, parentTask) {
+  const jobs = exports.create(files, opts)
+  // wrap each job in a Listr task that returns a Promise
+  const tasks = jobs.map(job => listrTaskFromJob(job, opts.output))
+  const listr = new ListrWorkQueue(tasks, {
+    concurrent: os.cpus().length,
+    update: (done, total) => {
+      const progress = done === total ? '' : `(${done}/${total})`
+      parentTask.title = `Processing media ${progress}`
+    }
+  })
+  return listr
+}
 
 /*
   Return a list of task to build all required outputs (new or updated)
-  Can be filtered by type (image/video) to give more accurate ETAs
 */
-exports.create = function (opts, files, filterType) {
+exports.create = function (files, opts) {
   var tasks = {}
   const actionMap = getActionMap(opts)
   // accumulate all tasks into an object
   // to remove duplicate destinations
-  files.filter(f => f.type === filterType).forEach(f => {
+  files.forEach(f => {
     debug(`Tasks for ${f.path}, ${JSON.stringify(f.output)}`)
     Object.keys(f.output).forEach(out => {
       var src = path.join(opts.input, f.path)
@@ -21,18 +36,43 @@ exports.create = function (opts, files, filterType) {
       var action = actionMap[f.output[out].rel]
       // ignore output files that don't have an action (e.g. existing links)
       if (action && f.date > destDate) {
-        tasks[dest] = (done) => {
-          fs.mkdirsSync(path.dirname(dest))
-          debug(`${f.output[out].rel} from ${src} to ${dest}`)
-          action({src: src, dest: dest}, done)
+        tasks[dest] = {
+          file: f,
+          dest: dest,
+          rel: f.output[out].rel,
+          action: (done) => {
+            fs.mkdirsSync(path.dirname(dest))
+            debug(`${f.output[out].rel} from ${src} to ${dest}`)
+            return action({src: src, dest: dest}, done)
+          }
         }
       }
     })
   })
   // back into an array
-  const list = Object.keys(tasks).map(t => tasks[t])
-  debug(`Created ${list.length} ${filterType} tasks`)
+  const list = Object.keys(tasks).map(dest => tasks[dest])
+  debug(`Created ${list.length} tasks`)
   return list
+}
+
+function listrTaskFromJob (job, outputRoot) {
+  const relative = path.relative(outputRoot, job.dest)
+  return {
+    title: relative,
+    task: (ctx, task) => {
+      return new Promise((resolve, reject) => {
+        var progressEmitter = job.action(err => {
+          err ? reject(err) : resolve()
+        })
+        // render progress percentage for videos
+        if (progressEmitter) {
+          progressEmitter.on('progress', (percent) => {
+            task.title = `${relative} (${percent}%)`
+          })
+        }
+      })
+    }
+  }
 }
 
 function modifiedDate (filepath) {
