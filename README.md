@@ -21,21 +21,22 @@ Turn any folder with photos &amp; videos into a web gallery.
 
 Simply point `thumbsup` to a folder with photos &amp; videos. All nested folders become separate albums.
 
-*Requirements*
-- [Node.js](http://nodejs.org/): `brew install Node`
-- [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/): `brew install exiftool`
-- [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
-- [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
-
-
 ```bash
 npm install -g thumbsup
 thumbsup --input ./media --output ./website
 ```
 
 There are many more command line arguments to customise the output.
-You can also run `thumbsup` as a Docker container which pre-packages all dependencies like `ffmpeg`.
 See the website for the full documentation: https://thumbsup.github.io.
+
+*Requirements*
+
+- [Node.js](http://nodejs.org/): `brew install Node`
+- [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/): `brew install exiftool`
+- [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
+- [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
+
+You can also run `thumbsup` as a Docker container ([thumbsupgallery/thumbsup](https://hub.docker.com/r/thumbsupgallery/thumbsup/)) which pre-packages all the dependencies above.
 
 ## Sample gallery
 
