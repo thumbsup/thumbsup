@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "async": "^2.5.0",
-    "debug": "^3.0.0",
+    "debug": "^3.1.0",
     "exiftool-json-db": "~1.0.0",
     "fs-extra": "^4.0.1",
     "fs-readdir-recursive": "^1.0.0",
