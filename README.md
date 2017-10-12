@@ -90,8 +90,9 @@ Deprecated:
   --original-videos  Copy and allow download of full-size videos  [boolean] [default: false]
 
 Options:
-  --help    Show help  [boolean]
-  --config  Path to JSON config file  [string]
+  --version  Show version number  [boolean]
+  --help     Show help  [boolean]
+  --config   Path to JSON config file  [string]
 
 The optional JSON config should contain a single object with one key per argument, not including the leading "--". For example:
 
