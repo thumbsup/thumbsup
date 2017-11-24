@@ -5,11 +5,15 @@
   </a>
 </header>
 
+<!--
+  Breadcrumbs of parent albums
+-->
 {{#compare album.depth '!=' 0}}
-  <nav>
-    {{#each gallery.home.albums}}
-      {{> nav}}
-    {{/each}}
+  <nav class="breadcrumbs">
+    {{#each breadcrumbs~}}
+      <a class="breadcrumb-item" href="{{relative url}}">{{title}}</a>&nbsp;&nbsp;/&nbsp;&nbsp;
+    {{~/each~}}
+    <a class="breadcrumb-item" href="{{relative album.url}}">{{album.title}}</a>
   </nav>
 {{/compare}}
 
