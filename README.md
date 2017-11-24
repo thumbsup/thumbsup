@@ -7,7 +7,7 @@
 [![Dev dependencies](https://david-dm.org/thumbsup/thumbsup/dev-status.svg?style=flat)](https://david-dm.org/thumbsup/thumbsup?type=dev)
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
 
-![banner](banner.jpg)
+![banner](docs/banner.jpg)
 
 Turn any folder with photos &amp; videos into a web gallery.
 
@@ -26,7 +26,7 @@ npm install -g thumbsup
 thumbsup --input ./media --output ./website
 ```
 
-![Screen recording](demo.gif)
+![Screen recording](docs/demo.gif)
 
 There are many more command line arguments to customise the output.
 See the website for the full documentation: https://thumbsup.github.io.
@@ -45,7 +45,7 @@ You can also run `thumbsup` as a Docker container ([thumbsupgallery/thumbsup](ht
 
 See a sample gallery online at https://thumbsup.github.io/demos/themes/mosaic/
 
-![sample gallery](screenshot.png)
+![sample gallery](docs/screenshot.png)
 
 ## Command line arguments
 
