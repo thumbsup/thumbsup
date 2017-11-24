@@ -1,5 +1,4 @@
 const fs = require('fs-extra')
-const path = require('path')
 const Listr = require('listr')
 const steps = require('./steps/index')
 const summary = require('./steps/summary')
@@ -8,28 +7,19 @@ const website = require('./website/website')
 exports.build = function (opts) {
   const tasks = new Listr([
     {
-      title: 'Updating database',
+      title: 'Indexing folder',
       task: (ctx, task) => {
-        // returns an observable which will complete when the database is loaded
         fs.mkdirpSync(opts.output)
-        const databaseFile = path.join(opts.output, 'metadata.json')
-        return steps.database(opts.input, databaseFile, (err, res) => {
+        return steps.index(opts, (err, files, album) => {
           if (!err) {
-            ctx.database = res.database
+            ctx.files = files
+            ctx.album = album
           }
         })
       }
     },
     {
-      title: 'Creating model',
-      task: (ctx) => {
-        const res = steps.model(ctx.database, opts)
-        ctx.files = res.files
-        ctx.album = res.album
-      }
-    },
-    {
-      title: 'Processing media',
+      title: 'Resizing media',
       task: (ctx, task) => {
         return steps.process(ctx.files, opts, task)
       }

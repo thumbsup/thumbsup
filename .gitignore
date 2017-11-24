@@ -3,3 +3,4 @@ test-integration/output-actual
 test-integration/output-expected/public
 test-integration/output-expected/metadata.json
 .DS_Store
+thumbsup.db
