@@ -23,8 +23,9 @@
     "thumbsup": "./bin/thumbsup.js"
   },
   "scripts": {
-    "pkglint": "require-lint --ignore-extra lightgallery --ignore-extra video.js",
-    "test": "standard && npm run pkglint && mocha"
+    "lint": "standard && require-lint --ignore-extra lightgallery --ignore-extra video.js",
+    "unit": "mocha",
+    "test": "npm run lint && mocha"
   },
   "dependencies": {
     "async": "^2.5.0",

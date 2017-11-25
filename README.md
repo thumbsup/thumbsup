@@ -23,12 +23,12 @@ Simply point `thumbsup` to a folder with photos &amp; videos. All nested folders
 
 ```bash
 npm install -g thumbsup
-thumbsup --input ./media --output ./website
+thumbsup --input ./photos --output ./gallery
 ```
 
 ![Screen recording](docs/demo.gif)
 
-There are many more command line arguments to customise the output.
+There are many command line arguments to customise the output.
 See the website for the full documentation: https://thumbsup.github.io.
 
 ## Requirements
@@ -39,7 +39,7 @@ Thumbsup requires the following dependencies:
 - [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
 - [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
 
-You can also run `thumbsup` as a Docker container ([thumbsupgallery/thumbsup](https://hub.docker.com/r/thumbsupgallery/thumbsup/)) which pre-packages all the dependencies above.
+You can run thumbsup as a Docker container ([thumbsupgallery/thumbsup](https://hub.docker.com/r/thumbsupgallery/thumbsup/)) which pre-packages all the dependencies above.
 
 ## Sample gallery
 
@@ -124,8 +124,5 @@ DEBUG="*" thumbsup [options] | tee
 # [16:04:57] media/thumbs/photo-1446822622709-e1c7ad6e82d52.jpg [completed]
 ```
 
-Please make sure the tests are passing when submitting a code change:
-
-```bash
-./scripts/cibuild
-```
+If you want to contribute some code, please check out the [contributing guidelines](.github/CONTRIBUTING.md)
+for an overview of the design and a run-through of the different automated/manual tests.
