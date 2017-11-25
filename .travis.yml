@@ -1,19 +1,7 @@
-# Run unit tests on several versions of Node
-language: node_js
-node_js:
-  - '6'
-  - '8'
-
-# Also require docker for the integration tests
+# Run the whole build inside Docker
 sudo: required
 services:
   - docker
 
-jobs:
-  include:
-    # After unit tests pass on all version of Node
-    # run the integration tests
-    - stage: Integration tests
-      script:
-        - docker pull thumbsupgallery/build:alpine
-        - docker build .
+script:
+  - docker build .
