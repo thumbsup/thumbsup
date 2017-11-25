@@ -12,4 +12,4 @@ function finish {
 rm -rf output-expected
 
 # run thumbsup
-thumbsup --config config.json --output output-expected
+node ../bin/thumbsup.js --config config.json --output output-expected

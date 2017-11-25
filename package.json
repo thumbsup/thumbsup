@@ -18,12 +18,13 @@
     "type": "git",
     "url": "https://github.com/thumbsup/thumbsup.git"
   },
+  "main": "bin/thumbsup.js",
   "bin": {
     "thumbsup": "./bin/thumbsup.js"
   },
   "scripts": {
-    "test": "./scripts/cibuild",
-    "test-only": "mocha"
+    "pkglint": "require-lint --ignore-extra lightgallery --ignore-extra video.js",
+    "test": "standard && npm run pkglint && mocha"
   },
   "dependencies": {
     "async": "^2.5.0",

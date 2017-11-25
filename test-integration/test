@@ -12,7 +12,7 @@ function finish {
 rm -rf output-actual
 
 # run thumbsup
-thumbsup --config config.json --output output-actual
+node ../bin/thumbsup.js --config config.json --output output-actual
 
 # compare albums with the snapshot
 for expected in output-expected/*.html; do

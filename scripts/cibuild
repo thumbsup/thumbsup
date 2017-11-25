@@ -3,27 +3,14 @@
 # Fail the build on any error
 set -eou pipefail
 
-# Make sure binary package.json dependencies are available
-PATH=$(pwd)/node_modules/.bin:$PATH
-
-echo "--- Check all dependencies in package.json"
-require-lint --src bin/thumbsup.js --ignore-extra lightgallery --ignore-extra video.js
-
-echo "--- Static code analysis"
-standard
+echo "--- Run unit tests"
+npm test
 
 echo "--- Verify lightgallery dependency is built in"
 grep \"lightgallery\" package.json 1>/dev/null
 
-echo "--- Run unit tests"
-mocha
-
-echo "--- Update CLI arguments in README"
-./scripts/readme
-
-# TODO: add all dependencies like <ffmpeg> if we want this to run on Travis CI
-# echo "--- Running integration tests"
-# ./test-integration/test.sh
+echo "--- Comparing gallery snapshot"
+./test-integration/test
 
 echo "================"
 echo "Build successful"
