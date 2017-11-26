@@ -10,7 +10,9 @@ const files = readdir.sync(folder, {
   deep: true
 })
 
-describe('exiftool', () => {
+describe('exiftool', function () {
+  this.slow(1000)
+  this.timeout(1000)
   it('processes all files', (done) => {
     const processed = []
     const stream = exiftool.parse(folder, files)

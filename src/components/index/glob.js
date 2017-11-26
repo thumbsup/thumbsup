@@ -12,14 +12,25 @@ const MEDIA_GLOB = '**/*.{' + PHOTO_EXT.join(',') + ',' + VIDEO_EXT.join(',') + 
 exports.find = function (rootFolder, callback) {
   const entries = {}
   const stream = readdir.readdirStreamStat(rootFolder, {
-    filter: entry => micromatch(entry.path, MEDIA_GLOB, {nocase: true}).length !== 0,
-    deep: stats => stats.path.charAt(0) !== '.',
+    filter: entry => micromatch.match(entry.path, MEDIA_GLOB, {nocase: true}).length !== 0,
+    deep: stats => canTraverse(stats.path),
     basePath: '',
     sep: '/'
   })
   stream.on('data', stats => { entries[stats.path] = stats.mtime.getTime() })
   stream.on('error', err => isEnoentCodeError(err) ? callback(null, {}) : callback(err))
   stream.on('end', () => callback(null, entries))
+}
+
+function canTraverse (folder) {
+  // ignore folders starting with '.'
+  // and thumbnail folders from Synology NAS
+  // it's better to skip them in the "traverse phase" than to remove them at the end
+  const match = micromatch.match(folder, '**/**', {
+    dot: false,
+    ignore: ['**/@eaDir']
+  })
+  return match.length > 0
 }
 
 function isEnoentCodeError (err) {

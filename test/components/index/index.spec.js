@@ -5,6 +5,7 @@ const should = require('should/as-function')
 describe('Index', function () {
   this.slow(1000)
   this.timeout(1000)
+
   it('indexes the fixtures', (done) => {
     const index = new Index('thumbsup.db')
     const fixtures = path.join(__dirname, '..', '..', '..', 'fixtures')
