@@ -16,6 +16,13 @@ describe('Index: glob', function () {
     mock.restore()
   })
 
+  it('bootstraps micromatch', () => {
+    // This is a workaround for https://github.com/tschaub/mock-fs/issues/213
+    // Because micromatch() loads packages dynamically which doesn't work if the filesystem is being mocked
+    // So we need to pre-load them now
+    require('micromatch').match('file.txt', '**/**')
+  })
+
   it('can list top-level images', (done) => {
     mock({
       'media/IMG_0001.jpg': '...',
