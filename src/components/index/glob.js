@@ -12,7 +12,7 @@ const MEDIA_GLOB = '**/*.{' + PHOTO_EXT.join(',') + ',' + VIDEO_EXT.join(',') + 
 exports.find = function (rootFolder, callback) {
   const entries = {}
   const stream = readdir.readdirStreamStat(rootFolder, {
-    filter: entry => micromatch(entry.path, MEDIA_GLOB).length !== 0,
+    filter: entry => micromatch(entry.path, MEDIA_GLOB, {nocase: true}).length !== 0,
     deep: stats => stats.path.charAt(0) !== '.',
     basePath: '',
     sep: '/'
