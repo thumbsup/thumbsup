@@ -24,8 +24,8 @@
   },
   "scripts": {
     "lint": "standard && require-lint --ignore-extra lightgallery --ignore-extra video.js",
-    "unit": "mocha",
-    "test": "npm run lint && mocha"
+    "unit": "istanbul cover node_modules/mocha/bin/_mocha",
+    "test": "npm run lint && npm run unit"
   },
   "dependencies": {
     "async": "^2.5.0",
@@ -53,7 +53,9 @@
     "zen-observable": "^0.6.0"
   },
   "devDependencies": {
+    "gm": "^1.23.0",
     "injectmd": "^1.0.0",
+    "istanbul": "^0.4.5",
     "markdown-toc": "^1.1.0",
     "mocha": "^4.0.1",
     "mock-fs": "^4.4.2",

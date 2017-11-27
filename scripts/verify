@@ -21,6 +21,8 @@ for expected in output-expected/*.html; do
   diff -ub "${expected}" "${actual}"
 done
 
+echo "HTML pages are identical to snapshot"
+
 # compare media with the snapshot
 IFS=$'\n'; set -f
 for expected in $(find output-expected/media -name "*.jpg"); do
@@ -29,4 +31,4 @@ for expected in $(find output-expected/media -name "*.jpg"); do
 done
 unset IFS; set +f
 
-echo "Output is identical to snapshot"
+echo "Resized media is identical to snapshot"

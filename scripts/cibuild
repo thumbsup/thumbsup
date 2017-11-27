@@ -3,16 +3,24 @@
 # Fail the build on any error
 set -eou pipefail
 
-echo "--- Run unit tests"
+trap failure ERR
+function failure {
+  echo ""
+  echo "=================================="
+  echo " ✘ Build failed"
+  echo "=================================="
+}
+
+echo "Run unit tests"
 npm test
 
-echo "--- Verify lightgallery dependency is built in"
+echo "Verify lightgallery dependency is built in"
 grep \"lightgallery\" package.json 1>/dev/null
 
-echo "--- Comparing gallery snapshot"
+echo "Comparing gallery snapshot"
 scripts/verify
 
 echo ""
-echo "================"
-echo "Build successful"
-echo "================"
+echo "=================================="
+echo " ✔ Build successful"
+echo "=================================="

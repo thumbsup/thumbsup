@@ -1,4 +1,5 @@
 node_modules
+coverage
 test-snapshot/output-actual
 test-snapshot/output-expected/public
 test-snapshot/output-expected/metadata.json
