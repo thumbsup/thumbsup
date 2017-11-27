@@ -27,4 +27,9 @@ describe('Index', function () {
       done()
     })
   })
+
+  it('vacuums the database', () => {
+    const index = new Index('thumbsup.db')
+    index.vacuum()
+  })
 })
