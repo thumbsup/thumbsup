@@ -3,3 +3,7 @@
 test
 test-snapshot
 scripts
+coverage
+fixtures
+.editorconfig
+Dockerfile
