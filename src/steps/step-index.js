@@ -32,7 +32,10 @@ exports.run = function (opts, callback) {
       const picasa = picasaReader.file(file.metadata.SourceFile)
       const meta = new Metadata(file.metadata, picasa || {})
       const model = new File(file.metadata, meta, opts)
-      files.push(model)
+      // only include valid photos and videos (i.e. exiftool recognised the format)
+      if (model.type !== 'unknown') {
+        files.push(model)
+      }
     })
 
     // finished, we can create the albums
