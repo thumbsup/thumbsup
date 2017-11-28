@@ -1,7 +1,7 @@
 /*
 --------------------------------------------------------------------------------
-Provides most metadata based on the output of <exiftool>
-Caches the resulting DB in <metadata.json> for faster re-runs
+Indexes all photos and videos in the input folder, and parses their metadata
+Caches the results in <thumbsup.db> for faster re-runs
 --------------------------------------------------------------------------------
 */
 
@@ -16,29 +16,29 @@ const Picasa = require('../input/picasa')
 
 exports.run = function (opts, callback) {
   return new Observable(observer => {
-    // console.log(`RAM before index: ${ram()} MB`)
     const picasaReader = new Picasa()
     const index = new Index(path.join(opts.output, 'thumbsup.db'))
     const emitter = index.update(opts.input)
     const files = []
-    // var total = 0
-    emitter.on('stats', stats => {
-      // console.log(stats)
-      // total = stats.added + stats.modified
-    })
+
+    // after a file is indexed
     emitter.on('progress', stats => {
-      observer.next(`Indexing ${stats.processed}/${stats.total}`)
+      const percent = Math.floor(stats.processed * 100 / stats.total)
+      observer.next(`Indexing ${stats.processed}/${stats.total} (${percent}%)`)
     })
+
+    // emmitted for every file once indexing is finished
     emitter.on('file', file => {
       const picasa = picasaReader.file(file.metadata.SourceFile)
       const meta = new Metadata(file.metadata, picasa || {})
       const model = new File(file.metadata, meta, opts)
       files.push(model)
     })
+
+    // finished, we can create the albums
     emitter.on('done', stats => {
       const albumMapper = mapper.create(opts)
       const album = hierarchy.createAlbums(files, albumMapper, opts)
-      // console.log(`RAM after index: ${ram()} MB`)
       callback(null, files, album)
       observer.complete()
     })
