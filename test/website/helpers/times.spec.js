@@ -16,4 +16,16 @@ describe('Handlebars helpers: times', () => {
     const res = template({})
     should(res).eql('')
   })
+
+  it('passes the context to the block', () => {
+    const template = handlebars.compile(`{{#times 3}}{{hello}}{{/times}}`)
+    const res = template({hello: 'world'})
+    should(res).eql('worldworldworld')
+  })
+
+  it('passes the @index to the block', () => {
+    const template = handlebars.compile(`{{#times 3}}{{@index}}{{/times}}`)
+    const res = template({})
+    should(res).eql('012')
+  })
 })

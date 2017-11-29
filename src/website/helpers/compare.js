@@ -1,4 +1,3 @@
-
 /*
   Execute a block if a condition matches
   Ideally we want to use unit-testable models instead
@@ -9,8 +8,21 @@
       Good
     {{/compare}}
 */
-module.exports = (lvalue, operator, rvalue, options) => {
-  var operators, result
+
+/* eslint-disable key-spacing, no-multi-spaces, eqeqeq */
+const operators = {
+  '==':  function (l, r) { return l == r  },
+  '===': function (l, r) { return l === r },
+  '!=':  function (l, r) { return l != r  },
+  '!==': function (l, r) { return l !== r },
+  '<':   function (l, r) { return l < r   },
+  '>':   function (l, r) { return l > r   },
+  '<=':  function (l, r) { return l <= r  },
+  '>=':  function (l, r) { return l >= r  }
+}
+/* eslint-enable */
+
+module.exports = function (lvalue, operator, rvalue, options) {
   if (arguments.length < 3) {
     throw new Error("Handlerbars Helper 'compare' needs 2 parameters")
   }
@@ -19,20 +31,10 @@ module.exports = (lvalue, operator, rvalue, options) => {
     rvalue = operator
     operator = '==='
   }
-  operators = {
-    '==': function (l, r) { return l == r }, // eslint-disable-line eqeqeq
-    '===': function (l, r) { return l === r },
-    '!=': function (l, r) { return l != r }, // eslint-disable-line eqeqeq
-    '!==': function (l, r) { return l !== r },
-    '<': function (l, r) { return l < r },
-    '>': function (l, r) { return l > r },
-    '<=': function (l, r) { return l <= r },
-    '>=': function (l, r) { return l >= r }
-  }
   if (!operators[operator]) {
     throw new Error(`Handlerbars Helper 'compare' doesn't know the operator ${operator}`)
   }
-  result = operators[operator](lvalue, rvalue)
+  const result = operators[operator](lvalue, rvalue)
   if (result) {
     return options.fn(this)
   } else {

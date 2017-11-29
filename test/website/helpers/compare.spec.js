@@ -36,6 +36,12 @@ describe('Handlebars helpers: compare', () => {
     }).throw(/operator/)
   })
 
+  it('keeps the context when executing the block', () => {
+    const template = handlebars.compile(`{{#compare value '==' 3}}{{hello}}{{/compare}}`)
+    const res = template({value: 3, hello: 'world'})
+    should(res).eql('world')
+  })
+
   describe('operators', () => {
     it('equal', () => {
       const template = handlebars.compile(`{{#compare value '==' 3}}TRUE{{/compare}}`)

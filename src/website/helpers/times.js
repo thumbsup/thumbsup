@@ -1,4 +1,3 @@
-
 /*
   Execute the child block N times
   Usage:
@@ -6,8 +5,12 @@
       <p>Lorem ipsum</p>
     {{/times}}
 */
-module.exports = (n, block) => {
+module.exports = function (n, block) {
   var accum = ''
-  for (var i = 0; i < n; ++i) { accum += block.fn(i) }
+  const data = require('handlebars').createFrame({})
+  for (var i = 0; i < n; ++i) {
+    data.index = i
+    accum += block.fn(this, {data: data})
+  }
   return accum
 }
