@@ -67,9 +67,14 @@ function caption (exif, picasa) {
 }
 
 function keywords (exif, picasa) {
-  const values = picasaValue(picasa, 'keywords') ||
-                 tagValue(exif, 'IPTC', 'Keywords')
-  return values ? values.split(',') : []
+  // try Picasa (comma-separated)
+  const picasaValues = picasaValue(picasa, 'keywords')
+  if (picasaValues) return picasaValues.split(',')
+  // try IPTC (string or array)
+  const iptcValues = tagValue(exif, 'IPTC', 'Keywords')
+  if (iptcValues) return makeArray(iptcValues)
+  // no keywords
+  return []
 }
 
 function video (exif) {
@@ -99,6 +104,10 @@ function tagValue (exif, type, name) {
 function picasaValue (picasa, name) {
   if (typeof picasa !== 'object') return null
   return picasa[name]
+}
+
+function makeArray (value) {
+  return Array.isArray(value) ? value : [value]
 }
 
 module.exports = Metadata

@@ -131,14 +131,31 @@ describe('Metadata', function () {
       should(meta.keywords).eql([])
     })
 
-    it('can read IPTC keywords', function () {
+    it('can read a single IPTC keyword', function () {
+      // a single keyword is returned as a string by <exiftool>
       const exiftool = fixtures.exiftool()
-      exiftool.IPTC['Keywords'] = 'beach,sunset'
+      exiftool.IPTC['Keywords'] = 'beach'
+      const meta = new Metadata(exiftool)
+      should(meta.keywords).eql(['beach'])
+    })
+
+    it('can read multiple IPTC keywords', function () {
+      // multiple keywords are returned as an array by <exiftool>
+      const exiftool = fixtures.exiftool()
+      exiftool.IPTC['Keywords'] = ['beach', 'sunset']
       const meta = new Metadata(exiftool)
       should(meta.keywords).eql(['beach', 'sunset'])
     })
 
-    it('can read Picasa keywords', function () {
+    it('can read a single Picasa keywords', function () {
+      const exiftool = fixtures.exiftool()
+      const picasa = {keywords: 'beach'}
+      const meta = new Metadata(exiftool, picasa)
+      should(meta.keywords).eql(['beach'])
+    })
+
+    it('can read multiple Picasa keywords', function () {
+      // because it's a simple INI file, mutiple keywords are comma-separated
       const exiftool = fixtures.exiftool()
       const picasa = {keywords: 'beach,sunset'}
       const meta = new Metadata(exiftool, picasa)
