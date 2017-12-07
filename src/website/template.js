@@ -27,6 +27,7 @@ exports.create = function (options) {
   // common partials
   handlebars.registerPartial('analytics', compileTemplate(path.join(DIR_TEMPLATES, 'analytics.hbs')))
   handlebars.registerPartial('thumbnail', compileTemplate(path.join(DIR_TEMPLATES, 'thumbnail.hbs')))
+  handlebars.registerPartial('exif', compileTemplate(path.join(DIR_TEMPLATES, 'exif.hbs')))
 
   // theme partials
   const partials = fs.readdirSync(DIR_THEME)

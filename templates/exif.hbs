@@ -1,0 +1,72 @@
+<table>
+  <!-- Filename -->
+  <tr><td>
+    <i class="fa file-photo-o"></i>Filename</td>
+    <td>{{ filename }}</td>
+  </tr>
+  <!-- Date taken -->
+  <tr>
+    <td><i class="fa calendar-check-o"></i>Date taken</td>
+    <td>{{date date "DD MMM YYYY"}}</td>
+  </tr>
+  <!-- Image resolution -->
+  <tr>
+    <td><i class="fa arrows-h"></i>Resolution</td>
+    <td>{{ width }} x {{ height }}</td>
+  </tr>
+  <!-- Make -->
+  <tr>
+    <td><i class="fa camera"></i>Camera</td>
+    <td>{{ make }}</td>
+  </tr>
+  <!-- Model -->
+  <tr>
+    <td><i class="fa camera"></i>Model</td>
+    <td>{{ model }}</td>
+  </tr>
+  <!-- ISO -->
+  <tr>
+    <td><i class="fa low-vision"></i>ISO</td>
+    <td>{{ iso }}</td>
+  </tr>
+  <!-- Aperture -->
+  <tr>
+    <td><i class="fa bullseye"></i>Aperture</td>
+    <td>{{ aperture }}</td>
+  </tr>
+  <!-- Exposure -->
+  <tr>
+    <td><i class="fa clock"></i>Exposure</td>
+    <td>{{ exposure }}</td>
+  </tr>
+  <!-- Flash -->
+  <tr>
+    <td><i class="fa flash"></i>Flash</td>
+    <td>{{ flash }}</td>
+  </tr>
+  <!-- GPS coordinates -->
+  <tr>
+    <td><i class="fa map-o"></i>GPS</td>
+    <td>{{ lat }}, {{ long }}</td>
+  </tr>
+  <!-- Title -->
+  <tr>
+    <td><i class="fa header"></i>Title</td>
+    <td>{{ caption }}</td>
+  </tr>
+  <!-- Description -->
+  <tr>
+    <td><i class="fa align-left"></i>Description</td>
+    <td>{{ description }}</td>
+  </tr>
+  <!-- Keywords -->
+  <tr>
+    <td><i class="fa list-ul"></i>Keywords</td>
+    <td>{{#join keywords ","}}{{.}}{{/join}}</td>
+  </tr>
+  <!-- Star rating -->
+  <tr>
+    <td><i class="fa star-o"></i>Rating</td>
+    <td>{{#times rating}}<i class="fa star"></i>{{/times}}</td>
+  </tr>
+</table>
