@@ -1,4 +1,4 @@
-const debug = require('debug')('thumbsup')
+const debug = require('debug')('thumbsup:debug')
 const downsize = require('thumbsup-downsize')
 const os = require('os')
 const fs = require('fs-extra')
@@ -28,13 +28,13 @@ exports.create = function (files, opts) {
   // accumulate all tasks into an object
   // to remove duplicate destinations
   files.forEach(f => {
-    debug(`Tasks for ${f.path}, ${JSON.stringify(f.output)}`)
     Object.keys(f.output).forEach(out => {
       var src = path.join(opts.input, f.path)
       var dest = path.join(opts.output, f.output[out].path)
       var destDate = modifiedDate(dest)
       var action = actionMap[f.output[out].rel]
       // ignore output files that don't have an action (e.g. existing links)
+      debug(`Comparing ${f.path} (${f.date}) and ${f.output[out].path} (${destDate})`)
       if (action && f.date > destDate) {
         tasks[dest] = {
           file: f,

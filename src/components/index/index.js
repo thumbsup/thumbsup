@@ -1,5 +1,6 @@
 const _ = require('lodash')
 const Database = require('better-sqlite3')
+const info = require('debug')('thumbsup:info')
 const delta = require('./delta')
 const EventEmitter = require('events')
 const exiftool = require('../exiftool/parallel')
@@ -58,13 +59,15 @@ class Index {
 
       // calculate the difference: which files have been added, modified, etc
       const deltaFiles = delta.calculate(databaseMap, diskMap)
-      emitter.emit('stats', {
+      const deltaStats = {
         unchanged: deltaFiles.unchanged.length,
         added: deltaFiles.added.length,
         modified: deltaFiles.modified.length,
         deleted: deltaFiles.deleted.length,
         total: Object.keys(diskMap).length
-      })
+      }
+      emitter.emit('stats', deltaStats)
+      info('Differences between disk and index', deltaStats)
 
       // remove deleted files from the DB
       _.each(deltaFiles.deleted, path => {

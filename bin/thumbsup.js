@@ -1,16 +1,24 @@
 #!/usr/bin/env node
 
+const Analytics = require('./analytics')
 const fs = require('fs')
-const index = require('../src/index')
 const messages = require('./messages')
 const path = require('path')
-const Analytics = require('./analytics')
 const options = require('./options')
+const tty = require('tty')
 
 console.log('')
 
 // Read all options from the command-line / config file
 const opts = options.get()
+
+// If stdout is non TTY, make sure there is at least some text logging on stderr
+if (!options.log && tty.isatty(process.stdout.fd) === false) {
+  options.log = 'info'
+}
+// Only require the index after logging options have been set
+require('./log').init(options.log)
+const index = require('../src/index')
 
 // If this is the first run, display a welcome message
 const indexPath = path.join(opts.output, 'thumbsup.db')

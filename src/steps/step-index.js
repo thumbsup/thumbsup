@@ -22,9 +22,13 @@ exports.run = function (opts, callback) {
     const files = []
 
     // after a file is indexed
+    var lastPercent = -1
     emitter.on('progress', stats => {
       const percent = Math.floor(stats.processed * 100 / stats.total)
-      observer.next(`Indexing ${stats.processed}/${stats.total} (${percent}%)`)
+      if (percent > lastPercent) {
+        observer.next(`Indexing ${stats.processed}/${stats.total} (${percent}%)`)
+        lastPercent = percent
+      }
     })
 
     // emmitted for every file once indexing is finished

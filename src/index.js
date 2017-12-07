@@ -4,6 +4,9 @@ const steps = require('./steps/index')
 const website = require('./website/website')
 
 exports.build = function (opts, done) {
+  // How to render tasks
+  const renderer = (opts.log === 'color') ? 'update' : 'verbose'
+  // List of high level tasks
   const tasks = new Listr([
     {
       title: 'Indexing folder',
@@ -38,7 +41,10 @@ exports.build = function (opts, done) {
         })
       })
     }
-  ])
+  ], {
+    renderer: renderer,
+    dateFormat: false
+  })
 
   tasks.run().then(ctx => {
     done(null, ctx.album)

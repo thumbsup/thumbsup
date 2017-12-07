@@ -151,6 +151,12 @@ const OPTIONS = {
     normalize: true
   },
 
+  'log': {
+    description: 'Print a detailed text log',
+    choices: [null, 'info', 'debug', 'trace'],
+    'default': null
+  },
+
   'usage-report': {
     description: 'Disable anonymous usage statistics',
     type: 'boolean',
@@ -222,6 +228,7 @@ exports.get = () => {
     index: opts['index'],
     footer: opts['footer'],
     albumsOutputFolder: opts['albums-output-folder'],
-    noUsageReport: opts['no-usage-report']
+    noUsageReport: opts['no-usage-report'],
+    log: opts['log']
   }
 }

@@ -1,5 +1,6 @@
 const childProcess = require('child_process')
-const debug = require('debug')('exiftool-stream')
+const debug = require('debug')('thumbsup:debug')
+const error = require('debug')('thumbsup:error')
 const es = require('event-stream')
 const JSONStream = require('JSONStream')
 
@@ -26,8 +27,8 @@ exports.parse = (rootFolder, filePaths) => {
     stdio: [ 'pipe', 'pipe', 'ignore' ]
   })
   child.on('error', (err) => {
-    debug(`Error: please verify that <exiftool> is installed on your system`)
-    debug(err.toString())
+    error(`Error: please verify that <exiftool> is installed on your system`)
+    error(err.toString())
   })
   child.on('close', (code, signal) => {
     debug(`Exiftool exited with code ${code}`)

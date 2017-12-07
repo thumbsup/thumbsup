@@ -1,4 +1,4 @@
-const debug = require('debug')('thumbsup')
+const warn = require('debug')('thumbsup:warn')
 const path = require('path')
 const urljoin = require('url-join')
 
@@ -12,7 +12,7 @@ exports.paths = function (filepath, mediaType, opts) {
     items.download = download(filepath, opts['downloadVideos'], opts['downloadLinkPrefix'], items.video)
     return items
   } else {
-    debug(`Unsupported file type: ${mediaType}`)
+    warn(`Unsupported file type <${mediaType}> for ${filepath}`)
     return {}
   }
 }
