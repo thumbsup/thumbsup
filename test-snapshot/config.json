@@ -7,5 +7,6 @@
   "sort-media-by": "date",
   "albums-from": "folders",
   "theme": "mosaic",
-  "cleanup": true
+  "cleanup": true,
+  "noUsageReport": true
 }

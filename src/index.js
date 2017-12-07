@@ -1,10 +1,9 @@
 const fs = require('fs-extra')
 const Listr = require('listr')
 const steps = require('./steps/index')
-const summary = require('./steps/summary')
 const website = require('./website/website')
 
-exports.build = function (opts) {
+exports.build = function (opts, done) {
   const tasks = new Listr([
     {
       title: 'Indexing folder',
@@ -42,10 +41,8 @@ exports.build = function (opts) {
   ])
 
   tasks.run().then(ctx => {
-    console.log('\n' + summary.create(ctx) + '\n')
-    process.exit(0)
+    done(null, ctx.album)
   }).catch(err => {
-    console.log('\nUnexpected error', err)
-    process.exit(1)
+    done(err)
   })
 }
