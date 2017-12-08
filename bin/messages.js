@@ -1,3 +1,7 @@
+const chalk = require('chalk')
+
+const DOCS_URL = chalk.green('https://thumbsup.github.io/docs')
+const ISSUES_URL = chalk.green('https://github.com/thumbsup/thumbsup/issues')
 
 exports.USAGE = () => `
 Usages:
@@ -21,8 +25,8 @@ exports.GREETING = () => `
 │                                                                              │
 │ Thanks for using thumbsup!                                                   │
 │                                                                              │
-│ We hope it works exactly as you expect. If you have any issues or feature    │
-│ ideas please raise an issue at https://github.com/thumbsup/thumbsup/issues.  │
+│ We hope it does exactly what you need. Don't forget to check out the docs at │
+│ ${DOCS_URL}.                                             │
 │                                                                              │
 │ When building a gallery, thumbsup reports anonymous stats such as the OS and │
 │ gallery size. This is used to understand usage patterns & guide development  │
@@ -43,7 +47,7 @@ exports.SORRY = () => `
 │ This is most likely an edge-case that hasn't been tested before.             │
 │                                                                              │
 │ To help improve thumbsup and hopefully resolve your problem,                 │
-│ please raise an issue at https://github.com/thumbsup/thumbsup/issues.        │
+│ please raise an issue at ${ISSUES_URL}.        │
 │                                                                              │
 └──────────────────────────────────────────────────────────────────────────────┘
 `

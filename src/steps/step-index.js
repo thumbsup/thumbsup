@@ -7,6 +7,7 @@ Caches the results in <thumbsup.db> for faster re-runs
 
 const hierarchy = require('../input/hierarchy.js')
 const Index = require('../components/index/index')
+const info = require('debug')('thumbsup:info')
 const mapper = require('../input/mapper')
 const Metadata = require('../model/metadata')
 const File = require('../model/file')
@@ -20,6 +21,10 @@ exports.run = function (opts, callback) {
     const index = new Index(path.join(opts.output, 'thumbsup.db'))
     const emitter = index.update(opts.input)
     const files = []
+
+    emitter.on('stats', stats => {
+      info('Differences between disk and index', stats)
+    })
 
     // after a file is indexed
     var lastPercent = -1

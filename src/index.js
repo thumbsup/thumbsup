@@ -5,7 +5,7 @@ const website = require('./website/website')
 
 exports.build = function (opts, done) {
   // How to render tasks
-  const renderer = (opts.log === 'color') ? 'update' : 'verbose'
+  const renderer = (!opts.log) ? 'update' : 'verbose'
   // List of high level tasks
   const tasks = new Listr([
     {

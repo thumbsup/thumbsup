@@ -13,11 +13,11 @@ console.log('')
 const opts = options.get()
 
 // If stdout is non TTY, make sure there is at least some text logging on stderr
-if (!options.log && tty.isatty(process.stdout.fd) === false) {
-  options.log = 'info'
+if (!opts.log && tty.isatty(process.stdout.fd) === false) {
+  opts.log = 'info'
 }
 // Only require the index after logging options have been set
-require('./log').init(options.log)
+require('./log').init(opts.log)
 const index = require('../src/index')
 
 // If this is the first run, display a welcome message
