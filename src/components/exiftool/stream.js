@@ -3,6 +3,7 @@ const debug = require('debug')('thumbsup:debug')
 const error = require('debug')('thumbsup:error')
 const es = require('event-stream')
 const JSONStream = require('JSONStream')
+const through2 = require('through2')
 
 /*
   Spawn a single <exiftool> process and send all the files to be parsed
@@ -44,6 +45,13 @@ exports.parse = (rootFolder, filePaths) => {
   // parse every top-level object and emit it on the stream
   return es.pipeline(
     child.stdout,
+    through2(chunkToString),
     JSONStream.parse([true])
   )
+}
+
+function chunkToString (chunk, enc, callback) {
+  // convert to string to help JSONStream deal with odd encodings
+  this.push(chunk.toString())
+  callback()
 }

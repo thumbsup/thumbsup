@@ -47,6 +47,7 @@
     "micromatch": "^3.1.4",
     "moment": "^2.19.2",
     "readdir-enhanced": "^2.0.0",
+    "through2": "^2.0.3",
     "thumbsup-downsize": "^1.0.0",
     "url-join": "^2.0.2",
     "video.js": "^6.2.8",
