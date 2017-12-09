@@ -1,4 +1,5 @@
 const Index = require('../../../src/components/index/index')
+const fs = require('fs-extra')
 const path = require('path')
 const should = require('should/as-function')
 
@@ -7,6 +8,7 @@ describe('Index', function () {
   this.timeout(1000)
 
   it('indexes the fixtures', (done) => {
+    fs.removeSync('thumbsup.db')
     const index = new Index('thumbsup.db')
     const fixtures = path.join(__dirname, '..', '..', '..', 'fixtures')
     const emitter = index.update(fixtures)
