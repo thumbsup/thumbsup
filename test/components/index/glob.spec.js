@@ -101,4 +101,19 @@ describe('Index: glob', function () {
       done()
     })
   })
+
+  it('ignores root folders called #recycle (Synology recycle bin)', (done) => {
+    mock({
+      'media/holidays/IMG_0001.jpg': '...',
+      'media/#recycle/IMG_0002.jpg': '...'
+    })
+    glob.find('media', (err, map) => {
+      if (err) return done(err)
+      const keys = Object.keys(map).sort()
+      should(keys).eql([
+        'holidays/IMG_0001.jpg'
+      ])
+      done()
+    })
+  })
 })

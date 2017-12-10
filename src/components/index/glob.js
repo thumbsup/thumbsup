@@ -28,7 +28,7 @@ function canTraverse (folder) {
   // it's better to skip them in the "traverse phase" than to remove them at the end
   const match = micromatch.match(folder, '**/**', {
     dot: false,
-    ignore: ['**/@eaDir']
+    ignore: ['**/@eaDir', '#recycle']
   })
   return match.length > 0
 }
