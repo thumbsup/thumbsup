@@ -1,8 +1,9 @@
 const debug = require('debug')('thumbsup:debug')
 const downsize = require('thumbsup-downsize')
-const os = require('os')
 const fs = require('fs-extra')
+const info = require('debug')('thumbsup:info')
 const ListrWorkQueue = require('listr-work-queue')
+const os = require('os')
 const path = require('path')
 
 exports.run = function (files, opts, parentTask) {
@@ -24,6 +25,7 @@ exports.run = function (files, opts, parentTask) {
 */
 exports.create = function (files, opts) {
   var tasks = {}
+  const sourceFiles = new Set()
   const actionMap = getActionMap(opts)
   // accumulate all tasks into an object
   // to remove duplicate destinations
@@ -36,6 +38,7 @@ exports.create = function (files, opts) {
       // ignore output files that don't have an action (e.g. existing links)
       debug(`Comparing ${f.path} (${f.date}) and ${f.output[out].path} (${destDate})`)
       if (action && f.date > destDate) {
+        sourceFiles.add(f.path)
         tasks[dest] = {
           file: f,
           dest: dest,
@@ -51,7 +54,10 @@ exports.create = function (files, opts) {
   })
   // back into an array
   const list = Object.keys(tasks).map(dest => tasks[dest])
-  debug(`Created ${list.length} tasks`)
+  info('Calculated required tasks', {
+    sourceFiles: sourceFiles.size,
+    tasks: list.length
+  })
   return list
 }
 
