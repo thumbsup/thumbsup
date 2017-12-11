@@ -8,5 +8,5 @@
   "albums-from": "folders",
   "theme": "mosaic",
   "cleanup": true,
-  "noUsageReport": true
+  "usage-stats": false
 }

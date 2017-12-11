@@ -29,7 +29,7 @@ if (firstRun) {
 
 // Basic usage report (anonymous statistics)
 const analytics = new Analytics({
-  enabled: opts['usageReport']
+  enabled: opts['usageStats']
 })
 analytics.start()
 

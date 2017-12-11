@@ -157,8 +157,8 @@ const OPTIONS = {
     'default': null
   },
 
-  'usage-report': {
-    description: 'Disable anonymous usage statistics',
+  'usage-stats': {
+    description: 'Enable anonymous usage statistics',
     type: 'boolean',
     'default': true
   },
@@ -228,7 +228,7 @@ exports.get = () => {
     index: opts['index'],
     footer: opts['footer'],
     albumsOutputFolder: opts['albums-output-folder'],
-    noUsageReport: opts['no-usage-report'],
+    usageStats: opts['usage-stats'],
     log: opts['log']
   }
 }
