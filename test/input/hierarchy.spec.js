@@ -32,7 +32,7 @@ describe('hierarchy', function () {
   })
 
   describe('empty mappers', function () {
-    const emptyMappers = ['', '.', null]
+    const emptyMappers = ['', '.', '/', null]
     emptyMappers.forEach(value => {
       it(`adds any photos mapped to <${value}> to the root gallery`, function () {
         const files = [

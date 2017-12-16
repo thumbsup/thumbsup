@@ -14,15 +14,14 @@ function group (collection, mapper) {
   // this hashtable will contain all albums, with the full path as key
   // e.g. groups['holidays/tokyo']
   var groups = {
-    // we use path.basename() to parse the hierarchy
-    // so the home album is indexed as '.' to make it easy
+    // the home album is indexed as '.'
     // the value of '.' is local to this function, and doesn't appear anywhere else
     '.': new Album('Home')
   }
   // put all files in the right albums
   collection.forEach(function (file) {
     var groupName = mapper(file)
-    if (!groupName) {
+    if (!groupName || groupName === '/') {
       groupName = '.'
     }
     createAlbumHierarchy(groups, groupName)
