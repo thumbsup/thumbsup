@@ -159,6 +159,10 @@ var opts = yargs
       description: 'JSON config file (one key per argument)',
       normalize: true
     },
+    'parallel-threads': {
+      description: 'Number of threads to use for processing (default: # of cpu cores)',
+      type: 'number'
+    },
 
     // ------------------------------------
     // Deprecated options

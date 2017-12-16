@@ -16,6 +16,7 @@ const website = require('./output-website/website')
 exports.build = function (opts) {
   fs.mkdirpSync(opts.output)
   const databaseFile = path.join(opts.output, 'metadata.json')
+  const threads = opts['parallel-threads'] > 0 ? opts['parallel-threads'] : os.cpus().length
 
   // all files, unsorted
   var files = null
@@ -43,13 +44,13 @@ exports.build = function (opts) {
     function processPhotos (callback) {
       const photos = tasks.create(opts, files, 'image')
       const bar = progress.create('Processing photos', photos.length)
-      parallel(photos, bar, callback)
+      parallel(photos, bar, threads, callback)
     },
 
     function processVideos (callback) {
       const videos = tasks.create(opts, files, 'video')
       const bar = progress.create('Processing videos', videos.length)
-      parallel(videos, bar, callback)
+      parallel(videos, bar, threads, callback)
     },
 
     function removeOldOutput (callback) {
@@ -76,14 +77,14 @@ exports.build = function (opts) {
   ], finish)
 }
 
-function parallel (tasks, bar, callback) {
+function parallel (tasks, bar, threads, callback) {
   const decorated = tasks.map(t => done => {
     t(err => {
       bar.tick(1)
       done(err)
     })
   })
-  async.parallelLimit(decorated, os.cpus().length, callback)
+  async.parallelLimit(decorated, threads, callback)
 }
 
 function finish (err) {
