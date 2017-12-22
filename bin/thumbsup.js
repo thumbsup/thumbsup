@@ -10,7 +10,8 @@ const tty = require('tty')
 console.log('')
 
 // Read all options from the command-line / config file
-const opts = options.get()
+const args = process.argv.slice(2)
+const opts = options.get(args)
 
 // If stdout is non TTY, make sure there is at least some text logging on stderr
 if (!opts.log && tty.isatty(process.stdout.fd) === false) {

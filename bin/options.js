@@ -182,8 +182,10 @@ const OPTIONS = {
 
 }
 
-exports.get = () => {
-  var opts = yargs
+// explicity pass <process.argv> so we can unit test this logic
+// otherwise it pre-loads all process arguments on require()
+exports.get = (args) => {
+  const opts = yargs(args)
     .usage(messages.USAGE())
     .wrap(null)
     .help('help')
