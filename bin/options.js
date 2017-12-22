@@ -207,6 +207,10 @@ exports.get = (args) => {
   if (opts['original-photos']) opts['download-photos'] = 'copy'
   if (opts['original-videos']) opts['download-videos'] = 'copy'
 
+  // Convert deprecated --albums-from values
+  replaceInArray(opts['albums-from'], 'folders', '%path')
+  replaceInArray(opts['albums-from'], 'date', `{${opts['albums-date-format']}}`)
+
   // All options as an object
   return {
     input: opts['input'],
@@ -232,5 +236,13 @@ exports.get = (args) => {
     albumsOutputFolder: opts['albums-output-folder'],
     usageStats: opts['usage-stats'],
     log: opts['log']
+  }
+}
+
+function replaceInArray (list, match, replacement) {
+  for (var i = 0; i < list.length; ++i) {
+    if (list[i] === match) {
+      list[i] = replacement
+    }
   }
 }

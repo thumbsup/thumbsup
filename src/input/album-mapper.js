@@ -9,28 +9,22 @@ const _ = require('lodash')
 const albumPattern = require('./album-pattern')
 
 class AlbumMapper {
-  constructor (opts) {
-    const patterns = opts.albumsFrom || '%path'
-    this.patterns = patterns.map(pattern => load(pattern, opts.albumsDateFormat))
+  constructor (patterns) {
+    const defaulted = (patterns && patterns.length > 0) ? patterns : ['%path']
+    this.patterns = defaulted.map(load)
   }
   getAlbums (file) {
     return _.flatMap(this.patterns, pattern => pattern(file))
   }
 }
 
-function load (pattern, dateFormat) {
-  // legacy short-hand names (deprecated)
-  if (pattern === 'folders') {
-    return albumPattern.create('%path')
-  }
-  if (pattern === 'date') {
-    return albumPattern.create(`{${dateFormat}}`)
-  }
+function load (pattern) {
   // custom mapper file
   if (typeof pattern === 'string' && pattern.startsWith('file://')) {
     const filepath = pattern.slice('file://'.length)
     return require(filepath)
   }
+  // string pattern
   if (typeof pattern === 'string') {
     return albumPattern.create(pattern)
   }

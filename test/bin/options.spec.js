@@ -14,10 +14,18 @@ describe('options', function () {
     should(opts.output).eql(path.join(process.cwd(), 'website'))
   })
   describe('--albums-from', () => {
-    it('can be a single pattern value', () => {
-      const args = BASE_ARGS.concat(['--albums-from "%path"'])
+    it('can be specified once', () => {
+      const args = BASE_ARGS.concat(['--albums-from', '%path'])
       const opts = options.get(args)
       should(opts.albumsFrom).eql(['%path'])
+    })
+    it('can be specified multiple times', () => {
+      const args = BASE_ARGS.concat([
+        '--albums-from', '%path',
+        '--albums-from', '%keywords'
+      ])
+      const opts = options.get(args)
+      should(opts.albumsFrom).eql(['%path', '%keywords'])
     })
   })
   describe('deprecated', () => {
@@ -40,6 +48,27 @@ describe('options', function () {
       const args = BASE_ARGS.concat(['--original-videos'])
       const opts = options.get(args)
       should(opts.downloadVideos).eql('copy')
+    })
+    it('--albums-from folders', () => {
+      const args = BASE_ARGS.concat(['--albums-from', 'folders'])
+      const opts = options.get(args)
+      should(opts.albumsFrom).eql(['%path'])
+    })
+    it('--albums-from folders (when several patterns)', () => {
+      const args = BASE_ARGS.concat([
+        '--albums-from', 'folders',
+        '--albums-from', '%keywords'
+      ])
+      const opts = options.get(args)
+      should(opts.albumsFrom).eql(['%path', '%keywords'])
+    })
+    it('--albums-from date', () => {
+      const args = BASE_ARGS.concat([
+        '--albums-from', 'date',
+        '--albums-date-format', 'YYYY MMM'
+      ])
+      const opts = options.get(args)
+      should(opts.albumsFrom).eql(['{YYYY MMM}'])
     })
   })
 })
