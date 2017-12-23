@@ -158,6 +158,12 @@ const OPTIONS = {
     'default': true
   },
 
+  'dry-run': {
+    description: "Update the index, but don't create the media files / website",
+    type: 'boolean',
+    'default': false
+  },
+
   // ------------------------------------
   // Deprecated options
   // ------------------------------------
@@ -235,7 +241,8 @@ exports.get = (args) => {
     footer: opts['footer'],
     albumsOutputFolder: opts['albums-output-folder'],
     usageStats: opts['usage-stats'],
-    log: opts['log']
+    log: opts['log'],
+    dryRun: opts['dry-run']
   }
 }
 

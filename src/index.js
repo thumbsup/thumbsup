@@ -23,18 +23,26 @@ exports.build = function (opts, done) {
     {
       title: 'Resizing media',
       task: (ctx, task) => {
-        return steps.process(ctx.files, opts, task)
+        const tasks = steps.process(ctx.files, opts, task)
+        if (!opts.dryRun) {
+          return tasks
+        } else {
+          task.skip()
+          return null
+        }
       }
     },
     {
       title: 'Cleaning up',
       enabled: (ctx) => opts.cleanup,
+      skip: () => opts.dryRun,
       task: (ctx) => {
         return steps.cleanup(ctx.files, opts.output)
       }
     },
     {
       title: 'Creating website',
+      skip: () => opts.dryRun,
       task: (ctx) => new Promise((resolve, reject) => {
         website.build(ctx.album, opts, err => {
           err ? reject(err) : resolve()
