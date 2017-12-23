@@ -11,20 +11,20 @@ describe('hierarchy', function () {
 
   describe('root album', function () {
     it('creates a root album (homepage) to put all sub-albums', function () {
-      const mapper = (file) => 'all'
+      const mapper = mockMapper(file => ['all'])
       const home = hierarchy.createAlbums([], mapper, {})
       should(home.title).eql('Home')
     })
 
     it('defaults the homepage to index.html', function () {
-      const mapper = (file) => 'all'
+      const mapper = mockMapper(file => ['all'])
       const home = hierarchy.createAlbums([], mapper, {})
       should(home.path).eql('index.html')
       should(home.url).eql('index.html')
     })
 
     it('can configure the homepage path', function () {
-      const mapper = (file) => 'all'
+      const mapper = mockMapper(file => ['all'])
       const home = hierarchy.createAlbums([], mapper, {index: 'default.html'})
       should(home.path).eql('default.html')
       should(home.url).eql('default.html')
@@ -39,7 +39,7 @@ describe('hierarchy', function () {
           fixtures.photo({path: 'IMG_000001.jpg'}),
           fixtures.photo({path: 'IMG_000002.jpg'})
         ]
-        const mapper = file => value
+        const mapper = mockMapper(file => [value])
         const home = hierarchy.createAlbums(files, mapper)
         should(home.albums.length).eql(0)
         should(home.files.length).eql(2)
@@ -55,7 +55,7 @@ describe('hierarchy', function () {
         fixtures.photo({path: 'IMG_000001.jpg'}),
         fixtures.photo({path: 'IMG_000002.jpg'})
       ]
-      const mapper = (file) => 'all'
+      const mapper = mockMapper(file => ['all'])
       const home = hierarchy.createAlbums(files, mapper)
       should(home.albums.length).eql(1)
       should(home.albums[0].title).eql('all')
@@ -67,7 +67,7 @@ describe('hierarchy', function () {
         fixtures.photo({path: 'one/IMG_000001.jpg'}),
         fixtures.photo({path: 'two/IMG_000002.jpg'})
       ]
-      const mapper = (file) => path.dirname(file.path)
+      const mapper = mockMapper(file => [path.dirname(file.path)])
       const home = hierarchy.createAlbums(files, mapper)
       should(home.albums.length).eql(2)
       should(home.albums[0].title).eql('one')
@@ -81,7 +81,7 @@ describe('hierarchy', function () {
         fixtures.photo({path: 'IMG_000001.jpg'}),
         fixtures.photo({path: 'IMG_000002.jpg'})
       ]
-      const mapper = (file) => 'one/two'
+      const mapper = mockMapper(file => ['one/two'])
       const home = hierarchy.createAlbums(files, mapper)
       should(home.albums.length).eql(1)
       should(home.albums[0].title).eql('one')
@@ -95,7 +95,7 @@ describe('hierarchy', function () {
         fixtures.photo({path: 'one/IMG_000001.jpg'}),
         fixtures.photo({path: 'one/two/IMG_000002.jpg'})
       ]
-      const mapper = (file) => path.dirname(file.path)
+      const mapper = mockMapper(file => [path.dirname(file.path)])
       const home = hierarchy.createAlbums(files, mapper)
       should(home.albums.length).eql(1)
       should(home.albums[0].title).eql('one')
@@ -106,3 +106,9 @@ describe('hierarchy', function () {
     })
   })
 })
+
+function mockMapper (fn) {
+  return {
+    getAlbums: fn
+  }
+}

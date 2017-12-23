@@ -67,14 +67,9 @@ const OPTIONS = {
 
   'albums-from': {
     group: 'Album options:',
-    description: 'How to group media into albums',
-    choices: ['folders', 'date'],
-    'default': 'folders'
-  },
-  'albums-date-format': {
-    group: 'Album options:',
-    description: 'How albums are named in <date> mode [moment.js pattern]',
-    'default': 'YYYY-MM'
+    description: 'How files are grouped into albums',
+    type: 'array',
+    'default': ['%path']
   },
   'sort-albums-by': {
     group: 'Album options:',
@@ -178,6 +173,11 @@ const OPTIONS = {
     description: 'Copy and allow download of full-size videos',
     type: 'boolean',
     'default': false
+  },
+  'albums-date-format': {
+    group: 'Album options:',
+    description: 'How albums are named in <date> mode [moment.js pattern]',
+    'default': 'YYYY-MM'
   }
 
 }

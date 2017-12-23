@@ -11,7 +11,9 @@ exports.exiftool = function (opts) {
       MIMEType: opts.mimeType || 'image/jpg'
     },
     EXIF: {},
-    IPTC: {},
+    IPTC: {
+      Keywords: opts.keywords
+    },
     XMP: {},
     H264: {},
     QuickTime: {}

@@ -8,7 +8,7 @@ Caches the results in <thumbsup.db> for faster re-runs
 const hierarchy = require('../input/hierarchy.js')
 const Index = require('../components/index/index')
 const info = require('debug')('thumbsup:info')
-const mapper = require('../input/mapper')
+const AlbumMapper = require('../input/album-mapper')
 const Metadata = require('../model/metadata')
 const File = require('../model/file')
 const Observable = require('zen-observable')
@@ -49,8 +49,8 @@ exports.run = function (opts, callback) {
 
     // finished, we can create the albums
     emitter.on('done', stats => {
-      const albumMapper = mapper.create(opts)
-      const album = hierarchy.createAlbums(files, albumMapper, opts)
+      const mapper = new AlbumMapper(opts)
+      const album = hierarchy.createAlbums(files, mapper, opts)
       callback(null, files, album)
       observer.complete()
     })

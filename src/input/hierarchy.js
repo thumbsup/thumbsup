@@ -19,13 +19,16 @@ function group (collection, mapper) {
     '.': new Album('Home')
   }
   // put all files in the right albums
+  // a file can be in multiple albums
   collection.forEach(function (file) {
-    var groupName = mapper(file)
-    if (!groupName || groupName === '/') {
-      groupName = '.'
-    }
-    createAlbumHierarchy(groups, groupName)
-    groups[groupName].files.push(file)
+    const albums = mapper.getAlbums(file)
+    albums.forEach(albumPath => {
+      if (!albumPath || albumPath === '/') {
+        albumPath = '.'
+      }
+      createAlbumHierarchy(groups, albumPath)
+      groups[albumPath].files.push(file)
+    })
   })
   // return the top-level album
   return groups['.']
