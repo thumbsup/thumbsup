@@ -11,7 +11,7 @@ exports.run = function (files, opts, parentTask) {
   // wrap each job in a Listr task that returns a Promise
   const tasks = jobs.map(job => listrTaskFromJob(job, opts.output))
   const listr = new ListrWorkQueue(tasks, {
-    concurrent: os.cpus().length,
+    concurrent: opts.concurrencyOpt,
     update: (done, total) => {
       const progress = done === total ? '' : `(${done}/${total})`
       parentTask.title = `Processing media ${progress}`
