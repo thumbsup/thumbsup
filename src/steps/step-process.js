@@ -3,7 +3,6 @@ const downsize = require('thumbsup-downsize')
 const fs = require('fs-extra')
 const info = require('debug')('thumbsup:info')
 const ListrWorkQueue = require('listr-work-queue')
-const os = require('os')
 const path = require('path')
 
 exports.run = function (files, opts, parentTask) {
