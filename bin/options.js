@@ -248,7 +248,7 @@ exports.get = (args) => {
     usageStats: opts['usage-stats'],
     log: opts['log'],
     dryRun: opts['dry-run'],
-    concurrent: opts['concurrency']
+    concurrencyOpt: opts['concurrency']
   }
 }
 
