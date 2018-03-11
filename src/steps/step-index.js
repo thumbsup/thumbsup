@@ -36,7 +36,7 @@ exports.run = function (opts, callback) {
       }
     })
 
-    // emmitted for every file once indexing is finished
+    // emitted for every file once indexing is finished
     emitter.on('file', file => {
       const picasa = picasaReader.file(file.metadata.SourceFile)
       const meta = new Metadata(file.metadata, picasa || {})
