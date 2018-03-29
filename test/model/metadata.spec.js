@@ -68,6 +68,22 @@ describe('Metadata', function () {
       const meta = new Metadata(exiftool)
       should(meta.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
     })
+
+    it('ignores the EXIF date if invalid', function () {
+      const exiftool = fixtures.exiftool()
+      exiftool.EXIF.DateTimeOriginal = '0000:00:00 00:00:00'
+      exiftool.File.FileModifyDate = '2016:10:28 17:34:58'
+      const meta = new Metadata(exiftool)
+      should(meta.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
+    })
+
+    it('ignores the filename if not a valid date', function () {
+      const exiftool = fixtures.exiftool()
+      exiftool.SourceFile = '0000-00-00 00.00.00.jpg'
+      exiftool.File.FileModifyDate = '2016:10:28 17:34:58'
+      const meta = new Metadata(exiftool)
+      should(meta.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
+    })
   })
 
   describe('photos and videos', function () {

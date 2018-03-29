@@ -40,20 +40,35 @@ class Metadata {
 }
 
 function getDate (exif) {
+  // first, check if there's a valid date in the metadata
+  const metadate = getMetaDate(exif)
+  if (metadate) return metadate.valueOf()
+  // next, check if the filename looks like a date
+  const namedate = getFilenameDate(exif)
+  if (namedate) return namedate.valueOf()
+  // otherwise, fallback to the last modified date
+  return moment(exif.File.FileModifyDate, EXIF_DATE_FORMAT).valueOf()
+}
+
+function getMetaDate (exif) {
   const date = tagValue(exif, 'EXIF', 'DateTimeOriginal') ||
                tagValue(exif, 'H264', 'DateTimeOriginal') ||
                tagValue(exif, 'QuickTime', 'CreationDate') ||
                tagValue(exif, 'QuickTime', 'CreateDate')
   if (date) {
-    return moment(date, EXIF_DATE_FORMAT).valueOf()
-  } else {
-    const filename = path.basename(exif.SourceFile)
-    if (FILENAME_DATE_REGEX.test(filename)) {
-      const namedate = moment(filename, FILENAME_DATE_FORMAT)
-      if (namedate.isValid()) return namedate.valueOf()
-    }
-    return moment(exif.File.FileModifyDate, EXIF_DATE_FORMAT).valueOf()
+    const parsed = moment(date, EXIF_DATE_FORMAT)
+    if (parsed.isValid()) return parsed
   }
+  return null
+}
+
+function getFilenameDate (exif) {
+  const filename = path.basename(exif.SourceFile)
+  if (FILENAME_DATE_REGEX.test(filename)) {
+    const parsed = moment(filename, FILENAME_DATE_FORMAT)
+    if (parsed.isValid()) return parsed
+  }
+  return null
 }
 
 function caption (exif, picasa) {
