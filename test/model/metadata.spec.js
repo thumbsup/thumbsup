@@ -171,7 +171,7 @@ describe('Metadata', function () {
     })
 
     it('can read multiple Picasa keywords', function () {
-      // because it's a simple INI file, mutiple keywords are comma-separated
+      // because it's a simple INI file, multiple keywords are comma-separated
       const exiftool = fixtures.exiftool()
       const picasa = {keywords: 'beach,sunset'}
       const meta = new Metadata(exiftool, picasa)
