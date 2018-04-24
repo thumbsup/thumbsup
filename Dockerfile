@@ -1,4 +1,4 @@
-# Node.js + build depdencies + runtime dependencies
+# Node.js + build dependencies + runtime dependencies
 FROM thumbsupgallery/build:alpine
 
 # Install and cache dependencies

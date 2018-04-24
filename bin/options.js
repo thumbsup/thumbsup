@@ -193,7 +193,7 @@ const OPTIONS = {
   }
 }
 
-// explicity pass <process.argv> so we can unit test this logic
+// explicitly pass <process.argv> so we can unit test this logic
 // otherwise it pre-loads all process arguments on require()
 exports.get = (args) => {
   const opts = yargs(args)
