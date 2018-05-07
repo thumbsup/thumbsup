@@ -5,6 +5,7 @@ const fs = require('fs')
 const messages = require('./messages')
 const path = require('path')
 const options = require('./options')
+const checks = require('./checks')
 const tty = require('tty')
 
 console.log('')
@@ -36,6 +37,13 @@ analytics.start()
 
 // Catch all exceptions and exit gracefully
 process.on('uncaughtException', handleError)
+
+// Check that all binary dependencies are present
+const missingErrors = checks.verify()
+if (missingErrors) {
+  console.log(`${missingErrors}\n`)
+  exit(1)
+}
 
 // Build the gallery!
 index.build(opts, (err, album) => {
