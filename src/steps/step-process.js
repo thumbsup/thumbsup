@@ -92,7 +92,7 @@ function getActionMap (opts) {
   const thumbSize = opts.thumbSize || 120
   const largeSize = opts.largeSize || 1000
   const thumbnail = { height: thumbSize, width: thumbSize }
-  const large = { width: largeSize }
+  const large = { height: largeSize }
   return {
     'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),
     'fs:symlink': (task, done) => fs.symlink(task.src, task.dest, done),

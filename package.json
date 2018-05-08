@@ -49,7 +49,7 @@
     "moment": "^2.19.3",
     "readdir-enhanced": "^2.0.0",
     "through2": "^2.0.3",
-    "thumbsup-downsize": "^1.1.1",
+    "thumbsup-downsize": "^1.2.0",
     "url-join": "^2.0.2",
     "video.js": "^6.2.8",
     "yargs": "^10.0.3",
