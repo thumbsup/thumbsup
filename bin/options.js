@@ -38,6 +38,12 @@ const OPTIONS = {
     type: 'number',
     'default': 1000
   },
+  'photo-quality': {
+    group: 'Output options:',
+    description: 'Quality of the resized/converted photos',
+    type: 'number',
+    'default': 90
+  },
   'download-photos': {
     group: 'Output options:',
     description: 'Target of the photo download links',
@@ -230,6 +236,7 @@ exports.get = (args) => {
     title: opts['title'],
     thumbSize: opts['thumb-size'],
     largeSize: opts['large-size'],
+    photoQuality: opts['photo-quality'],
     downloadPhotos: opts['download-photos'],
     downloadVideos: opts['download-videos'],
     downloadLinkPrefix: opts['download-link-prefix'],

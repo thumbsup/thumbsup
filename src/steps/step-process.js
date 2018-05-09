@@ -91,8 +91,8 @@ function modifiedDate (filepath) {
 function getActionMap (opts) {
   const thumbSize = opts.thumbSize || 120
   const largeSize = opts.largeSize || 1000
-  const thumbnail = { height: thumbSize, width: thumbSize }
-  const large = { height: largeSize }
+  const thumbnail = { height: thumbSize, width: thumbSize, quality: opts.photoQuality }
+  const large = { height: largeSize, quality: opts.photoQuality }
   return {
     'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),
     'fs:symlink': (task, done) => fs.symlink(task.src, task.dest, done),
