@@ -15,6 +15,9 @@ stream.on('data', entry => console.log(`Processed ${entry.SourceFile}`))
 stream.on('end', () => console.log('Finished'))
 ```
 
+The number of parallel `exiftool` processes defaults to the CPU count.
+It can be overridden by `exiftool.parse(root, files, count)`.
+
 Each stream entry will be an object in the following format.
 
 ```js
@@ -54,10 +57,11 @@ Some notes on the structure:
 - uses `exiftool` in batch mode, instead of spawning 1 instance per file
 - runs 1 `exiftool` process per core to speed-up parsing
 
-The following stats were captured while processing 10,000 photos stored on an SSD drive:
+The following stats were captured while processing a large number of photos stored on an SSD drive:
 
 | Metric | Value |
 |--------|-------|
+| Number of photos | 10,000 |
 | Total time | 30 sec |
 | Peak throughput | 300 photos / sec |
 

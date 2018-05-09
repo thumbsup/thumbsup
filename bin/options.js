@@ -67,6 +67,11 @@ const OPTIONS = {
     type: 'boolean',
     'default': false
   },
+  'concurrency': {
+    description: 'Number of parallel parsing/processing operations',
+    type: 'number',
+    'default': os.cpus().length
+  },
 
   // ------------------------------------
   // Album options
@@ -191,12 +196,8 @@ const OPTIONS = {
     group: 'Album options:',
     description: 'How albums are named in <date> mode [moment.js pattern]',
     'default': 'YYYY-MM'
-  },
-  'concurrency': {
-    description: 'Modify the concurrency of processing, if not set defaults to number of cores on system.',
-    type: 'number',
-    'default': os.cpus().length
   }
+
 }
 
 // explicitly pass <process.argv> so we can unit test this logic
@@ -255,7 +256,7 @@ exports.get = (args) => {
     usageStats: opts['usage-stats'],
     log: opts['log'],
     dryRun: opts['dry-run'],
-    concurrencyOpt: opts['concurrency']
+    concurrency: opts['concurrency']
   }
 }
 

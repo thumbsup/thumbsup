@@ -21,7 +21,7 @@ class Index {
   /*
     Index all the files in <media> and store into <database>
   */
-  update (mediaFolder) {
+  update (mediaFolder, concurrency) {
     // will emit many different events
     const emitter = new EventEmitter()
 
@@ -80,7 +80,7 @@ class Index {
 
       // call <exiftool> on added and modified files
       // and write each entry to the database
-      const stream = exiftool.parse(mediaFolder, toProcess)
+      const stream = exiftool.parse(mediaFolder, toProcess, concurrency)
       stream.on('data', entry => {
         const timestamp = moment(entry.File.FileModifyDate, EXIF_DATE_FORMAT).valueOf()
         insertStatement.run(entry.SourceFile, timestamp, JSON.stringify(entry))
