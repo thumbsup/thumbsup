@@ -1,7 +1,7 @@
 const micromatch = require('micromatch')
 const readdir = require('readdir-enhanced')
 
-const PHOTO_EXT = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'tif', 'tiff', 'webp']
+const PHOTO_EXT = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'tif', 'tiff', 'webp', 'nef']
 const VIDEO_EXT = ['3gp', 'flv', 'm2ts', 'mkv', 'mp4', 'mov', 'mts', 'ogg', 'ogv', 'webm']
 const MEDIA_GLOB = '**/*.{' + PHOTO_EXT.join(',') + ',' + VIDEO_EXT.join(',') + '}'
 
