@@ -3,5 +3,15 @@ sudo: required
 services:
   - docker
 
-script:
-  - docker build .
+jobs:
+  include:
+    - stage: build
+      script: docker build .
+    - stage: npm release
+      script: echo "Deploying to npm ..."
+      deploy:
+        provider: npm
+        email: asyncadventures@gmail.com
+        api_key: $NPM_TOKEN
+        on:
+          tags: true
