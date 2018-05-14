@@ -26,8 +26,8 @@ describe('Index: delta', () => {
       'IMG_0002': 1420000001000
     }
     const disk = {
-      'IMG_0001': 1410000001500,  // 500ms later
-      'IMG_0002': 1420000000500   // 500ms earlier
+      'IMG_0001': 1410000001500, // 500ms later
+      'IMG_0002': 1420000000500 // 500ms earlier
     }
     const res = delta.calculate(database, disk)
     should(res).eql({

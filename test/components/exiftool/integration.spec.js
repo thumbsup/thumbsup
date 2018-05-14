@@ -18,8 +18,7 @@ describe('exiftool', function () {
     const stream = exiftool.parse(folder, files)
     stream.on('data', entry => {
       processed.push(entry.SourceFile)
-    })
-    .on('end', () => {
+    }).on('end', () => {
       files.sort()
       processed.sort()
       should(processed).eql(files)
@@ -34,8 +33,7 @@ describe('exiftool', function () {
     const processed = []
     stream.on('data', entry => {
       processed.push(entry.SourceFile)
-    })
-    .on('end', () => {
+    }).on('end', () => {
       should(processed).eql(['bad-encoding.xmp'])
       done()
     })

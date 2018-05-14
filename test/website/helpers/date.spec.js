@@ -20,7 +20,7 @@ describe('Handlebars helpers: date', () => {
 
   it('renders a date as <time ago>', () => {
     const template = handlebars.compile(`<p>{{date taken "ago"}}</p>`)
-    const data = {taken: new Date(2017, 10, 27)}  // month is 0-based
+    const data = {taken: new Date(2017, 10, 27)} // month is 0-based
     const res = template(data)
     const expected = moment(data.taken).fromNow()
     should(res).match(/<p>(.*) ago<\/p>/)
