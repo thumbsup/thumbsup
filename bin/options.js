@@ -68,9 +68,15 @@ const OPTIONS = {
     'default': false
   },
   'concurrency': {
+    group: 'Output options:',
     description: 'Number of parallel parsing/processing operations',
     type: 'number',
     'default': os.cpus().length
+  },
+  'gm-args': {
+    group: 'Output options:',
+    description: 'Custom image processing arguments for GraphicsMagick',
+    type: 'array'
   },
 
   // ------------------------------------
@@ -229,6 +235,12 @@ exports.get = (args) => {
   replaceInArray(opts['albums-from'], 'folders', '%path')
   replaceInArray(opts['albums-from'], 'date', `{${opts['albums-date-format']}}`)
 
+  // Add a dash prefix to any --gm-args value
+  // We can't specify the prefix on the CLI otherwise the parser thinks it's a thumbsup arg
+  if (opts['gm-args']) {
+    opts['gm-args'] = opts['gm-args'].map(val => `-${val}`)
+  }
+
   // All options as an object
   return {
     input: opts['input'],
@@ -256,7 +268,8 @@ exports.get = (args) => {
     usageStats: opts['usage-stats'],
     log: opts['log'],
     dryRun: opts['dry-run'],
-    concurrency: opts['concurrency']
+    concurrency: opts['concurrency'],
+    gmArgs: opts['gm-args']
   }
 }
 

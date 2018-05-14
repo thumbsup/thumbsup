@@ -28,6 +28,27 @@ describe('options', function () {
       should(opts.albumsFrom).eql(['%path', '%keywords'])
     })
   })
+  describe('--gm-args', () => {
+    it('is optional', () => {
+      const opts = options.get(BASE_ARGS)
+      should(opts.gmArgs).undefined()
+    })
+    it('prefixes with the required dash', () => {
+      // we don't use the dash on the command line to avoid ambiguity
+      // i.e. so the parser doesn't think "-modulate" is a thumbsup argument
+      const args = BASE_ARGS.concat(['--gm-args', 'modulate 120'])
+      const opts = options.get(args)
+      should(opts.gmArgs).eql(['-modulate 120'])
+    })
+    it('can be specified multiple times', () => {
+      const args = BASE_ARGS.concat([
+        '--gm-args', 'equalize',
+        '--gm-args', 'modulate 120'
+      ])
+      const opts = options.get(args)
+      should(opts.gmArgs).eql(['-equalize', '-modulate 120'])
+    })
+  })
   describe('deprecated', () => {
     it('--original-photos false', () => {
       const args = BASE_ARGS.concat(['--original-photos false'])
