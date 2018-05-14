@@ -7,6 +7,10 @@
 [![Dev dependencies](https://david-dm.org/thumbsup/thumbsup/dev-status.svg?style=flat)](https://david-dm.org/thumbsup/thumbsup?type=dev)
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
 
+[![Twitter](https://img.shields.io/badge/share-Twitter-1CA8F5.svg)](https://twitter.com/intent/tweet?text=Need%20static%20photo%20and%20video%20galleries?%20Check%20out%20Thumbsup%20on%20Github&url=https://github.com/thumbsup/thumbsup&hashtags=selfhosted,static,gallery)
+[![LinkedIn](https://img.shields.io/badge/share-LinkedIn-0077BC.svg)](https://www.linkedin.com/shareArticle?mini=true&url=https://github.com/thumbsup/thumbsup&title=Static%20gallery%20generator&summary=Thumbsup%20is%20a%20command-line%20friendly%20static%20gallery%20generator%20for%20all%20your%20photos%20and%20videos&source=Github)
+[![Facebook](https://img.shields.io/badge/share-Facebook-3F4C9D.svg)](https://www.facebook.com/sharer.php?u=https://github.com/thumbsup/thumbsup)
+
 ![banner](docs/banner.jpg)
 
 Turn any folder with photos &amp; videos into a web gallery.
