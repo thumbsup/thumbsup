@@ -199,7 +199,7 @@ const OPTIONS = {
     'default': false
   },
   'albums-date-format': {
-    group: 'Album options:',
+    group: 'Deprecated:',
     description: 'How albums are named in <date> mode [moment.js pattern]',
     'default': 'YYYY-MM'
   }

@@ -59,9 +59,11 @@ For the latest published version please refer to the [docs on the website](https
 <!-- START cli -->
 ```
 
-Usages:
-  thumbsup [required] [options]
-  thumbsup --config config.json
+
+ Usages:
+   thumbsup [required] [options]
+   thumbsup --config config.json
+
 
 Required:
   --input   Path to the folder with all photos/videos  [string] [required]
@@ -70,14 +72,16 @@ Required:
 Output options:
   --thumb-size            Pixel size of the square thumbnails  [number] [default: 120]
   --large-size            Pixel height of the fullscreen photos  [number] [default: 1000]
+  --photo-quality         Quality of the resized/converted photos  [number] [default: 90]
   --download-photos       Target of the photo download links  [choices: "large", "copy", "symlink", "link"] [default: "large"]
   --download-videos       Target of the video download links  [choices: "large", "copy", "symlink", "link"] [default: "large"]
   --download-link-prefix  Path or URL prefix for linked downloads  [string]
   --cleanup               Remove any output file that's no longer needed  [boolean] [default: false]
+  --concurrency           Number of parallel parsing/processing operations  [number] [default: 4]
+  --gm-args               Custom image processing arguments for GraphicsMagick  [array]
 
 Album options:
-  --albums-from            How to group media into albums  [choices: "folders", "date"] [default: "folders"]
-  --albums-date-format     How albums are named in <date> mode [moment.js pattern]  [default: "YYYY-MM"]
+  --albums-from            How files are grouped into albums  [array] [default: ["%path"]]
   --sort-albums-by         How to sort albums  [choices: "title", "start-date", "end-date"] [default: "start-date"]
   --sort-albums-direction  Album sorting direction  [choices: "asc", "desc"] [default: "asc"]
   --sort-media-by          How to sort photos and videos  [choices: "filename", "date"] [default: "date"]
@@ -93,17 +97,23 @@ Website options:
   --google-analytics      Code for Google Analytics tracking  [string]
 
 Deprecated:
-  --original-photos  Copy and allow download of full-size photos  [boolean] [default: false]
-  --original-videos  Copy and allow download of full-size videos  [boolean] [default: false]
+  --original-photos     Copy and allow download of full-size photos  [boolean] [default: false]
+  --original-videos     Copy and allow download of full-size videos  [boolean] [default: false]
+  --albums-date-format  How albums are named in <date> mode [moment.js pattern]  [default: "YYYY-MM"]
 
 Options:
-  --version  Show version number  [boolean]
-  --help     Show help  [boolean]
-  --config   Path to JSON config file  [string]
+  --version      Show version number  [boolean]
+  --help         Show help  [boolean]
+  --config       JSON config file (one key per argument)  [string]
+  --log          Print a detailed text log  [choices: null, "info", "debug", "trace"] [default: null]
+  --usage-stats  Enable anonymous usage statistics  [boolean] [default: true]
+  --dry-run      Update the index, but don't create the media files / website  [boolean] [default: false]
 
-The optional JSON config should contain a single object with one key per argument, not including the leading "--". For example:
 
-{ "sort-albums-by": "start-date" }
+ The optional JSON config should contain a single object with one key
+ per argument, not including the leading "--". For example:
+ { "sort-albums-by": "start-date" }
+
 
 ```
 

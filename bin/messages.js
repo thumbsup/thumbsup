@@ -6,7 +6,7 @@ const ISSUES_URL = chalk.green('https://github.com/thumbsup/thumbsup/issues')
 exports.USAGE = () => `
 Usages:
   thumbsup [required] [options]
-  thumbsup --config config.json'
+  thumbsup --config config.json
 `
 
 exports.CONFIG_USAGE = () => `
