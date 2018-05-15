@@ -78,6 +78,19 @@ const OPTIONS = {
     description: 'Custom image processing arguments for GraphicsMagick',
     type: 'array'
   },
+  'watermark': {
+    group: 'Output options:',
+    description: 'Path to a transparent PNG to be overlaid on all images',
+    type: 'string'
+  },
+  'watermark-position': {
+    group: 'Output options:',
+    description: 'Position of the watermark',
+    choices: [
+      'Repeat', 'Center', 'NorthWest', 'North', 'NorthEast',
+      'West', 'East', 'SouthWest', 'South', 'SouthEast'
+    ]
+  },
 
   // ------------------------------------
   // Album options
@@ -269,7 +282,9 @@ exports.get = (args) => {
     log: opts['log'],
     dryRun: opts['dry-run'],
     concurrency: opts['concurrency'],
-    gmArgs: opts['gm-args']
+    gmArgs: opts['gm-args'],
+    watermark: opts['watermark'],
+    watermarkPosition: opts['watermark-position']
   }
 }
 

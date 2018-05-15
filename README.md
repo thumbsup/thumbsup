@@ -84,6 +84,8 @@ Output options:
   --cleanup               Remove any output file that's no longer needed  [boolean] [default: false]
   --concurrency           Number of parallel parsing/processing operations  [number] [default: 4]
   --gm-args               Custom image processing arguments for GraphicsMagick  [array]
+  --watermark             Path to a transparent PNG to be overlaid on all images  [string]
+  --watermark-position    Position of the watermark  [choices: "Repeat", "Center", "NorthWest", "North", "NorthEast", "West", "East", "SouthWest", "South", "SouthEast"]
 
 Album options:
   --albums-from            How files are grouped into albums  [array] [default: ["%path"]]

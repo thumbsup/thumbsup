@@ -89,14 +89,24 @@ function modifiedDate (filepath) {
 }
 
 function getActionMap (opts) {
+  const thumbSize = opts.thumbSize || 120
+  const largeSize = opts.largeSize || 1000
   const defaultOptions = {
     quality: opts.photoQuality,
     args: opts.gmArgs
   }
-  const thumbSize = opts.thumbSize || 120
-  const largeSize = opts.largeSize || 1000
-  const thumbnail = Object.assign({}, defaultOptions, {height: thumbSize, width: thumbSize})
-  const large = Object.assign({}, defaultOptions, {height: largeSize})
+  const watermark = (!opts.watermark) ? null : {
+    file: opts.watermark,
+    position: opts.watermarkPosition
+  }
+  const thumbnail = Object.assign({}, defaultOptions, {
+    height: thumbSize,
+    width: thumbSize
+  })
+  const large = Object.assign({}, defaultOptions, {
+    height: largeSize,
+    watermark: watermark
+  })
   return {
     'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),
     'fs:symlink': (task, done) => fs.symlink(task.src, task.dest, done),
