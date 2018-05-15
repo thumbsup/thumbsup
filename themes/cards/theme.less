@@ -1,0 +1,203 @@
+
+// -----------------------------------
+// Variables for user customisation
+// -----------------------------------
+
+@body-background: #fff;
+@header-background: #fff;
+@header-foreground: #444;
+@text-color: #444;
+@borders: #ddd;
+@mobile-trigger: 400px;
+
+// -----------------------------------
+// Generic styles
+// -----------------------------------
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: @body-background;
+  color: @text-color;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: lighter;
+  margin-bottom: 1em;
+}
+
+a {
+  text-decoration: none;
+}
+
+.clearfix:after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+
+.noselect {
+  cursor: default;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+// -----------------------------------
+// Structure
+// -----------------------------------
+
+#container {
+  padding: 2em;
+}
+
+// -----------------------------------
+// Header
+// -----------------------------------
+
+header {
+  background: @header-background;
+  color: @header-foreground;
+  font-size: 1.8em;
+  margin-bottom: 1.1em;
+}
+
+h1 {
+  display: inline-block;
+  font-weight: bold;
+}
+
+h1 a {
+  color: @header-foreground;
+}
+
+// -----------------------------------
+// Footer
+// -----------------------------------
+
+footer {
+  color: #666;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 3em;
+}
+
+footer a {
+  color: #17baef;
+}
+
+// -----------------------------------
+// Breadcrumbs navigation
+// -----------------------------------
+
+nav.breadcrumbs {
+  border-bottom: 1px solid @borders;
+  font-size: 1.2em;
+  margin-bottom: 2em;
+  padding: 0em 0em 0.8em 0.1em;
+}
+
+nav.breadcrumbs a, nav span {
+  display: inline;
+}
+
+nav.breadcrumbs a {
+  color: @text-color;
+  text-decoration: none;
+}
+
+// -----------------------------------
+// Nested albums
+// -----------------------------------
+
+#albums, #media {
+  margin: 0em;
+}
+
+#albums a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  margin-right: 2em;
+  margin-bottom: 3em;
+  position: relative;
+  overflow: hidden;
+  width: 300px;
+  height: 220px;
+  background-size: cover;
+  border-radius: 8px;
+}
+
+#albums .info {
+  position: absolute;
+  padding: 1em;
+  background: rgba(0,0,0,0.3);
+  color: #fff;
+  font-size: 0.9em;
+  line-height: 1.2em;
+  margin: 0;
+  width: 100%;
+  font-weight: bold;
+  bottom: 0;
+}
+
+#albums h3 {
+  font-size: 1.3em;
+  margin-bottom: 0.2em;
+}
+
+// -----------------------------------
+// Photo and video thumbnails
+// -----------------------------------
+
+#media li {
+  float: left;
+  margin-right: 0.4em;
+  margin-bottom: 0.2em;
+  position: relative;
+  cursor: zoom-in;
+}
+
+#media a {
+  display: inline-block;
+}
+
+#media img {
+  border-radius: 8px;
+  display: block;
+}
+
+#media li .video-overlay {
+  left: 50%;
+  height: 48px;
+  margin-left: -24px;
+  margin-top: -24px;
+  position: absolute;
+  top: 50%;
+  width: 48px;
+}
+
+// -----------------------------------
+// Photo and video thumbnails
+// -----------------------------------
+
+@media only screen and (max-width: @mobile-trigger) {
+  #albums a {
+    width: 250px;
+    height: 190px;
+  }
+}

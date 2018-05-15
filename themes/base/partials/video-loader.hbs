@@ -1,0 +1,13 @@
+<!-- Video loader -->
+<div id="videos">
+  {{#each album.files}}
+    {{#if isVideo}}
+      <div id="media{{id}}" style="display:none;">
+        <video class="lg-video-object lg-html5 video-js vjs-default-skin vjs-big-play-centered"  poster="{{relative urls.large}}" preload="none" controls>
+          <source src="{{relative urls.video}}" type="video/mp4" />
+          Your browser does not support HTML5 video
+        </video>
+      </div>
+    {{/if}}
+  {{/each}}
+</div>

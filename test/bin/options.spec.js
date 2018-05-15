@@ -91,5 +91,12 @@ describe('options', function () {
       const opts = options.get(args)
       should(opts.albumsFrom).eql(['{YYYY MMM}'])
     })
+    it('--css', () => {
+      const args = BASE_ARGS.concat([
+        '--css', 'path/to/custom.css'
+      ])
+      const opts = options.get(args)
+      should(opts.themeStyle).eql('path/to/custom.css')
+    })
   })
 })

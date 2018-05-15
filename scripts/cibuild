@@ -14,9 +14,6 @@ function failure {
 echo "Run unit tests"
 npm test
 
-echo "Verify lightgallery dependency is built in"
-grep \"lightgallery\" package.json 1>/dev/null
-
 echo "Comparing gallery snapshot"
 scripts/verify
 

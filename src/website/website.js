@@ -1,114 +1,59 @@
-var fs = require('fs-extra')
-var path = require('path')
-var async = require('async')
-var less = require('less')
-var template = require('./template')
+const path = require('path')
+const async = require('async')
+const Theme = require('./theme')
 
-var DIR_PUBLIC = path.join(__dirname, '..', '..', 'public')
-var DIR_TEMPLATES = path.join(__dirname, '..', '..', 'templates')
+var THEMES_DIR = path.join(__dirname, '..', '..', 'themes')
 
 exports.build = function (rootAlbum, opts, callback) {
-  // create the right renderer (theme, download path, etc...)
-  var renderer = template.create(opts)
-
-  function website (callback) {
-    // create top level gallery
-    var gallery = {
-      home: rootAlbum,
-      css: opts.css ? path.basename(opts.css) : null,
-      title: opts.title,
-      titleWords: opts.title.split(' '),
-      footer: opts.footer,
-      thumbSize: opts.thumbSize,
-      largeSize: opts.largeSize,
-      googleAnalytics: opts.googleAnalytics
-    }
-    // render entire album hierarchy
-    var tasks = renderAlbum(gallery, [], rootAlbum)
-    async.parallel(tasks, callback)
-  }
-
-  function renderAlbum (gallery, breadcrumbs, album) {
-    // render this album
-    var thisAlbumTask = renderTemplate(album.path, 'album', {
-      gallery: gallery,
-      breadcrumbs: breadcrumbs,
-      album: album
-    })
-    var tasks = [thisAlbumTask]
-    // and all nested albums
-    album.albums.forEach(function (nested) {
-      var nestedAlbumsTasks = renderAlbum(gallery, breadcrumbs.concat([album]), nested)
-      Array.prototype.push.apply(tasks, nestedAlbumsTasks)
-    })
-    return tasks
-  }
-
-  function renderTemplate (targetPath, templateName, data) {
-    // render a given HBS template
-    var fullPath = path.join(opts.output, targetPath)
-    var targetFolder = path.dirname(targetPath)
-    var contents = renderer.render(templateName, data, targetFolder)
-    return function (next) {
-      fs.mkdirpSync(path.dirname(fullPath))
-      fs.writeFile(fullPath, contents, next)
-    }
-  }
-
-  function support (callback) {
-    // copy all external JS/CSS
-    var dest = path.join(opts.output, 'public')
-    fs.copy(DIR_PUBLIC, dest, callback)
-  }
-
-  function lightGallery (callback) {
-    // note: this module might be deduped
-    // so we can't assume it's in the local node_modules
-    var lgPackage = require.resolve('lightgallery/package.json')
-    var src = path.join(path.dirname(lgPackage), 'dist')
-    var dest = path.join(opts.output, 'public', 'light-gallery')
-    fs.copy(src, dest, callback)
-  }
-
-  function videoJS (callback) {
-    var src = nodeModulePath('video.js', 'dist')
-    var dest = path.join(opts.output, 'public', 'videojs')
-    fs.mkdirsSync(dest)
-    try {
-      fs.copySync(path.join(src, 'video.js'), path.join(dest, 'video.js'))
-      fs.copySync(path.join(src, 'video-js.min.css'), path.join(dest, 'video-js.min.css'))
-      fs.copySync(path.join(src, 'font'), path.join(dest, 'font'))
-    } catch (ex) {
-      return callback(ex)
-    }
-    callback()
-  }
-
-  function renderStyles (callback) {
-    var themeFile = path.join(DIR_TEMPLATES, 'themes', opts.theme, 'theme.less')
-    var themeLess = fs.readFileSync(themeFile, 'utf-8')
-    if (opts.css) {
-      themeLess += '\n' + fs.readFileSync(opts.css, 'utf-8')
-    }
-    less.render(themeLess, function (err, output) {
-      if (err) return callback(err)
-      var dest = path.join(opts.output, 'public', 'style.css')
-      fs.writeFile(dest, output.css, callback)
-    })
-  }
-
-  async.series([
-    support,
-    website,
-    lightGallery,
-    videoJS,
-    renderStyles
-  ], function (err) {
-    callback(err)
+  // create the base layer assets
+  // such as shared JS libs, common handlebars helpers, CSS reset...
+  const baseDir = path.join(THEMES_DIR, 'base')
+  const base = new Theme(baseDir, opts.output, {
+    stylesheetName: 'core.css'
   })
+
+  // then create the actual theme assets
+  const themeDir = path.join(THEMES_DIR, opts.theme)
+  const theme = new Theme(themeDir, opts.output, {
+    stylesheetName: 'theme.css',
+    customStylesPath: opts.themeStyle
+  })
+
+  // and finally render each page
+  const gallery = galleryModel(rootAlbum, opts)
+  const tasks = createRenderingTasks(theme, rootAlbum, gallery, [])
+
+  // now build everything
+  async.series([
+    next => base.prepare(next),
+    next => theme.prepare(next),
+    next => async.parallel(tasks, next)
+  ], callback)
 }
 
-function nodeModulePath (pkg, file) {
-  var packagePath = require.resolve(`${pkg}/package.json`)
-  return path.join(path.dirname(packagePath), file)
+function galleryModel (rootAlbum, opts) {
+  return {
+    home: rootAlbum,
+    css: opts.css ? path.basename(opts.css) : null,
+    title: opts.title,
+    footer: opts.footer,
+    thumbSize: opts.thumbSize,
+    largeSize: opts.largeSize,
+    googleAnalytics: opts.googleAnalytics
+  }
+}
+
+function createRenderingTasks (theme, album, gallery, breadcrumbs) {
+  // render this album
+  const thisAlbumTask = theme.render(album, {
+    gallery: gallery,
+    breadcrumbs: breadcrumbs
+  })
+  const tasks = [thisAlbumTask]
+  // and all nested albums
+  album.albums.forEach(function (nested) {
+    const nestedTasks = createRenderingTasks(theme, nested, gallery, breadcrumbs.concat([album]))
+    Array.prototype.push.apply(tasks, nestedTasks)
+  })
+  return tasks
 }

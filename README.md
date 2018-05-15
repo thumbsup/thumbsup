@@ -98,15 +98,16 @@ Website options:
   --index                 Filename of the home page  [default: "index.html"]
   --albums-output-folder  Output subfolder for HTML albums (default: website root)  [default: "."]
   --theme                 Name of the gallery theme to apply  [choices: "classic", "cards", "mosaic"] [default: "classic"]
+  --theme-style           Path to a custom LESS/CSS file for additional styles  [string]
   --title                 Website title  [default: "Photo album"]
   --footer                Text or HTML footer  [default: null]
-  --css                   Path to a custom provided CSS/LESS file for styling  [string]
   --google-analytics      Code for Google Analytics tracking  [string]
 
 Deprecated:
   --original-photos     Copy and allow download of full-size photos  [boolean] [default: false]
   --original-videos     Copy and allow download of full-size videos  [boolean] [default: false]
   --albums-date-format  How albums are named in <date> mode [moment.js pattern]  [default: "YYYY-MM"]
+  --css                 Path to a custom provided CSS/LESS file for styling  [string]
 
 Options:
   --version      Show version number  [boolean]

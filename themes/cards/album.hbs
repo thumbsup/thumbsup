@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, user-scalable=no" />
+      <title>{{gallery.title}} - {{album.title}}</title>
+      <link rel="stylesheet" href="{{relative 'public/lightgallery/css/lightgallery.css'}}" />
+      <link rel="stylesheet" href="{{relative 'public/videojs/video-js.min.css'}}" />
+      <link rel="stylesheet" href="{{relative 'public/core.css'}}" />
+      <link rel="stylesheet" href="{{relative 'public/theme.css'}}" />
+  </head>
+
+  <body>
+
+    {{> content}}
+    {{> video-loader}}
+
+    <!-- jQuery -->
+    <script src="{{relative 'public/jquery.min.js'}}"></script>
+    <!-- VideoJS -->
+    <script src="{{relative 'public/videojs/video.min.js'}}"></script>
+    <!-- LightGallery -->
+    <script src="{{relative 'public/lightgallery/js/lightgallery.js'}}"></script>
+    <script src="{{relative 'public/lightgallery/js/lg-autoplay.js'}}"></script>
+    <script src="{{relative 'public/lightgallery/js/lg-pager.js'}}"></script>
+    <script src="{{relative 'public/lightgallery/js/lg-thumbnail.js'}}"></script>
+    <script src="{{relative 'public/lightgallery/js/lg-video.js'}}"></script>
+
+    <script>
+      $(document).ready(function() {
+        $("#media").lightGallery({
+          thumbWidth: 80,
+          controls: true,
+          loop : false,
+          download: true,
+          counter: true,
+          videojs: true
+        });
+      });
+    </script>
+
+    {{> analytics}}
+
+  </body>
+
+</html>

@@ -147,6 +147,11 @@ const OPTIONS = {
     choices: ['classic', 'cards', 'mosaic'],
     'default': 'classic'
   },
+  'theme-style': {
+    group: 'Website options:',
+    description: 'Path to a custom LESS/CSS file for additional styles',
+    normalize: true
+  },
   'title': {
     group: 'Website options:',
     description: 'Website title',
@@ -156,11 +161,6 @@ const OPTIONS = {
     group: 'Website options:',
     description: 'Text or HTML footer',
     'default': null
-  },
-  'css': {
-    group: 'Website options:',
-    description: 'Path to a custom provided CSS/LESS file for styling',
-    normalize: true
   },
   'google-analytics': {
     group: 'Website options:',
@@ -215,6 +215,11 @@ const OPTIONS = {
     group: 'Deprecated:',
     description: 'How albums are named in <date> mode [moment.js pattern]',
     'default': 'YYYY-MM'
+  },
+  'css': {
+    group: 'Deprecated:',
+    description: 'Path to a custom provided CSS/LESS file for styling',
+    normalize: true
   }
 
 }
@@ -240,13 +245,16 @@ exports.get = (args) => {
     opts['download-link-prefix'] = path.relative(opts['output'], opts['input'])
   }
 
-  // Convert deprecated options to the new replacement
+  // Convert deprecated --download
   if (opts['original-photos']) opts['download-photos'] = 'copy'
   if (opts['original-videos']) opts['download-videos'] = 'copy'
 
-  // Convert deprecated --albums-from values
+  // Convert deprecated --albums-from
   replaceInArray(opts['albums-from'], 'folders', '%path')
   replaceInArray(opts['albums-from'], 'date', `{${opts['albums-date-format']}}`)
+
+  // Convert deprecated --css
+  if (opts['css']) opts['theme-style'] = opts['css']
 
   // Add a dash prefix to any --gm-args value
   // We can't specify the prefix on the CLI otherwise the parser thinks it's a thumbsup arg
@@ -273,6 +281,7 @@ exports.get = (args) => {
     sortMediaBy: opts['sort-media-by'],
     sortMediaDirection: opts['sort-media-direction'],
     theme: opts['theme'],
+    themeStyle: opts['theme-style'],
     css: opts['css'],
     googleAnalytics: opts['google-analytics'],
     index: opts['index'],
