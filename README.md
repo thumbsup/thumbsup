@@ -132,11 +132,11 @@ and [pull requests](https://github.com/thumbsup/thumbsup/pulls)!
 If you are facing any issues or getting crashes, please try the following options to help troubleshoot:
 
 ```bash
-thumbsup [options] | tee
+thumbsup [options] --log debug
 # [16:04:56] media/thumbs/photo-1446822622709-e1c7ad6e82d52.jpg [started]
 # [16:04:57] media/thumbs/photo-1446822622709-e1c7ad6e82d52.jpg [completed]
 
-DEBUG="*" thumbsup [options] | tee
+thumbsup [options] --log trace
 # [16:04:56] media/thumbs/photo-1446822622709-e1c7ad6e82d52.jpg [started]
 # gm "identify" "-ping" "-format" "%[EXIF:Orientation]" [...]
 # gm "convert" "-quality" "90" "-resize" "x400>" "+profile" [...]
