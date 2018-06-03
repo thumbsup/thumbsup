@@ -22,7 +22,7 @@
   --}}
 
   <li data-src="{{relative urls.large}}"
-      data-sub-html="{{caption}}"
+      data-sub-html="{{meta.caption}}"
       data-download-url="{{relative urls.download}}">
     <a href="{{relative urls.download}}">
       <img src="{{relative urls.thumbnail}}"
@@ -30,7 +30,7 @@
            height="{{@root.gallery.thumbSize}}"
            alt="{{filename}}" />
     </a>
-    {{#if isAnimated}}
+    {{#if meta.animated}}
       <img class="video-overlay" src="{{relative 'public/play.png'}}" />
     {{/if}}
   </li>
