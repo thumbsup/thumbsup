@@ -13,7 +13,7 @@ exports.build = function (rootAlbum, opts, callback) {
   })
 
   // then create the actual theme assets
-  const themeDir = path.join(THEMES_DIR, opts.theme)
+  const themeDir = opts.themePath || path.join(THEMES_DIR, opts.theme)
   const theme = new Theme(themeDir, opts.output, {
     stylesheetName: 'theme.css',
     customStylesPath: opts.themeStyle

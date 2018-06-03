@@ -143,9 +143,14 @@ const OPTIONS = {
   },
   'theme': {
     group: 'Website options:',
-    description: 'Name of the gallery theme to apply',
+    description: 'Name of a built-in gallery theme',
     choices: ['classic', 'cards', 'mosaic'],
     'default': 'classic'
+  },
+  'theme-path': {
+    group: 'Website options:',
+    description: 'Path to a custom theme',
+    normalize: true
   },
   'theme-style': {
     group: 'Website options:',
@@ -281,6 +286,7 @@ exports.get = (args) => {
     sortMediaBy: opts['sort-media-by'],
     sortMediaDirection: opts['sort-media-direction'],
     theme: opts['theme'],
+    themePath: opts['theme-path'],
     themeStyle: opts['theme-style'],
     css: opts['css'],
     googleAnalytics: opts['google-analytics'],

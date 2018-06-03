@@ -20,6 +20,7 @@ class Theme {
   // load all theme helpers
   // and copy assets into the output folder (static files, CSS...)
   prepare (done) {
+    this.validateStructure()
     // compiled template
     this.template = compileTemplate(path.join(this.dir, 'album.hbs'))
     this.loadPartials()
@@ -28,6 +29,15 @@ class Theme {
       next => this.copyPublic(next),
       next => this.renderStyles(next)
     ], done)
+  }
+
+  // make sure the given folder is a valid theme
+  validateStructure () {
+    const template = fs.existsSync(path.join(this.dir, 'album.hbs'))
+    const style = fs.existsSync(path.join(this.dir, 'theme.less'))
+    if (!template || !style) {
+      throw new Error(`Invalid theme structure in ${this.dir}`)
+    }
   }
 
   // return a function that renders the given album HTML page
@@ -48,6 +58,10 @@ class Theme {
   // ------------------------
 
   loadPartials () {
+    if (!isDirectory(path.join(this.dir, 'partials'))) {
+      return
+    }
+    // load all files in the <partials> folder
     const partials = fs.readdirSync(path.join(this.dir, 'partials'))
     const isTemplate = filepath => path.extname(filepath) === '.hbs'
     partials.filter(isTemplate).forEach(filename => {
@@ -58,6 +72,10 @@ class Theme {
   }
 
   loadHelpers () {
+    if (!isDirectory(path.join(this.dir, 'helpers'))) {
+      return
+    }
+    // load all files in the <helpers> folder
     const helpers = fs.readdirSync(path.join(this.dir, 'helpers'))
     const isHelper = filepath => path.extname(filepath) === '.js'
     helpers.filter(isHelper).forEach(filename => {
@@ -104,6 +122,10 @@ class Theme {
   }
 
   copyPublic (done) {
+    if (!isDirectory(path.join(this.dir, 'public'))) {
+      return done()
+    }
+    // copy all files in the <public> folder
     const src = path.join(this.dir, 'public')
     const dest = path.join(this.dest, 'public')
     fs.copy(src, dest, done)
@@ -113,6 +135,14 @@ class Theme {
 function compileTemplate (hbsFile) {
   var src = fs.readFileSync(hbsFile)
   return handlebars.compile(src.toString())
+}
+
+function isDirectory (fullPath) {
+  try {
+    return fs.statSync(fullPath).isDirectory()
+  } catch (ex) {
+    return false
+  }
 }
 
 module.exports = Theme
