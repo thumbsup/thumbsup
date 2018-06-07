@@ -2,6 +2,8 @@ const warn = require('debug')('thumbsup:warn')
 const path = require('path')
 const urljoin = require('url-join')
 
+const BROWSER_SUPPORTED_EXT = /\.(jpg|jpeg|png)$/i
+
 exports.paths = function (filepath, mediaType, opts) {
   if (mediaType === 'image') {
     const items = imageOutput(filepath)
@@ -18,6 +20,10 @@ exports.paths = function (filepath, mediaType, opts) {
 }
 
 function imageOutput (filepath) {
+  const extension = path.extname(filepath)
+  if (!extension.match(BROWSER_SUPPORTED_EXT)) {
+    filepath = ext(filepath, 'jpg')
+  }
   return {
     thumbnail: {
       path: 'media/thumbs/' + filepath,

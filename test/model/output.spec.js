@@ -59,6 +59,21 @@ describe('Output paths', function () {
         rel: 'fs:link'
       })
     })
+
+    it('keeps the original image format if the browser supports it', function () {
+      ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG'].forEach(ext => {
+        var o = output.paths(`holidays/beach.${ext}`, 'image', {})
+        should(o.thumbnail.path).eql(`media/thumbs/holidays/beach.${ext}`)
+      })
+    })
+
+    it('converts images to JPEG if not supported', function () {
+      // some of these formats are supported on certain browser, but we aim for maximum compatibility
+      ['bmp', 'tiff', 'webp'].forEach(ext => {
+        var o = output.paths(`holidays/beach.${ext}`, 'image', {})
+        should(o.thumbnail.path).eql(`media/thumbs/holidays/beach.jpg`)
+      })
+    })
   })
 
   describe('Videos', function () {
