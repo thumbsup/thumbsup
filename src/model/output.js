@@ -2,7 +2,7 @@ const warn = require('debug')('thumbsup:warn')
 const path = require('path')
 const urljoin = require('url-join')
 
-const BROWSER_SUPPORTED_EXT = /\.(jpg|jpeg|png)$/i
+const BROWSER_SUPPORTED_EXT = /\.(jpg|jpeg|png|gif)$/i
 
 exports.paths = function (filepath, mediaType, opts) {
   if (mediaType === 'image') {

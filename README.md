@@ -43,12 +43,19 @@ See the website for the full documentation: https://thumbsup.github.io.
 ## Requirements
 
 Thumbsup requires the following dependencies:
-- [Node.js](http://nodejs.org/): `brew install Node`
+- [Node.js](http://nodejs.org/): `brew install node`
 - [exiftool](http://www.sno.phy.queensu.ca/~phil/exiftool/): `brew install exiftool`
 - [GraphicsMagick](http://www.graphicsmagick.org/): `brew install graphicsmagick`
-- [FFmpeg](http://www.ffmpeg.org/): `brew install ffmpeg`
 
-You can run thumbsup as a Docker container ([thumbsupgallery/thumbsup](https://hub.docker.com/r/thumbsupgallery/thumbsup/)) which pre-packages all the dependencies above.
+And optionally:
+- [FFmpeg](http://www.ffmpeg.org/) to process videos: `brew install ffmpeg`
+- [Gifsicle](http://www.lcdf.org/gifsicle/) to process animated GIFs: `brew install gifsicle`
+
+You can run thumbsup as a Docker container ([thumbsupgallery/thumbsup](https://hub.docker.com/r/thumbsupgallery/thumbsup/)) which pre-packages all the dependencies above. Read the [thumbsup on Docker](https://thumbsup.github.io/docs/2-installation/docker/) documentation for more detail.
+
+```bash
+docker run -v `pwd`:/work thumbsupgallery/thumbsup [...]
+```
 
 ## Sample gallery
 

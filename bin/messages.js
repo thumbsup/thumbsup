@@ -21,6 +21,12 @@ per argument, not including the leading "--". For example:
 { "sort-albums-by": "start-date" }
 `
 
+exports.BINARIES_REQUIRED = (list) => `
+Error: the following programs are required to run thumbsup.
+Please make sure they are installed and available in the system path.\n
+${list.join('\n')}
+`
+
 exports.SUCCESS = (stats) => box(`
 Gallery generated successfully!
 ${stats.albums} albums, ${stats.photos} photos, ${stats.videos} videos

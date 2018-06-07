@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 
-const Analytics = require('./analytics')
 const fs = require('fs')
-const messages = require('./messages')
 const path = require('path')
-const options = require('./options')
-const checks = require('./checks')
 const tty = require('tty')
+const Analytics = require('./analytics')
+const dependencies = require('./dependencies')
+const messages = require('./messages')
+const options = require('./options')
 
 console.log('')
 
@@ -39,9 +39,10 @@ analytics.start()
 process.on('uncaughtException', handleError)
 
 // Check that all binary dependencies are present
-const missingErrors = checks.verify()
+dependencies.checkOptional()
+const missingErrors = dependencies.checkRequired()
 if (missingErrors) {
-  console.log(`${missingErrors}\n`)
+  console.log(`${missingErrors}`)
   exit(1)
 }
 

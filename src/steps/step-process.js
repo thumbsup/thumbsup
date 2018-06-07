@@ -105,7 +105,8 @@ function getActionMap (opts) {
   })
   const large = Object.assign({}, defaultOptions, {
     height: largeSize,
-    watermark: watermark
+    watermark: watermark,
+    animated: true
   })
   return {
     'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),

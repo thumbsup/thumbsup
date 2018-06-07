@@ -61,7 +61,7 @@ describe('Output paths', function () {
     })
 
     it('keeps the original image format if the browser supports it', function () {
-      ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG'].forEach(ext => {
+      ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'gif', 'GIF'].forEach(ext => {
         var o = output.paths(`holidays/beach.${ext}`, 'image', {})
         should(o.thumbnail.path).eql(`media/thumbs/holidays/beach.${ext}`)
       })
