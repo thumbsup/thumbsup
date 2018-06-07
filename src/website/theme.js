@@ -105,7 +105,6 @@ class Theme {
     less.render(themeLess + customInclude, lessOptions, (err, output) => {
       if (err) return done(err)
       const filename = this.opts.stylesheetName || 'theme.css'
-      console.log('theme:', filename)
       const dest = path.join(this.dest, 'public', filename)
       fs.mkdirpSync(path.join(this.dest, 'public'))
       fs.writeFile(dest, output.css, done)
