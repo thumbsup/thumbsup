@@ -36,6 +36,13 @@ describe('Handlebars helpers: compare', () => {
     }).throw(/operator/)
   })
 
+  it('throws an error if there arent enough parameters', () => {
+    should(() => {
+      const template = handlebars.compile(`{{#compare value}}TRUE{{/compare}}`)
+      template({value: 3})
+    }).throw(/needs 2 parameters/)
+  })
+
   it('keeps the context when executing the block', () => {
     const template = handlebars.compile(`{{#compare value '==' 3}}{{hello}}{{/compare}}`)
     const res = template({value: 3, hello: 'world'})
