@@ -16,7 +16,12 @@
 [![LinkedIn](https://img.shields.io/badge/share-LinkedIn-0077BC.svg)](https://www.linkedin.com/shareArticle?mini=true&url=https://github.com/thumbsup/thumbsup&title=Static%20gallery%20generator&summary=Thumbsup%20is%20a%20command-line%20friendly%20static%20gallery%20generator%20for%20all%20your%20photos%20and%20videos&source=Github)
 [![Facebook](https://img.shields.io/badge/share-Facebook-3F4C9D.svg)](https://www.facebook.com/sharer.php?u=https://github.com/thumbsup/thumbsup)
 
-![banner](docs/banner.jpg)
+---
+
+<p align="center">https://thumbsup.github.io</p>
+<img align="center" src="docs/banner.jpg" alt="Banner" />
+
+---
 
 Turn any folder with photos &amp; videos into a web gallery.
 
