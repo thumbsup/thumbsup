@@ -28,7 +28,7 @@ const BINARIES = [
   {
     // optional to process animated GIFs
     mandatory: false,
-    cmd: 'gifsicle2',
+    cmd: 'gifsicle',
     url: 'http://www.lcdf.org/gifsicle',
     msg: 'You will not be able to process animated GIFs.'
   }
