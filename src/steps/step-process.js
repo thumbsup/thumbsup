@@ -1,12 +1,13 @@
 const debug = require('debug')('thumbsup:debug')
+const error = require('debug')('thumbsup:error')
 const downsize = require('thumbsup-downsize')
 const fs = require('fs-extra')
 const info = require('debug')('thumbsup:info')
 const ListrWorkQueue = require('listr-work-queue')
 const path = require('path')
 
-exports.run = function (files, opts, parentTask) {
-  const jobs = exports.create(files, opts)
+exports.run = function (files, problems, opts, parentTask) {
+  const jobs = exports.create(files, opts, problems)
   // wrap each job in a Listr task that returns a Promise
   const tasks = jobs.map(job => listrTaskFromJob(job, opts.output))
   const listr = new ListrWorkQueue(tasks, {
@@ -22,18 +23,18 @@ exports.run = function (files, opts, parentTask) {
 /*
   Return a list of task to build all required outputs (new or updated)
 */
-exports.create = function (files, opts) {
-  var tasks = {}
+exports.create = function (files, opts, problems) {
+  const tasks = {}
   const sourceFiles = new Set()
   const actionMap = getActionMap(opts)
   // accumulate all tasks into an object
   // to remove duplicate destinations
   files.forEach(f => {
     Object.keys(f.output).forEach(out => {
-      var src = path.join(opts.input, f.path)
-      var dest = path.join(opts.output, f.output[out].path)
-      var destDate = modifiedDate(dest)
-      var action = actionMap[f.output[out].rel]
+      const src = path.join(opts.input, f.path)
+      const dest = path.join(opts.output, f.output[out].path)
+      const destDate = modifiedDate(dest)
+      const action = actionMap[f.output[out].rel]
       // ignore output files that don't have an action (e.g. existing links)
       debug(`Comparing ${f.path} (${f.date}) and ${f.output[out].path} (${destDate})`)
       if (action && f.date > destDate) {
@@ -45,7 +46,13 @@ exports.create = function (files, opts) {
           action: (done) => {
             fs.mkdirsSync(path.dirname(dest))
             debug(`${f.output[out].rel} from ${src} to ${dest}`)
-            return action({src: src, dest: dest}, done)
+            return action({src: src, dest: dest}, err => {
+              if (err) {
+                error(`Error processing ${f.path} -> ${f.output[out].path}\n${err}`)
+                problems.addFile(f.path)
+              }
+              done()
+            })
           }
         }
       }

@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
+const fs = require('fs-extra')
 const path = require('path')
-const tty = require('tty')
 const Analytics = require('./analytics')
 const dependencies = require('./dependencies')
 const messages = require('./messages')
@@ -14,12 +13,9 @@ console.log('')
 const args = process.argv.slice(2)
 const opts = options.get(args)
 
-// If stdout is non TTY, make sure there is at least some text logging on stderr
-if (!opts.log && tty.isatty(process.stdout.fd) === false) {
-  opts.log = 'info'
-}
 // Only require the index after logging options have been set
-require('./log').init(opts.log)
+fs.mkdirpSync(opts.output)
+require('./log').init(opts.log, opts.output)
 const index = require('../src/index')
 
 // If this is the first run, display a welcome message
@@ -37,6 +33,7 @@ analytics.start()
 
 // Catch all exceptions and exit gracefully
 process.on('uncaughtException', handleError)
+process.on('unhandledRejection', handleError)
 
 // Check that all binary dependencies are present
 dependencies.checkOptional()
@@ -47,18 +44,21 @@ if (missingErrors) {
 }
 
 // Build the gallery!
-index.build(opts, (err, album) => {
+index.build(opts, (err, result) => {
+  console.log('')
   if (err) {
     handleError(err)
   } else {
+    // Print any problems
+    result.problems.print()
+    // And then a summary of the gallery
     const stats = {
-      albums: countAlbums(0, album),
-      photos: album.stats.photos,
-      videos: album.stats.videos
+      albums: countAlbums(0, result.album),
+      photos: result.album.stats.photos,
+      videos: result.album.stats.videos
     }
     analytics.finish(stats)
-    const message = messages.SUCCESS(stats)
-    console.log(`\n${message}\n`)
+    console.log(messages.SUCCESS(stats) + '\n')
     exit(0)
   }
 })

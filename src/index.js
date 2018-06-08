@@ -1,7 +1,7 @@
-const fs = require('fs-extra')
 const Listr = require('listr')
 const steps = require('./steps/index')
 const website = require('./website/website')
+const Problems = require('./problems')
 
 exports.build = function (opts, done) {
   // How to render tasks
@@ -11,7 +11,6 @@ exports.build = function (opts, done) {
     {
       title: 'Indexing folder',
       task: (ctx, task) => {
-        fs.mkdirpSync(opts.output)
         return steps.index(opts, (err, files, album) => {
           if (!err) {
             ctx.files = files
@@ -23,7 +22,8 @@ exports.build = function (opts, done) {
     {
       title: 'Resizing media',
       task: (ctx, task) => {
-        const tasks = steps.process(ctx.files, opts, task)
+        ctx.problems = new Problems()
+        const tasks = steps.process(ctx.files, ctx.problems, opts, task)
         if (!opts.dryRun) {
           return tasks
         } else {
@@ -55,7 +55,10 @@ exports.build = function (opts, done) {
   })
 
   tasks.run().then(ctx => {
-    done(null, ctx.album)
+    done(null, {
+      album: ctx.album,
+      problems: ctx.problems
+    })
   }).catch(err => {
     done(err)
   })

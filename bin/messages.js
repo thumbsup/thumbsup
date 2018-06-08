@@ -32,6 +32,11 @@ Gallery generated successfully!
 ${stats.albums} albums, ${stats.photos} photos, ${stats.videos} videos
 `)
 
+exports.PROBLEMS = (count) => chalk.yellow(`
+ Warning: there was an issue with ${count} file${count > 1 ? 's' : ''}.
+ Please check the full log for more detail.
+`)
+
 exports.GREETING = () => box(`
 Thanks for using thumbsup!
 
