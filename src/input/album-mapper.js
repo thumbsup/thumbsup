@@ -6,6 +6,7 @@ based on the --albums-from array of patterns provided
 */
 
 const _ = require('lodash')
+const path = require('path')
 const albumPattern = require('./album-pattern')
 
 class AlbumMapper {
@@ -22,7 +23,7 @@ function load (pattern) {
   // custom mapper file
   if (typeof pattern === 'string' && pattern.startsWith('file://')) {
     const filepath = pattern.slice('file://'.length)
-    return require(filepath)
+    return require(path.resolve(filepath))
   }
   // string pattern
   if (typeof pattern === 'string') {
