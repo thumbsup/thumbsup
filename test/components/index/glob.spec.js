@@ -1,6 +1,8 @@
-
+const fs = require('fs')
 const glob = require('../../../src/components/index/glob')
+const { sep } = require('path')
 const should = require('should/as-function')
+const tmp = require('tmp')
 
 describe('Index: glob', function () {
   this.slow(500)
@@ -112,6 +114,37 @@ describe('Index: glob', function () {
       const keys = Object.keys(map).sort()
       should(keys).eql([
         'holidays/IMG_0001.jpg'
+      ])
+      done()
+    })
+  })
+
+  it('ignores invalid file names', (done) => {
+    const tmpdir = tmp.dirSync({ unsafeCleanup: true })
+    const filenames = [
+      Buffer.from('file1a.jpg'),
+      Buffer.concat([
+        Buffer.from('file2'),
+        Buffer.from([0xfc]),
+        Buffer.from('.jpg')
+      ]),
+      Buffer.from('file3c.jpg')
+    ]
+    for (let filename of filenames) {
+      // we can't use path.join because it will check whether the components
+      // are valid, which they are not
+      fs.writeFileSync(Buffer.concat([
+        Buffer.from(tmpdir.name),
+        Buffer.from(sep),
+        filename
+      ]), '...')
+    }
+    glob.find(tmpdir.name, (err, map) => {
+      if (err) return done(err)
+      const keys = Object.keys(map).sort()
+      should(keys).eql([
+        'file1a.jpg',
+        'file3c.jpg'
       ])
       done()
     })
