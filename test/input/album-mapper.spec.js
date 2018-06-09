@@ -52,10 +52,10 @@ describe('Album mapper', function () {
 
     it('with a path relative to the current directory', () => {
       const absolutePath = createTmpFile({
-        dir: `${process.cwd()}/tmp`,
+        dir: process.cwd(),
         contents: "module.exports = file => ['my-album']"
       })
-      const relative = path.relative(process.cwd(), absolutePath)
+      const relative = path.basename(absolutePath)
       const mapper = new AlbumMapper([`file://${relative}`])
       should(mapper.getAlbums(TEST_FILE)).eql(['my-album'])
     })
