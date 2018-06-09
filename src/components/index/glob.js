@@ -1,5 +1,6 @@
 const micromatch = require('micromatch')
 const readdir = require('readdir-enhanced')
+const warn = require('debug')('thumbsup:warn')
 
 const PHOTO_EXT = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'tif', 'tiff', 'webp']
 const VIDEO_EXT = ['3gp', 'flv', 'm2ts', 'mkv', 'mp4', 'mov', 'mts', 'ogg', 'ogv', 'webm']
@@ -18,7 +19,14 @@ exports.find = function (rootFolder, callback) {
     sep: '/'
   })
   stream.on('data', stats => { entries[stats.path] = stats.mtime.getTime() })
-  stream.on('error', err => isEnoentCodeError(err) ? callback(null, {}) : callback(err))
+  stream.on('error', err => {
+    if (isEnoentCodeError(err)) {
+      warn(`File doesn't exist, skipping: ${err.path}`)
+      if (err.path === rootFolder) callback(null, {})
+    } else {
+      callback(err)
+    }
+  })
   stream.on('end', () => callback(null, entries))
 }
 
