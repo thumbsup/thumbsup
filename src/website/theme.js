@@ -11,8 +11,6 @@ class Theme {
     this.dir = path.resolve(themeDir)
     // target directory
     this.dest = path.resolve(destDir)
-    // used to keep track of relative paths while rendering
-    this.currentFolder = '.'
     // custom options
     this.opts = opts
   }
@@ -43,7 +41,6 @@ class Theme {
   // return a function that renders the given album HTML page
   // this is used so that all pages can be created in parallel
   render (album, data) {
-    this.currentFolder = path.dirname(album.path)
     const fullPath = path.join(this.dest, album.path)
     return (next) => {
       debug(`Theme rendering ${album.path}`)
@@ -87,7 +84,7 @@ class Theme {
 
     // render a relative path
     handlebars.registerHelper('relative', (target, options) => {
-      return path.relative(this.currentFolder, target)
+      return path.relative(path.dirname(options.data.root.album.path), target)
     })
   }
 
