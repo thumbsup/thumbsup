@@ -44,11 +44,13 @@ function galleryModel (rootAlbum, opts) {
 }
 
 function createRenderingTasks (theme, album, gallery, breadcrumbs) {
-  // render this album
-  const thisAlbumTask = theme.render(album, {
-    gallery: gallery,
-    breadcrumbs: breadcrumbs
-  })
+  // a function to render this album
+  const thisAlbumTask = next => {
+    theme.render(album, {
+      gallery: gallery,
+      breadcrumbs: breadcrumbs
+    }, next)
+  }
   const tasks = [thisAlbumTask]
   // and all nested albums
   album.albums.forEach(function (nested) {

@@ -40,14 +40,12 @@ class Theme {
 
   // return a function that renders the given album HTML page
   // this is used so that all pages can be created in parallel
-  render (album, data) {
+  render (album, data, next) {
     const fullPath = path.join(this.dest, album.path)
-    return (next) => {
-      debug(`Theme rendering ${album.path}`)
-      const contents = this.template(Object.assign({album: album}, data))
-      fs.mkdirpSync(path.dirname(fullPath))
-      fs.writeFile(fullPath, contents, next)
-    }
+    debug(`Theme rendering ${album.path}`)
+    const contents = this.template(Object.assign({album: album}, data))
+    fs.mkdirpSync(path.dirname(fullPath))
+    fs.writeFile(fullPath, contents, next)
   }
 
   // ------------------------
@@ -106,6 +104,8 @@ class Theme {
   customStylesInclude () {
     const customPath = this.opts.customStylesPath
     if (customPath) {
+      // see http://lesscss.org/features/#import-atrules-feature
+      // we use (inline) to avoid processing raw CSS files
       const includeType = path.extname(customPath) === '.css' ? '(inline) ' : ''
       return `\n@import ${includeType}'${customPath}';`
     }
