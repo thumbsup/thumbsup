@@ -81,11 +81,6 @@ class Theme {
       const fullPath = path.join(this.dir, 'helpers', filename)
       handlebars.registerHelper(name, require(fullPath))
     })
-
-    // render a relative path
-    handlebars.registerHelper('relative', (target, options) => {
-      return path.relative(path.dirname(options.data.root.album.path), target)
-    })
   }
 
   renderStyles (done) {
