@@ -1,6 +1,7 @@
 const fs = require('fs')
 const glob = require('../../../src/components/index/glob')
 const { sep } = require('path')
+const os = require('os')
 const should = require('should/as-function')
 const tmp = require('tmp')
 
@@ -119,7 +120,11 @@ describe('Index: glob', function () {
     })
   })
 
-  it('ignores invalid file names', (done) => {
+  it('ignores invalid file names', function (done) {
+    if (os.platform() === 'darwin') {
+      // the invalid filename generates a system error on macOS
+      return this.skip()
+    }
     const tmpdir = tmp.dirSync({ unsafeCleanup: true })
     const filenames = [
       Buffer.from('file1a.jpg'),
