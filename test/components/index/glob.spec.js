@@ -154,4 +154,24 @@ describe('Index: glob', function () {
       done()
     })
   })
+
+  it('ignores non-traversable directories', (done) => {
+    mock({
+      'media/secret': mock.directory({
+        mode: 0,
+        items: {
+          'IMG_0001.jpg': '...'
+        }
+      }),
+      'media/IMG_0002.jpg': '...'
+    })
+    glob.find('media', (err, map) => {
+      if (err) return done(err)
+      const keys = Object.keys(map).sort()
+      should(keys).eql([
+        'IMG_0002.jpg'
+      ])
+      done()
+    })
+  })
 })

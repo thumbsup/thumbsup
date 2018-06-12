@@ -19,14 +19,7 @@ exports.find = function (rootFolder, callback) {
     sep: '/'
   })
   stream.on('data', stats => { entries[stats.path] = stats.mtime.getTime() })
-  stream.on('error', err => {
-    if (isEnoentCodeError(err)) {
-      warn(`File doesn't exist, skipping: ${err.path}`)
-      if (err.path === rootFolder) callback(null, {})
-    } else {
-      callback(err)
-    }
-  })
+  stream.on('error', err => warn(err.message))
   stream.on('end', () => callback(null, entries))
 }
 
@@ -39,8 +32,4 @@ function canTraverse (folder) {
     ignore: ['**/@eaDir', '#recycle']
   })
   return match.length > 0
-}
-
-function isEnoentCodeError (err) {
-  return err.code === 'ENOENT'
 }
