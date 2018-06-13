@@ -61,6 +61,7 @@
     "markdown-toc": "^1.1.0",
     "mocha": "^5.1.1",
     "mock-fs": "^4.5.0",
+    "require-all": "^2.2.0",
     "require-lint": "^1.3.0",
     "should": "^13.2.1",
     "standard": "^11.0.1",
