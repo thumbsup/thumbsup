@@ -17,7 +17,6 @@ exports.run = function (fileCollection, outputRoot) {
     })
     const useless = _.difference(diskFiles, requiredFiles)
     if (useless.length) {
-      // const bar = progress.create('Cleaning up', useless.length)
       useless.forEach(f => {
         observer.next(path.relative(outputRoot, f))
         fs.unlinkSync(f)
