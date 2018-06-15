@@ -28,3 +28,12 @@ debug.assertContains = function (expected) {
     throw new Error(`Expected log to contain: ${expected}`)
   }
 }
+
+debug.assertNotContains = function (expected) {
+  const matches = debug.recorded.filter(message => {
+    return message.includes(expected)
+  })
+  if (matches.length > 0) {
+    throw new Error(`Expected log not to contain: ${expected}`)
+  }
+}

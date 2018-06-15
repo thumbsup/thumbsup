@@ -1,7 +1,8 @@
-var should = require('should/as-function')
-var Album = require('../../src/model/album')
-var fixtures = require('../fixtures')
-var path = require('path')
+const moment = require('moment')
+const path = require('path')
+const should = require('should/as-function')
+const Album = require('../../src/model/album')
+const fixtures = require('../fixtures')
 
 describe('Album', function () {
   describe('options', function () {
@@ -178,6 +179,15 @@ describe('Album', function () {
       var album = new Album({files: [c, a, b]})
       album.finalize({sortMediaBy: 'filename', sortMediaDirection: 'desc'})
       should(album.files).eql([c, b, a])
+    })
+
+    it('can sort media by date', function () {
+      const album = albumWithFileDates(['2010-10-15', '2010-01-01', '2010-03-24'])
+      album.finalize({sortMediaBy: 'date'})
+      const datesInAlbum = album.files.map(f => {
+        return moment(f.meta.date).format('YYYY-MM-DD')
+      })
+      should(datesInAlbum).eql(['2010-01-01', '2010-03-24', '2010-10-15'])
     })
 
     it('sorts nested albums too', function () {
