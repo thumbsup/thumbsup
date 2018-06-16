@@ -1,5 +1,4 @@
 const should = require('should/as-function')
-const mock = require('mock-fs')
 const Picasa = require('../../src/input/picasa.js')
 
 const PICASA_INI = `
@@ -13,9 +12,17 @@ keywords=beach,sunset
 `
 
 describe('Picasa', function () {
+  // we require "mock-fs" inside the tests, otherwise it also affects other tests
+  var mock = null
+
+  beforeEach(function () {
+    mock = require('mock-fs')
+  })
+
   afterEach(function () {
     mock.restore()
   })
+
   it('reads album metadata', function () {
     mock({
       'holidays/picasa.ini': PICASA_INI

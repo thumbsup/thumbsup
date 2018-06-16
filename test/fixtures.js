@@ -1,4 +1,8 @@
+const _ = require('lodash')
+const fs = require('fs-extra')
 const moment = require('moment')
+const path = require('path')
+const tmp = require('tmp')
 const File = require('../src/model/file')
 const Metadata = require('../src/model/metadata')
 
@@ -45,4 +49,18 @@ exports.video = function (opts) {
   opts = opts || {}
   opts.mimeType = 'video/mp4'
   return exports.file(opts)
+}
+
+exports.fromDisk = function (filename) {
+  const filepath = path.join(__dirname, '..', 'test-fixtures', filename)
+  return fs.readFileSync(filepath)
+}
+
+exports.createTempStructure = function (files) {
+  const tmpdir = tmp.dirSync({unsafeCleanup: true}).name
+  _.each(files, (content, filepath) => {
+    fs.ensureFileSync(`${tmpdir}/${filepath}`)
+    fs.writeFileSync(`${tmpdir}/${filepath}`, content)
+  })
+  return tmpdir
 }

@@ -1,7 +1,6 @@
-const _ = require('lodash')
 const fs = require('fs-extra')
 const should = require('should/as-function')
-const tmp = require('tmp')
+const fixtures = require('../fixtures')
 const Theme = require('../../src/website/theme')
 
 describe('Theme', () => {
@@ -125,7 +124,7 @@ describe('Theme', () => {
 
   it('loads all helpers', testEnd => {
     // because helpers use require(...) we cannot use a mock filesystem
-    const tmpdir = createTempStructure({
+    const tmpdir = fixtures.createTempStructure({
       'theme/theme.less': '',
       'theme/album.hbs': 'Partial says {{hello "world"}}',
       'theme/helpers/hello.js': 'module.exports = args => "hello " + args'
@@ -141,7 +140,7 @@ describe('Theme', () => {
 
   it('loads require() statements relative to the theme folder', testEnd => {
     // because helpers use require(...) we cannot use a mock filesystem
-    const tmpdir = createTempStructure({
+    const tmpdir = fixtures.createTempStructure({
       'theme/theme.less': '',
       'theme/album.hbs': 'Partial says {{hello "world"}}',
       'theme/node_modules/foo/package.json': '{"name": "foo", "main": "index.js"}',
@@ -162,7 +161,7 @@ describe('Theme', () => {
 
   it('copies public files', testEnd => {
     // fs.copy() doesn't seem compatible with mock-fs either
-    const tmpdir = createTempStructure({
+    const tmpdir = fixtures.createTempStructure({
       'theme/theme.less': '',
       'theme/album.hbs': '',
       'theme/public/logo.jpg': 'LOGO'
@@ -176,15 +175,6 @@ describe('Theme', () => {
     })
   })
 })
-
-function createTempStructure (files) {
-  const tmpdir = tmp.dirSync({unsafeCleanup: true}).name
-  _.each(files, (content, filepath) => {
-    fs.ensureFileSync(`${tmpdir}/${filepath}`)
-    fs.writeFileSync(`${tmpdir}/${filepath}`, content)
-  })
-  return tmpdir
-}
 
 function renderTheme (theme, album, next) {
   theme.validateStructure()

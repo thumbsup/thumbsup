@@ -34,7 +34,6 @@ exports.build = function (rootAlbum, opts, callback) {
 function galleryModel (rootAlbum, opts) {
   return {
     home: rootAlbum,
-    css: opts.css ? path.basename(opts.css) : null,
     title: opts.title,
     footer: opts.footer,
     thumbSize: opts.thumbSize,

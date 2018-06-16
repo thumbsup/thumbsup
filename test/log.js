@@ -34,6 +34,6 @@ debug.assertNotContains = function (expected) {
     return message.includes(expected)
   })
   if (matches.length > 0) {
-    throw new Error(`Expected log not to contain: ${expected}`)
+    throw new Error(`Expected log not to contain: ${expected}, but contained at least: ${matches[0]}`)
   }
 }
