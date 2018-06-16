@@ -14,9 +14,6 @@ function failure {
 echo "Run unit tests"
 npm test
 
-echo "Comparing gallery snapshot"
-scripts/verify
-
 echo ""
 echo "=================================="
 echo " ✔ Build successful"

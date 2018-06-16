@@ -1,22 +1,19 @@
 
-Please make sure the tests are passing when submitting a code change.
-
 ## Automated tests
 
 Thumbsup is covered by several types of tests.
 
-| Command | Tests |
-|---------|-------|
-| npm run lint | Static code analysis |
-| npm run unit | Unit tests |
-| npm test | Linting + unit tests |
-| scripts/record | Creates a new snapshot |
-| scripts/verify | Compares a brand new gallery against the snapshot |
-| scripts/cibuild | Runs all possible tests |
+- static code analysis, checking for common errors and enforcing style
+- unit and integration tests, with close to 100% coverage
 
-Due to the nature of `thumbsup`, even some unit tests require a working runtime environment including `exiftool`, `graphicsmagick` and `ffmpeg`.
+Please make sure the tests are passing when submitting a code change.
+Simply run:
 
-You can run the entire test suite inside Docker using:
+```bash
+npm test
+```
+
+Note: due to the nature of `thumbsup`, some tests require a working runtime environment including `exiftool`, `graphicsmagick` and `ffmpeg`. You can run the entire test suite inside Docker using:
 
 ```bash
 docker build .
@@ -25,7 +22,7 @@ docker build .
 ## Manual tests
 
 For more confidence, you can also run `thumbsup` against the demo galleries at https://github.com/thumbsup/demos.
-This is also valuable when working on a theme or cosmetic changes.
+This is valuable when working on a theme or cosmetic changes.
 
 ```bash
 # prepare local thumbsup for linking
