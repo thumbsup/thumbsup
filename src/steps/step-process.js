@@ -1,10 +1,10 @@
 const debug = require('debug')('thumbsup:debug')
 const error = require('debug')('thumbsup:error')
-const downsize = require('thumbsup-downsize')
 const fs = require('fs-extra')
 const info = require('debug')('thumbsup:info')
 const ListrWorkQueue = require('listr-work-queue')
 const path = require('path')
+const actions = require('./actions')
 
 exports.run = function (files, problems, opts, parentTask) {
   const jobs = exports.create(files, opts, problems)
@@ -26,7 +26,7 @@ exports.run = function (files, problems, opts, parentTask) {
 exports.create = function (files, opts, problems) {
   const tasks = {}
   const sourceFiles = new Set()
-  const actionMap = getActionMap(opts)
+  const actionMap = actions.createMap(opts)
   // accumulate all tasks into an object
   // to remove duplicate destinations
   files.forEach(f => {
@@ -92,36 +92,5 @@ function modifiedDate (filepath) {
     return fs.statSync(filepath).mtime.getTime()
   } catch (ex) {
     return 0
-  }
-}
-
-function getActionMap (opts) {
-  const thumbSize = opts.thumbSize || 120
-  const largeSize = opts.largeSize || 1000
-  const defaultOptions = {
-    quality: opts.photoQuality,
-    args: opts.gmArgs
-  }
-  const watermark = (!opts.watermark) ? null : {
-    file: opts.watermark,
-    position: opts.watermarkPosition
-  }
-  const thumbnail = Object.assign({}, defaultOptions, {
-    height: thumbSize,
-    width: thumbSize
-  })
-  const large = Object.assign({}, defaultOptions, {
-    height: largeSize,
-    watermark: watermark,
-    animated: true
-  })
-  return {
-    'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),
-    'fs:symlink': (task, done) => fs.symlink(task.src, task.dest, done),
-    'photo:thumbnail': (task, done) => downsize.image(task.src, task.dest, thumbnail, done),
-    'photo:large': (task, done) => downsize.image(task.src, task.dest, large, done),
-    'video:thumbnail': (task, done) => downsize.still(task.src, task.dest, thumbnail, done),
-    'video:poster': (task, done) => downsize.still(task.src, task.dest, large, done),
-    'video:resized': (task, done) => downsize.video(task.src, task.dest, {}, done)
   }
 }
