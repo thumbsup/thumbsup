@@ -18,6 +18,9 @@ class Theme {
   // load all theme helpers
   // and copy assets into the output folder (static files, CSS...)
   prepare (done) {
+    this.options = this.loadPackageOptions()
+    this.dir = path.join(this.dir, this.options.themeRoot || '')
+    // validate that the theme looks well structured
     this.validateStructure()
     // compiled template
     this.template = compileTemplate(path.join(this.dir, 'album.hbs'))
@@ -27,6 +30,19 @@ class Theme {
       next => this.copyPublic(next),
       next => this.renderStyles(next)
     ], done)
+  }
+
+  // look for an explicit root in the theme's <package.json>
+  loadPackageOptions () {
+    try {
+      const packagePath = path.join(this.dir, 'package.json')
+      const contents = fs.readFileSync(packagePath).toString()
+      const pkg = JSON.parse(contents)
+      return pkg.thumbsup || {}
+    } catch (ex) {
+      debug(`Theme does not have a package.json, using default options`)
+      return {}
+    }
   }
 
   // make sure the given folder is a valid theme

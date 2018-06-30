@@ -1,4 +1,5 @@
 const fs = require('fs-extra')
+const path = require('path')
 const should = require('should/as-function')
 const fixtures = require('../fixtures')
 const Theme = require('../../src/website/theme')
@@ -12,6 +13,58 @@ describe('Theme', () => {
 
   afterEach(() => {
     mock.restore()
+  })
+
+  it('uses the target theme folder by default', () => {
+    mock({
+      'theme/album.hbs': '',
+      'theme/theme.less': ''
+    })
+    const theme = new Theme('theme', 'dest', {})
+    theme.prepare(err => {
+      should(err).eql(null)
+      should(theme.dir).eql(path.resolve('theme'))
+    })
+  })
+
+  it('can use a sub-folder specified in package.json', () => {
+    // 1. this is useful when a packaged theme uses a build process
+    // since the build result will be in a subfolder, and npm only allows publishing the root folder
+    // 2. it's also useful if someone just wants to keep the theme repo clean using folders
+    mock({
+      'theme/package.json': `{
+        "thumbsup": {
+          "themeRoot": "dist"
+        }
+      }`,
+      'theme/dist/album.hbs': '',
+      'theme/dist/theme.less': ''
+    })
+    const theme = new Theme('theme', 'dest', {})
+    theme.prepare(err => {
+      should(err).eql(null)
+      should(theme.dir).eql(path.resolve('theme/dist'))
+    })
+  })
+
+  it('can have an empty themeRoot', () => {
+    // 1. this is useful when a packaged theme uses a build process
+    // since the build result will be in a subfolder, and npm only allows publishing the root folder
+    // 2. it's also useful if someone just wants to keep the theme repo clean using folders
+    mock({
+      'theme/package.json': `{
+        "thumbsup": {
+          "themeRoot": ""
+        }
+      }`,
+      'theme/album.hbs': '',
+      'theme/theme.less': ''
+    })
+    const theme = new Theme('theme', 'dest', {})
+    theme.prepare(err => {
+      should(err).eql(null)
+      should(theme.dir).eql(path.resolve('theme'))
+    })
   })
 
   it('throws an error if it doesnt have the mandatory HBS template', () => {
