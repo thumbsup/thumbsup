@@ -3,6 +3,7 @@ const boxen = require('boxen')
 
 const DOCS_URL = chalk.green('https://thumbsup.github.io/docs')
 const ISSUES_URL = chalk.green('https://github.com/thumbsup/thumbsup/issues')
+const LOG_FILE = chalk.green('thumbsup.log')
 
 function box (str) {
   const lines = str.split('\n').map(s => `  ${s}  `).join('\n')
@@ -56,6 +57,7 @@ Something went wrong!
 An unexpected error occurred and the gallery didn't build successfully.
 This is most likely an edge-case that hasn't been tested before.
 
+Please check ${LOG_FILE} in the output folder.
 To help improve thumbsup and hopefully resolve your problem,
-please raise an issue at ${ISSUES_URL}.
+you can raise an issue at ${ISSUES_URL}.
 `)

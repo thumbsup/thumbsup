@@ -68,7 +68,8 @@ index.build(opts, (err, result) => {
 function handleError (err) {
   analytics.error()
   delete err.context
-  console.error('\nUnexpected error', err)
+  require('debug')('thumbsup:error')(err)
+  console.error('\nUnexpected error', err.message)
   console.error(`\n${messages.SORRY()}\n`)
   exit(1)
 }
