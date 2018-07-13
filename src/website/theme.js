@@ -47,6 +47,9 @@ class Theme {
 
   // make sure the given folder is a valid theme
   validateStructure () {
+    if (!fs.existsSync(this.dir)) {
+      throw new Error(`Theme does not exist: ${this.dir}`)
+    }
     const template = fs.existsSync(path.join(this.dir, 'album.hbs'))
     const style = fs.existsSync(path.join(this.dir, 'theme.less'))
     if (!template || !style) {

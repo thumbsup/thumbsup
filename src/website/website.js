@@ -2,18 +2,18 @@ const path = require('path')
 const async = require('async')
 const Theme = require('./theme')
 
-var THEMES_DIR = path.join(__dirname, '..', '..', 'themes')
+const THUMBSUP_PACKAGES = path.join(__dirname, '..', '..', 'node_modules', '@thumbsup')
 
 exports.build = function (rootAlbum, opts, callback) {
   // create the base layer assets
   // such as shared JS libs, common handlebars helpers, CSS reset...
-  const baseDir = path.join(THEMES_DIR, 'base')
+  const baseDir = path.join(__dirname, 'theme-base')
   const base = new Theme(baseDir, opts.output, {
     stylesheetName: 'core.css'
   })
 
   // then create the actual theme assets
-  const themeDir = opts.themePath || path.join(THEMES_DIR, opts.theme)
+  const themeDir = opts.themePath || path.join(THUMBSUP_PACKAGES, `theme-${opts.theme}`)
   const theme = new Theme(themeDir, opts.output, {
     stylesheetName: 'theme.css',
     customStylesPath: opts.themeStyle
