@@ -43,7 +43,6 @@
     "insight": "^0.10.1",
     "less": "^3.0.4",
     "listr": "^0.14.1",
-    "listr-work-queue": "https://github.com/thumbsup/listr-work-queue.git",
     "lodash": "^4.17.10",
     "micromatch": "^3.1.10",
     "moment": "^2.22.1",

@@ -2,7 +2,7 @@ const debug = require('debug')('thumbsup:debug')
 const error = require('debug')('thumbsup:error')
 const fs = require('fs-extra')
 const info = require('debug')('thumbsup:info')
-const ListrWorkQueue = require('listr-work-queue')
+const ListrWorkQueue = require('../components/listr-work-queue/index')
 const path = require('path')
 const actions = require('./actions')
 
