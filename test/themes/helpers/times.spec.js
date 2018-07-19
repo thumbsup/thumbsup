@@ -1,6 +1,6 @@
 const handlebars = require('handlebars')
 const should = require('should/as-function')
-const times = require('../../../themes/base/helpers/times')
+const times = require('../../../src/website/theme-base/helpers/times')
 
 describe('Handlebars helpers: times', () => {
   handlebars.registerHelper('times', times)

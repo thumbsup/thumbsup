@@ -1,4 +1,4 @@
-const date = require('../../../themes/base/helpers/relative')
+const date = require('../../../src/website/theme-base/helpers/relative')
 const handlebars = require('handlebars')
 const should = require('should/as-function')
 

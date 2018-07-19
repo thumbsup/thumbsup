@@ -1,6 +1,6 @@
 const handlebars = require('handlebars')
 const should = require('should/as-function')
-const slice = require('../../../themes/base/helpers/slice')
+const slice = require('../../../src/website/theme-base/helpers/slice')
 
 describe('Handlebars helpers: slice', () => {
   handlebars.registerHelper('slice', slice)

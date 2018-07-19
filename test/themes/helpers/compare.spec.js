@@ -1,4 +1,4 @@
-const compare = require('../../../themes/base/helpers/compare')
+const compare = require('../../../src/website/theme-base/helpers/compare')
 const handlebars = require('handlebars')
 const should = require('should/as-function')
 
