@@ -16,7 +16,7 @@ npm test
 Note: due to the nature of `thumbsup`, some tests require a working runtime environment including `exiftool`, `graphicsmagick` and `ffmpeg`. You can run the entire test suite inside Docker using:
 
 ```bash
-docker build .
+docker build -f Dockerfile.test .
 ```
 
 ## Manual tests

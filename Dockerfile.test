@@ -15,4 +15,4 @@ RUN npm install
 COPY --chown=tester . /app
 
 # Run the tests
-RUN scripts/cibuild
+RUN npm test

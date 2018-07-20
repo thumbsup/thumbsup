@@ -1,17 +1,42 @@
-# Run the whole build inside Docker
+# Build steps need access to the Docker agent
 sudo: required
 services:
   - docker
 
 jobs:
   include:
-    - stage: build
-      script: docker build .
-    - stage: npm release
-      script: echo "Deploying to npm ..."
+
+    # Run all the tests inside Docker
+
+    - stage: Test
+      script: docker build -f Dockerfile.test .
+
+
+    # If this is a tagged commit, publish the package to npm
+
+    - stage: Release npm
+      script: echo "Deploying to npm"
       deploy:
         provider: npm
         email: asyncadventures@gmail.com
         api_key: $NPM_TOKEN
         on:
           tags: true
+          condition: $TRAVIS_TAG =~ ^\d+\.\d+\.\d+$
+
+    # If this is a tagged commit, publish a new Docker image
+
+    - stage: Release Docker
+      script: echo "Deploying to DockerHub"
+      deploy:
+        provider: script
+        script:
+          - DOCKER_IMAGE="thumbsupgallery/thumbsup"
+          - docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
+          - docker build -f Dockerfile.release -t "${DOCKER_IMAGE}:TRAVIS_TAG" --build-arg "PACKAGE_VERSION=${TRAVIS_TAG}" .
+          - docker tag "${DOCKER_IMAGE}:${TRAVIS_TAG}" "${DOCKER_IMAGE}:latest"
+          - docker push "${DOCKER_IMAGE}:${TRAVIS_TAG}"
+          - docker push "${DOCKER_IMAGE}:latest"
+        on:
+          tags: true
+          condition: $TRAVIS_TAG =~ ^\d+\.\d+\.\d+$
