@@ -22,6 +22,10 @@
   "bin": {
     "thumbsup": "./bin/thumbsup.js"
   },
+  "files": [
+    "src",
+    "bin"
+  ],
   "scripts": {
     "lint": "standard && require-lint",
     "unit": "istanbul cover node_modules/mocha/bin/_mocha",
