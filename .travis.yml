@@ -33,7 +33,7 @@ jobs:
         script:
           - DOCKER_IMAGE="thumbsupgallery/thumbsup"
           - docker login -u "${DOCKER_USERNAME}" -p "${DOCKER_PASSWORD}"
-          - docker build -f Dockerfile.release -t "${DOCKER_IMAGE}:TRAVIS_TAG" 
+          - docker build -f Dockerfile.release -t "${DOCKER_IMAGE}:${TRAVIS_TAG}" .
           - docker tag "${DOCKER_IMAGE}:${TRAVIS_TAG}" "${DOCKER_IMAGE}:latest"
           - docker push "${DOCKER_IMAGE}:${TRAVIS_TAG}"
           - docker push "${DOCKER_IMAGE}:latest"
