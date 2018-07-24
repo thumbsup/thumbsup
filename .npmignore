@@ -1,9 +1,0 @@
-.github
-.travis.yml
-test
-test-snapshot
-scripts
-coverage
-fixtures
-.editorconfig
-Dockerfile
