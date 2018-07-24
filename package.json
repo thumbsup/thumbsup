@@ -22,6 +22,10 @@
   "bin": {
     "thumbsup": "./bin/thumbsup.js"
   },
+  "files": [
+    "src",
+    "bin"
+  ],
   "scripts": {
     "lint": "standard && require-lint",
     "unit": "istanbul cover node_modules/mocha/bin/_mocha",
@@ -50,6 +54,7 @@
     "micromatch": "^3.1.10",
     "moment": "^2.22.1",
     "readdir-enhanced": "^2.2.1",
+    "resolve-pkg": "^1.0.0",
     "through2": "^2.0.3",
     "thumbsup-downsize": "^2.1.0",
     "url-join": "^4.0.0",

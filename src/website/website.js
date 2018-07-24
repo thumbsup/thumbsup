@@ -1,8 +1,7 @@
 const path = require('path')
 const async = require('async')
+const resolvePkg = require('resolve-pkg')
 const Theme = require('./theme')
-
-const THUMBSUP_PACKAGES = path.join(__dirname, '..', '..', 'node_modules', '@thumbsup')
 
 exports.build = function (rootAlbum, opts, callback) {
   // create the base layer assets
@@ -13,7 +12,7 @@ exports.build = function (rootAlbum, opts, callback) {
   })
 
   // then create the actual theme assets
-  const themeDir = opts.themePath || path.join(THUMBSUP_PACKAGES, `theme-${opts.theme}`)
+  const themeDir = opts.themePath || localThemePath(opts.theme)
   const theme = new Theme(themeDir, opts.output, {
     stylesheetName: 'theme.css',
     customStylesPath: opts.themeStyle
@@ -57,4 +56,12 @@ function createRenderingTasks (theme, album, gallery, breadcrumbs) {
     Array.prototype.push.apply(tasks, nestedTasks)
   })
   return tasks
+}
+
+function localThemePath (themeName) {
+  const local = resolvePkg(`@thumbsup/theme-${themeName}`, {cwd: __dirname})
+  if (!local) {
+    throw new Error(`Could not find a built-in theme called ${themeName}`)
+  }
+  return local
 }
