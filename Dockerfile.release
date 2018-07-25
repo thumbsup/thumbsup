@@ -6,8 +6,13 @@ FROM thumbsupgallery/build:alpine as build
 
 # Install thumbsup locally
 WORKDIR /thumbsup
-COPY . /thumbsup_repo
-RUN npm install --production "git+file:///thumbsup_repo" && rm -rf /thumbsup_repo
+ARG PACKAGE_VERSION
+RUN if [ -z "${PACKAGE_VERSION}" ]; then \
+      echo "Please specify --build-arg PACKAGE_VERSION=<2.4.1>"; \
+      exit 1; \
+    fi;
+RUN echo '{"name": "installer", "version": "1.0.0"}' > package.json
+RUN npm install thumbsup@${PACKAGE_VERSION}
 
 # ------------------------------------------------
 # Runtime image
