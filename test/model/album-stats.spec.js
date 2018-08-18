@@ -6,13 +6,13 @@ describe('Album', function () {
   describe('stats', function () {
     describe('single level stats', function () {
       it('has no nested albums', function () {
-        var a = new Album({})
+        const a = new Album({})
         a.finalize()
         should(a.stats.albums).eql(0)
       })
 
       it('calculates counts for a single level', function () {
-        var a = new Album({
+        const a = new Album({
           files: [
             fixtures.photo(), fixtures.photo(),
             fixtures.photo(), fixtures.photo(),
@@ -25,7 +25,7 @@ describe('Album', function () {
       })
 
       it('calculates from/to dates', function () {
-        var a = new Album({
+        const a = new Album({
           files: [
             fixtures.photo({date: '2016-09-14'}),
             fixtures.photo({date: '2016-09-02'}),
@@ -40,7 +40,7 @@ describe('Album', function () {
 
     describe('nested albums stats', function () {
       it('counts all nested albums', function () {
-        var root = new Album({
+        const root = new Album({
           albums: [new Album('a'), new Album('b')]
         })
         root.finalize()
@@ -48,7 +48,7 @@ describe('Album', function () {
       })
 
       it('counts all nested photos', function () {
-        var root = new Album({
+        const root = new Album({
           files: [fixtures.photo()],
           albums: [
             new Album({
@@ -61,7 +61,7 @@ describe('Album', function () {
       })
 
       it('counts all nested photos', function () {
-        var root = new Album({
+        const root = new Album({
           files: [fixtures.video()],
           albums: [
             new Album({
@@ -74,7 +74,7 @@ describe('Album', function () {
       })
 
       it('calculates from/to dates across all albums', function () {
-        var a = new Album({
+        const a = new Album({
           files: [fixtures.photo({date: '2016-09-14'})],
           albums: [
             new Album({
@@ -94,7 +94,7 @@ describe('Album', function () {
 
   describe('summary', function () {
     it('creates a summary with a single photo', function () {
-      var a = new Album('single')
+      const a = new Album('single')
       a.files = [
         fixtures.photo()
       ]
@@ -103,7 +103,7 @@ describe('Album', function () {
     })
 
     it('creates a summary with a single video', function () {
-      var a = new Album('single')
+      const a = new Album('single')
       a.files = [
         fixtures.video()
       ]
@@ -112,14 +112,14 @@ describe('Album', function () {
     })
 
     it('creates a summary with a single album', function () {
-      var a = new Album('single')
+      const a = new Album('single')
       a.albums = [new Album('nested')]
       a.finalize()
       should(a.summary).eql('1 album')
     })
 
     it('creates a summary with several photos', function () {
-      var a = new Album('single')
+      const a = new Album('single')
       a.files = [
         fixtures.photo(), fixtures.photo()
       ]
@@ -128,7 +128,7 @@ describe('Album', function () {
     })
 
     it('creates a summary with several videos', function () {
-      var a = new Album('single')
+      const a = new Album('single')
       a.files = [
         fixtures.video(), fixtures.video()
       ]
@@ -137,14 +137,14 @@ describe('Album', function () {
     })
 
     it('creates a summary with several albums', function () {
-      var a = new Album('single')
+      const a = new Album('single')
       a.albums = [new Album('nested 1'), new Album('nested 2')]
       a.finalize()
       should(a.summary).eql('2 albums')
     })
 
     it('creates a summary with a mix of albums, photos and videos', function () {
-      var a = new Album('single')
+      const a = new Album('single')
       a.albums = [new Album('nested')]
       a.files = [
         fixtures.photo(), fixtures.photo(),

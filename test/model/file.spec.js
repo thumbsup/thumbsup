@@ -3,14 +3,14 @@ const File = require('../../src/model/file')
 
 describe('File', function () {
   it('reads the relative file path', function () {
-    var file = new File(dbFile({
+    const file = new File(dbFile({
       SourceFile: 'holidays/beach.jpg'
     }))
     should(file.path).eql('holidays/beach.jpg')
   })
 
   it('parses the file modification date', function () {
-    var file = new File(dbFile({
+    const file = new File(dbFile({
       File: {
         FileModifyDate: '2017:01:27 14:38:29+05:00'
       }
@@ -19,7 +19,7 @@ describe('File', function () {
   })
 
   it('can guess the media type for photos', function () {
-    var file = new File(dbFile({
+    const file = new File(dbFile({
       File: {
         MIMEType: 'image/jpeg'
       }
@@ -28,7 +28,7 @@ describe('File', function () {
   })
 
   it('can guess the media type for videos', function () {
-    var file = new File(dbFile({
+    const file = new File(dbFile({
       File: {
         MIMEType: 'video/quicktime'
       }
@@ -37,7 +37,7 @@ describe('File', function () {
   })
 
   it('marks all other data types as unknown', function () {
-    var file = new File(dbFile({
+    const file = new File(dbFile({
       File: {
         MIMEType: 'text/html'
       }
@@ -46,9 +46,9 @@ describe('File', function () {
   })
 
   it('has a boolean flag for videos to simplify templates', function () {
-    var photo = new File(dbFile({File: {MIMEType: 'image/jpeg'}}))
+    const photo = new File(dbFile({File: {MIMEType: 'image/jpeg'}}))
     should(photo.isVideo).eql(false)
-    var video = new File(dbFile({File: {MIMEType: 'video/quicktime'}}))
+    const video = new File(dbFile({File: {MIMEType: 'video/quicktime'}}))
     should(video.isVideo).eql(true)
   })
 })
