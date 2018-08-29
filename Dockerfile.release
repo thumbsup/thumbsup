@@ -25,6 +25,9 @@ FROM thumbsupgallery/runtime:alpine
 RUN apk add --update tini
 ENTRYPOINT ["tini", "-g", "--"]
 
+# Thumbsup can be run as any user and needs write-access to HOME
+ENV HOME /tmp
+
 # Copy the thumbsup files to the new image
 COPY --from=build /thumbsup /thumbsup
 RUN ln -s /thumbsup/node_modules/.bin/thumbsup /usr/local/bin/thumbsup
