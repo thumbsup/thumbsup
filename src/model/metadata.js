@@ -53,6 +53,7 @@ function getDate (exif) {
 function getMetaDate (exif) {
   const date = tagValue(exif, 'EXIF', 'DateTimeOriginal') ||
                tagValue(exif, 'H264', 'DateTimeOriginal') ||
+               tagValue(exif, 'QuickTime', 'ContentCreateDate') ||
                tagValue(exif, 'QuickTime', 'CreationDate') ||
                tagValue(exif, 'QuickTime', 'CreateDate')
   if (date) {

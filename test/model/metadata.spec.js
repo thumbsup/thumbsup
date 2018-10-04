@@ -32,6 +32,16 @@ describe('Metadata', function () {
       should(meta.date).eql(fixtures.date('2016-10-28 17:34:58').getTime())
     })
 
+    it('prefers the ContentCreateDate field if present', function () {
+      // when exporting a movie from the macOS Photos app, it sets
+      // CreateDate=date_of_export and ContentCreateDate=date_taken
+      const exiftool = fixtures.exiftool()
+      exiftool.QuickTime.CreateDate = '2016:10:28 17:34:58' // EXIF date format
+      exiftool.QuickTime.ContentCreateDate = '2016:09:02 10:25:41' // EXIF date format
+      const meta = new Metadata(exiftool)
+      should(meta.date).eql(fixtures.date('2016-09-02 10:25:41').getTime())
+    })
+
     it('infers the date from the filename (Android format)', function () {
       const exiftool = fixtures.exiftool()
       exiftool.SourceFile = 'folder/VID_20170220_114006.mp4'
