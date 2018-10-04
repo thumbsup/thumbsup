@@ -305,7 +305,8 @@ exports.get = (args) => {
     concurrency: opts['concurrency'],
     gmArgs: opts['gm-args'],
     watermark: opts['watermark'],
-    watermarkPosition: opts['watermark-position']
+    watermarkPosition: opts['watermark-position'],
+    preserveExif: opts['preserve-exif']
   }
 }
 
