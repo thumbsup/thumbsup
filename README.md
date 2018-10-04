@@ -98,6 +98,7 @@ Output options:
   --gm-args               Custom image processing arguments for GraphicsMagick  [array]
   --watermark             Path to a transparent PNG to be overlaid on all images  [string]
   --watermark-position    Position of the watermark  [choices: "Repeat", "Center", "NorthWest", "North", "NorthEast", "West", "East", "SouthWest", "South", "SouthEast"]
+  --preserve-exif         Preserve the exif metadata for each image [boolean] [default: false]
 
 Album options:
   --albums-from            How files are grouped into albums  [array] [default: ["%path"]]

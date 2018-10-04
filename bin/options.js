@@ -91,6 +91,12 @@ const OPTIONS = {
       'West', 'East', 'SouthWest', 'South', 'SouthEast'
     ]
   },
+  'preserve-exif': {
+    group: 'Output options:',
+    description: 'Preserve the exif metadata for each image',
+    type: 'boolean',
+    'default': false
+  },
 
   // ------------------------------------
   // Album options
