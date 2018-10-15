@@ -37,7 +37,8 @@ function galleryModel (rootAlbum, opts) {
     footer: opts.footer,
     thumbSize: opts.thumbSize,
     largeSize: opts.largeSize,
-    googleAnalytics: opts.googleAnalytics
+    googleAnalytics: opts.googleAnalytics,
+    preserveExif: opts.preserveExif
   }
 }
 
