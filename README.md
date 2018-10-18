@@ -98,7 +98,6 @@ Output options:
   --gm-args               Custom image processing arguments for GraphicsMagick  [array]
   --watermark             Path to a transparent PNG to be overlaid on all images  [string]
   --watermark-position    Position of the watermark  [choices: "Repeat", "Center", "NorthWest", "North", "NorthEast", "West", "East", "SouthWest", "South", "SouthEast"]
-  --embed-exif            Embed exif metadata for each image into the gallery page (enable to use exif plugin) [boolean] [default: false]
 
 Album options:
   --albums-from            How files are grouped into albums  [array] [default: ["%path"]]
@@ -116,6 +115,7 @@ Website options:
   --title                 Website title  [default: "Photo album"]
   --footer                Text or HTML footer  [default: null]
   --google-analytics      Code for Google Analytics tracking  [string]
+  --embed-exif            Embed exif metadata for each image into the gallery page (enable to use exif plugin) [boolean] [default: false]
 
 Deprecated:
   --original-photos     Copy and allow download of full-size photos  [boolean] [default: false]

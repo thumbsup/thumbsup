@@ -91,12 +91,6 @@ const OPTIONS = {
       'West', 'East', 'SouthWest', 'South', 'SouthEast'
     ]
   },
-  'embed-exif': {
-    group: 'Output options:',
-    description: 'Embed the exif metadata for each image into the gallery page',
-    type: 'boolean',
-    'default': false
-  },
 
   // ------------------------------------
   // Album options
@@ -177,6 +171,12 @@ const OPTIONS = {
     group: 'Website options:',
     description: 'Code for Google Analytics tracking',
     type: 'string'
+  },
+  'embed-exif': {
+    group: 'Website options:',
+    description: 'Embed the exif metadata for each image into the gallery page',
+    type: 'boolean',
+    'default': false
   },
 
   // ------------------------------------
