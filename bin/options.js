@@ -91,9 +91,9 @@ const OPTIONS = {
       'West', 'East', 'SouthWest', 'South', 'SouthEast'
     ]
   },
-  'preserve-exif': {
+  'embed-exif': {
     group: 'Output options:',
-    description: 'Preserve the exif metadata for each image',
+    description: 'Embed the exif metadata for each image into the gallery page',
     type: 'boolean',
     'default': false
   },
@@ -306,7 +306,7 @@ exports.get = (args) => {
     gmArgs: opts['gm-args'],
     watermark: opts['watermark'],
     watermarkPosition: opts['watermark-position'],
-    preserveExif: opts['preserve-exif']
+    embedExif: opts['embed-exif']
   }
 }
 
