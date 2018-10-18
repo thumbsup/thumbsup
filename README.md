@@ -115,6 +115,7 @@ Website options:
   --title                 Website title  [default: "Photo album"]
   --footer                Text or HTML footer  [default: null]
   --google-analytics      Code for Google Analytics tracking  [string]
+  --embed-exif            Embed exif metadata for each image into the gallery page (enable to use exif plugin) [boolean] [default: false]
 
 Deprecated:
   --original-photos     Copy and allow download of full-size photos  [boolean] [default: false]

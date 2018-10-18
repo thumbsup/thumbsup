@@ -39,7 +39,7 @@ exports.run = function (opts, callback) {
     // emitted for every file once indexing is finished
     emitter.on('file', file => {
       const picasa = picasaReader.file(file.metadata.SourceFile)
-      const meta = new Metadata(file.metadata, picasa || {})
+      const meta = new Metadata(file.metadata, picasa || {}, opts)
       const model = new File(file.metadata, meta, opts)
       // only include valid photos and videos (i.e. exiftool recognised the format)
       if (model.type !== 'unknown') {

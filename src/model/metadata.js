@@ -21,7 +21,7 @@ const FILENAME_DATE_REGEX = /\d{4}[_\-.\s]?(\d{2}[_\-.\s]?){5}\..{3,4}/
 const FILENAME_DATE_FORMAT = 'YYYYMMDD HHmmss'
 
 class Metadata {
-  constructor (exiftool, picasa) {
+  constructor (exiftool, picasa, opts) {
     // standardise metadata
     this.date = getDate(exiftool)
     this.caption = caption(exiftool)
@@ -30,6 +30,7 @@ class Metadata {
     this.animated = animated(exiftool)
     this.rating = rating(exiftool)
     this.favourite = favourite(picasa)
+    this.exif = opts ? (opts.embedExif ? exiftool.EXIF : undefined) : undefined
     // metadata could also include fields like
     //  - lat = 51.5
     //  - long = 0.12

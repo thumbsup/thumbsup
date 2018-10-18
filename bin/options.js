@@ -172,6 +172,12 @@ const OPTIONS = {
     description: 'Code for Google Analytics tracking',
     type: 'string'
   },
+  'embed-exif': {
+    group: 'Website options:',
+    description: 'Embed the exif metadata for each image into the gallery page',
+    type: 'boolean',
+    'default': false
+  },
 
   // ------------------------------------
   // Misc options
@@ -299,7 +305,8 @@ exports.get = (args) => {
     concurrency: opts['concurrency'],
     gmArgs: opts['gm-args'],
     watermark: opts['watermark'],
-    watermarkPosition: opts['watermark-position']
+    watermarkPosition: opts['watermark-position'],
+    embedExif: opts['embed-exif']
   }
 }
 
