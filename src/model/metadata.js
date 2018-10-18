@@ -30,7 +30,7 @@ class Metadata {
     this.animated = animated(exiftool)
     this.rating = rating(exiftool)
     this.favourite = favourite(picasa)
-    this.exif = opts.embedExif ? exiftool.EXIF : undefined
+    this.exif = opts ? (opts.embedExif ? exiftool.EXIF : undefined) : undefined
     // metadata could also include fields like
     //  - lat = 51.5
     //  - long = 0.12
