@@ -62,7 +62,7 @@ class Theme {
   render (album, data, next) {
     const fullPath = path.join(this.dest, album.path)
     debug(`Theme rendering ${album.path}`)
-    const contents = this.template(Object.assign({album: album}, data))
+    const contents = this.template(Object.assign({ album: album }, data))
     fs.mkdirpSync(path.dirname(fullPath))
     fs.writeFile(fullPath, contents, next)
   }

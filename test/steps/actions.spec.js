@@ -62,7 +62,7 @@ describe('actions', () => {
   })
 
   it('photo:thumbnail = creates a square thumbnail', testEnd => {
-    const map = actions.createMap({thumbSize: 200})
+    const map = actions.createMap({ thumbSize: 200 })
     const action = map['photo:thumbnail']
     action(ANY_TASK, err => {
       should(err).eql(null)
@@ -75,7 +75,7 @@ describe('actions', () => {
   })
 
   it('photo:large = creates a large image', testEnd => {
-    const map = actions.createMap({largeSize: 1000})
+    const map = actions.createMap({ largeSize: 1000 })
     const action = map['photo:large']
     action(ANY_TASK, err => {
       should(err).eql(null)
@@ -87,7 +87,7 @@ describe('actions', () => {
   })
 
   it('video:thumbnail = creates a square video still', testEnd => {
-    const map = actions.createMap({thumbSize: 200})
+    const map = actions.createMap({ thumbSize: 200 })
     const action = map['video:thumbnail']
     action(ANY_TASK, err => {
       should(err).eql(null)
@@ -99,7 +99,7 @@ describe('actions', () => {
   })
 
   it('video:poster = creates a large video still', testEnd => {
-    const map = actions.createMap({largeSize: 1000})
+    const map = actions.createMap({ largeSize: 1000 })
     const action = map['video:poster']
     action(ANY_TASK, err => {
       should(err).eql(null)
@@ -123,7 +123,7 @@ describe('actions', () => {
 
   describe('watermark', () => {
     it('can add a watermark to large images', testEnd => {
-      const map = actions.createMap({watermark: 'copyright.jpg'})
+      const map = actions.createMap({ watermark: 'copyright.jpg' })
       const action = map['photo:large']
       action(ANY_TASK, err => {
         should(err).eql(null)
@@ -135,7 +135,7 @@ describe('actions', () => {
 
     it('ignores the watermark for thumbnails', testEnd => {
       // it's not supported by <downsize> anyway
-      const map = actions.createMap({watermark: 'copyright.jpg'})
+      const map = actions.createMap({ watermark: 'copyright.jpg' })
       const action = map['photo:thumbnail']
       action(ANY_TASK, err => {
         should(err).eql(null)

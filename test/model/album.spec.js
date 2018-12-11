@@ -12,7 +12,7 @@ describe('Album', function () {
     })
 
     it('can pass a full hash of options', function () {
-      const a = new Album({id: 12, title: 'Holidays'})
+      const a = new Album({ id: 12, title: 'Holidays' })
       should(a.id).eql(12)
       should(a.title).eql('Holidays')
     })
@@ -33,13 +33,13 @@ describe('Album', function () {
           new Album({
             title: '2010',
             albums: [
-              new Album({title: 'October'})
+              new Album({ title: 'October' })
             ]
           }),
           new Album({
             title: '2011',
             albums: [
-              new Album({title: 'October'})
+              new Album({ title: 'October' })
             ]
           })
         ]
@@ -55,9 +55,9 @@ describe('Album', function () {
     it('calculates the output file path', function () {
       const root = new Album({
         title: 'home',
-        albums: [new Album({title: '2010'})]
+        albums: [new Album({ title: '2010' })]
       })
-      root.finalize({index: 'index.html'})
+      root.finalize({ index: 'index.html' })
       should(root.path).eql('index.html')
       should(root.albums[0].path).eql('2010.html')
     })
@@ -65,9 +65,9 @@ describe('Album', function () {
     it('calculates the URL for the browser', function () {
       const root = new Album({
         title: 'home',
-        albums: [new Album({title: '2010'})]
+        albums: [new Album({ title: '2010' })]
       })
-      root.finalize({index: 'index.html'})
+      root.finalize({ index: 'index.html' })
       should(root.url).eql('index.html')
       should(root.albums[0].url).eql('2010.html')
     })
@@ -75,9 +75,9 @@ describe('Album', function () {
     it('calculates the output path with a target folder (slashes match the OS)', function () {
       const root = new Album({
         title: 'home',
-        albums: [new Album({title: '2010'})]
+        albums: [new Album({ title: '2010' })]
       })
-      root.finalize({index: 'index.html', albumsOutputFolder: 'albums'})
+      root.finalize({ index: 'index.html', albumsOutputFolder: 'albums' })
       should(root.path).eql('index.html')
       should(root.albums[0].path).eql(path.join('albums', '2010.html'))
     })
@@ -85,9 +85,9 @@ describe('Album', function () {
     it('calculates the URL with a target folder (always forward slashes)', function () {
       const root = new Album({
         title: 'home',
-        albums: [new Album({title: '2010'})]
+        albums: [new Album({ title: '2010' })]
       })
-      root.finalize({index: 'index.html', albumsOutputFolder: 'albums'})
+      root.finalize({ index: 'index.html', albumsOutputFolder: 'albums' })
       should(root.path).eql('index.html')
       should(root.albums[0].path).eql('albums/2010.html')
     })
@@ -95,19 +95,19 @@ describe('Album', function () {
 
   describe('previews', function () {
     it('picks the first 10 files as previews', function () {
-      const a = new Album({files: [
+      const a = new Album({ files: [
         fixtures.photo(), fixtures.photo(), fixtures.photo(), fixtures.photo(),
         fixtures.photo(), fixtures.photo(), fixtures.photo(), fixtures.photo(),
         fixtures.photo(), fixtures.photo(), fixtures.photo(), fixtures.photo()
-      ]})
+      ] })
       a.finalize()
       should(a.previews).have.length(10)
     })
 
     it('adds <missing> thumbnails to fill', function () {
-      const a = new Album({files: [
+      const a = new Album({ files: [
         fixtures.photo(), fixtures.photo()
-      ]})
+      ] })
       a.finalize()
       should(a.previews[2].urls.thumbnail).eql('public/missing.png')
       should(a.previews[9].urls.thumbnail).eql('public/missing.png')
@@ -140,8 +140,8 @@ describe('Album', function () {
       const a = new Album('A')
       const b = new Album('B')
       const c = new Album('C')
-      const root = new Album({albums: [c, a, b]})
-      root.finalize({sortAlbumsBy: 'title'})
+      const root = new Album({ albums: [c, a, b] })
+      root.finalize({ sortAlbumsBy: 'title' })
       should(root.albums).eql([a, b, c])
     })
 
@@ -149,8 +149,8 @@ describe('Album', function () {
       const startJan = albumWithFileDates(['2010-01-01', '2010-05-01'])
       const startFeb = albumWithFileDates(['2010-02-01', '2010-04-01'])
       const startMar = albumWithFileDates(['2010-03-01', '2010-03-01'])
-      const root = new Album({albums: [startFeb, startMar, startJan]})
-      root.finalize({sortAlbumsBy: 'start-date'})
+      const root = new Album({ albums: [startFeb, startMar, startJan] })
+      root.finalize({ sortAlbumsBy: 'start-date' })
       should(root.albums).eql([startJan, startFeb, startMar])
     })
 
@@ -158,32 +158,32 @@ describe('Album', function () {
       const endMay = albumWithFileDates(['2010-01-01', '2010-05-01'])
       const endApr = albumWithFileDates(['2010-02-01', '2010-04-01'])
       const endMar = albumWithFileDates(['2010-03-01', '2010-03-01'])
-      const root = new Album({albums: [endMay, endMar, endApr]})
-      root.finalize({sortAlbumsBy: 'end-date'})
+      const root = new Album({ albums: [endMay, endMar, endApr] })
+      root.finalize({ sortAlbumsBy: 'end-date' })
       should(root.albums).eql([endMar, endApr, endMay])
     })
 
     it('can sort media by filename', function () {
-      const a = fixtures.photo({path: 'a'})
-      const b = fixtures.photo({path: 'b'})
-      const c = fixtures.photo({path: 'c'})
-      const album = new Album({files: [c, a, b]})
-      album.finalize({sortMediaBy: 'filename'})
+      const a = fixtures.photo({ path: 'a' })
+      const b = fixtures.photo({ path: 'b' })
+      const c = fixtures.photo({ path: 'c' })
+      const album = new Album({ files: [c, a, b] })
+      album.finalize({ sortMediaBy: 'filename' })
       should(album.files).eql([a, b, c])
     })
 
     it('can sort media by reverse filename', function () {
-      const a = fixtures.photo({path: 'a'})
-      const b = fixtures.photo({path: 'b'})
-      const c = fixtures.photo({path: 'c'})
-      const album = new Album({files: [c, a, b]})
-      album.finalize({sortMediaBy: 'filename', sortMediaDirection: 'desc'})
+      const a = fixtures.photo({ path: 'a' })
+      const b = fixtures.photo({ path: 'b' })
+      const c = fixtures.photo({ path: 'c' })
+      const album = new Album({ files: [c, a, b] })
+      album.finalize({ sortMediaBy: 'filename', sortMediaDirection: 'desc' })
       should(album.files).eql([c, b, a])
     })
 
     it('can sort media by date', function () {
       const album = albumWithFileDates(['2010-10-15', '2010-01-01', '2010-03-24'])
-      album.finalize({sortMediaBy: 'date'})
+      album.finalize({ sortMediaBy: 'date' })
       const datesInAlbum = album.files.map(f => {
         return moment(f.meta.date).format('YYYY-MM-DD')
       })
@@ -191,13 +191,13 @@ describe('Album', function () {
     })
 
     it('sorts nested albums too', function () {
-      const nested = new Album({title: 'nested',
+      const nested = new Album({ title: 'nested',
         files: [
-          fixtures.photo({path: 'b'}),
-          fixtures.photo({path: 'a'})
-        ]})
-      const root = new Album({title: 'home', albums: [nested]})
-      root.finalize({sortMediaBy: 'filename'})
+          fixtures.photo({ path: 'b' }),
+          fixtures.photo({ path: 'a' })
+        ] })
+      const root = new Album({ title: 'home', albums: [nested] })
+      root.finalize({ sortMediaBy: 'filename' })
       should(nested.files[0].path).eql('a')
       should(nested.files[1].path).eql('b')
     })
@@ -233,13 +233,13 @@ describe('Album', function () {
     })
 
     it('passes finalising options to all nested albums (e.g. sorting)', function () {
-      const nested = new Album({title: 'nested',
+      const nested = new Album({ title: 'nested',
         files: [
-          fixtures.photo({path: 'b'}),
-          fixtures.photo({path: 'a'})
-        ]})
-      const root = new Album({title: 'home', albums: [nested]})
-      root.finalize({sortMediaBy: 'filename'})
+          fixtures.photo({ path: 'b' }),
+          fixtures.photo({ path: 'a' })
+        ] })
+      const root = new Album({ title: 'home', albums: [nested] })
+      root.finalize({ sortMediaBy: 'filename' })
       should(nested.files[0].path).eql('a')
       should(nested.files[1].path).eql('b')
     })
@@ -248,7 +248,7 @@ describe('Album', function () {
 
 function albumWithFileDates (dates) {
   const files = dates.map(function (d) {
-    return fixtures.photo({date: d})
+    return fixtures.photo({ date: d })
   })
-  return new Album({files: files})
+  return new Album({ files: files })
 }

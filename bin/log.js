@@ -57,7 +57,7 @@ function overrideDebugFormat () {
 */
 function configureDefaultMode (outputFolder) {
   const logfile = path.join(outputFolder, 'thumbsup.log')
-  const stream = fs.createWriteStream(logfile, {flags: 'a'})
+  const stream = fs.createWriteStream(logfile, { flags: 'a' })
   overrideDebugFormat()
   debug.enable('thumbsup:error,thumbsup:warn')
   debug.useColors = () => false

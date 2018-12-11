@@ -10,7 +10,7 @@ module.exports = function (n, block) {
   const data = require('handlebars').createFrame({})
   for (var i = 0; i < n; ++i) {
     data.index = i
-    accum += block.fn(this, {data: data})
+    accum += block.fn(this, { data: data })
   }
   return accum
 }

@@ -44,7 +44,7 @@ function createAlbumHierarchy (allGroupNames, segment) {
     // then create album if it doesn't exist
     // and attach it to its parent
     var lastSegment = path.basename(segment)
-    allGroupNames[segment] = new Album({title: lastSegment})
+    allGroupNames[segment] = new Album({ title: lastSegment })
     allGroupNames[parent].albums.push(allGroupNames[segment])
   }
 }

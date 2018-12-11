@@ -59,7 +59,7 @@ function createRenderingTasks (theme, album, gallery, breadcrumbs) {
 }
 
 function localThemePath (themeName) {
-  const local = resolvePkg(`@thumbsup/theme-${themeName}`, {cwd: __dirname})
+  const local = resolvePkg(`@thumbsup/theme-${themeName}`, { cwd: __dirname })
   if (!local) {
     throw new Error(`Could not find a built-in theme called ${themeName}`)
   }

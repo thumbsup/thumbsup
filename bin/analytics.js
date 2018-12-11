@@ -6,7 +6,7 @@ const pkg = require(path.join(__dirname, '..', 'package.json'))
 const TRACKING_CODE = 'UA-110087713-3'
 
 class Analytics {
-  constructor ({enabled}) {
+  constructor ({ enabled }) {
     this.enabled = enabled
     this.insight = new Insight({ trackingCode: TRACKING_CODE, pkg })
     this.insight.optOut = !enabled

@@ -19,7 +19,7 @@ describe('Handlebars helpers: times', () => {
 
   it('passes the context to the block', () => {
     const template = handlebars.compile(`{{#times 3}}{{hello}}{{/times}}`)
-    const res = template({hello: 'world'})
+    const res = template({ hello: 'world' })
     should(res).eql('worldworldworld')
   })
 

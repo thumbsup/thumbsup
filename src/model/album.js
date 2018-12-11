@@ -80,8 +80,8 @@ Album.prototype.calculateStats = function () {
   var nestedFromDates = _.map(this.albums, 'stats.fromDate')
   var nestedToDates = _.map(this.albums, 'stats.toDate')
   // current level
-  var currentPhotos = _.filter(this.files, {type: 'image'}).length
-  var currentVideos = _.filter(this.files, {type: 'video'}).length
+  var currentPhotos = _.filter(this.files, { type: 'image' }).length
+  var currentVideos = _.filter(this.files, { type: 'video' }).length
   var currentFromDate = _.map(this.files, 'meta.date')
   var currentToDate = _.map(this.files, 'meta.date')
   // aggregate all stats

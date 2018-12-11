@@ -8,25 +8,25 @@ describe('Handlebars helpers: slice', () => {
 
   it('renders the first N items of an array', () => {
     const template = handlebars.compile(`{{#slice list count=3}}{{.}}{{/slice}}`)
-    const res = template({list: list})
+    const res = template({ list: list })
     should(res).eql('123')
   })
 
   it('renders nothing if count=0', () => {
     const template = handlebars.compile(`{{#slice list count=0}}{{.}}{{/slice}}`)
-    const res = template({list: list})
+    const res = template({ list: list })
     should(res).eql('')
   })
 
   it('renders the whole array if count > length', () => {
     const template = handlebars.compile(`{{#slice list count=20}}{{.}}{{/slice}}`)
-    const res = template({list: list})
+    const res = template({ list: list })
     should(res).eql('123456789')
   })
 
   it('renders 1 item if count is not specified', () => {
     const template = handlebars.compile(`{{#slice list}}{{.}}{{/slice}}`)
-    const res = template({list: list})
+    const res = template({ list: list })
     should(res).eql('1')
   })
 })

@@ -57,7 +57,7 @@ exports.fromDisk = function (filename) {
 }
 
 exports.createTempStructure = function (files) {
-  const tmpdir = tmp.dirSync({unsafeCleanup: true}).name
+  const tmpdir = tmp.dirSync({ unsafeCleanup: true }).name
   _.each(files, (content, filepath) => {
     fs.ensureFileSync(`${tmpdir}/${filepath}`)
     fs.writeFileSync(`${tmpdir}/${filepath}`, content)

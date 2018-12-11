@@ -27,9 +27,9 @@ describe('Album', function () {
       it('calculates from/to dates', function () {
         const a = new Album({
           files: [
-            fixtures.photo({date: '2016-09-14'}),
-            fixtures.photo({date: '2016-09-02'}),
-            fixtures.photo({date: '2016-10-21'})
+            fixtures.photo({ date: '2016-09-14' }),
+            fixtures.photo({ date: '2016-09-02' }),
+            fixtures.photo({ date: '2016-10-21' })
           ]
         })
         a.finalize()
@@ -75,12 +75,12 @@ describe('Album', function () {
 
       it('calculates from/to dates across all albums', function () {
         const a = new Album({
-          files: [fixtures.photo({date: '2016-09-14'})],
+          files: [fixtures.photo({ date: '2016-09-14' })],
           albums: [
             new Album({
-              files: [fixtures.photo({date: '2016-09-02'})],
+              files: [fixtures.photo({ date: '2016-09-02' })],
               albums: [new Album({
-                files: [fixtures.photo({date: '2016-10-21'})]
+                files: [fixtures.photo({ date: '2016-10-21' })]
               })]
             })
           ]

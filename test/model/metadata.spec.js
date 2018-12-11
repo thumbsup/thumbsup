@@ -116,7 +116,7 @@ describe('Metadata', function () {
     it('can tell if a file is an animated gif', function () {
       const exiftool = fixtures.exiftool()
       exiftool.File.MIMEType = 'image/gif'
-      exiftool.GIF = {FrameCount: 10}
+      exiftool.GIF = { FrameCount: 10 }
       const meta = new Metadata(exiftool)
       should(meta.video).eql(false)
       should(meta.animated).eql(true)
@@ -175,7 +175,7 @@ describe('Metadata', function () {
 
     it('can read a single Picasa keywords', function () {
       const exiftool = fixtures.exiftool()
-      const picasa = {keywords: 'beach'}
+      const picasa = { keywords: 'beach' }
       const meta = new Metadata(exiftool, picasa)
       should(meta.keywords).eql(['beach'])
     })
@@ -183,7 +183,7 @@ describe('Metadata', function () {
     it('can read multiple Picasa keywords', function () {
       // because it's a simple INI file, multiple keywords are comma-separated
       const exiftool = fixtures.exiftool()
-      const picasa = {keywords: 'beach,sunset'}
+      const picasa = { keywords: 'beach,sunset' }
       const meta = new Metadata(exiftool, picasa)
       should(meta.keywords).eql(['beach', 'sunset'])
     })
@@ -213,7 +213,7 @@ describe('Metadata', function () {
 
     it('understands the Picasa <star> feature', function () {
       const exiftool = fixtures.exiftool()
-      const picasa = {star: 'yes'}
+      const picasa = { star: 'yes' }
       const meta = new Metadata(exiftool, picasa)
       should(meta.favourite).eql(true)
     })

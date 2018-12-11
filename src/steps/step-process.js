@@ -46,7 +46,7 @@ exports.create = function (files, opts, problems) {
           action: (done) => {
             fs.mkdirsSync(path.dirname(dest))
             debug(`${f.output[out].rel} from ${src} to ${dest}`)
-            return action({src: src, dest: dest}, err => {
+            return action({ src: src, dest: dest }, err => {
               if (err) {
                 error(`Error processing ${f.path} -> ${f.output[out].path}\n${err}`)
                 problems.addFile(f.path)

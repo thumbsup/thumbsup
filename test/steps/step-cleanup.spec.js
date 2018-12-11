@@ -20,8 +20,8 @@ describe('Steps: cleanup', () => {
 
   it('does nothing if there are no extra files', testEnd => {
     const input = [
-      fixtures.file({path: 'paris/IMG_0001.jpg'}),
-      fixtures.file({path: 'london/IMG_0002.jpg'})
+      fixtures.file({ path: 'paris/IMG_0001.jpg' }),
+      fixtures.file({ path: 'london/IMG_0002.jpg' })
     ]
     mock({
       'output/media/thumbs/paris/IMG_0001.jpg': '',
@@ -39,8 +39,8 @@ describe('Steps: cleanup', () => {
 
   it('deletes output files that are not linked to the input', testEnd => {
     const input = [
-      fixtures.file({path: 'paris/IMG_0001.jpg'}),
-      fixtures.file({path: 'london/IMG_0002.jpg'})
+      fixtures.file({ path: 'paris/IMG_0001.jpg' }),
+      fixtures.file({ path: 'london/IMG_0002.jpg' })
     ]
     mock({
       'output/media/large/paris/IMG_0001.jpg': '',

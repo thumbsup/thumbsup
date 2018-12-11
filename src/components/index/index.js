@@ -49,7 +49,7 @@ class Index {
       }
       // emit the final count
       const result = countStatement.get()
-      emitter.emit('done', {count: result.count})
+      emitter.emit('done', { count: result.count })
     }
 
     // find all files on disk
@@ -85,7 +85,7 @@ class Index {
         const timestamp = moment(entry.File.FileModifyDate, EXIF_DATE_FORMAT).valueOf()
         insertStatement.run(entry.SourceFile, timestamp, JSON.stringify(entry))
         ++processed
-        emitter.emit('progress', {path: entry.SourceFile, processed: processed, total: toProcess.length})
+        emitter.emit('progress', { path: entry.SourceFile, processed: processed, total: toProcess.length })
       }).on('end', finished)
     })
 

@@ -30,7 +30,7 @@ describe('Index', function () {
     emitter.on('done', result => {
       // check stats
       should(result.count).eql(2)
-      should(stats).eql({unchanged: 0, added: 2, modified: 0, deleted: 0, total: 2})
+      should(stats).eql({ unchanged: 0, added: 2, modified: 0, deleted: 0, total: 2 })
       // check all files were indexed
       const paths = emitted.map(e => e.path).sort()
       should(paths).eql([
@@ -58,7 +58,7 @@ describe('Index', function () {
     emitter.on('done', result => {
       // check stats
       should(result.count).eql(2)
-      should(stats).eql({unchanged: 2, added: 0, modified: 0, deleted: 0, total: 2})
+      should(stats).eql({ unchanged: 2, added: 0, modified: 0, deleted: 0, total: 2 })
       // all files are emitted, but they were not processed again
       should(emitted).eql(2)
       should(processed).eql(0)
@@ -79,7 +79,7 @@ describe('Index', function () {
     emitter.on('done', result => {
       // check stats
       should(result.count).eql(1)
-      should(stats).eql({unchanged: 1, added: 0, modified: 0, deleted: 1, total: 1})
+      should(stats).eql({ unchanged: 1, added: 0, modified: 0, deleted: 1, total: 1 })
       // the remaining file was emitted
       should(emitted).eql(1)
       should(processed).eql(0)

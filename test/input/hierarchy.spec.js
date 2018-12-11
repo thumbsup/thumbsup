@@ -25,7 +25,7 @@ describe('hierarchy', function () {
 
     it('can configure the homepage path', function () {
       const mapper = mockMapper(file => ['all'])
-      const home = hierarchy.createAlbums([], mapper, {index: 'default.html'})
+      const home = hierarchy.createAlbums([], mapper, { index: 'default.html' })
       should(home.path).eql('default.html')
       should(home.url).eql('default.html')
     })
@@ -36,8 +36,8 @@ describe('hierarchy', function () {
     emptyMappers.forEach(value => {
       it(`adds any photos mapped to <${value}> to the root gallery`, function () {
         const files = [
-          fixtures.photo({path: 'IMG_000001.jpg'}),
-          fixtures.photo({path: 'IMG_000002.jpg'})
+          fixtures.photo({ path: 'IMG_000001.jpg' }),
+          fixtures.photo({ path: 'IMG_000002.jpg' })
         ]
         const mapper = mockMapper(file => [value])
         const home = hierarchy.createAlbums(files, mapper)
@@ -52,8 +52,8 @@ describe('hierarchy', function () {
   describe('nested albums', function () {
     it('can group media into a single folder', function () {
       const files = [
-        fixtures.photo({path: 'IMG_000001.jpg'}),
-        fixtures.photo({path: 'IMG_000002.jpg'})
+        fixtures.photo({ path: 'IMG_000001.jpg' }),
+        fixtures.photo({ path: 'IMG_000002.jpg' })
       ]
       const mapper = mockMapper(file => ['all'])
       const home = hierarchy.createAlbums(files, mapper)
@@ -64,8 +64,8 @@ describe('hierarchy', function () {
 
     it('can group media into several folders', function () {
       const files = [
-        fixtures.photo({path: 'one/IMG_000001.jpg'}),
-        fixtures.photo({path: 'two/IMG_000002.jpg'})
+        fixtures.photo({ path: 'one/IMG_000001.jpg' }),
+        fixtures.photo({ path: 'two/IMG_000002.jpg' })
       ]
       const mapper = mockMapper(file => [path.dirname(file.path)])
       const home = hierarchy.createAlbums(files, mapper)
@@ -78,8 +78,8 @@ describe('hierarchy', function () {
 
     it('can group media into one nested folder', function () {
       const files = [
-        fixtures.photo({path: 'IMG_000001.jpg'}),
-        fixtures.photo({path: 'IMG_000002.jpg'})
+        fixtures.photo({ path: 'IMG_000001.jpg' }),
+        fixtures.photo({ path: 'IMG_000002.jpg' })
       ]
       const mapper = mockMapper(file => ['one/two'])
       const home = hierarchy.createAlbums(files, mapper)
@@ -92,8 +92,8 @@ describe('hierarchy', function () {
 
     it('can group media at different levels', function () {
       const files = [
-        fixtures.photo({path: 'one/IMG_000001.jpg'}),
-        fixtures.photo({path: 'one/two/IMG_000002.jpg'})
+        fixtures.photo({ path: 'one/IMG_000001.jpg' }),
+        fixtures.photo({ path: 'one/two/IMG_000002.jpg' })
       ]
       const mapper = mockMapper(file => [path.dirname(file.path)])
       const home = hierarchy.createAlbums(files, mapper)

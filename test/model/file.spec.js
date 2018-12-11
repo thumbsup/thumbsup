@@ -46,9 +46,9 @@ describe('File', function () {
   })
 
   it('has a boolean flag for videos to simplify templates', function () {
-    const photo = new File(dbFile({File: {MIMEType: 'image/jpeg'}}))
+    const photo = new File(dbFile({ File: { MIMEType: 'image/jpeg' } }))
     should(photo.isVideo).eql(false)
-    const video = new File(dbFile({File: {MIMEType: 'video/quicktime'}}))
+    const video = new File(dbFile({ File: { MIMEType: 'video/quicktime' } }))
     should(video.isVideo).eql(true)
   })
 })
