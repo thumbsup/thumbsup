@@ -9,6 +9,7 @@ A single photo/video could exist in multiple albums
 const _ = require('lodash')
 const path = require('path')
 const url = require('url')
+const slugify = require('slugify')
 var index = 0
 
 // number of images to show in the album preview grid
@@ -35,7 +36,7 @@ function Album (opts) {
   if (typeof opts === 'string') opts = { title: opts }
   this.id = opts.id || ++index
   this.title = opts.title || ('Album ' + this.id)
-  this.basename = sanitise(this.title)
+  this.basename = slugify(this.title)
   this.files = opts.files || []
   this.albums = opts.albums || []
   this.depth = 0
@@ -122,10 +123,6 @@ Album.prototype.pickPreviews = function () {
   for (var i = 0; i < missing; ++i) {
     this.previews.push(PREVIEW_MISSING)
   }
-}
-
-function sanitise (filename) {
-  return filename.replace(/[^a-z0-9-_]/ig, '')
 }
 
 function itemCount (count, type) {

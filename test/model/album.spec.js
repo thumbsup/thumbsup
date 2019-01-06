@@ -20,8 +20,8 @@ describe('Album', function () {
 
   describe('output paths', function () {
     it('sanitises album titles for the file name', function () {
-      const a = new Album('hello & world')
-      should(a.basename).eql('helloworld')
+      const a = new Album('& déjà vu')
+      should(a.basename).eql('and-deja-vu')
     })
 
     it('concatenates nested filenames for uniqueness', function () {

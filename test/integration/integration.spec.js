@@ -59,8 +59,8 @@ describe('Full integration', function () {
       assertExist(actualFiles, [
         'index.html',
         'london.html',
-        'newyork-day1.html',
-        'newyork-day2.html'
+        'newyork-day-1.html',
+        'newyork-day-2.html'
       ])
       // Thumbnails
       assertExist(actualFiles, [
