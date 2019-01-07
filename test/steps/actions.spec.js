@@ -115,8 +115,32 @@ describe('actions', () => {
     action(ANY_TASK, err => {
       should(err).eql(null)
       const downsizeArgs = shouldCallDownsize(downsize.video)
-      // video-processing doesn't support any arguments yet
-      should(downsizeArgs).eql({})
+      should(downsizeArgs).eql({
+        format: undefined,
+        quality: undefined,
+        bitrate: undefined
+      })
+      testEnd()
+    })
+  })
+
+  it('can specify options for video:resized', testEnd => {
+    const map = actions.createMap({
+      // note: some options are mutuqlly exclusive
+      // but this is OK for testing the mapping
+      videoFormat: 'mp4',
+      videoQuality: 75,
+      videoBitrate: '1200k'
+    })
+    const action = map['video:resized']
+    action(ANY_TASK, err => {
+      should(err).eql(null)
+      const downsizeArgs = shouldCallDownsize(downsize.video)
+      should(downsizeArgs).eql({
+        format: 'mp4',
+        quality: 75,
+        bitrate: '1200k'
+      })
       testEnd()
     })
   })

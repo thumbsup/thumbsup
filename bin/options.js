@@ -44,6 +44,24 @@ const OPTIONS = {
     type: 'number',
     'default': 90
   },
+  'video-quality': {
+    group: 'Output options:',
+    description: 'Quality of the converted video (percent)',
+    type: 'number',
+    'default': 75
+  },
+  'video-bitrate': {
+    group: 'Output options:',
+    description: 'Bitrate of the converted videos (e.g. 120k)',
+    type: 'string',
+    'default': null
+  },
+  'video-format': {
+    group: 'Output options:',
+    description: 'Video output format',
+    choices: ['mp4', 'webm'],
+    'default': 'mp4'
+  },
   'download-photos': {
     group: 'Output options:',
     description: 'Target of the photo download links',
@@ -282,6 +300,9 @@ exports.get = (args) => {
     thumbSize: opts['thumb-size'],
     largeSize: opts['large-size'],
     photoQuality: opts['photo-quality'],
+    videoQuality: opts['video-quality'],
+    videoBitrate: opts['video-bitrate'],
+    videoFormat: opts['video-format'],
     downloadPhotos: opts['download-photos'],
     downloadVideos: opts['download-videos'],
     downloadLinkPrefix: opts['download-link-prefix'],

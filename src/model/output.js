@@ -10,7 +10,7 @@ exports.paths = function (filepath, mediaType, opts) {
     items.download = download(filepath, opts['downloadPhotos'], opts['downloadLinkPrefix'], items.large)
     return items
   } else if (mediaType === 'video') {
-    const items = videoOutput(filepath)
+    const items = videoOutput(filepath, opts['videoFormat'])
     items.download = download(filepath, opts['downloadVideos'], opts['downloadLinkPrefix'], items.video)
     return items
   } else {
@@ -36,7 +36,7 @@ function imageOutput (filepath) {
   }
 }
 
-function videoOutput (filepath) {
+function videoOutput (filepath, videoFormat) {
   return {
     thumbnail: {
       path: 'media/thumbs/' + ext(filepath, 'jpg'),
@@ -47,7 +47,7 @@ function videoOutput (filepath) {
       rel: 'video:poster'
     },
     video: {
-      path: 'media/large/' + ext(filepath, 'mp4'),
+      path: 'media/large/' + ext(filepath, videoFormat),
       rel: 'video:resized'
     }
   }

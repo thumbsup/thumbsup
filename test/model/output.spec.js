@@ -94,7 +94,7 @@ describe('Output paths', function () {
     })
 
     it('generates a resized "web" video', function () {
-      const o = output.paths('holidays/seagull.mp4', 'video', {})
+      const o = output.paths('holidays/seagull.mp4', 'video', { videoFormat: 'mp4' })
       should(o.video).eql({
         path: 'media/large/holidays/seagull.mp4',
         rel: 'video:resized'
@@ -103,7 +103,8 @@ describe('Output paths', function () {
 
     it('can point downloads to the large version', function () {
       const o = output.paths('holidays/seagull.mp4', 'video', {
-        downloadVideos: 'large'
+        downloadVideos: 'large',
+        videoFormat: 'mp4'
       })
       should(o.download).eql({
         path: 'media/large/holidays/seagull.mp4',

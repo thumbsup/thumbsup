@@ -90,6 +90,9 @@ Output options:
   --thumb-size            Pixel size of the square thumbnails  [number] [default: 120]
   --large-size            Pixel height of the fullscreen photos  [number] [default: 1000]
   --photo-quality         Quality of the resized/converted photos  [number] [default: 90]
+  --video-quality         Quality of the converted video (percent)  [number] [default: 75]
+  --video-bitrate         Bitrate of the converted videos (e.g. 120k)  [string] [default: null]
+  --video-format          Video output format  [choices: "mp4", "webm"] [default: "mp4"]
   --download-photos       Target of the photo download links  [choices: "large", "copy", "symlink", "link"] [default: "large"]
   --download-videos       Target of the video download links  [choices: "large", "copy", "symlink", "link"] [default: "large"]
   --download-link-prefix  Path or URL prefix for linked downloads  [string]
@@ -115,7 +118,7 @@ Website options:
   --title                 Website title  [default: "Photo album"]
   --footer                Text or HTML footer  [default: null]
   --google-analytics      Code for Google Analytics tracking  [string]
-  --embed-exif            Embed exif metadata for each image into the gallery page (enable to use exif plugin) [boolean] [default: false]
+  --embed-exif            Embed the exif metadata for each image into the gallery page  [boolean] [default: false]
 
 Deprecated:
   --original-photos     Copy and allow download of full-size photos  [boolean] [default: false]
@@ -135,8 +138,6 @@ Options:
  The optional JSON config should contain a single object with one key
  per argument, not including the leading "--". For example:
  { "sort-albums-by": "start-date" }
-
-
 ```
 
 <!-- END cli -->
