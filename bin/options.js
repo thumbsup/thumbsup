@@ -23,6 +23,28 @@ const OPTIONS = {
   },
 
   // ------------------------------------
+  // Input options
+  // ------------------------------------
+  'include-photos': {
+    group: 'Input options:',
+    description: 'Include photos in the gallery',
+    type: 'boolean',
+    'default': true
+  },
+  'include-videos': {
+    group: 'Input options:',
+    description: 'Include videos in the gallery',
+    type: 'boolean',
+    'default': true
+  },
+  'include-raw-photos': {
+    group: 'Input options:',
+    description: 'Include raw photos in the gallery',
+    type: 'boolean',
+    'default': false
+  },
+
+  // ------------------------------------
   // Output options
   // ------------------------------------
 
@@ -295,6 +317,9 @@ exports.get = (args) => {
   return {
     input: opts['input'],
     output: opts['output'],
+    includePhotos: opts['include-photos'],
+    includeVideos: opts['include-videos'],
+    includeRawPhotos: opts['include-raw-photos'],
     cleanup: opts['cleanup'],
     title: opts['title'],
     thumbSize: opts['thumb-size'],

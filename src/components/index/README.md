@@ -9,7 +9,12 @@ const Index = require('./index/index')
 
 // index the contents of a folder
 const index = new Index('thumbsup.db')
-const emitter = index.update('/Volumes/photos')
+const emitter = index.update('/Volumes/photos', {
+  concurrency: 2,
+  includePhotos: true,
+  includeVideos: true,
+  includeRawPhotos: false,
+})
 
 // indexing stats
 // this happens before any new files are parsed for metadata

@@ -55,6 +55,7 @@ Thumbsup requires the following dependencies:
 And optionally:
 - [FFmpeg](http://www.ffmpeg.org/) to process videos: `brew install ffmpeg`
 - [Gifsicle](http://www.lcdf.org/gifsicle/) to process animated GIFs: `brew install gifsicle`
+- [dcraw](https://www.cybercom.net/~dcoffin/dcraw/) to process RAW photos: `brew install dcraw`
 
 You can run thumbsup as a Docker container ([thumbsupgallery/thumbsup](https://hub.docker.com/r/thumbsupgallery/thumbsup/)) which pre-packages all the dependencies above. Read the [thumbsup on Docker](https://thumbsup.github.io/docs/2-installation/docker/) documentation for more detail.
 
@@ -85,6 +86,11 @@ For the latest published version please refer to the [docs on the website](https
 Required:
   --input   Path to the folder with all photos/videos  [string] [required]
   --output  Output path for the static website  [string] [required]
+
+Input options:
+  --include-photos      Include photos in the gallery  [boolean] [default: true]
+  --include-videos      Include videos in the gallery  [boolean] [default: true]
+  --include-raw-photos  Include raw photos in the gallery  [boolean] [default: false]
 
 Output options:
   --thumb-size            Pixel size of the square thumbnails  [number] [default: 120]
@@ -120,6 +126,12 @@ Website options:
   --google-analytics      Code for Google Analytics tracking  [string]
   --embed-exif            Embed the exif metadata for each image into the gallery page  [boolean] [default: false]
 
+Misc options:
+  --config       JSON config file (one key per argument)  [string]
+  --log          Print a detailed text log  [choices: null, "info", "debug", "trace"] [default: null]
+  --usage-stats  Enable anonymous usage statistics  [boolean] [default: true]
+  --dry-run      Update the index, but don't create the media files / website  [boolean] [default: false]
+
 Deprecated:
   --original-photos     Copy and allow download of full-size photos  [boolean] [default: false]
   --original-videos     Copy and allow download of full-size videos  [boolean] [default: false]
@@ -127,12 +139,8 @@ Deprecated:
   --css                 Path to a custom provided CSS/LESS file for styling  [string]
 
 Options:
-  --version      Show version number  [boolean]
-  --help         Show help  [boolean]
-  --config       JSON config file (one key per argument)  [string]
-  --log          Print a detailed text log  [choices: null, "info", "debug", "trace"] [default: null]
-  --usage-stats  Enable anonymous usage statistics  [boolean] [default: true]
-  --dry-run      Update the index, but don't create the media files / website  [boolean] [default: false]
+  --version  Show version number  [boolean]
+  --help     Show help  [boolean]
 
 
  The optional JSON config should contain a single object with one key

@@ -21,7 +21,7 @@ class Index {
   /*
     Index all the files in <media> and store into <database>
   */
-  update (mediaFolder, concurrency) {
+  update (mediaFolder, options = {}) {
     // will emit many different events
     const emitter = new EventEmitter()
 
@@ -53,7 +53,7 @@ class Index {
     }
 
     // find all files on disk
-    globber.find(mediaFolder, (err, diskMap) => {
+    globber.find(mediaFolder, options, (err, diskMap) => {
       if (err) return console.error('error', err)
 
       // calculate the difference: which files have been added, modified, etc
@@ -80,7 +80,7 @@ class Index {
 
       // call <exiftool> on added and modified files
       // and write each entry to the database
-      const stream = exiftool.parse(mediaFolder, toProcess, concurrency)
+      const stream = exiftool.parse(mediaFolder, toProcess, options.concurrency)
       stream.on('data', entry => {
         const timestamp = moment(entry.File.FileModifyDate, EXIF_DATE_FORMAT).valueOf()
         insertStatement.run(entry.SourceFile, timestamp, JSON.stringify(entry))

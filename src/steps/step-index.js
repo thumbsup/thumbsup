@@ -19,7 +19,7 @@ exports.run = function (opts, callback) {
   return new Observable(observer => {
     const picasaReader = new Picasa()
     const index = new Index(path.join(opts.output, 'thumbsup.db'))
-    const emitter = index.update(opts.input, opts.concurrency)
+    const emitter = index.update(opts.input, opts)
     const files = []
 
     emitter.on('stats', stats => {

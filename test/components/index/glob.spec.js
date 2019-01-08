@@ -31,7 +31,7 @@ describe('Index: glob', function () {
       'media/IMG_0001.jpg': '...',
       'media/IMG_0002.jpg': '...'
     })
-    glob.find('media', (err, map) => {
+    glob.find('media', {}, (err, map) => {
       if (err) return done(err)
       const keys = Object.keys(map).sort()
       should(keys).eql([
@@ -47,7 +47,7 @@ describe('Index: glob', function () {
       'media/2016/June/IMG_0001.jpg': '...',
       'media/2017/IMG_0002.jpg': '...'
     })
-    glob.find('media', (err, map) => {
+    glob.find('media', {}, (err, map) => {
       if (err) return done(err)
       const keys = Object.keys(map).sort()
       should(keys).eql([
@@ -58,11 +58,66 @@ describe('Index: glob', function () {
     })
   })
 
+  it('includes photos and videos by default', (done) => {
+    mock({
+      'media/IMG_0001.jpg': '...',
+      'media/IMG_0002.mp4': '...'
+    })
+    glob.find('media', {}, (err, map) => {
+      if (err) return done(err)
+      const keys = Object.keys(map).sort()
+      should(keys).eql([
+        'IMG_0001.jpg',
+        'IMG_0002.mp4'
+      ])
+      done()
+    })
+  })
+
+  it('can excludes photos', (done) => {
+    mock({
+      'media/IMG_0001.jpg': '...',
+      'media/IMG_0002.mp4': '...'
+    })
+    glob.find('media', { includePhotos: false }, (err, map) => {
+      if (err) return done(err)
+      const keys = Object.keys(map).sort()
+      should(keys).eql(['IMG_0002.mp4'])
+      done()
+    })
+  })
+
+  it('can excludes videos', (done) => {
+    mock({
+      'media/IMG_0001.jpg': '...',
+      'media/IMG_0002.mp4': '...'
+    })
+    glob.find('media', { includeVideos: false }, (err, map) => {
+      if (err) return done(err)
+      const keys = Object.keys(map).sort()
+      should(keys).eql(['IMG_0001.jpg'])
+      done()
+    })
+  })
+
+  it('can include raw photos', (done) => {
+    mock({
+      'media/IMG_0001.jpg': '...',
+      'media/IMG_0002.cr2': '...'
+    })
+    glob.find('media', { includeRawPhotos: true }, (err, map) => {
+      if (err) return done(err)
+      const keys = Object.keys(map).sort()
+      should(keys).eql(['IMG_0001.jpg', 'IMG_0002.cr2'])
+      done()
+    })
+  })
+
   it('is case insensitive', (done) => {
     mock({
       'media/IMG_0001.JPG': '...'
     })
-    glob.find('media', (err, map) => {
+    glob.find('media', {}, (err, map) => {
       if (err) return done(err)
       const keys = Object.keys(map).sort()
       should(keys).eql([
@@ -79,7 +134,7 @@ describe('Index: glob', function () {
       'media/nested/.private/IMG_0003.jpg': '...',
       'media/just/a.dot/IMG_0004.jpg': '...'
     })
-    glob.find('media', (err, map) => {
+    glob.find('media', {}, (err, map) => {
       if (err) return done(err)
       const keys = Object.keys(map).sort()
       should(keys).eql([
@@ -95,7 +150,7 @@ describe('Index: glob', function () {
       'media/holidays/IMG_0001.jpg': '...',
       'media/holidays/@eaDir/IMG_0001.jpg': '...'
     })
-    glob.find('media', (err, map) => {
+    glob.find('media', {}, (err, map) => {
       if (err) return done(err)
       const keys = Object.keys(map).sort()
       should(keys).eql([
@@ -110,7 +165,7 @@ describe('Index: glob', function () {
       'media/holidays/IMG_0001.jpg': '...',
       'media/#recycle/IMG_0002.jpg': '...'
     })
-    glob.find('media', (err, map) => {
+    glob.find('media', {}, (err, map) => {
       if (err) return done(err)
       const keys = Object.keys(map).sort()
       should(keys).eql([
@@ -144,7 +199,7 @@ describe('Index: glob', function () {
         filename
       ]), '...')
     }
-    glob.find(tmpdir.name, (err, map) => {
+    glob.find(tmpdir.name, {}, (err, map) => {
       if (err) return done(err)
       const keys = Object.keys(map).sort()
       should(keys).eql([
@@ -165,7 +220,7 @@ describe('Index: glob', function () {
       }),
       'media/IMG_0002.jpg': '...'
     })
-    glob.find('media', (err, map) => {
+    glob.find('media', {}, (err, map) => {
       if (err) return done(err)
       const keys = Object.keys(map).sort()
       should(keys).eql([

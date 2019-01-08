@@ -31,6 +31,13 @@ const BINARIES = [
     cmd: 'gifsicle',
     url: 'http://www.lcdf.org/gifsicle',
     msg: 'You will not be able to process animated GIFs.'
+  },
+  {
+    // optional to process RAW photos
+    mandatory: false,
+    cmd: 'dcraw',
+    url: 'https://www.cybercom.net/~dcoffin/dcraw/',
+    msg: 'You will not be able to process RAW photos.'
   }
 ]
 
