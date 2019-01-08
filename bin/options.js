@@ -224,23 +224,27 @@ const OPTIONS = {
   // ------------------------------------
 
   'config': {
+    group: 'Misc options:',
     description: 'JSON config file (one key per argument)',
     normalize: true
   },
 
   'log': {
+    group: 'Misc options:',
     description: 'Print a detailed text log',
     choices: [null, 'info', 'debug', 'trace'],
     'default': null
   },
 
   'usage-stats': {
+    group: 'Misc options:',
     description: 'Enable anonymous usage statistics',
     type: 'boolean',
     'default': true
   },
 
   'dry-run': {
+    group: 'Misc options:',
     description: "Update the index, but don't create the media files / website",
     type: 'boolean',
     'default': false
