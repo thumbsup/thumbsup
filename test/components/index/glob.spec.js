@@ -26,6 +26,33 @@ describe('Index: glob', function () {
     require('micromatch').match('file.txt', '**/**')
   })
 
+  it('uses a valid glob pattern to filter files', () => {
+    const pattern = glob.globPattern({})
+    should(pattern).startWith('**/*.{')
+    should(pattern).endWith('}')
+  })
+
+  it('can include photo extensions', () => {
+    const pattern = glob.globPattern({ includePhotos: true, includeVideos: false, includeRawPhotos: false })
+    should(pattern.indexOf('jpg')).above(-1)
+    should(pattern.indexOf('mp4')).eql(-1)
+    should(pattern.indexOf('cr2')).eql(-1)
+  })
+
+  it('can include video extensions', () => {
+    const pattern = glob.globPattern({ includePhotos: false, includeVideos: true, includeRawPhotos: false })
+    should(pattern.indexOf('jpg')).eql(-1)
+    should(pattern.indexOf('mp4')).above(-1)
+    should(pattern.indexOf('cr2')).eql(-1)
+  })
+
+  it('can include raw photo extensions', () => {
+    const pattern = glob.globPattern({ includePhotos: false, includeVideos: false, includeRawPhotos: true })
+    should(pattern.indexOf('jpg')).eql(-1)
+    should(pattern.indexOf('mp4')).eql(-1)
+    should(pattern.indexOf('cr2')).above(-1)
+  })
+
   it('can list top-level images', (done) => {
     mock({
       'media/IMG_0001.jpg': '...',
