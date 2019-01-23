@@ -1,6 +1,6 @@
-const micromatch = require('micromatch')
 const readdir = require('readdir-enhanced')
 const warn = require('debug')('thumbsup:warn')
+const GlobPattern = require('./pattern')
 
 const PHOTO_EXT = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'tif', 'tiff', 'webp']
 const VIDEO_EXT = ['3gp', 'flv', 'm2ts', 'm4v', 'mkv', 'mp4', 'mov', 'mts', 'ogg', 'ogv', 'webm']
@@ -15,10 +15,14 @@ const RAW_PHOTO_EXT = [
 */
 exports.find = function (rootFolder, options, callback) {
   const entries = {}
-  const pattern = exports.globPattern(options)
+  const pattern = new GlobPattern({
+    include: (options.include && options.include.length > 0) ? options.include : '**/**',
+    exclude: options.exclude || [],
+    extensions: exports.supportedExtensions(options)
+  })
   const stream = readdir.readdirStreamStat(rootFolder, {
-    filter: entry => micromatch.match(entry.path, pattern, { nocase: true }).length !== 0,
-    deep: stats => canTraverse(stats.path),
+    filter: file => pattern.match(file.path),
+    deep: dir => pattern.canTraverse(dir.path),
     basePath: '',
     sep: '/'
   })
@@ -27,21 +31,10 @@ exports.find = function (rootFolder, options, callback) {
   stream.on('end', () => callback(null, entries))
 }
 
-exports.globPattern = function (options) {
+exports.supportedExtensions = function (options) {
   const extensions = []
   if (options.includePhotos !== false) Array.prototype.push.apply(extensions, PHOTO_EXT)
   if (options.includeVideos !== false) Array.prototype.push.apply(extensions, VIDEO_EXT)
   if (options.includeRawPhotos) Array.prototype.push.apply(extensions, RAW_PHOTO_EXT)
-  return '**/*.{' + extensions.join(',') + '}'
-}
-
-function canTraverse (folder) {
-  // ignore folders starting with '.'
-  // and thumbnail folders from Synology NAS
-  // it's better to skip them in the "traverse phase" than to remove them at the end
-  const match = micromatch.match(folder, '**/**', {
-    dot: false,
-    ignore: ['**/@eaDir', '#recycle']
-  })
-  return match.length > 0
+  return extensions
 }

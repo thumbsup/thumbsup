@@ -26,47 +26,37 @@ describe('Index: glob', function () {
     require('micromatch').match('file.txt', '**/**')
   })
 
-  it('uses a valid glob pattern to filter files', () => {
-    const pattern = glob.globPattern({})
-    should(pattern).startWith('**/*.{')
-    should(pattern).endWith('}')
-  })
-
   it('can include photo extensions', () => {
-    const pattern = glob.globPattern({ includePhotos: true, includeVideos: false, includeRawPhotos: false })
-    should(pattern.indexOf('jpg')).above(-1)
-    should(pattern.indexOf('mp4')).eql(-1)
-    should(pattern.indexOf('cr2')).eql(-1)
+    const ext = glob.supportedExtensions({ includePhotos: true, includeVideos: false, includeRawPhotos: false })
+    should(ext.indexOf('jpg')).above(-1)
+    should(ext.indexOf('mp4')).eql(-1)
+    should(ext.indexOf('cr2')).eql(-1)
   })
 
   it('can include video extensions', () => {
-    const pattern = glob.globPattern({ includePhotos: false, includeVideos: true, includeRawPhotos: false })
-    should(pattern.indexOf('jpg')).eql(-1)
-    should(pattern.indexOf('mp4')).above(-1)
-    should(pattern.indexOf('cr2')).eql(-1)
+    const ext = glob.supportedExtensions({ includePhotos: false, includeVideos: true, includeRawPhotos: false })
+    should(ext.indexOf('jpg')).eql(-1)
+    should(ext.indexOf('mp4')).above(-1)
+    should(ext.indexOf('cr2')).eql(-1)
   })
 
   it('can include raw photo extensions', () => {
-    const pattern = glob.globPattern({ includePhotos: false, includeVideos: false, includeRawPhotos: true })
-    should(pattern.indexOf('jpg')).eql(-1)
-    should(pattern.indexOf('mp4')).eql(-1)
-    should(pattern.indexOf('cr2')).above(-1)
+    const ext = glob.supportedExtensions({ includePhotos: false, includeVideos: false, includeRawPhotos: true })
+    should(ext.indexOf('jpg')).eql(-1)
+    should(ext.indexOf('mp4')).eql(-1)
+    should(ext.indexOf('cr2')).above(-1)
   })
 
-  it('can list top-level images', (done) => {
+  it('lists all images by default', (done) => {
     mock({
       'media/IMG_0001.jpg': '...',
       'media/IMG_0002.jpg': '...'
     })
-    glob.find('media', {}, (err, map) => {
-      if (err) return done(err)
-      const keys = Object.keys(map).sort()
-      should(keys).eql([
-        'IMG_0001.jpg',
-        'IMG_0002.jpg'
-      ])
-      done()
-    })
+    const options = {}
+    assertGlobReturns('media', options, [
+      'IMG_0001.jpg',
+      'IMG_0002.jpg'
+    ], done)
   })
 
   it('can list nested images', (done) => {
@@ -74,15 +64,11 @@ describe('Index: glob', function () {
       'media/2016/June/IMG_0001.jpg': '...',
       'media/2017/IMG_0002.jpg': '...'
     })
-    glob.find('media', {}, (err, map) => {
-      if (err) return done(err)
-      const keys = Object.keys(map).sort()
-      should(keys).eql([
-        '2016/June/IMG_0001.jpg',
-        '2017/IMG_0002.jpg'
-      ])
-      done()
-    })
+    const options = {}
+    assertGlobReturns('media', options, [
+      '2016/June/IMG_0001.jpg',
+      '2017/IMG_0002.jpg'
+    ], done)
   })
 
   it('includes photos and videos by default', (done) => {
@@ -90,28 +76,22 @@ describe('Index: glob', function () {
       'media/IMG_0001.jpg': '...',
       'media/IMG_0002.mp4': '...'
     })
-    glob.find('media', {}, (err, map) => {
-      if (err) return done(err)
-      const keys = Object.keys(map).sort()
-      should(keys).eql([
-        'IMG_0001.jpg',
-        'IMG_0002.mp4'
-      ])
-      done()
-    })
+    const options = {}
+    assertGlobReturns('media', options, [
+      'IMG_0001.jpg',
+      'IMG_0002.mp4'
+    ], done)
   })
 
-  it('can excludes photos', (done) => {
+  it('can exclude photos', (done) => {
     mock({
       'media/IMG_0001.jpg': '...',
       'media/IMG_0002.mp4': '...'
     })
-    glob.find('media', { includePhotos: false }, (err, map) => {
-      if (err) return done(err)
-      const keys = Object.keys(map).sort()
-      should(keys).eql(['IMG_0002.mp4'])
-      done()
-    })
+    const options = { includePhotos: false }
+    assertGlobReturns('media', options, [
+      'IMG_0002.mp4'
+    ], done)
   })
 
   it('can excludes videos', (done) => {
@@ -119,12 +99,10 @@ describe('Index: glob', function () {
       'media/IMG_0001.jpg': '...',
       'media/IMG_0002.mp4': '...'
     })
-    glob.find('media', { includeVideos: false }, (err, map) => {
-      if (err) return done(err)
-      const keys = Object.keys(map).sort()
-      should(keys).eql(['IMG_0001.jpg'])
-      done()
-    })
+    const options = { includeVideos: false }
+    assertGlobReturns('media', options, [
+      'IMG_0001.jpg'
+    ], done)
   })
 
   it('can include raw photos', (done) => {
@@ -132,26 +110,21 @@ describe('Index: glob', function () {
       'media/IMG_0001.jpg': '...',
       'media/IMG_0002.cr2': '...'
     })
-    glob.find('media', { includeRawPhotos: true }, (err, map) => {
-      if (err) return done(err)
-      const keys = Object.keys(map).sort()
-      should(keys).eql(['IMG_0001.jpg', 'IMG_0002.cr2'])
-      done()
-    })
+    const options = { includeRawPhotos: true }
+    assertGlobReturns('media', options, [
+      'IMG_0001.jpg',
+      'IMG_0002.cr2'
+    ], done)
   })
 
-  it('is case insensitive', (done) => {
+  it('is case insensitive for the extension', (done) => {
     mock({
       'media/IMG_0001.JPG': '...'
     })
-    glob.find('media', {}, (err, map) => {
-      if (err) return done(err)
-      const keys = Object.keys(map).sort()
-      should(keys).eql([
-        'IMG_0001.JPG'
-      ])
-      done()
-    })
+    const options = {}
+    assertGlobReturns('media', options, [
+      'IMG_0001.JPG'
+    ], done)
   })
 
   it('ignores any folder starting with a dot', (done) => {
@@ -161,15 +134,11 @@ describe('Index: glob', function () {
       'media/nested/.private/IMG_0003.jpg': '...',
       'media/just/a.dot/IMG_0004.jpg': '...'
     })
-    glob.find('media', {}, (err, map) => {
-      if (err) return done(err)
-      const keys = Object.keys(map).sort()
-      should(keys).eql([
-        'IMG_0001.jpg',
-        'just/a.dot/IMG_0004.jpg'
-      ])
-      done()
-    })
+    const options = {}
+    assertGlobReturns('media', options, [
+      'IMG_0001.jpg',
+      'just/a.dot/IMG_0004.jpg'
+    ], done)
   })
 
   it('ignores folders called @eaDir (Synology thumbnail folders)', (done) => {
@@ -177,14 +146,10 @@ describe('Index: glob', function () {
       'media/holidays/IMG_0001.jpg': '...',
       'media/holidays/@eaDir/IMG_0001.jpg': '...'
     })
-    glob.find('media', {}, (err, map) => {
-      if (err) return done(err)
-      const keys = Object.keys(map).sort()
-      should(keys).eql([
-        'holidays/IMG_0001.jpg'
-      ])
-      done()
-    })
+    const options = {}
+    assertGlobReturns('media', options, [
+      'holidays/IMG_0001.jpg'
+    ], done)
   })
 
   it('ignores root folders called #recycle (Synology recycle bin)', (done) => {
@@ -192,14 +157,36 @@ describe('Index: glob', function () {
       'media/holidays/IMG_0001.jpg': '...',
       'media/#recycle/IMG_0002.jpg': '...'
     })
-    glob.find('media', {}, (err, map) => {
-      if (err) return done(err)
-      const keys = Object.keys(map).sort()
-      should(keys).eql([
-        'holidays/IMG_0001.jpg'
-      ])
-      done()
+    const options = {}
+    assertGlobReturns('media', options, [
+      'holidays/IMG_0001.jpg'
+    ], done)
+  })
+
+  it('can specify an include pattern', (done) => {
+    mock({
+      'media/work/IMG_0001.jpg': '...',
+      'media/holidays/IMG_0002.jpg': '...'
     })
+    const options = {
+      include: [ 'holidays/**' ]
+    }
+    assertGlobReturns('media', options, [
+      'holidays/IMG_0002.jpg'
+    ], done)
+  })
+
+  it('can specify an exclude pattern', (done) => {
+    mock({
+      'media/work/IMG_0001.jpg': '...',
+      'media/holidays/IMG_0002.jpg': '...'
+    })
+    const options = {
+      exclude: [ 'work/**' ]
+    }
+    assertGlobReturns('media', options, [
+      'holidays/IMG_0002.jpg'
+    ], done)
   })
 
   it('ignores invalid file names', function (done) {
@@ -257,3 +244,12 @@ describe('Index: glob', function () {
     })
   })
 })
+
+function assertGlobReturns (root, options, expected, done) {
+  glob.find(root, options, (err, map) => {
+    if (err) return done(err)
+    const keys = Object.keys(map).sort()
+    should(keys).eql(expected)
+    done()
+  })
+}

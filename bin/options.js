@@ -43,6 +43,18 @@ const OPTIONS = {
     type: 'boolean',
     'default': false
   },
+  'include': {
+    group: 'Input options:',
+    description: 'Glob pattern of files to include',
+    type: 'array',
+    'default': false
+  },
+  'exclude': {
+    group: 'Input options:',
+    description: 'Glob pattern of files to exclude',
+    type: 'array',
+    'default': false
+  },
 
   // ------------------------------------
   // Output options
@@ -324,6 +336,8 @@ exports.get = (args) => {
     includePhotos: opts['include-photos'],
     includeVideos: opts['include-videos'],
     includeRawPhotos: opts['include-raw-photos'],
+    include: opts['include'],
+    exclude: opts['exclude'],
     cleanup: opts['cleanup'],
     title: opts['title'],
     thumbSize: opts['thumb-size'],
