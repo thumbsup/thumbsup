@@ -91,6 +91,8 @@ Input options:
   --include-photos      Include photos in the gallery  [boolean] [default: true]
   --include-videos      Include videos in the gallery  [boolean] [default: true]
   --include-raw-photos  Include raw photos in the gallery  [boolean] [default: false]
+  --include             Glob pattern of files to include  [array]
+  --exclude             Glob pattern of files to exclude  [array]
 
 Output options:
   --thumb-size            Pixel size of the square thumbnails  [number] [default: 120]

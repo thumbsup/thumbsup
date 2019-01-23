@@ -46,14 +46,12 @@ const OPTIONS = {
   'include': {
     group: 'Input options:',
     description: 'Glob pattern of files to include',
-    type: 'array',
-    'default': false
+    type: 'array'
   },
   'exclude': {
     group: 'Input options:',
     description: 'Glob pattern of files to exclude',
-    type: 'array',
-    'default': false
+    type: 'array'
   },
 
   // ------------------------------------
