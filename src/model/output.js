@@ -6,74 +6,67 @@ const BROWSER_SUPPORTED_EXT = /\.(jpg|jpeg|png|gif)$/i
 
 exports.paths = function (filepath, mediaType, opts) {
   if (mediaType === 'image') {
-    const items = imageOutput(filepath)
-    items.download = download(filepath, opts['downloadPhotos'], opts['downloadLinkPrefix'], items.large)
-    return items
+    return image(filepath, opts)
   } else if (mediaType === 'video') {
-    const items = videoOutput(filepath, opts['videoFormat'])
-    items.download = download(filepath, opts['downloadVideos'], opts['downloadLinkPrefix'], items.video)
-    return items
+    return video(filepath, opts)
   } else {
     warn(`Unsupported file type <${mediaType}> for ${filepath}`)
     return {}
   }
 }
 
-function imageOutput (filepath) {
+function image (filepath, opts) {
+  return {
+    thumbnail: relationship(filepath, 'photo:thumbnail'),
+    large: relationship(filepath, shortRel('image', opts.photoPreview), opts),
+    download: relationship(filepath, shortRel('image', opts.photoDownload), opts)
+  }
+}
+
+function video (filepath, opts) {
+  return {
+    thumbnail: relationship(filepath, 'video:thumbnail'),
+    large: relationship(filepath, 'video:poster'),
+    video: relationship(filepath, shortRel('video', opts.videoPreview), opts),
+    download: relationship(filepath, shortRel('video', opts.videoDownload), opts)
+  }
+}
+
+function shortRel (mediaType, shorthand) {
+  shorthand = shorthand || 'resize'
+  switch (shorthand) {
+    case 'resize': return mediaType === 'image' ? 'photo:large' : 'video:resized'
+    case 'copy': return 'fs:copy'
+    case 'symlink': return 'fs:symlink'
+    case 'link': return 'fs:link'
+    default: return null
+  }
+}
+
+function relationship (filepath, rel, options) {
+  return {
+    path: pathForRelationship(filepath, rel, options),
+    rel: rel
+  }
+}
+
+function pathForRelationship (filepath, rel, options) {
+  switch (rel) {
+    case 'photo:thumbnail': return 'media/thumbs/' + supportedPhotoFilename(filepath)
+    case 'photo:large': return 'media/large/' + supportedPhotoFilename(filepath)
+    case 'video:thumbnail': return 'media/thumbs/' + ext(filepath, 'jpg')
+    case 'video:poster': return 'media/large/' + ext(filepath, 'jpg')
+    case 'video:resized': return 'media/large/' + ext(filepath, options.videoFormat)
+    case 'fs:copy': return path.join('media', 'original', filepath)
+    case 'fs:symlink': return path.join('media', 'original', filepath)
+    case 'fs:link': return join(options.linkPrefix, filepath)
+    default: return null
+  }
+}
+
+function supportedPhotoFilename (filepath) {
   const extension = path.extname(filepath)
-  if (!extension.match(BROWSER_SUPPORTED_EXT)) {
-    filepath = ext(filepath, 'jpg')
-  }
-  return {
-    thumbnail: {
-      path: 'media/thumbs/' + filepath,
-      rel: 'photo:thumbnail'
-    },
-    large: {
-      path: 'media/large/' + filepath,
-      rel: 'photo:large'
-    }
-  }
-}
-
-function videoOutput (filepath, videoFormat) {
-  return {
-    thumbnail: {
-      path: 'media/thumbs/' + ext(filepath, 'jpg'),
-      rel: 'video:thumbnail'
-    },
-    large: {
-      path: 'media/large/' + ext(filepath, 'jpg'),
-      rel: 'video:poster'
-    },
-    video: {
-      path: 'media/large/' + ext(filepath, videoFormat),
-      rel: 'video:resized'
-    }
-  }
-}
-
-function download (filepath, downloadConfig, linkPrefix, largeVersion) {
-  switch (downloadConfig) {
-    case 'copy':
-      return {
-        path: path.join('media', 'original', filepath),
-        rel: 'fs:copy'
-      }
-    case 'symlink':
-      return {
-        path: path.join('media', 'original', filepath),
-        rel: 'fs:symlink'
-      }
-    case 'link':
-      return {
-        path: join(linkPrefix, filepath),
-        rel: 'fs:link'
-      }
-    case 'large':
-    default:
-      return largeVersion
-  }
+  return extension.match(BROWSER_SUPPORTED_EXT) ? filepath : ext(filepath, 'jpg')
 }
 
 function ext (file, ext) {

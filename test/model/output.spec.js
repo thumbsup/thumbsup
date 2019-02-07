@@ -21,7 +21,7 @@ describe('Output paths', function () {
 
     it('can point downloads to the large version', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
-        downloadPhotos: 'large'
+        photoDownload: 'resize'
       })
       should(o.download).eql({
         path: 'media/large/holidays/beach.jpg',
@@ -29,9 +29,19 @@ describe('Output paths', function () {
       })
     })
 
+    it('can point previews to a copy in the output folder', function () {
+      const o = output.paths('holidays/beach.jpg', 'image', {
+        photoPreview: 'copy'
+      })
+      should(o.large).eql({
+        path: 'media/original/holidays/beach.jpg',
+        rel: 'fs:copy'
+      })
+    })
+
     it('can point downloads to a copy in the output folder', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
-        downloadPhotos: 'copy'
+        photoDownload: 'copy'
       })
       should(o.download).eql({
         path: 'media/original/holidays/beach.jpg',
@@ -41,7 +51,7 @@ describe('Output paths', function () {
 
     it('can point downloads to a symlink to the originals', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
-        downloadPhotos: 'symlink'
+        photoDownload: 'symlink'
       })
       should(o.download).eql({
         path: 'media/original/holidays/beach.jpg',
@@ -51,8 +61,8 @@ describe('Output paths', function () {
 
     it('can point downloads to an existing link', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
-        downloadPhotos: 'link',
-        downloadLinkPrefix: '../myphotos'
+        photoDownload: 'link',
+        linkPrefix: '../myphotos'
       })
       should(o.download).eql({
         path: '../myphotos/holidays/beach.jpg',
@@ -103,7 +113,7 @@ describe('Output paths', function () {
 
     it('can point downloads to the large version', function () {
       const o = output.paths('holidays/seagull.mp4', 'video', {
-        downloadVideos: 'large',
+        videoDownload: 'resize',
         videoFormat: 'mp4'
       })
       should(o.download).eql({
@@ -114,7 +124,7 @@ describe('Output paths', function () {
 
     it('can point downloads to a copy in the output folder', function () {
       const o = output.paths('holidays/seagull.mp4', 'video', {
-        downloadVideos: 'copy'
+        videoDownload: 'copy'
       })
       should(o.download).eql({
         path: 'media/original/holidays/seagull.mp4',
@@ -122,9 +132,19 @@ describe('Output paths', function () {
       })
     })
 
+    it('can point previews to a copy in the output folder', function () {
+      const o = output.paths('holidays/seagull.mp4', 'video', {
+        videoPreview: 'copy'
+      })
+      should(o.video).eql({
+        path: 'media/original/holidays/seagull.mp4',
+        rel: 'fs:copy'
+      })
+    })
+
     it('can point downloads to a symlink to the originals', function () {
       const o = output.paths('holidays/seagull.mp4', 'video', {
-        downloadVideos: 'symlink'
+        videoDownload: 'symlink'
       })
       should(o.download).eql({
         path: 'media/original/holidays/seagull.mp4',
@@ -134,8 +154,8 @@ describe('Output paths', function () {
 
     it('can point downloads to an existing link', function () {
       const o = output.paths('holidays/seagull.mp4', 'video', {
-        downloadVideos: 'link',
-        downloadLinkPrefix: '../myphotos'
+        videoDownload: 'link',
+        linkPrefix: '../myphotos'
       })
       should(o.download).eql({
         path: '../myphotos/holidays/seagull.mp4',
@@ -147,8 +167,8 @@ describe('Output paths', function () {
   describe('Download links', function () {
     it('can use a relative link prefix', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
-        downloadPhotos: 'link',
-        downloadLinkPrefix: '../myphotos'
+        photoDownload: 'link',
+        linkPrefix: '../myphotos'
       })
       should(o.download).eql({
         path: '../myphotos/holidays/beach.jpg',
@@ -158,8 +178,8 @@ describe('Output paths', function () {
 
     it('can use a relative link prefix ending with a slash', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
-        downloadPhotos: 'link',
-        downloadLinkPrefix: '../myphotos/'
+        photoDownload: 'link',
+        linkPrefix: '../myphotos/'
       })
       should(o.download).eql({
         path: '../myphotos/holidays/beach.jpg',
@@ -169,8 +189,8 @@ describe('Output paths', function () {
 
     it('can use an absolute link prefix', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
-        downloadPhotos: 'link',
-        downloadLinkPrefix: '/Photos'
+        photoDownload: 'link',
+        linkPrefix: '/Photos'
       })
       should(o.download).eql({
         path: '/Photos/holidays/beach.jpg',
@@ -180,8 +200,8 @@ describe('Output paths', function () {
 
     it('can use an absolute link prefix ending with a slash', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
-        downloadPhotos: 'link',
-        downloadLinkPrefix: '/Photos/'
+        photoDownload: 'link',
+        linkPrefix: '/Photos/'
       })
       should(o.download).eql({
         path: '/Photos/holidays/beach.jpg',
@@ -191,8 +211,8 @@ describe('Output paths', function () {
 
     it('can use a URL prefix', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
-        downloadPhotos: 'link',
-        downloadLinkPrefix: 'http://mygallery.com/photos'
+        photoDownload: 'link',
+        linkPrefix: 'http://mygallery.com/photos'
       })
       should(o.download).eql({
         path: 'http://mygallery.com/photos/holidays/beach.jpg',
@@ -202,8 +222,8 @@ describe('Output paths', function () {
 
     it('can use a URL prefix ending with a slash', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
-        downloadPhotos: 'link',
-        downloadLinkPrefix: 'http://mygallery.com/photos/'
+        photoDownload: 'link',
+        linkPrefix: 'http://mygallery.com/photos/'
       })
       should(o.download).eql({
         path: 'http://mygallery.com/photos/holidays/beach.jpg',

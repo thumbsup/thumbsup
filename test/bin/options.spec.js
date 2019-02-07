@@ -53,22 +53,47 @@ describe('options', function () {
     it('--original-photos false', () => {
       const args = BASE_ARGS.concat(['--original-photos false'])
       const opts = options.get(args)
-      should(opts.downloadPhotos).eql('large')
+      should(opts.photoDownload).eql('resize')
     })
     it('--original-photos true', () => {
       const args = BASE_ARGS.concat(['--original-photos'])
       const opts = options.get(args)
-      should(opts.downloadPhotos).eql('copy')
+      should(opts.photoDownload).eql('copy')
     })
     it('--original-videos false', () => {
       const args = BASE_ARGS.concat(['--original-videos false'])
       const opts = options.get(args)
-      should(opts.downloadVideos).eql('large')
+      should(opts.videoDownload).eql('resize')
     })
     it('--original-videos true', () => {
       const args = BASE_ARGS.concat(['--original-videos'])
       const opts = options.get(args)
-      should(opts.downloadVideos).eql('copy')
+      should(opts.videoDownload).eql('copy')
+    })
+    it('--download-photos copy', () => {
+      const args = BASE_ARGS.concat(['--download-photos', 'copy'])
+      const opts = options.get(args)
+      should(opts.photoDownload).eql('copy')
+    })
+    it('--download-videos copy', () => {
+      const args = BASE_ARGS.concat(['--download-videos', 'copy'])
+      const opts = options.get(args)
+      should(opts.videoDownload).eql('copy')
+    })
+    it('--download-photos large', () => {
+      const args = BASE_ARGS.concat(['--download-photos', 'large'])
+      const opts = options.get(args)
+      should(opts.photoDownload).eql('resize')
+    })
+    it('--download-videos large', () => {
+      const args = BASE_ARGS.concat(['--download-videos', 'large'])
+      const opts = options.get(args)
+      should(opts.videoDownload).eql('resize')
+    })
+    it('--download-link-prefix url', () => {
+      const args = BASE_ARGS.concat(['--download-link-prefix', 'url'])
+      const opts = options.get(args)
+      should(opts.linkPrefix).eql('url')
     })
     it('--albums-from folders', () => {
       const args = BASE_ARGS.concat(['--albums-from', 'folders'])

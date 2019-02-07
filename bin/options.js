@@ -94,21 +94,33 @@ const OPTIONS = {
     choices: ['mp4', 'webm'],
     'default': 'mp4'
   },
-  'download-photos': {
+  'photo-preview': {
     group: 'Output options:',
-    description: 'Target of the photo download links',
-    choices: ['large', 'copy', 'symlink', 'link'],
-    'default': 'large'
+    description: 'How lightbox photos are generated',
+    choices: ['resize', 'copy', 'symlink', 'link'],
+    'default': 'resize'
   },
-  'download-videos': {
+  'video-preview': {
     group: 'Output options:',
-    description: 'Target of the video download links',
-    choices: ['large', 'copy', 'symlink', 'link'],
-    'default': 'large'
+    description: 'How lightbox videos are generated',
+    choices: ['resize', 'copy', 'symlink', 'link'],
+    'default': 'resize'
   },
-  'download-link-prefix': {
+  'photo-download': {
     group: 'Output options:',
-    description: 'Path or URL prefix for linked downloads',
+    description: 'How downloadable photos are generated',
+    choices: ['resize', 'copy', 'symlink', 'link'],
+    'default': 'resize'
+  },
+  'video-download': {
+    group: 'Output options:',
+    description: 'How downloadable videos are generated',
+    choices: ['resize', 'copy', 'symlink', 'link'],
+    'default': 'resize'
+  },
+  'link-prefix': {
+    group: 'Output options:',
+    description: 'Path or URL prefix for "linked" photos and videos',
     type: 'string'
   },
   'cleanup': {
@@ -267,14 +279,12 @@ const OPTIONS = {
   'original-photos': {
     group: 'Deprecated:',
     description: 'Copy and allow download of full-size photos',
-    type: 'boolean',
-    'default': false
+    type: 'boolean'
   },
   'original-videos': {
     group: 'Deprecated:',
     description: 'Copy and allow download of full-size videos',
-    type: 'boolean',
-    'default': false
+    type: 'boolean'
   },
   'albums-date-format': {
     group: 'Deprecated:',
@@ -285,6 +295,21 @@ const OPTIONS = {
     group: 'Deprecated:',
     description: 'Path to a custom provided CSS/LESS file for styling',
     normalize: true
+  },
+  'download-photos': {
+    group: 'Deprecated:',
+    description: 'Target of the photo download links',
+    choices: ['large', 'copy', 'symlink', 'link']
+  },
+  'download-videos': {
+    group: 'Deprecated:',
+    description: 'Target of the video download links',
+    choices: ['large', 'copy', 'symlink', 'link']
+  },
+  'download-link-prefix': {
+    group: 'Deprecated:',
+    description: 'Path or URL prefix for linked downloads',
+    type: 'string'
   }
 
 }
@@ -306,13 +331,18 @@ exports.get = (args) => {
   opts['output'] = path.resolve(opts['output'])
 
   // By default, use relative links to the input folder
-  if (!opts['download-link-prefix']) {
-    opts['download-link-prefix'] = path.relative(opts['output'], opts['input'])
+  if (opts['download-link-prefix']) opts['link-prefix'] = opts['download-link-prefix']
+  if (!opts['link-prefix']) {
+    opts['link-prefix'] = path.relative(opts['output'], opts['input'])
   }
 
   // Convert deprecated --download
   if (opts['original-photos']) opts['download-photos'] = 'copy'
   if (opts['original-videos']) opts['download-videos'] = 'copy'
+  if (opts['download-photos']) opts['photo-download'] = opts['download-photos']
+  if (opts['download-videos']) opts['video-download'] = opts['download-videos']
+  if (opts['photo-download'] === 'large') opts['photo-download'] = 'resize'
+  if (opts['video-download'] === 'large') opts['video-download'] = 'resize'
 
   // Convert deprecated --albums-from
   replaceInArray(opts['albums-from'], 'folders', '%path')
@@ -344,9 +374,11 @@ exports.get = (args) => {
     videoQuality: opts['video-quality'],
     videoBitrate: opts['video-bitrate'],
     videoFormat: opts['video-format'],
-    downloadPhotos: opts['download-photos'],
-    downloadVideos: opts['download-videos'],
-    downloadLinkPrefix: opts['download-link-prefix'],
+    photoPreview: opts['photo-preview'],
+    videoPreview: opts['video-preview'],
+    photoDownload: opts['photo-download'],
+    videoDownload: opts['video-download'],
+    linkPrefix: opts['link-prefix'],
     albumsFrom: opts['albums-from'],
     albumsDateFormat: opts['albums-date-format'],
     sortAlbumsBy: opts['sort-albums-by'],
