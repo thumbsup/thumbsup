@@ -288,8 +288,7 @@ const OPTIONS = {
   },
   'albums-date-format': {
     group: 'Deprecated:',
-    description: 'How albums are named in <date> mode [moment.js pattern]',
-    'default': 'YYYY-MM'
+    description: 'How albums are named in <date> mode [moment.js pattern]'
   },
   'css': {
     group: 'Deprecated:',
@@ -325,6 +324,14 @@ exports.get = (args) => {
     .options(OPTIONS)
     .epilogue(messages.CONFIG_USAGE())
     .argv
+
+  // Warn users when they use deprecated options
+  const deprecated = Object.keys(OPTIONS).filter(name => OPTIONS[name].group === 'Deprecated:')
+  const specified = deprecated.filter(name => opts[name] != undefined)
+  if (specified.length > 0) {
+    const warnings = specified.map(name => `Warning: --${name} is deprecated`)
+    console.error(warnings.join('\n') + '\n')
+  }
 
   // Make input/output folder absolute paths
   opts['input'] = path.resolve(opts['input'])
