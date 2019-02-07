@@ -327,7 +327,7 @@ exports.get = (args) => {
 
   // Warn users when they use deprecated options
   const deprecated = Object.keys(OPTIONS).filter(name => OPTIONS[name].group === 'Deprecated:')
-  const specified = deprecated.filter(name => opts[name] != undefined)
+  const specified = deprecated.filter(name => typeof opts[name] !== 'undefined')
   if (specified.length > 0) {
     const warnings = specified.map(name => `Warning: --${name} is deprecated`)
     console.error(warnings.join('\n') + '\n')
