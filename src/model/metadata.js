@@ -8,6 +8,7 @@ This is based on parsing "provider data" such as Exiftool or Picasa
 const moment = require('moment')
 const path = require('path')
 const Null = require('../input/metadata/null')
+const Instagram = require('../input/metadata/instagram')
 
 // mime type for videos
 const MIME_VIDEO_REGEX = /^video\/.*$/
@@ -26,6 +27,9 @@ class Metadata {
 
     // Parse metadata options
     let externalMeta = new Null()
+    if (opts.instagram) {
+      externalMeta = new Instagram(opts.instagram)
+    }
     // standardise metadata
     const sourceFile = exiftool.SourceFile
     this.date = externalMeta.getDate(sourceFile) || getDate(exiftool)
