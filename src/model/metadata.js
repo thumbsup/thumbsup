@@ -31,8 +31,9 @@ class Metadata {
     if (opts.instagram) {
       externalMeta = new Instagram(opts.instagram)
     } else if(opts.googlePhoto) {
-      externalMeta = new GooglePhoto()
+      externalMeta = new GooglePhoto(opts.input)
     }
+
     // standardise metadata
     const sourceFile = exiftool.SourceFile
     this.date = externalMeta.getDate(sourceFile) || getDate(exiftool)

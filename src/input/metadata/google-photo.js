@@ -5,6 +5,7 @@ Provides google photo metadata
 */
 
 const fs = require('fs')
+const path = require('path')
 
 /*
 photo filename: IMG_20190111_181110.jpg
@@ -52,11 +53,12 @@ json filename: IMG_20190111_181110.jpg.json
 }
 */
 class GooglePhoto {
-  constructor () {
+  constructor (inputDir) {
+    this.inputDir = inputDir
   }
   get (filePath, key) {
     // This could be cached (props?) as it will be used multiple time for each getXXX methods
-    const content = loadIfExists(filePath + '.json')
+    const content = loadIfExists(path.join(this.inputDir, filePath + '.json'))
     if (!content) return
     const data = JSON.parse(content)
     return data[key] || null
@@ -67,13 +69,7 @@ class GooglePhoto {
     return value.timestamp * 1000
   }
   getCaption (filePath) {
-    return get(filePath, 'description')
-  }
-  getCaptionJrmgx(filePath) {
-    const value = get(filePath, 'sharedAlbumComments')
-    if (!value) return
-    if (value.length <= 0) return
-    return value[0].text
+    return this.get(filePath, 'description')
   }
   getKeywords (filePath) {
     return null
