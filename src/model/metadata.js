@@ -7,6 +7,7 @@ This is based on parsing "provider data" such as Exiftool or Picasa
 
 const moment = require('moment')
 const path = require('path')
+const Null = require('../input/metadata/null')
 
 // mime type for videos
 const MIME_VIDEO_REGEX = /^video\/.*$/
@@ -21,15 +22,19 @@ const FILENAME_DATE_REGEX = /\d{4}[_\-.\s]?(\d{2}[_\-.\s]?){5}\..{3,4}/
 const FILENAME_DATE_FORMAT = 'YYYYMMDD HHmmss'
 
 class Metadata {
-  constructor (exiftool, picasa, opts) {
+  constructor (exiftool, opts) {
+
+    // Parse metadata options
+    let externalMeta = new Null()
     // standardise metadata
-    this.date = getDate(exiftool)
-    this.caption = caption(exiftool)
-    this.keywords = keywords(exiftool, picasa)
+    const sourceFile = exiftool.SourceFile
+    this.date = externalMeta.getDate(sourceFile) || getDate(exiftool)
+    this.caption = externalMeta.getCaption(sourceFile) || caption(exiftool)
+    this.keywords = externalMeta.getKeywords(sourceFile) || keywords(exiftool)
     this.video = video(exiftool)
     this.animated = animated(exiftool)
-    this.rating = rating(exiftool)
-    this.favourite = favourite(picasa)
+    this.rating = externalMeta.getLike(sourceFile) || rating(exiftool)
+    this.favourite = externalMeta.getFavorite(sourceFile)
     this.exif = opts ? (opts.embedExif ? exiftool.EXIF : undefined) : undefined
     // metadata could also include fields like
     //  - lat = 51.5
@@ -73,9 +78,8 @@ function getFilenameDate (exif) {
   return null
 }
 
-function caption (exif, picasa) {
-  return picasaValue(picasa, 'caption') ||
-         tagValue(exif, 'EXIF', 'ImageDescription') ||
+function caption (exif) {
+  return tagValue(exif, 'EXIF', 'ImageDescription') ||
          tagValue(exif, 'IPTC', 'Caption-Abstract') ||
          tagValue(exif, 'IPTC', 'Headline') ||
          tagValue(exif, 'XMP', 'Description') ||
@@ -83,10 +87,7 @@ function caption (exif, picasa) {
          tagValue(exif, 'XMP', 'Label')
 }
 
-function keywords (exif, picasa) {
-  // try Picasa (comma-separated)
-  const picasaValues = picasaValue(picasa, 'keywords')
-  if (picasaValues) return picasaValues.split(',')
+function keywords (exif) {
   // try IPTC (string or array)
   const iptcValues = tagValue(exif, 'IPTC', 'Keywords')
   if (iptcValues) return makeArray(iptcValues)
@@ -109,18 +110,9 @@ function rating (exif) {
   return exif.XMP['Rating'] || 0
 }
 
-function favourite (picasa) {
-  return picasaValue(picasa, 'star') === 'yes'
-}
-
 function tagValue (exif, type, name) {
   if (!exif[type]) return null
   return exif[type][name]
-}
-
-function picasaValue (picasa, name) {
-  if (typeof picasa !== 'object') return null
-  return picasa[name]
 }
 
 function makeArray (value) {
