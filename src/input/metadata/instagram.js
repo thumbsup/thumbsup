@@ -23,7 +23,8 @@ const moment = require('moment')
 
 class Instagram {
   constructor (mediaFile) {
-    const content = JSON.parse(fs.readFileSync(mediaFile, "UTF-8"))
+    // This could be cached (static?) as it needs to be read only once
+    const content = JSON.parse(fs.readFileSync(mediaFile, 'utf-8'))
     this.data = {}
     if (content.photos) {
       for (let entry of content.photos) {
