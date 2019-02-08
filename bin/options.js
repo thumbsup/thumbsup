@@ -68,11 +68,6 @@ const OPTIONS = {
     description: 'Automatically includes meta data from associated json file from Google Photo export',
     type: 'boolean'
   },
-  'picasa': {
-    group: 'Meta data provider (one of those, optional, exclusive):',
-    description: 'Automatically includes meta data from Picasa.ini files',
-    type: 'boolean'
-  },
 
   // ------------------------------------
   // Output options
@@ -353,7 +348,6 @@ exports.get = (args) => {
     output: opts['output'],
     instagram: opts['instagram'],
     googlePhoto: opts['google-photo'],
-    picasa: opts['picasa'],
     includePhotos: opts['include-photos'],
     includeVideos: opts['include-videos'],
     includeRawPhotos: opts['include-raw-photos'],
