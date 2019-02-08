@@ -94,6 +94,11 @@ Input options:
   --include             Glob pattern of files to include  [array]
   --exclude             Glob pattern of files to exclude  [array]
 
+Meta data provider (one of those, optional, exclusive):
+  --instagram     Path to the media.json file provided in the Instagram export  [string]
+  --google-photo  Path to the media.json file provided in the Google Photo export  [string]
+  --picasa        Automatically includes meta data from Picasa.ini files  [boolean]
+
 Output options:
   --thumb-size            Pixel size of the square thumbnails  [number] [default: 120]
   --large-size            Pixel height of the fullscreen photos  [number] [default: 1000]
