@@ -65,8 +65,8 @@ const OPTIONS = {
   },
   'google-photo': {
     group: 'Meta data provider (one of those, optional, exclusive):',
-    description: 'Path to the media.json file provided in the Google Photo export',
-    type: 'string'
+    description: 'Automatically includes meta data from associated json file from Google Photo export',
+    type: 'boolean'
   },
   'picasa': {
     group: 'Meta data provider (one of those, optional, exclusive):',

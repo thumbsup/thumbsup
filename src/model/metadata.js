@@ -1,7 +1,7 @@
 /*
 --------------------------------------------------------------------------------
 Standardised metadata for a given image or video
-This is based on parsing "provider data" such as Exiftool or Picasa
+This is based on parsing "provider data" such as Exiftool or External Meta Data
 --------------------------------------------------------------------------------
 */
 
@@ -9,6 +9,7 @@ const moment = require('moment')
 const path = require('path')
 const Null = require('../input/metadata/null')
 const Instagram = require('../input/metadata/instagram')
+const GooglePhoto = require('../input/metadata/google-photo')
 
 // mime type for videos
 const MIME_VIDEO_REGEX = /^video\/.*$/
@@ -29,6 +30,8 @@ class Metadata {
     let externalMeta = new Null()
     if (opts.instagram) {
       externalMeta = new Instagram(opts.instagram)
+    } else if(opts.googlePhoto) {
+      externalMeta = new GooglePhoto()
     }
     // standardise metadata
     const sourceFile = exiftool.SourceFile
