@@ -12,7 +12,9 @@ module.exports = (target, escape, options) => {
 
     // Escape single quotes
     if (escape) {
-        return relative.replace(/\'/g, "%27");
+      var escaped = relative.replace(/\'/g, "%27");
+      escaped = escaped.replace(/\"/g, "%22");
+      return escaped;
     } else {
         return relative;
     }
