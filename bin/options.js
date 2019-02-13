@@ -135,6 +135,12 @@ const OPTIONS = {
     type: 'number',
     'default': os.cpus().length
   },
+  'output-structure': {
+    group: 'Output options:',
+    description: 'File and folder structure for output media',
+    choices: ['folders', 'suffix'],
+    'default': 'folders'
+  },
   'gm-args': {
     group: 'Output options:',
     description: 'Custom image processing arguments for GraphicsMagick',
@@ -404,6 +410,7 @@ exports.get = (args) => {
     log: opts['log'],
     dryRun: opts['dry-run'],
     concurrency: opts['concurrency'],
+    outputStructure: opts['output-structure'],
     gmArgs: opts['gm-args'],
     watermark: opts['watermark'],
     watermarkPosition: opts['watermark-position'],
