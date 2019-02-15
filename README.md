@@ -108,6 +108,7 @@ Output options:
   --link-prefix         Path or URL prefix for "linked" photos and videos  [string]
   --cleanup             Remove any output file that's no longer needed  [boolean] [default: false]
   --concurrency         Number of parallel parsing/processing operations  [number] [default: 4]
+  --output-structure    File and folder structure for output media  [choices: "folders", "suffix"] [default: "folders"]
   --gm-args             Custom image processing arguments for GraphicsMagick  [array]
   --watermark           Path to a transparent PNG to be overlaid on all images  [string]
   --watermark-position  Position of the watermark  [choices: "Repeat", "Center", "NorthWest", "North", "NorthEast", "West", "East", "SouthWest", "South", "SouthEast"]
@@ -139,7 +140,7 @@ Misc options:
 Deprecated:
   --original-photos       Copy and allow download of full-size photos  [boolean]
   --original-videos       Copy and allow download of full-size videos  [boolean]
-  --albums-date-format    How albums are named in <date> mode [moment.js pattern]  [default: "YYYY-MM"]
+  --albums-date-format    How albums are named in <date> mode [moment.js pattern]
   --css                   Path to a custom provided CSS/LESS file for styling  [string]
   --download-photos       Target of the photo download links  [choices: "large", "copy", "symlink", "link"]
   --download-videos       Target of the video download links  [choices: "large", "copy", "symlink", "link"]
