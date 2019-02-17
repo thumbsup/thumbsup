@@ -231,4 +231,42 @@ describe('Output paths', function () {
       })
     })
   })
+
+  describe('Output structure', function () {
+    it('defaults to the <folders> structure', function () {
+      const o = output.paths('holidays/beach.jpg', 'image', {})
+      should(o.download).eql({
+        path: 'media/large/holidays/beach.jpg',
+        rel: 'photo:large'
+      })
+    })
+
+    it('can explicitely choose the <folders> structure', function () {
+      const o = output.paths('holidays/beach.jpg', 'image', {
+        outputStructure: 'folders'
+      })
+      should(o.download).eql({
+        path: 'media/large/holidays/beach.jpg',
+        rel: 'photo:large'
+      })
+    })
+
+    it('can choose the <suffix> structure', function () {
+      const o = output.paths('holidays/beach.jpg', 'image', {
+        outputStructure: 'suffix'
+      })
+      should(o.download).eql({
+        path: 'media/holidays/beach_jpg_large.jpg',
+        rel: 'photo:large'
+      })
+    })
+
+    it('throws an error for invalid values', function () {
+      should.throws(function () {
+        output.paths('holidays/beach.jpg', 'image', {
+          outputStructure: 'unknown'
+        })
+      }, /Invalid output structure: unknown/)
+    })
+  })
 })

@@ -24,4 +24,26 @@ describe('Handlebars helpers: relative', () => {
     })
     should(res).eql('<link rel="stylesheet" href="../public/theme.css" />')
   })
+
+  it('escapes single quotes so they can be used in CSS background-image', () => {
+    const template = handlebars.compile(`background-image('{{relative url}}')`)
+    const res = template({
+      url: "l'histoire.jpg",
+      album: {
+        path: 'index.html'
+      }
+    })
+    should(res).eql("background-image('l%27histoire.jpg')")
+  })
+
+  it('escapes double quotes so they can be used in <img> tags', () => {
+    const template = handlebars.compile(`<img src="{{relative url}}" />`)
+    const res = template({
+      url: 'l"histoire.jpg',
+      album: {
+        path: 'index.html'
+      }
+    })
+    should(res).eql('<img src="l%22histoire.jpg" />')
+  })
 })
