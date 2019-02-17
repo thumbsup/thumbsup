@@ -18,6 +18,7 @@ exports.paths = function (filepath, mediaType, opts) {
 function image (filepath, opts) {
   return {
     thumbnail: relationship(filepath, 'photo:thumbnail'),
+    thumbnailRectangular: relationship(filepath, 'photo:rectangularThumbnails'),
     large: relationship(filepath, shortRel('image', opts.photoPreview), opts),
     download: relationship(filepath, shortRel('image', opts.photoDownload), opts)
   }
@@ -26,6 +27,7 @@ function image (filepath, opts) {
 function video (filepath, opts) {
   return {
     thumbnail: relationship(filepath, 'video:thumbnail'),
+    thumbnailRectangular: relationship(filepath, 'video:rectangularThumbnails'),
     large: relationship(filepath, 'video:poster'),
     video: relationship(filepath, shortRel('video', opts.videoPreview), opts),
     download: relationship(filepath, shortRel('video', opts.videoDownload), opts)
@@ -53,8 +55,10 @@ function relationship (filepath, rel, options) {
 function pathForRelationship (filepath, rel, options) {
   switch (rel) {
     case 'photo:thumbnail': return 'media/thumbs/' + supportedPhotoFilename(filepath)
+    case 'photo:rectangularThumbnails': return 'media/thumbsRect/' + supportedPhotoFilename(filepath)
     case 'photo:large': return 'media/large/' + supportedPhotoFilename(filepath)
     case 'video:thumbnail': return 'media/thumbs/' + ext(filepath, 'jpg')
+    case 'video:rectangularThumbnails': return 'media/thumbsRect/' + ext(filepath, 'jpg')
     case 'video:poster': return 'media/large/' + ext(filepath, 'jpg')
     case 'video:resized': return 'media/large/' + ext(filepath, options.videoFormat)
     case 'fs:copy': return path.join('media', 'original', filepath)

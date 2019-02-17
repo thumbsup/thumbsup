@@ -1,8 +1,12 @@
 const downsize = require('thumbsup-downsize')
 const fs = require('fs-extra')
+const Theme = require('../website/theme')
 
 exports.createMap = function (opts) {
-  const thumbSize = opts.thumbSize || 120
+  const themeDir = opts.themePath || localThemePath(opts.theme)
+  const themeOpts = new Theme(themeDir, opts.output).loadPackageOptions()
+
+  const thumbSize = Math.max(opts.thumbSize || 120, themeOpts.defaultThumbnailSize || 120)
   const largeSize = opts.largeSize || 1000
   const defaultOptions = {
     quality: opts.photoQuality,
@@ -16,6 +20,9 @@ exports.createMap = function (opts) {
     height: thumbSize,
     width: thumbSize
   })
+  const rectangularThumbnails = Object.assign({}, defaultOptions, {
+    height: thumbSize
+  })
   const large = Object.assign({}, defaultOptions, {
     height: largeSize,
     watermark: watermark,
@@ -26,7 +33,8 @@ exports.createMap = function (opts) {
     quality: opts.videoQuality,
     bitrate: opts.videoBitrate
   }
-  return {
+
+  let actions = {
     'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),
     'fs:symlink': (task, done) => fs.symlink(task.src, task.dest, done),
     'photo:thumbnail': (task, done) => downsize.image(task.src, task.dest, thumbnail, done),
@@ -35,4 +43,11 @@ exports.createMap = function (opts) {
     'video:poster': (task, done) => downsize.still(task.src, task.dest, large, done),
     'video:resized': (task, done) => downsize.video(task.src, task.dest, videoOpts, done)
   }
+
+  if (themeOpts.rectangularThumbnails) {
+    actions['photo:rectangularThumbnails'] = (task, done) => downsize.image(task.src, task.dest, rectangularThumbnails, done)
+    actions['video:rectangularThumbnails'] = (task, done) => downsize.still(task.src, task.dest, rectangularThumbnails, done)
+  }
+
+  return actions
 }
