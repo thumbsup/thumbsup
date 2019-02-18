@@ -15,7 +15,7 @@ exports.paths = function (filepath, mediaType, opts) {
 function image (filepath, opts) {
   return {
     thumbnail: relationship(filepath, 'photo:thumbnail', opts),
-    rectangularThumbnails: relationship(filepath, 'photo:rectangularThumbnails', opts),
+    rectangularThumbnail: relationship(filepath, 'photo:rectangularThumbnail', opts),
     large: relationship(filepath, shortRel('image', opts.photoPreview), opts),
     download: relationship(filepath, shortRel('image', opts.photoDownload), opts)
   }
@@ -24,7 +24,7 @@ function image (filepath, opts) {
 function video (filepath, opts) {
   return {
     thumbnail: relationship(filepath, 'video:thumbnail', opts),
-    rectangularThumbnails: relationship(filepath, 'video:rectangularThumbnails', opts),
+    rectangularThumbnail: relationship(filepath, 'video:rectangularThumbnail', opts),
     large: relationship(filepath, 'video:poster', opts),
     video: relationship(filepath, shortRel('video', opts.videoPreview), opts),
     download: relationship(filepath, shortRel('video', opts.videoDownload), opts)

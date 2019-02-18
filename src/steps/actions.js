@@ -20,7 +20,7 @@ exports.createMap = function (opts) {
     height: thumbSize,
     width: thumbSize
   })
-  const rectangularThumbnails = Object.assign({}, defaultOptions, {
+  const rectangularThumbnail = Object.assign({}, defaultOptions, {
     height: thumbSize
   })
   const large = Object.assign({}, defaultOptions, {
@@ -44,9 +44,9 @@ exports.createMap = function (opts) {
     'video:resized': (task, done) => downsize.video(task.src, task.dest, videoOpts, done)
   }
 
-  if (themeOpts.rectangularThumbnails) {
-    actions['photo:rectangularThumbnails'] = (task, done) => downsize.image(task.src, task.dest, rectangularThumbnails, done)
-    actions['video:rectangularThumbnails'] = (task, done) => downsize.still(task.src, task.dest, rectangularThumbnails, done)
+  if (themeOpts.rectangularThumbnail) {
+    actions['photo:rectangularThumbnail'] = (task, done) => downsize.image(task.src, task.dest, rectangularThumbnail, done)
+    actions['video:rectangularThumbnail'] = (task, done) => downsize.still(task.src, task.dest, rectangularThumbnail, done)
   }
 
   return actions
