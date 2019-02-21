@@ -3,7 +3,7 @@ const warn = require('debug')('thumbsup:warn')
 const GlobPattern = require('./pattern')
 
 const PHOTO_EXT = ['bmp', 'gif', 'jpg', 'jpeg', 'png', 'tif', 'tiff', 'webp']
-const VIDEO_EXT = ['3gp', 'flv', 'm2ts', 'm4v', 'mkv', 'mp4', 'mov', 'mts', 'ogg', 'ogv', 'webm']
+const VIDEO_EXT = ['3gp', 'avi', 'flv', 'm2ts', 'm4v', 'mkv', 'mp4', 'mov', 'mts', 'ogg', 'ogv', 'webm', 'wmv']
 const RAW_PHOTO_EXT = [
   '3fr', 'arw', 'cr2', 'crw', 'dcr', 'dng', 'erf', 'k25', 'kdc',
   'mef', 'mrw', 'nef', 'orf', 'pef', 'raf', 'sr2', 'srf', 'x3f'
