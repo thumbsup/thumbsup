@@ -2,8 +2,6 @@ const downsize = require('thumbsup-downsize')
 const fs = require('fs-extra')
 
 exports.createMap = function (opts) {
-  const themeDir = opts.themePath || localThemePath(opts.theme)
-
   const thumbSize = opts.thumbSize || 120
   const largeSize = opts.largeSize || 1000
   const defaultOptions = {
@@ -32,7 +30,7 @@ exports.createMap = function (opts) {
     bitrate: opts.videoBitrate
   }
 
-  let actions = {
+  return {
     'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),
     'fs:symlink': (task, done) => fs.symlink(task.src, task.dest, done),
     'photo:thumbnail': (task, done) => downsize.image(task.src, task.dest, thumbnail, done),
@@ -43,6 +41,4 @@ exports.createMap = function (opts) {
     'video:poster': (task, done) => downsize.still(task.src, task.dest, large, done),
     'video:resized': (task, done) => downsize.video(task.src, task.dest, videoOpts, done),
   }
-
-  return actions
 }
