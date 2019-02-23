@@ -29,7 +29,6 @@ exports.createMap = function (opts) {
     quality: opts.videoQuality,
     bitrate: opts.videoBitrate
   }
-
   return {
     'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),
     'fs:symlink': (task, done) => fs.symlink(task.src, task.dest, done),
