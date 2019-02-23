@@ -1,12 +1,10 @@
 const downsize = require('thumbsup-downsize')
 const fs = require('fs-extra')
-const Theme = require('../website/theme')
 
 exports.createMap = function (opts) {
   const themeDir = opts.themePath || localThemePath(opts.theme)
-  const themeOpts = new Theme(themeDir, opts.output).loadPackageOptions()
 
-  const thumbSize = Math.max(opts.thumbSize || 120, themeOpts.defaultThumbnailSize || 120)
+  const thumbSize = opts.thumbSize || 120
   const largeSize = opts.largeSize || 1000
   const defaultOptions = {
     quality: opts.photoQuality,
@@ -20,7 +18,7 @@ exports.createMap = function (opts) {
     height: thumbSize,
     width: thumbSize
   })
-  const rectangularThumbnail = Object.assign({}, defaultOptions, {
+  const small = Object.assign({}, defaultOptions, {
     height: thumbSize
   })
   const large = Object.assign({}, defaultOptions, {
@@ -38,15 +36,12 @@ exports.createMap = function (opts) {
     'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),
     'fs:symlink': (task, done) => fs.symlink(task.src, task.dest, done),
     'photo:thumbnail': (task, done) => downsize.image(task.src, task.dest, thumbnail, done),
+    'photo:small': (task, done) => downsize.image(task.src, task.dest, small, done),
     'photo:large': (task, done) => downsize.image(task.src, task.dest, large, done),
     'video:thumbnail': (task, done) => downsize.still(task.src, task.dest, thumbnail, done),
+    'video:small': (task, done) => downsize.still(task.src, task.dest, small, done),
     'video:poster': (task, done) => downsize.still(task.src, task.dest, large, done),
-    'video:resized': (task, done) => downsize.video(task.src, task.dest, videoOpts, done)
-  }
-
-  if (themeOpts.rectangularThumbnail) {
-    actions['photo:rectangularThumbnail'] = (task, done) => downsize.image(task.src, task.dest, rectangularThumbnail, done)
-    actions['video:rectangularThumbnail'] = (task, done) => downsize.still(task.src, task.dest, rectangularThumbnail, done)
+    'video:resized': (task, done) => downsize.video(task.src, task.dest, videoOpts, done),
   }
 
   return actions
