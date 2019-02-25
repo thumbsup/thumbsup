@@ -18,7 +18,9 @@ const operators = {
   '<':   function (l, r) { return l < r   },
   '>':   function (l, r) { return l > r   },
   '<=':  function (l, r) { return l <= r  },
-  '>=':  function (l, r) { return l >= r  }
+  '>=':  function (l, r) { return l >= r  },
+  '||':  function (l, r) { return l || r  },
+  '&&':  function (l, r) { return l && r  }
 }
 /* eslint-enable */
 
