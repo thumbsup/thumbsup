@@ -54,6 +54,21 @@ const OPTIONS = {
     type: 'array'
   },
 
+  // ----------------------
+  // Meta Data input option
+  // ----------------------
+
+  'instagram': {
+    group: 'Meta data provider (one of those, optional, exclusive):',
+    description: 'Path to the media.json file provided in the Instagram export',
+    type: 'string'
+  },
+  'google-photo': {
+    group: 'Meta data provider (one of those, optional, exclusive):',
+    description: 'Automatically includes meta data from associated json file from Google Photo export',
+    type: 'boolean'
+  },
+
   // ------------------------------------
   // Output options
   // ------------------------------------
@@ -374,6 +389,8 @@ exports.get = (args) => {
   return {
     input: opts['input'],
     output: opts['output'],
+    instagram: opts['instagram'],
+    googlePhoto: opts['google-photo'],
     includePhotos: opts['include-photos'],
     includeVideos: opts['include-videos'],
     includeRawPhotos: opts['include-raw-photos'],

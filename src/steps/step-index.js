@@ -13,11 +13,9 @@ const Metadata = require('../model/metadata')
 const File = require('../model/file')
 const Observable = require('zen-observable')
 const path = require('path')
-const Picasa = require('../input/picasa')
 
 exports.run = function (opts, callback) {
   return new Observable(observer => {
-    const picasaReader = new Picasa()
     const index = new Index(path.join(opts.output, 'thumbsup.db'))
     const emitter = index.update(opts.input, opts)
     const files = []
@@ -38,8 +36,7 @@ exports.run = function (opts, callback) {
 
     // emitted for every file once indexing is finished
     emitter.on('file', file => {
-      const picasa = picasaReader.file(file.metadata.SourceFile)
-      const meta = new Metadata(file.metadata, picasa || {}, opts)
+      const meta = new Metadata(file.metadata, opts)
       const model = new File(file.metadata, meta, opts)
       // only include valid photos and videos (i.e. exiftool recognised the format)
       if (model.type !== 'unknown') {
