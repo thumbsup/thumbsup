@@ -218,4 +218,21 @@ describe('Metadata', function () {
       should(meta.favourite).eql(true)
     })
   })
+
+  describe('size', function () {
+    it('can get an image width and height', function () {
+      const exiftool = fixtures.exiftool()
+      exiftool.Composite = { ImageSize: '800x600' }
+      const meta = new Metadata(exiftool)
+      should(meta.width).eql(800)
+      should(meta.height).eql(600)
+    })
+
+    it('defaults to null otherwise', function () {
+      const exiftool = fixtures.exiftool()
+      const meta = new Metadata(exiftool)
+      should(meta.width).eql(null)
+      should(meta.width).eql(null)
+    })
+  })
 })

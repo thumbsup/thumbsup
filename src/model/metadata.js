@@ -30,6 +30,9 @@ class Metadata {
     this.animated = animated(exiftool)
     this.rating = rating(exiftool)
     this.favourite = favourite(picasa)
+    const size = dimensions(exiftool)
+    this.width = size.width
+    this.height = size.height
     this.exif = opts ? (opts.embedExif ? exiftool.EXIF : undefined) : undefined
     // metadata could also include fields like
     //  - lat = 51.5
@@ -125,6 +128,23 @@ function picasaValue (picasa, name) {
 
 function makeArray (value) {
   return Array.isArray(value) ? value : [value]
+}
+
+function dimensions (exif) {
+  // Use the Composite field to avoid having to check all possible tag groups (EXIF, QuickTime, ASF...)
+  if (!exif.Composite) {
+    return {
+      width: null,
+      height: null
+    }
+  } else {
+    const size = exif.Composite.ImageSize
+    const x = size.indexOf('x')
+    return {
+      width: parseInt(size.substr(0, x), 10),
+      height: parseInt(size.substr(x + 1), 10)
+    }
+  }
 }
 
 module.exports = Metadata
