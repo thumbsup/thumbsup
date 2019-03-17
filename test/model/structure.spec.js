@@ -17,6 +17,10 @@ describe('Structure', () => {
       should(folders('holidays/IMG_0001.jpg', 'fs:symlink')).startWith('media/')
     })
 
+    it('can be at the root', () => {
+      should(folders('IMG_0001.jpg', 'photo:thumbnail')).eql('media/thumbs/IMG_0001.jpg')
+    })
+
     it('adds thumbnails to a <thumbs> folder', () => {
       should(folders('holidays/IMG_0001.jpg', 'photo:thumbnail')).startWith('media/thumbs/holidays/')
       should(folders('holidays/IMG_0001.mp4', 'video:thumbnail')).startWith('media/thumbs/holidays/')
@@ -85,6 +89,10 @@ describe('Structure', () => {
       should(suffix('holidays/IMG_0001.mp4', 'video:resized')).startWith('media/')
       should(suffix('holidays/IMG_0001.jpg', 'fs:copy')).startWith('media/')
       should(suffix('holidays/IMG_0001.jpg', 'fs:symlink')).startWith('media/')
+    })
+
+    it('can be at the root', () => {
+      should(suffix('IMG_0001.jpg', 'photo:thumbnail')).eql('media/IMG_0001_jpg_thumb.jpg')
     })
 
     it('uses an _thumb suffix to denote thumbnails', () => {
