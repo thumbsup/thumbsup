@@ -61,6 +61,10 @@ Album.prototype.finalize = function (options, parent) {
     this.url = url.resolve(albumsOutputFolder + '/', this.basename + '.html')
     this.depth = parent.depth + 1
   }
+  // path to the optional ZIP file
+  if (options.albumZipFiles && this.files.length > 0) {
+    this.zip = this.path.replace(/\.[^\\/.]+$/, '.zip')
+  }
   // then finalize all nested albums (which uses the parent basename)
   for (var i = 0; i < this.albums.length; ++i) {
     this.albums[i].finalize(options, this)

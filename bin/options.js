@@ -194,6 +194,12 @@ const OPTIONS = {
     choices: ['asc', 'desc'],
     'default': 'asc'
   },
+  'album-zip-files': {
+    group: 'Album options:',
+    description: 'Create a ZIP file per album',
+    type: 'boolean',
+    'default': false
+  },
 
   // ------------------------------------
   // Website options
@@ -398,6 +404,7 @@ exports.get = (args) => {
     sortAlbumsDirection: opts['sort-albums-direction'],
     sortMediaBy: opts['sort-media-by'],
     sortMediaDirection: opts['sort-media-direction'],
+    albumZipFiles: opts['album-zip-files'],
     theme: opts['theme'],
     themePath: opts['theme-path'],
     themeStyle: opts['theme-style'],

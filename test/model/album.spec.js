@@ -244,6 +244,47 @@ describe('Album', function () {
       should(nested.files[1].path).eql('b')
     })
   })
+
+  describe('zip', function () {
+    it('is undefined if the option is not set', function () {
+      const a = new Album('Holidays')
+      should(a.zip).eql(undefined)
+    })
+
+    it('is undefined if the album has no direct files', function () {
+      const a = new Album('Holidays')
+      a.finalize({ albumZipFiles: true })
+      should(a.zip).eql(undefined)
+    })
+
+    it('points to a valid path if the album has direct files', function () {
+      const a = new Album({
+        title: 'Holidays',
+        files: [
+          fixtures.photo({ path: 'a' }),
+          fixtures.photo({ path: 'b' })
+        ]
+      })
+      a.finalize({ albumZipFiles: true })
+      should(a.zip).eql('index.zip')
+    })
+
+    it('is set for sub-albums as well', function () {
+      const london = new Album({
+        title: 'London',
+        files: [
+          fixtures.photo({ path: 'a' }),
+          fixtures.photo({ path: 'b' })
+        ]
+      })
+      const root = new Album({
+        title: 'Holidays',
+        albums: [london]
+      })
+      root.finalize({ albumZipFiles: true })
+      should(london.zip).eql('London.zip')
+    })
+  })
 })
 
 function albumWithFileDates (dates) {

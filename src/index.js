@@ -33,6 +33,14 @@ exports.build = function (opts, done) {
       }
     },
     {
+      title: 'Updating ZIP files',
+      enabled: (ctx) => opts.albumZipFiles,
+      skip: () => opts.dryRun,
+      task: (ctx) => {
+        return steps.zipAlbums(ctx.album, opts.output)
+      }
+    },
+    {
       title: 'Cleaning up',
       enabled: (ctx) => opts.cleanup,
       skip: () => opts.dryRun,
