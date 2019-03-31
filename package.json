@@ -35,6 +35,7 @@
     "@thumbsup/theme-cards": "^1.1.0",
     "@thumbsup/theme-classic": "^1.1.0",
     "@thumbsup/theme-mosaic": "^1.1.0",
+    "@thumbsup/theme-flow": "^1.2.1",
     "JSONStream": "^1.3.5",
     "async": "^2.5.0",
     "better-sqlite3": "^4.1.0",

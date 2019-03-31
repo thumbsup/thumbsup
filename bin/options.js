@@ -218,7 +218,7 @@ const OPTIONS = {
   'theme': {
     group: 'Website options:',
     description: 'Name of a built-in gallery theme',
-    choices: ['classic', 'cards', 'mosaic'],
+    choices: ['classic', 'cards', 'mosaic', 'flow'],
     'default': 'classic'
   },
   'theme-path': {
