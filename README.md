@@ -123,7 +123,7 @@ Album options:
 Website options:
   --index                 Filename of the home page  [default: "index.html"]
   --albums-output-folder  Output subfolder for HTML albums (default: website root)  [default: "."]
-  --theme                 Name of a built-in gallery theme  [choices: "classic", "cards", "mosaic"] [default: "classic"]
+  --theme                 Name of a built-in gallery theme  [choices: "classic", "cards", "mosaic", "flow"] [default: "classic"]
   --theme-path            Path to a custom theme  [string]
   --theme-style           Path to a custom LESS/CSS file for additional styles  [string]
   --title                 Website title  [default: "Photo album"]
