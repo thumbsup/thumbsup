@@ -57,12 +57,11 @@ class Theme {
     }
   }
 
-  // return a function that renders the given album HTML page
-  // this is used so that all pages can be created in parallel
-  render (album, data, next) {
-    const fullPath = path.join(this.dest, album.path)
-    debug(`Theme rendering ${album.path}`)
-    const contents = this.template(Object.assign({ album: album }, data))
+  // renders the given album HTML page
+  render (targetPath, data, next) {
+    const fullPath = path.join(this.dest, targetPath)
+    debug(`Theme rendering ${targetPath}`)
+    const contents = this.template(data)
     fs.mkdirpSync(path.dirname(fullPath))
     fs.writeFile(fullPath, contents, next)
   }

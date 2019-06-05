@@ -233,7 +233,7 @@ function renderTheme (theme, album, next) {
   theme.validateStructure()
   theme.prepare(err => {
     should(err).be.null()
-    theme.render(album, {}, err => {
+    theme.render(album.path, { album: album }, err => {
       should(err).be.null()
       next()
     })

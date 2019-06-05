@@ -231,6 +231,11 @@ const OPTIONS = {
     description: 'Path to a custom LESS/CSS file for additional styles',
     normalize: true
   },
+  'theme-settings': {
+    group: 'Website options:',
+    description: 'Path to a JSON file with theme settings',
+    normalize: true
+  },
   'title': {
     group: 'Website options:',
     description: 'Website title',
@@ -408,6 +413,7 @@ exports.get = (args) => {
     theme: opts['theme'],
     themePath: opts['theme-path'],
     themeStyle: opts['theme-style'],
+    themeSettings: opts['theme-settings'],
     css: opts['css'],
     googleAnalytics: opts['google-analytics'],
     index: opts['index'],

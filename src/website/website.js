@@ -1,3 +1,4 @@
+const fs = require('fs')
 const path = require('path')
 const async = require('async')
 const resolvePkg = require('resolve-pkg')
@@ -18,9 +19,12 @@ exports.build = function (rootAlbum, opts, callback) {
     customStylesPath: opts.themeStyle
   })
 
+  // custom theme settings
+  const settings = readThemeSettings(opts.themeSettings)
+
   // and finally render each page
   const gallery = galleryModel(rootAlbum, opts)
-  const tasks = createRenderingTasks(theme, rootAlbum, gallery, [])
+  const tasks = createRenderingTasks(theme, rootAlbum, gallery, settings, [])
 
   // now build everything
   async.series([
@@ -41,18 +45,20 @@ function galleryModel (rootAlbum, opts) {
   }
 }
 
-function createRenderingTasks (theme, album, gallery, breadcrumbs) {
+function createRenderingTasks (theme, album, gallery, settings, breadcrumbs) {
   // a function to render this album
   const thisAlbumTask = next => {
-    theme.render(album, {
+    theme.render(album.path, {
+      settings: settings,
       gallery: gallery,
-      breadcrumbs: breadcrumbs
+      breadcrumbs: breadcrumbs,
+      album: album
     }, next)
   }
   const tasks = [thisAlbumTask]
   // and all nested albums
   album.albums.forEach(function (nested) {
-    const nestedTasks = createRenderingTasks(theme, nested, gallery, breadcrumbs.concat([album]))
+    const nestedTasks = createRenderingTasks(theme, nested, gallery, settings, breadcrumbs.concat([album]))
     Array.prototype.push.apply(tasks, nestedTasks)
   })
   return tasks
@@ -64,4 +70,16 @@ function localThemePath (themeName) {
     throw new Error(`Could not find a built-in theme called ${themeName}`)
   }
   return local
+}
+
+function readThemeSettings (filepath) {
+  if (!filepath) {
+    return {}
+  }
+  const content = fs.readFileSync(filepath).toString()
+  try {
+    return JSON.parse(content)
+  } catch (ex) {
+    throw new Error('Failed to parse JSON theme settings file: ' + filepath)
+  }
 }

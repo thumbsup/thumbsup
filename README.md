@@ -119,6 +119,7 @@ Album options:
   --sort-albums-direction  Album sorting direction  [choices: "asc", "desc"] [default: "asc"]
   --sort-media-by          How to sort photos and videos  [choices: "filename", "date"] [default: "date"]
   --sort-media-direction   Media sorting direction  [choices: "asc", "desc"] [default: "asc"]
+  --album-zip-files        Create a ZIP file per album  [boolean] [default: false]
 
 Website options:
   --index                 Filename of the home page  [default: "index.html"]
@@ -126,6 +127,7 @@ Website options:
   --theme                 Name of a built-in gallery theme  [choices: "classic", "cards", "mosaic", "flow"] [default: "classic"]
   --theme-path            Path to a custom theme  [string]
   --theme-style           Path to a custom LESS/CSS file for additional styles  [string]
+  --theme-settings        Path to a JSON file with theme settings  [string]
   --title                 Website title  [default: "Photo album"]
   --footer                Text or HTML footer  [default: null]
   --google-analytics      Code for Google Analytics tracking  [string]
