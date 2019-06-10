@@ -58,7 +58,7 @@
     "resolve-pkg": "^2.0.0",
     "slugify": "^1.3.4",
     "through2": "^3.0.1",
-    "thumbsup-downsize": "^2.2.1",
+    "thumbsup-downsize": "^2.3.0",
     "url-join": "^4.0.0",
     "yargs": "^13.2.4",
     "zen-observable": "^0.8.14"
