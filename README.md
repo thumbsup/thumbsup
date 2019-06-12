@@ -45,6 +45,12 @@ thumbsup --input ./photos --output ./gallery
 There are many command line arguments to customise the output.
 See the website for the full documentation: https://thumbsup.github.io.
 
+## Sample gallery
+
+See a sample gallery online at https://thumbsup.github.io/demos/themes/mosaic/
+
+![sample gallery](docs/screenshot.png)
+
 ## Requirements
 
 Thumbsup requires the following dependencies:
@@ -63,12 +69,6 @@ You can run thumbsup as a Docker container ([thumbsupgallery/thumbsup](https://h
 ```bash
 docker run -v `pwd`:/work thumbsupgallery/thumbsup [...]
 ```
-
-## Sample gallery
-
-See a sample gallery online at https://thumbsup.github.io/demos/themes/mosaic/
-
-![sample gallery](docs/screenshot.png)
 
 ## Command line arguments
 
