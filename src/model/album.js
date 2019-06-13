@@ -14,6 +14,7 @@ var index = 0
 
 // number of images to show in the album preview grid
 const PREVIEW_COUNT = 10
+const SLUGIFY_OPTIONS = { replacement: '-', remove: /[*+~.()'"!:@]/g }
 
 const SORT_ALBUMS_BY = {
   'title': function (album) { return album.title },
@@ -36,7 +37,7 @@ function Album (opts) {
   if (typeof opts === 'string') opts = { title: opts }
   this.id = opts.id || ++index
   this.title = opts.title || ('Album ' + this.id)
-  this.basename = slugify(this.title)
+  this.basename = slugify(this.title, SLUGIFY_OPTIONS)
   this.files = opts.files || []
   this.albums = opts.albums || []
   this.depth = 0

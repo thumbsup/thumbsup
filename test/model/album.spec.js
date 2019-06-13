@@ -24,6 +24,17 @@ describe('Album', function () {
       should(a.basename).eql('and-deja-vu')
     })
 
+    it('sanitises more special characters than the slugify() default', function () {
+      const a = new Album(`hello*+~.()'"!:@world`)
+      should(a.basename).eql('helloworld')
+    })
+
+    it('doesn\'t use a dash if the words have no space', function () {
+      // not ideal but that's hoz slugify() works
+      const a = new Album("aujourd'hui")
+      should(a.basename).eql('aujourdhui')
+    })
+
     it('concatenates nested filenames for uniqueness', function () {
       // to avoid having two nested albums called "October" overwrite each other
       // note: doesn't use the root title to avoid "home-" or "index-"
