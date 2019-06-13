@@ -5,7 +5,7 @@ const Problems = require('./problems')
 
 exports.build = function (opts, done) {
   // How to render tasks
-  const renderer = (!opts.log) ? 'update' : 'verbose'
+  const renderer = (opts.log === 'default') ? 'update' : 'verbose'
   // List of high level tasks
   const tasks = new Listr([
     {

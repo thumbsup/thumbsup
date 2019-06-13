@@ -27,12 +27,12 @@ const tty = require('tty')
 exports.init = (logLevel, outputFolder) => {
   // if the output doesn't support ANSI codes (e.g. pipe, redirect to file)
   // then switch to full-text mode, because Listr's output won't make much sense
-  if (!logLevel && !tty.isatty(process.stdout.fd)) {
+  if (logLevel === 'default' && !tty.isatty(process.stdout.fd)) {
     logLevel = 'info'
   }
 
   // Configure the loggers
-  if (!logLevel) {
+  if (logLevel === 'default') {
     configureDefaultMode(outputFolder)
   } else {
     configureDebugMode(logLevel)

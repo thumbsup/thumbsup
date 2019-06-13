@@ -271,8 +271,8 @@ const OPTIONS = {
   'log': {
     group: 'Misc options:',
     description: 'Print a detailed text log',
-    choices: [null, 'info', 'debug', 'trace'],
-    'default': null
+    choices: ['default', 'info', 'debug', 'trace'],
+    'default': 'default'
   },
 
   'usage-stats': {

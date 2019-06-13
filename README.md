@@ -136,7 +136,7 @@ Website options:
 
 Misc options:
   --config       JSON config file (one key per argument)  [string]
-  --log          Print a detailed text log  [choices: null, "info", "debug", "trace"] [default: null]
+  --log          Print a detailed text log  [choices: "default", "info", "debug", "trace"] [default: "default"]
   --usage-stats  Enable anonymous usage statistics  [boolean] [default: true]
   --dry-run      Update the index, but don't create the media files / website  [boolean] [default: false]
 
