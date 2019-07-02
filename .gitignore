@@ -5,4 +5,4 @@ test-snapshot/output-expected/public
 test-snapshot/output-expected/metadata.json
 .DS_Store
 thumbsup.db
-tmp
+tmp*
