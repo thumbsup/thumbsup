@@ -5,18 +5,18 @@ exports.createAlbums = function (collection, mapper, opts) {
   // returns a top-level album for the home page
   // under which all files are grouped into sub-albums
   // and finalised recursively (calculate stats, etc...)
-  const home = group(collection, mapper)
+  const home = group(collection, mapper, opts.homeAlbumName)
   home.finalize(opts)
   return home
 }
 
-function group (collection, mapper) {
+function group (collection, mapper, homeAlbumName) {
   // this hashtable will contain all albums, with the full path as key
   // e.g. groups['holidays/tokyo']
   var groups = {
     // the home album is indexed as '.'
     // the value of '.' is local to this function, and doesn't appear anywhere else
-    '.': new Album('Home')
+    '.': new Album(homeAlbumName)
   }
   // put all files in the right albums
   // a file can be in multiple albums

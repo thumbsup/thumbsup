@@ -24,6 +24,7 @@ describe('Full integration', function () {
       input: path.join(tmpdir, 'input'),
       output: path.join(tmpdir, 'output'),
       title: 'Photo album',
+      homeAlbumName: 'Home',
       theme: 'classic',
       log: 'info'
     }

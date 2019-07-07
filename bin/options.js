@@ -194,6 +194,12 @@ const OPTIONS = {
     choices: ['asc', 'desc'],
     'default': 'asc'
   },
+  'home-album-name': {
+    group: 'Album options:',
+    description: 'Name of the top-level album',
+    type: 'string',
+    'default': 'Home'
+  },
   'album-zip-files': {
     group: 'Album options:',
     description: 'Create a ZIP file per album',
@@ -409,6 +415,7 @@ exports.get = (args) => {
     sortAlbumsDirection: opts['sort-albums-direction'],
     sortMediaBy: opts['sort-media-by'],
     sortMediaDirection: opts['sort-media-direction'],
+    homeAlbumName: opts['home-album-name'],
     albumZipFiles: opts['album-zip-files'],
     theme: opts['theme'],
     themePath: opts['theme-path'],
