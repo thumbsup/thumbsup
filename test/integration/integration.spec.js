@@ -3,6 +3,7 @@ const glob = require('glob')
 const path = require('path')
 const should = require('should/as-function')
 const fixtures = require('../fixtures')
+const options = require('../../bin/options')
 const index = require('../../src/index')
 
 describe('Full integration', function () {
@@ -10,7 +11,7 @@ describe('Full integration', function () {
   this.timeout(5000)
 
   var tmpdir = null
-  var options = null
+  var opts = null
 
   before(() => {
     const image = fixtures.fromDisk('photo.jpg')
@@ -20,14 +21,14 @@ describe('Full integration', function () {
       'input/newyork/day 1/IMG_0003.jpg': image,
       'input/newyork/day 2/IMG_0004.jpg': image
     })
-    options = {
-      input: path.join(tmpdir, 'input'),
-      output: path.join(tmpdir, 'output'),
-      title: 'Photo album',
-      homeAlbumName: 'Home',
-      theme: 'classic',
-      log: 'info'
-    }
+    opts = options.get([
+      '--input', path.join(tmpdir, 'input'),
+      '--output', path.join(tmpdir, 'output'),
+      '--title', 'Photo album',
+      '--homeAlbumName', 'Home',
+      '--theme', 'classic',
+      '--log', 'info'
+    ])
   })
 
   // Listr uses control.log() to print progress
@@ -44,14 +45,15 @@ describe('Full integration', function () {
   })
 
   it('builds the gallery from scratch', function (testDone) {
-    index.build(options, err => {
+    index.build(opts, err => {
       // Reset the logger ASAP to print the test status
       console.log = console.logOld
       // Check for any errors
+      console.log(err)
       should(err).eql(null)
       debug.assertNotContains('thumbsup:error')
       // Check the contents of the output folder
-      const actualFiles = actualStructure(options.output)
+      const actualFiles = actualStructure(opts.output)
       // Database
       assertExist(actualFiles, [
         'thumbsup.db'
@@ -82,7 +84,7 @@ describe('Full integration', function () {
   })
 
   it('builds the gallery a second time (nothing to do)', function (testDone) {
-    index.build(options, err => {
+    index.build(opts, err => {
       // Reset the logger ASAP to print the test status
       console.log = console.logOld
       should(err).eql(null)

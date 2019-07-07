@@ -2,6 +2,7 @@ const messages = require('./messages')
 const path = require('path')
 const yargs = require('yargs')
 const os = require('os')
+const _ = require('lodash')
 
 const OPTIONS = {
 
@@ -12,12 +13,14 @@ const OPTIONS = {
   'input': {
     group: 'Required:',
     description: 'Path to the folder with all photos/videos',
+    type: 'string',
     normalize: true,
     demand: true
   },
   'output': {
     group: 'Required:',
     description: 'Output path for the static website',
+    type: 'string',
     normalize: true,
     demand: true
   },
@@ -149,7 +152,8 @@ const OPTIONS = {
   'watermark': {
     group: 'Output options:',
     description: 'Path to a transparent PNG to be overlaid on all images',
-    type: 'string'
+    type: 'string',
+    normalize: true
   },
   'watermark-position': {
     group: 'Output options:',
@@ -214,11 +218,13 @@ const OPTIONS = {
   'index': {
     group: 'Website options:',
     description: 'Filename of the home page',
+    type: 'string',
     'default': 'index.html'
   },
   'albums-output-folder': {
     group: 'Website options:',
     description: 'Output subfolder for HTML albums (default: website root)',
+    type: 'string',
     'default': '.'
   },
   'theme': {
@@ -230,26 +236,31 @@ const OPTIONS = {
   'theme-path': {
     group: 'Website options:',
     description: 'Path to a custom theme',
+    type: 'string',
     normalize: true
   },
   'theme-style': {
     group: 'Website options:',
     description: 'Path to a custom LESS/CSS file for additional styles',
+    type: 'string',
     normalize: true
   },
   'theme-settings': {
     group: 'Website options:',
     description: 'Path to a JSON file with theme settings',
+    type: 'string',
     normalize: true
   },
   'title': {
     group: 'Website options:',
     description: 'Website title',
+    type: 'string',
     'default': 'Photo album'
   },
   'footer': {
     group: 'Website options:',
     description: 'Text or HTML footer',
+    type: 'string',
     'default': null
   },
   'google-analytics': {
@@ -339,7 +350,7 @@ const OPTIONS = {
 // explicitly pass <process.argv> so we can unit test this logic
 // otherwise it pre-loads all process arguments on require()
 exports.get = (args) => {
-  const opts = yargs(args)
+  const parsedOptions = yargs(args)
     .usage(messages.USAGE())
     .wrap(null)
     .help('help')
@@ -350,92 +361,48 @@ exports.get = (args) => {
 
   // Warn users when they use deprecated options
   const deprecated = Object.keys(OPTIONS).filter(name => OPTIONS[name].group === 'Deprecated:')
-  const specified = deprecated.filter(name => typeof opts[name] !== 'undefined')
+  const specified = deprecated.filter(name => typeof parsedOptions[name] !== 'undefined')
   if (specified.length > 0) {
     const warnings = specified.map(name => `Warning: --${name} is deprecated`)
     console.error(warnings.join('\n') + '\n')
   }
 
+  // Delete all options containing dashes, because yargs already aliases them as camelCase
+  // This means we can process the camelCase version only after that
+  const opts = _.omitBy(parsedOptions, (value, key) => key.indexOf('-') >= 0)
+
   // Make input/output folder absolute paths
-  opts['input'] = path.resolve(opts['input'])
-  opts['output'] = path.resolve(opts['output'])
+  opts.input = path.resolve(opts.input)
+  opts.output = path.resolve(opts.output)
 
   // By default, use relative links to the input folder
-  if (opts['download-link-prefix']) opts['link-prefix'] = opts['download-link-prefix']
-  if (!opts['link-prefix']) {
-    opts['link-prefix'] = path.relative(opts['output'], opts['input'])
+  if (opts.downloadLinkPrefix) opts.linkPrefix = opts.downloadLinkPrefix
+  if (!opts.linkPrefix) {
+    opts.linkPrefix = path.relative(opts.output, opts.input)
   }
 
   // Convert deprecated --download
-  if (opts['original-photos']) opts['download-photos'] = 'copy'
-  if (opts['original-videos']) opts['download-videos'] = 'copy'
-  if (opts['download-photos']) opts['photo-download'] = opts['download-photos']
-  if (opts['download-videos']) opts['video-download'] = opts['download-videos']
-  if (opts['photo-download'] === 'large') opts['photo-download'] = 'resize'
-  if (opts['video-download'] === 'large') opts['video-download'] = 'resize'
+  if (opts.originalPhotos) opts.downloadPhotos = 'copy'
+  if (opts.originalVideos) opts.downloadVideos = 'copy'
+  if (opts.downloadPhotos) opts.photoDownload = opts.downloadPhotos
+  if (opts.downloadVideos) opts.videoDownload = opts.downloadVideos
+  if (opts.photoDownload === 'large') opts.photoDownload = 'resize'
+  if (opts.videoDownload === 'large') opts.videoDownload = 'resize'
 
   // Convert deprecated --albums-from
-  replaceInArray(opts['albums-from'], 'folders', '%path')
-  replaceInArray(opts['albums-from'], 'date', `{${opts['albums-date-format']}}`)
+  replaceInArray(opts.albumsFrom, 'folders', '%path')
+  replaceInArray(opts.albumsFrom, 'date', `{${opts.albumsDateFormat}}`)
 
   // Convert deprecated --css
-  if (opts['css']) opts['theme-style'] = opts['css']
+  if (opts.css) opts.themeStyle = opts.css
 
   // Add a dash prefix to any --gm-args value
   // We can't specify the prefix on the CLI otherwise the parser thinks it's a thumbsup arg
-  if (opts['gm-args']) {
-    opts['gm-args'] = opts['gm-args'].map(val => `-${val}`)
+  if (opts.gmArgs) {
+    opts.gmArgs = opts.gmArgs.map(val => `-${val}`)
   }
 
-  // All options as an object
-  return {
-    input: opts['input'],
-    output: opts['output'],
-    includePhotos: opts['include-photos'],
-    includeVideos: opts['include-videos'],
-    includeRawPhotos: opts['include-raw-photos'],
-    include: opts['include'],
-    exclude: opts['exclude'],
-    cleanup: opts['cleanup'],
-    title: opts['title'],
-    thumbSize: opts['thumb-size'],
-    largeSize: opts['large-size'],
-    photoQuality: opts['photo-quality'],
-    videoQuality: opts['video-quality'],
-    videoBitrate: opts['video-bitrate'],
-    videoFormat: opts['video-format'],
-    photoPreview: opts['photo-preview'],
-    videoPreview: opts['video-preview'],
-    photoDownload: opts['photo-download'],
-    videoDownload: opts['video-download'],
-    linkPrefix: opts['link-prefix'],
-    albumsFrom: opts['albums-from'],
-    albumsDateFormat: opts['albums-date-format'],
-    sortAlbumsBy: opts['sort-albums-by'],
-    sortAlbumsDirection: opts['sort-albums-direction'],
-    sortMediaBy: opts['sort-media-by'],
-    sortMediaDirection: opts['sort-media-direction'],
-    homeAlbumName: opts['home-album-name'],
-    albumZipFiles: opts['album-zip-files'],
-    theme: opts['theme'],
-    themePath: opts['theme-path'],
-    themeStyle: opts['theme-style'],
-    themeSettings: opts['theme-settings'],
-    css: opts['css'],
-    googleAnalytics: opts['google-analytics'],
-    index: opts['index'],
-    footer: opts['footer'],
-    albumsOutputFolder: opts['albums-output-folder'],
-    usageStats: opts['usage-stats'],
-    log: opts['log'],
-    dryRun: opts['dry-run'],
-    concurrency: opts['concurrency'],
-    outputStructure: opts['output-structure'],
-    gmArgs: opts['gm-args'],
-    watermark: opts['watermark'],
-    watermarkPosition: opts['watermark-position'],
-    embedExif: opts['embed-exif']
-  }
+  return opts
 }
 
 function replaceInArray (list, match, replacement) {

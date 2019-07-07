@@ -5,13 +5,30 @@ const options = require('../../bin/options.js')
 const BASE_ARGS = ['--input', 'photos', '--output', 'website']
 
 describe('options', function () {
-  it('--input is converted to an absolute path', () => {
-    const opts = options.get(BASE_ARGS)
-    should(opts.input).eql(path.join(process.cwd(), 'photos'))
+  describe('parsing', () => {
+    it('parses a single basic option', () => {
+      const opts = options.get(BASE_ARGS)
+      should(opts.input.endsWith('photos')).eql(true)
+    })
+    it('options with dashes are converted to camel case', () => {
+      const opts = options.get(BASE_ARGS.concat(['--theme-path', 'foobar']))
+      should(opts['theme-path']).eql(undefined)
+      should(opts.themePath).eql('foobar')
+    })
+    it('can use --no to reverse a boolean', () => {
+      const opts = options.get(BASE_ARGS.concat(['--no-usage-stats']))
+      should(opts.usageStats).eql(false)
+    })
   })
-  it('--output is converted to an absolute path', () => {
-    const opts = options.get(BASE_ARGS)
-    should(opts.output).eql(path.join(process.cwd(), 'website'))
+  describe('paths', () => {
+    it('--input is converted to an absolute path', () => {
+      const opts = options.get(BASE_ARGS)
+      should(opts.input).eql(path.join(process.cwd(), 'photos'))
+    })
+    it('--output is converted to an absolute path', () => {
+      const opts = options.get(BASE_ARGS)
+      should(opts.output).eql(path.join(process.cwd(), 'website'))
+    })
   })
   describe('--albums-from', () => {
     it('can be specified once', () => {
