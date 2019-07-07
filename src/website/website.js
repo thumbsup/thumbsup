@@ -19,12 +19,20 @@ exports.build = function (rootAlbum, opts, callback) {
     customStylesPath: opts.themeStyle
   })
 
-  // custom theme settings
-  const settings = readThemeSettings(opts.themeSettings)
+  // data passed to the template
+  const themeSettings = readThemeSettings(opts.themeSettings)
+  const templateData = {
+    // deprecated "home", to be removed later
+    gallery: Object.assign({}, opts, { home: rootAlbum }),
+    settings: themeSettings,
+    home: rootAlbum,
+    // overwritten per page
+    breadcrumbs: null,
+    album: null
+  }
 
   // and finally render each page
-  const gallery = galleryModel(rootAlbum, opts)
-  const tasks = createRenderingTasks(theme, rootAlbum, gallery, settings, [])
+  const tasks = createRenderingTasks(theme, templateData, rootAlbum, [])
 
   // now build everything
   async.series([
@@ -34,31 +42,19 @@ exports.build = function (rootAlbum, opts, callback) {
   ], callback)
 }
 
-function galleryModel (rootAlbum, opts) {
-  return {
-    home: rootAlbum,
-    title: opts.title,
-    footer: opts.footer,
-    thumbSize: opts.thumbSize,
-    largeSize: opts.largeSize,
-    googleAnalytics: opts.googleAnalytics
-  }
-}
-
-function createRenderingTasks (theme, album, gallery, settings, breadcrumbs) {
+function createRenderingTasks (theme, templateData, currentAlbum, breadcrumbs) {
   // a function to render this album
   const thisAlbumTask = next => {
-    theme.render(album.path, {
-      settings: settings,
-      gallery: gallery,
+    theme.render(currentAlbum.path, Object.assign({}, templateData, {
       breadcrumbs: breadcrumbs,
-      album: album
-    }, next)
+      album: currentAlbum
+    }), next)
   }
   const tasks = [thisAlbumTask]
   // and all nested albums
-  album.albums.forEach(function (nested) {
-    const nestedTasks = createRenderingTasks(theme, nested, gallery, settings, breadcrumbs.concat([album]))
+  currentAlbum.albums.forEach(function (nested) {
+    const crumbs = breadcrumbs.concat([currentAlbum])
+    const nestedTasks = createRenderingTasks(theme, templateData, nested, crumbs)
     Array.prototype.push.apply(tasks, nestedTasks)
   })
   return tasks
