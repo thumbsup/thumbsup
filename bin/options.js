@@ -274,6 +274,12 @@ const OPTIONS = {
     type: 'boolean',
     'default': false
   },
+  'locale': {
+    group: 'Website options:',
+    description: 'Locale for regional settings like dates',
+    type: 'string',
+    'default': 'en'
+  },
 
   // ------------------------------------
   // Misc options

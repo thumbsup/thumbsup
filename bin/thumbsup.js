@@ -2,6 +2,7 @@
 
 const fs = require('fs-extra')
 const path = require('path')
+const moment = require('moment')
 const Analytics = require('./analytics')
 const dependencies = require('./dependencies')
 const messages = require('./messages')
@@ -42,6 +43,9 @@ if (missingErrors) {
   console.log(`${missingErrors}`)
   exit(1)
 }
+
+// Global settings
+moment.locale(opts.locale)
 
 // Build the gallery!
 index.build(opts, (err, result) => {

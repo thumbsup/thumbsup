@@ -133,6 +133,7 @@ Website options:
   --footer                Text or HTML footer  [default: null]
   --google-analytics      Code for Google Analytics tracking  [string]
   --embed-exif            Embed the exif metadata for each image into the gallery page  [boolean] [default: false]
+  --locale                Locale for regional settings like dates  [string] [default: "en"]
 
 Misc options:
   --config       JSON config file (one key per argument)  [string]
