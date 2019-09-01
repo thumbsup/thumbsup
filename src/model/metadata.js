@@ -83,7 +83,8 @@ function caption (exif, picasa) {
          tagValue(exif, 'IPTC', 'Headline') ||
          tagValue(exif, 'XMP', 'Description') ||
          tagValue(exif, 'XMP', 'Title') ||
-         tagValue(exif, 'XMP', 'Label')
+         tagValue(exif, 'XMP', 'Label') ||
+         tagValue(exif, 'QuickTime', 'Title')
 }
 
 function keywords (exif, picasa) {
