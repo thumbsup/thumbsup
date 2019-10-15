@@ -33,10 +33,11 @@ class Metadata {
     const size = dimensions(exiftool)
     this.width = size.width
     this.height = size.height
+    this.lat = tagValueFloat(exiftool, 'Composite', 'GPSLatitude')
+    this.long = tagValueFloat(exiftool, 'Composite', 'GPSLongitude')
+    // include the whole Exiftool output for more flexibility
     this.exif = opts ? (opts.embedExif ? exiftool.EXIF : undefined) : undefined
     // metadata could also include fields like
-    //  - lat = 51.5
-    //  - long = 0.12
     //  - country = "England"
     //  - city = "London"
     //  - aperture = 1.8
@@ -119,6 +120,11 @@ function favourite (picasa) {
 function tagValue (exif, type, name) {
   if (!exif[type]) return null
   return exif[type][name]
+}
+
+function tagValueFloat (exif, type, name) {
+  const val = tagValue(exif, type, name)
+  return val ? parseFloat(val) : val
 }
 
 function picasaValue (picasa, name) {
