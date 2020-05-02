@@ -280,6 +280,12 @@ const OPTIONS = {
     type: 'string',
     'default': 'en'
   },
+  'seo-location': {
+    group: 'Website options:',
+    description: 'Location where the site will be hosted. If provided, sitemap.xml and robots.txt will be created.',
+    type: 'string',
+    'default': null
+  },
 
   // ------------------------------------
   // Misc options

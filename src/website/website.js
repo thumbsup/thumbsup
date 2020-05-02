@@ -40,6 +40,8 @@ exports.build = function (rootAlbum, opts, callback) {
     next => theme.prepare(next),
     next => async.parallel(tasks, next)
   ], callback)
+
+  outputSEO(opts.output, opts.seoLocation, rootAlbum)
 }
 
 function createRenderingTasks (theme, templateData, currentAlbum, breadcrumbs) {
@@ -78,4 +80,40 @@ function readThemeSettings (filepath) {
   } catch (ex) {
     throw new Error('Failed to parse JSON theme settings file: ' + filepath)
   }
+}
+
+function outputSEO (output, seoLocation, rootAlbum) {
+  // SEO (sitemap and robots.txt)
+  if (!seoLocation) {
+    return
+  }
+
+  // Guaranteed to end with slash
+  const seoPrefix = seoLocation + (seoLocation.endsWith('/') ? '' : '/')
+
+  // Generate robots.txt
+  const robotsTxt = 'User-Agent: *\nDisallow:\n\nSitemap: ' + seoPrefix + 'sitemap.xml\n'
+  fs.writeFile(path.join(output, 'robots.txt'), robotsTxt, () => {
+  })
+
+  // Generate sitemap
+  let sitemapXML = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+  const now = new Date().toISOString()
+
+  function addToSitemap (album) {
+    sitemapXML +=
+      '    <url>\n' +
+      '        <loc>' + seoPrefix + album.url + '</loc>\n' +
+      '        <lastmod>' + now + '</lastmod>\n' +
+      '    </url>\n'
+
+    album.albums.forEach((subAlbum) => addToSitemap(subAlbum))
+  }
+
+  addToSitemap(rootAlbum)
+
+  sitemapXML += '</urlset>\n'
+  fs.writeFile(path.join(output, 'sitemap.xml'), sitemapXML, () => {
+  })
 }
