@@ -93,8 +93,7 @@ function outputSEO (output, seoLocation, rootAlbum) {
 
   // Generate robots.txt
   const robotsTxt = 'User-Agent: *\nDisallow:\n\nSitemap: ' + seoPrefix + 'sitemap.xml\n'
-  fs.writeFile(path.join(output, 'robots.txt'), robotsTxt, () => {
-  })
+  fs.writeFileSync(path.join(output, 'robots.txt'), robotsTxt)
 
   // Generate sitemap
   let sitemapXML = '<?xml version="1.0" encoding="UTF-8"?>\n' +
@@ -114,6 +113,5 @@ function outputSEO (output, seoLocation, rootAlbum) {
   addToSitemap(rootAlbum)
 
   sitemapXML += '</urlset>\n'
-  fs.writeFile(path.join(output, 'sitemap.xml'), sitemapXML, () => {
-  })
+  fs.writeFileSync(path.join(output, 'sitemap.xml'), sitemapXML)
 }
