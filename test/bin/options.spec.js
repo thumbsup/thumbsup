@@ -19,6 +19,12 @@ describe('options', function () {
       const opts = options.get(BASE_ARGS.concat(['--no-usage-stats']))
       should(opts.usageStats).eql(false)
     })
+    it('is case-sensitive for booleans', () => {
+      const opts1 = options.get(BASE_ARGS.concat(['--include-videos', 'false']))
+      should(opts1.includeVideos).eql(false)
+      const opts2 = options.get(BASE_ARGS.concat(['--include-videos', 'FALSE']))
+      should(opts2.includeVideos).eql(true)
+    })
   })
   describe('paths', () => {
     it('--input is converted to an absolute path', () => {
