@@ -4,6 +4,13 @@ const should = require('should/as-function')
 const Album = require('../../src/model/album')
 const fixtures = require('../fixtures')
 
+// Common fixtures
+const fileA = fixtures.photo({ path: 'a' })
+const fileB = fixtures.photo({ path: 'b' })
+const fileC = fixtures.photo({ path: 'c' })
+const file2010 = fixtures.photo({ date: '2010-01-01' })
+const file2011 = fixtures.photo({ path: '2011-01-01' })
+
 describe('Album', function () {
   describe('options', function () {
     it('can pass the title as a single argument', function () {
@@ -30,7 +37,7 @@ describe('Album', function () {
     })
 
     it('doesn\'t use a dash if the words have no space', function () {
-      // not ideal but that's hoz slugify() works
+      // not ideal but that's how slugify() works
       const a = new Album("aujourd'hui")
       should(a.basename).eql('aujourdhui')
     })
@@ -175,21 +182,15 @@ describe('Album', function () {
     })
 
     it('can sort media by filename', function () {
-      const a = fixtures.photo({ path: 'a' })
-      const b = fixtures.photo({ path: 'b' })
-      const c = fixtures.photo({ path: 'c' })
-      const album = new Album({ files: [c, a, b] })
+      const album = new Album({ files: [fileC, fileA, fileB] })
       album.finalize({ sortMediaBy: 'filename' })
-      should(album.files).eql([a, b, c])
+      should(album.files).eql([fileA, fileB, fileC])
     })
 
     it('can sort media by reverse filename', function () {
-      const a = fixtures.photo({ path: 'a' })
-      const b = fixtures.photo({ path: 'b' })
-      const c = fixtures.photo({ path: 'c' })
-      const album = new Album({ files: [c, a, b] })
+      const album = new Album({ files: [fileC, fileA, fileB] })
       album.finalize({ sortMediaBy: 'filename', sortMediaDirection: 'desc' })
-      should(album.files).eql([c, b, a])
+      should(album.files).eql([fileC, fileB, fileA])
     })
 
     it('can sort media by date', function () {
@@ -203,14 +204,11 @@ describe('Album', function () {
 
     it('sorts nested albums too', function () {
       const nested = new Album({ title: 'nested',
-        files: [
-          fixtures.photo({ path: 'b' }),
-          fixtures.photo({ path: 'a' })
-        ] })
+        files: [fileB, fileA]
+      })
       const root = new Album({ title: 'home', albums: [nested] })
       root.finalize({ sortMediaBy: 'filename' })
-      should(nested.files[0].path).eql('a')
-      should(nested.files[1].path).eql('b')
+      should(nested.files).eql([fileA, fileB])
     })
   })
 
@@ -244,15 +242,72 @@ describe('Album', function () {
     })
 
     it('passes finalising options to all nested albums (e.g. sorting)', function () {
-      const nested = new Album({ title: 'nested',
-        files: [
-          fixtures.photo({ path: 'b' }),
-          fixtures.photo({ path: 'a' })
-        ] })
+      const nested = new Album({
+        title: 'nested',
+        files: [fileB, fileA]
+      })
       const root = new Album({ title: 'home', albums: [nested] })
       root.finalize({ sortMediaBy: 'filename' })
-      should(nested.files[0].path).eql('a')
-      should(nested.files[1].path).eql('b')
+      should(nested.files).eql([fileA, fileB])
+    })
+  })
+
+  describe('nested sorting', function () {
+    it('can specify nested album sorting method', function () {
+      const a1 = new Album({ files: [file2011] })
+      const a2 = new Album({ files: [file2010] })
+      const a = new Album({ title: 'A', albums: [a1, a2] })
+      const b = new Album('B')
+      const root = new Album({ albums: [b, a] })
+      root.finalize({
+        sortAlbumsBy: ['title', 'start-date'],
+        sortAlbumsDirection: 'asc'
+      })
+      should(root.albums).eql([a, b])
+      should(a.albums).eql([a2, a1])
+    })
+    it('can specify nested album sorting direction', function () {
+      const a1 = new Album('A1')
+      const a2 = new Album('A2')
+      const a = new Album({ albums: [a1, a2] })
+      const b = new Album('B')
+      const root = new Album({ albums: [a, b] })
+      root.finalize({
+        sortAlbumsBy: 'title',
+        sortAlbumsDirection: ['asc', 'desc']
+      })
+      should(root.albums).eql([a, b])
+      should(a.albums).eql([a2, a1])
+    })
+    it('can specify nested media sorting method', function () {
+      const nested = new Album({
+        files: [fileB, fileA]
+      })
+      const root = new Album({
+        albums: [nested],
+        files: [file2011, file2010]
+      })
+      root.finalize({
+        sortMediaBy: ['date', 'filename'],
+        sortMediaDirection: 'asc'
+      })
+      should(root.files).eql([file2010, file2011])
+      should(nested.files).eql([fileA, fileB])
+    })
+    it('can specify nested media sorting direction', function () {
+      const nested = new Album({
+        files: [fileA, fileB]
+      })
+      const root = new Album({
+        albums: [nested],
+        files: [fileB, fileA]
+      })
+      root.finalize({
+        sortMediaBy: 'filename',
+        sortMediaDirection: ['asc', 'desc']
+      })
+      should(root.files).eql([fileA, fileB])
+      should(nested.files).eql([fileB, fileA])
     })
   })
 

@@ -178,24 +178,28 @@ const OPTIONS = {
     group: 'Album options:',
     description: 'How to sort albums',
     choices: ['title', 'start-date', 'end-date'],
+    coerce: commaSeparated,
     'default': 'start-date'
   },
   'sort-albums-direction': {
     group: 'Album options:',
     description: 'Album sorting direction',
     choices: ['asc', 'desc'],
+    coerce: commaSeparated,
     'default': 'asc'
   },
   'sort-media-by': {
     group: 'Album options:',
     description: 'How to sort photos and videos',
     choices: ['filename', 'date'],
+    coerce: commaSeparated,
     'default': 'date'
   },
   'sort-media-direction': {
     group: 'Album options:',
     description: 'Media sorting direction',
     choices: ['asc', 'desc'],
+    coerce: commaSeparated,
     'default': 'asc'
   },
   'home-album-name': {
@@ -423,4 +427,9 @@ function replaceInArray (list, match, replacement) {
       list[i] = replacement
     }
   }
+}
+
+function commaSeparated (value) {
+  if (value.indexOf(',') === -1) return value
+  return value.split(',')
 }

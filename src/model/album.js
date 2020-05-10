@@ -111,8 +111,12 @@ Album.prototype.calculateSummary = function () {
 }
 
 Album.prototype.sort = function (options) {
-  this.files = _.orderBy(this.files, SORT_MEDIA_BY[options.sortMediaBy], options.sortMediaDirection)
-  this.albums = _.orderBy(this.albums, SORT_ALBUMS_BY[options.sortAlbumsBy], options.sortAlbumsDirection)
+  const sortAlbumsBy = getItemOrLast(options.sortAlbumsBy, this.depth)
+  const sortAlbumsDirection = getItemOrLast(options.sortAlbumsDirection, this.depth)
+  const sortMediaBy = getItemOrLast(options.sortMediaBy, this.depth)
+  const sortMediaDirection = getItemOrLast(options.sortMediaDirection, this.depth)
+  this.files = _.orderBy(this.files, SORT_MEDIA_BY[sortMediaBy], sortMediaDirection)
+  this.albums = _.orderBy(this.albums, SORT_ALBUMS_BY[sortAlbumsBy], sortAlbumsDirection)
 }
 
 Album.prototype.pickPreviews = function () {
@@ -134,6 +138,13 @@ function itemCount (count, type) {
   if (count === 0) return ''
   var plural = (count > 1) ? 's' : ''
   return '' + count + ' ' + type + plural
+}
+
+function getItemOrLast (array, index) {
+  if (typeof (array) === 'undefined') return undefined
+  if (typeof (array) === 'string') return array
+  if (index > array.length) return array[array.length - 1]
+  return array[index]
 }
 
 // for testing purposes

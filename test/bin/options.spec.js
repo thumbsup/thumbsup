@@ -51,6 +51,23 @@ describe('options', function () {
       should(opts.albumsFrom).eql(['%path', '%keywords'])
     })
   })
+  describe('--sort-albums-direction', () => {
+    it('can be specified with multiple arguments', () => {
+      const args = BASE_ARGS.concat([
+        '--sort-albums-direction', 'asc',
+        '--sort-albums-direction', 'desc'
+      ])
+      const opts = options.get(args)
+      should(opts.sortAlbumsDirection).eql(['asc', 'desc'])
+    })
+    it('can be specified multiple times  with a comma', () => {
+      const args = BASE_ARGS.concat([
+        '--sort-albums-direction', 'asc,desc'
+      ])
+      const opts = options.get(args)
+      should(opts.sortAlbumsDirection).eql(['asc', 'desc'])
+    })
+  })
   describe('--gm-args', () => {
     it('is optional', () => {
       const opts = options.get(BASE_ARGS)
