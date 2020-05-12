@@ -19,7 +19,7 @@ class File {
   constructor (dbEntry, meta, opts) {
     this.id = ++index
     this.path = dbEntry.SourceFile
-    this.filename = path.basename(dbEntry.SourceFile)
+    this.filename = path.basename(dbEntry.SourceFile, path.extname(dbEntry.SourceFile))
     this.date = fileDate(dbEntry)
     this.type = mediaType(dbEntry)
     this.isVideo = (this.type === 'video')
