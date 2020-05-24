@@ -13,17 +13,21 @@ exports.createMap = function (opts) {
     file: opts.watermark,
     position: opts.watermarkPosition
   }
+  const seek = opts.videoStills === 'middle' ? -1 : opts.videoStillsSeek
   const thumbnail = Object.assign({}, defaultOptions, {
     height: thumbSize,
-    width: thumbSize
+    width: thumbSize,
+    seek: seek
   })
   const small = Object.assign({}, defaultOptions, {
-    height: smallSize
+    height: smallSize,
+    seek: seek
   })
   const large = Object.assign({}, defaultOptions, {
     height: largeSize,
     watermark: watermark,
-    animated: true
+    animated: true,
+    seek: seek
   })
   const videoOpts = {
     format: opts.videoFormat,

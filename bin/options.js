@@ -97,6 +97,18 @@ const OPTIONS = {
     choices: ['mp4', 'webm'],
     'default': 'mp4'
   },
+  'video-stills': {
+    group: 'Output options:',
+    description: 'Where the video still frame is taken',
+    choices: ['seek', 'middle'],
+    'default': 'seek'
+  },
+  'video-stills-seek': {
+    group: 'Output options:',
+    description: 'Number of seconds where the still frame is taken',
+    type: 'number',
+    'default': 1
+  },
   'photo-preview': {
     group: 'Output options:',
     description: 'How lightbox photos are generated',

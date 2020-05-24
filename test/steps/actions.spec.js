@@ -109,6 +109,28 @@ describe('actions', () => {
     })
   })
 
+  it('video:poster can seek to a given number of seconds', testEnd => {
+    const map = actions.createMap({ videoStills: 'seek', videoStillsSeek: 5 })
+    const action = map['video:poster']
+    action(ANY_TASK, err => {
+      should(err).eql(null)
+      const downsizeArgs = shouldCallDownsize(downsize.still)
+      should(downsizeArgs).property('seek', 5)
+      testEnd()
+    })
+  })
+
+  it('video:poster can seek to the middle', testEnd => {
+    const map = actions.createMap({ videoStills: 'middle' })
+    const action = map['video:poster']
+    action(ANY_TASK, err => {
+      should(err).eql(null)
+      const downsizeArgs = shouldCallDownsize(downsize.still)
+      should(downsizeArgs).property('seek', -1)
+      testEnd()
+    })
+  })
+
   it('video:resized = creates a web-friendly video', testEnd => {
     const map = actions.createMap({})
     const action = map['video:resized']
@@ -126,7 +148,7 @@ describe('actions', () => {
 
   it('can specify options for video:resized', testEnd => {
     const map = actions.createMap({
-      // note: some options are mutuqlly exclusive
+      // note: some options are mutually exclusive
       // but this is OK for testing the mapping
       videoFormat: 'mp4',
       videoQuality: 75,
