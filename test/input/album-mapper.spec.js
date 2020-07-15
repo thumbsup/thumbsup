@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const os = require('os')
 const should = require('should/as-function')
 const tmp = require('tmp')
 const AlbumMapper = require('../../src/input/album-mapper.js')
@@ -43,7 +42,6 @@ describe('Album mapper', function () {
   describe('custom function using file://', () => {
     it('with an absolute path', () => {
       const absolutePath = createTmpFile({
-        dir: os.tmpdir(),
         contents: "module.exports = file => ['my-album']"
       })
       const mapper = new AlbumMapper([`file://${absolutePath}`])
@@ -52,7 +50,7 @@ describe('Album mapper', function () {
 
     it('with a path relative to the current directory', () => {
       const absolutePath = createTmpFile({
-        dir: process.cwd(),
+        tmpdir: process.cwd(),
         contents: "module.exports = file => ['my-album']"
       })
       const relative = path.basename(absolutePath)
@@ -68,7 +66,7 @@ describe('Album mapper', function () {
 */
 function createTmpFile (opts) {
   const file = tmp.fileSync({
-    dir: opts.dir,
+    tmpdir: opts.tmpdir || undefined,
     discardDescriptor: true
   })
   fs.writeFileSync(file.name, opts.contents)

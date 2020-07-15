@@ -20,9 +20,10 @@ exports.find = function (rootFolder, options, callback) {
     exclude: options.exclude || [],
     extensions: exports.supportedExtensions(options)
   })
-  const stream = readdir.readdirStreamStat(rootFolder, {
+  const stream = readdir.stream(rootFolder, {
     filter: file => pattern.match(file.path),
     deep: dir => pattern.canTraverse(dir.path),
+    stats: true,
     basePath: '',
     sep: '/'
   })
