@@ -38,6 +38,13 @@ const BINARIES = [
     cmd: 'dcraw',
     url: 'https://www.cybercom.net/~dcoffin/dcraw/',
     msg: 'You will not be able to process RAW photos.'
+  },
+  {
+    // optional to create album ZIP files
+    mandatory: false,
+    cmd: 'zip',
+    url: 'https://linux.die.net/man/1/zip',
+    msg: 'You will not be able to create ZIP files.'
   }
 ]
 
