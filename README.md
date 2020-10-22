@@ -97,6 +97,7 @@ Input options:
 
 Output options:
   --thumb-size          Pixel size of the square thumbnails  [number] [default: 120]
+  --small-size          Pixel height of the small photos  [number] [default: 300]
   --large-size          Pixel height of the fullscreen photos  [number] [default: 1000]
   --photo-quality       Quality of the resized/converted photos  [number] [default: 90]
   --video-quality       Quality of the converted video (percent)  [number] [default: 75]
