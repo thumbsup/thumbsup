@@ -74,6 +74,17 @@ describe('actions', () => {
     })
   })
 
+  it('photo:small = creates a small image', testEnd => {
+    const map = actions.createMap({ smallSize: 300 })
+    const action = map['photo:small']
+    action(ANY_TASK, err => {
+      should(err).eql(null)
+      const downsizeArgs = shouldCallDownsize(downsize.image)
+      should(downsizeArgs).property('height', 300)
+      testEnd()
+    })
+  })
+
   it('photo:large = creates a large image', testEnd => {
     const map = actions.createMap({ largeSize: 1000 })
     const action = map['photo:large']

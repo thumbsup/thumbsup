@@ -67,6 +67,12 @@ const OPTIONS = {
     type: 'number',
     'default': 120
   },
+  'small-size': {
+    group: 'Output options:',
+    description: 'Pixel height of the small photos',
+    type: 'number',
+    'default': 300
+  },
   'large-size': {
     group: 'Output options:',
     description: 'Pixel height of the fullscreen photos',

@@ -26,6 +26,8 @@ describe('Steps: cleanup', () => {
     mock({
       'output/media/thumbs/paris/IMG_0001.jpg': '',
       'output/media/thumbs/london/IMG_0002.jpg': '',
+      'output/media/small/paris/IMG_0001.jpg': '',
+      'output/media/small/london/IMG_0002.jpg': '',
       'output/media/large/paris/IMG_0001.jpg': '',
       'output/media/large/london/IMG_0002.jpg': ''
     })

@@ -3,7 +3,7 @@ const fs = require('fs-extra')
 
 exports.createMap = function (opts) {
   const thumbSize = opts.thumbSize || 120
-  const smallSize = 300
+  const smallSize = opts.smallSize || 300
   const largeSize = opts.largeSize || 1000
   const defaultOptions = {
     quality: opts.photoQuality,
