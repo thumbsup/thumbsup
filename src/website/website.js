@@ -3,6 +3,7 @@ const path = require('path')
 const async = require('async')
 const resolvePkg = require('resolve-pkg')
 const Theme = require('./theme')
+const pages = require('./pages')
 
 exports.build = function (rootAlbum, opts, callback) {
   // create the base layer assets
@@ -21,45 +22,21 @@ exports.build = function (rootAlbum, opts, callback) {
 
   // data passed to the template
   const themeSettings = readThemeSettings(opts.themeSettings)
-  const templateData = {
-    // deprecated "home", to be removed later
-    gallery: Object.assign({}, opts, { home: rootAlbum }),
-    settings: themeSettings,
-    home: rootAlbum,
-    // overwritten per page
-    breadcrumbs: null,
-    album: null
-  }
 
-  // and finally render each page
-  const tasks = createRenderingTasks(theme, templateData, rootAlbum, [])
+  // create the rendering tasks
+  const viewModels = pages.create(rootAlbum, opts, themeSettings)
+  const tasks = viewModels.map(model => {
+    return next => theme.render(model.path, model, next)
+  })
 
   // now build everything
   async.series([
     next => base.prepare(next),
     next => theme.prepare(next),
-    next => async.parallel(tasks, next)
+    next => async.series(tasks, next)
   ], callback)
 
   outputSEO(opts.output, opts.seoLocation, rootAlbum)
-}
-
-function createRenderingTasks (theme, templateData, currentAlbum, breadcrumbs) {
-  // a function to render this album
-  const thisAlbumTask = next => {
-    theme.render(currentAlbum.path, Object.assign({}, templateData, {
-      breadcrumbs: breadcrumbs,
-      album: currentAlbum
-    }), next)
-  }
-  const tasks = [thisAlbumTask]
-  // and all nested albums
-  currentAlbum.albums.forEach(function (nested) {
-    const crumbs = breadcrumbs.concat([currentAlbum])
-    const nestedTasks = createRenderingTasks(theme, templateData, nested, crumbs)
-    Array.prototype.push.apply(tasks, nestedTasks)
-  })
-  return tasks
 }
 
 function localThemePath (themeName) {
