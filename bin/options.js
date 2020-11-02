@@ -226,6 +226,12 @@ const OPTIONS = {
     type: 'string',
     'default': 'Home'
   },
+  'album-page-size': {
+    group: 'Album options:',
+    description: 'Max number of files displayed on a page',
+    type: 'number',
+    'default': null
+  },
   'album-zip-files': {
     group: 'Album options:',
     description: 'Create a ZIP file per album',

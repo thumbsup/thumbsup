@@ -124,6 +124,7 @@ Album options:
   --sort-media-by          How to sort photos and videos  [choices: "filename", "date"] [default: "date"]
   --sort-media-direction   Media sorting direction  [choices: "asc", "desc"] [default: "asc"]
   --home-album-name        Name of the top-level album  [string] [default: "Home"]
+  --album-page-size        Max number of files displayed on a page  [number] [default: null]
   --album-zip-files        Create a ZIP file per album  [boolean] [default: false]
 
 Website options:
