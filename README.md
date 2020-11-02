@@ -103,6 +103,8 @@ Output options:
   --video-quality       Quality of the converted video (percent)  [number] [default: 75]
   --video-bitrate       Bitrate of the converted videos (e.g. 120k)  [string] [default: null]
   --video-format        Video output format  [choices: "mp4", "webm"] [default: "mp4"]
+  --video-stills        Where the video still frame is taken  [choices: "seek", "middle"] [default: "seek"]
+  --video-stills-seek   Number of seconds where the still frame is taken  [number] [default: 1]
   --photo-preview       How lightbox photos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
   --video-preview       How lightbox videos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
   --photo-download      How downloadable photos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
@@ -136,6 +138,7 @@ Website options:
   --google-analytics      Code for Google Analytics tracking  [string]
   --embed-exif            Embed the exif metadata for each image into the gallery page  [boolean] [default: false]
   --locale                Locale for regional settings like dates  [string] [default: "en"]
+  --seo-location          Location where the site will be hosted. If provided, sitemap.xml and robots.txt will be created.  [string] [default: null]
 
 Misc options:
   --config       JSON config file (one key per argument)  [string]
