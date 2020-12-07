@@ -112,6 +112,32 @@ describe('hierarchy', function () {
       should(home.albums[0].albums[0].title).eql('two')
       should(home.albums[0].albums[0].files).eql([files[1]])
     })
+
+    it('does not duplicate home album', function () {
+      const files = [
+        fixtures.photo({ path: 'one/IMG_000001.jpg' })
+      ]
+      const mapper = mockMapper(file => ['.', '/', path.dirname(file.path)])
+      const home = hierarchy.createAlbums(files, mapper, DEFAULT_OPTS)
+      should(home.files.length).eql(1)
+      should(home.files[0].filename).eql(files[0].filename)
+      should(home.albums.length).eql(1)
+      should(home.albums[0].title).eql('one')
+      should(home.albums[0].files).eql(files)
+      should(home.albums[0].albums.length).eql(0)
+    })
+
+    it('does not duplicate sub albums', function () {
+      const files = [
+        fixtures.photo({ path: 'one/IMG_000001.jpg' })
+      ]
+      const mapper = mockMapper(file => ['one', path.dirname(file.path)])
+      const home = hierarchy.createAlbums(files, mapper, DEFAULT_OPTS)
+      should(home.albums.length).eql(1)
+      should(home.albums[0].title).eql('one')
+      should(home.albums[0].files).eql(files)
+      should(home.albums[0].albums.length).eql(0)
+    })
   })
 })
 
