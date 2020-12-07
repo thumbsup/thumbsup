@@ -1,3 +1,4 @@
+const _ = require('lodash')
 const path = require('path')
 const Album = require('../model/album')
 
@@ -21,11 +22,13 @@ function group (collection, mapper, homeAlbumName) {
   // put all files in the right albums
   // a file can be in multiple albums
   collection.forEach(function (file) {
-    const albums = mapper.getAlbums(file)
+    const albums = _.chain(mapper.getAlbums(file))
+      // All special names map to the same home
+      .map(albumPath => !albumPath || ['', '.', '/'].includes(albumPath) ? '.' : albumPath)
+      // no duplicate albums
+      .uniq()
+      .value()
     albums.forEach(albumPath => {
-      if (!albumPath || albumPath === '/') {
-        albumPath = '.'
-      }
       createAlbumHierarchy(groups, albumPath)
       groups[albumPath].files.push(file)
     })
