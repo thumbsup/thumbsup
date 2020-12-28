@@ -19,7 +19,8 @@ exports.create = pattern => {
   const cache = {
     usesTokens: TOKEN_REGEX.test(pattern),
     usesDates: DATE_REGEX.test(pattern),
-    usesKeywords: pattern.indexOf('%keywords') > -1
+    usesKeywords: pattern.indexOf('%keywords') > -1,
+    usesPeople: pattern.indexOf('%people') > -1
   }
   // return a standard mapper function (file => album names)
   return file => {
@@ -31,9 +32,12 @@ exports.create = pattern => {
     if (cache.usesDates) {
       album = album.replace(DATE_REGEX, format => replaceDate(file, format))
     }
-    // create one album per keyword if required
     if (cache.usesKeywords) {
+      // create one album per keyword if required
       return file.meta.keywords.map(k => album.replace('%keywords', k))
+    } else if (cache.usesPeople) {
+      // create one album per person if required
+      return file.meta.people.map(k => album.replace('%people', k))
     } else {
       return [album]
     }

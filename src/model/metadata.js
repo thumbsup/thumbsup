@@ -25,7 +25,8 @@ class Metadata {
     // standardise metadata
     this.date = getDate(exiftool)
     this.caption = caption(exiftool)
-    this.keywords = keywords(exiftool, picasa)
+    this.keywords = keywords(exiftool, picasa, opts)
+    this.people = people(exiftool, opts)
     this.video = video(exiftool)
     this.animated = animated(exiftool)
     this.rating = rating(exiftool)
@@ -56,10 +57,10 @@ function getDate (exif) {
 
 function getMetaDate (exif) {
   const date = tagValue(exif, 'EXIF', 'DateTimeOriginal') ||
-               tagValue(exif, 'H264', 'DateTimeOriginal') ||
-               tagValue(exif, 'QuickTime', 'ContentCreateDate') ||
-               tagValue(exif, 'QuickTime', 'CreationDate') ||
-               tagValue(exif, 'QuickTime', 'CreateDate')
+    tagValue(exif, 'H264', 'DateTimeOriginal') ||
+    tagValue(exif, 'QuickTime', 'ContentCreateDate') ||
+    tagValue(exif, 'QuickTime', 'CreationDate') ||
+    tagValue(exif, 'QuickTime', 'CreateDate')
   if (date) {
     const parsed = moment(date, EXIF_DATE_FORMAT)
     if (parsed.isValid()) return parsed
@@ -78,16 +79,28 @@ function getFilenameDate (exif) {
 
 function caption (exif, picasa) {
   return picasaValue(picasa, 'caption') ||
-         tagValue(exif, 'EXIF', 'ImageDescription') ||
-         tagValue(exif, 'IPTC', 'Caption-Abstract') ||
-         tagValue(exif, 'IPTC', 'Headline') ||
-         tagValue(exif, 'XMP', 'Description') ||
-         tagValue(exif, 'XMP', 'Title') ||
-         tagValue(exif, 'XMP', 'Label') ||
-         tagValue(exif, 'QuickTime', 'Title')
+    tagValue(exif, 'EXIF', 'ImageDescription') ||
+    tagValue(exif, 'IPTC', 'Caption-Abstract') ||
+    tagValue(exif, 'IPTC', 'Headline') ||
+    tagValue(exif, 'XMP', 'Description') ||
+    tagValue(exif, 'XMP', 'Title') ||
+    tagValue(exif, 'XMP', 'Label') ||
+    tagValue(exif, 'QuickTime', 'Title')
 }
 
-function keywords (exif, picasa) {
+function keywords (exif, picasa, opts) {
+  if (opts && opts.keywordLocations) {
+    var keywords = new Set()
+    opts.keywordLocations.forEach(location => {
+      const locationBits = location.split('.', 2)
+      const values = tagValue(exif, locationBits[0], locationBits[1])
+      if (values) values.forEach(keyword => keywords.add(keyword))
+    })
+    if (opts.includeKeywords && opts.includeKeywords.length > 0) keywords = new Set([...keywords].filter(x => opts.includeKeywords.includes(x))) // intersection
+    if (opts.excludeKeywords && opts.excludeKeywords.length > 0) keywords = new Set([...keywords].filter(x => !opts.excludeKeywords.includes(x))) // difference
+    return [...keywords]
+  }
+  // Legacy keyword handling
   // try Picasa (comma-separated)
   const picasaValues = picasaValue(picasa, 'keywords')
   if (picasaValues) return picasaValues.split(',')
@@ -95,6 +108,21 @@ function keywords (exif, picasa) {
   const iptcValues = tagValue(exif, 'IPTC', 'Keywords')
   if (iptcValues) return makeArray(iptcValues)
   // no keywords
+  return []
+}
+
+function people (exif, opts) {
+  if (opts && opts.peopleLocations) {
+    var people = new Set()
+    opts.peopleLocations.forEach(location => {
+      const locationBits = location.split('.', 2)
+      const values = tagValue(exif, locationBits[0], locationBits[1])
+      if (values) values.forEach(name => people.add(name))
+    })
+    if (opts.includePeople && opts.includePeople.length > 0) people = new Set([...people].filter(x => opts.includePeople.includes(x))) // intersection
+    if (opts.excludePeople && opts.excludePeople.length > 0) people = new Set([...people].filter(x => !opts.excludePeople.includes(x))) // difference
+    return [...people]
+  }
   return []
 }
 

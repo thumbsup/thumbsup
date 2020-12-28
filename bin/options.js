@@ -238,6 +238,36 @@ const OPTIONS = {
     type: 'boolean',
     'default': false
   },
+  'keyword-locations': {
+    group: 'Album options:',
+    description: 'Where to look in the EXIF data for keywords (for %keywords)',
+    type: 'array'
+  },
+  'include-keywords': {
+    group: 'Album options:',
+    description: 'Keywords to include in %keywords',
+    type: 'array'
+  },
+  'exclude-keywords': {
+    group: 'Album options:',
+    description: 'Keywords to exclude from %keywords',
+    type: 'array'
+  },
+  'people-locations': {
+    group: 'Album options:',
+    description: 'Where to look in the EXIF data for people names (for %people)',
+    type: 'array'
+  },
+  'include-people': {
+    group: 'Album options:',
+    description: 'Names to include in %people',
+    type: 'array'
+  },
+  'exclude-people': {
+    group: 'Album options:',
+    description: 'Names to exclude from %people',
+    type: 'array'
+  },
 
   // ------------------------------------
   // Website options
