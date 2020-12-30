@@ -1,6 +1,5 @@
 const debug = require('debug')
 const fs = require('fs')
-const path = require('path')
 const util = require('util')
 const tty = require('tty')
 
@@ -24,7 +23,7 @@ const tty = require('tty')
   If --log is not specified, but the output doesn't support ANSI (e.g. non-TTY terminal, or file redirection)
   then the mode is automatically switched to "--log info"
 */
-exports.init = (logLevel, outputFolder) => {
+exports.init = (logLevel, logFile) => {
   // if the output doesn't support ANSI codes (e.g. pipe, redirect to file)
   // then switch to full-text mode, because Listr's output won't make much sense
   if (logLevel === 'default' && !tty.isatty(process.stdout.fd)) {
@@ -33,7 +32,7 @@ exports.init = (logLevel, outputFolder) => {
 
   // Configure the loggers
   if (logLevel === 'default') {
-    configureDefaultMode(outputFolder)
+    configureDefaultMode(logFile)
   } else {
     configureDebugMode(logLevel)
   }
@@ -55,9 +54,8 @@ function overrideDebugFormat () {
   If --log is not specified, we won't show any detailed log on stdout
   Instead we send all errors to a file for troubleshooting
 */
-function configureDefaultMode (outputFolder) {
-  const logfile = path.join(outputFolder, 'thumbsup.log')
-  const stream = fs.createWriteStream(logfile, { flags: 'a' })
+function configureDefaultMode (logFile) {
+  const stream = fs.createWriteStream(logFile, { flags: 'a' })
   overrideDebugFormat()
   debug.enable('thumbsup:error,thumbsup:warn')
   debug.useColors = () => false

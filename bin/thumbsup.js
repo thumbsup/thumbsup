@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const fs = require('fs-extra')
-const path = require('path')
 const moment = require('moment')
 const Analytics = require('./analytics')
 const dependencies = require('./dependencies')
@@ -16,12 +15,11 @@ const opts = options.get(args)
 
 // Only require the index after logging options have been set
 fs.mkdirpSync(opts.output)
-require('./log').init(opts.log, opts.output)
+require('./log').init(opts.log, opts.logFile)
 const index = require('../src/index')
 
 // If this is the first run, display a welcome message
-const indexPath = path.join(opts.output, 'thumbsup.db')
-const firstRun = fs.existsSync(indexPath) === false
+const firstRun = fs.existsSync(opts.databaseFile) === false
 if (firstRun) {
   console.log(`${messages.GREETING()}\n`)
 }
@@ -74,7 +72,7 @@ function handleError (err) {
   delete err.context
   require('debug')('thumbsup:error')(err)
   console.error('\nUnexpected error', err.message)
-  console.error(`\n${messages.SORRY()}\n`)
+  console.error(`\n${messages.SORRY(opts.logFile)}\n`)
   exit(1)
 }
 

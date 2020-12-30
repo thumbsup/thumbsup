@@ -29,7 +29,8 @@ const SORT_MEDIA_BY = {
 
 const PREVIEW_MISSING = {
   urls: {
-    thumbnail: 'public/missing.png'
+    thumbnail: 'public/missing.png',
+    small: 'public/missing.png'
   }
 }
 
@@ -76,7 +77,7 @@ Album.prototype.finalize = function (options, parent) {
   this.calculateStats()
   this.calculateSummary()
   this.sort(options)
-  this.pickPreviews()
+  this.pickPreviews(options)
 }
 
 Album.prototype.calculateStats = function () {
@@ -119,15 +120,31 @@ Album.prototype.sort = function (options) {
   this.albums = _.orderBy(this.albums, SORT_ALBUMS_BY[sortAlbumsBy], sortAlbumsDirection)
 }
 
-Album.prototype.pickPreviews = function () {
-  // also consider previews from nested albums
-  var nestedPicks = _.flatten(_.map(this.albums, 'previews')).filter(function (file) {
-    return file !== PREVIEW_MISSING
-  })
-  // then pick the top ones
-  var potentialPicks = _.concat(this.files, nestedPicks)
-  this.previews = potentialPicks.slice(0, PREVIEW_COUNT)
-  // and fill the gap with a placeholder
+Album.prototype.pickPreviews = function (options) {
+  // consider nested albums if there aren't enough photos
+  var potential = this.files
+  if (potential.length < PREVIEW_COUNT) {
+    const nested = _.flatMap(this.albums, 'previews').filter(file => file !== PREVIEW_MISSING)
+    potential = potential.concat(nested)
+  }
+  // choose the previews
+  if (!options.albumPreviews || options.albumPreviews === 'first') {
+    this.previews = _.slice(potential, 0, PREVIEW_COUNT)
+  } else if (options.albumPreviews === 'random') {
+    this.previews = _.sampleSize(potential, PREVIEW_COUNT)
+  } else if (options.albumPreviews === 'spread') {
+    if (potential.length < PREVIEW_COUNT) {
+      this.previews = _.slice(potential, 0, PREVIEW_COUNT)
+    } else {
+      const bucketSize = Math.floor(potential.length / PREVIEW_COUNT)
+      const buckets = _.chunk(potential, bucketSize)
+      this.previews = buckets.slice(0, PREVIEW_COUNT).map(b => b[0])
+    }
+  } else {
+    throw new Error(`Unsupported preview type: ${options.albumPreviews}`)
+  }
+
+  // and fill any gap with a placeholder
   var missing = PREVIEW_COUNT - this.previews.length
   for (var i = 0; i < missing; ++i) {
     this.previews.push(PREVIEW_MISSING)

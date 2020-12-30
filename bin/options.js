@@ -268,6 +268,12 @@ const OPTIONS = {
     description: 'Names to exclude from %people',
     type: 'array'
   },
+  'album-previews': {
+    group: 'Album options:',
+    description: 'How previews are selected',
+    choices: ['first', 'spread', 'random'],
+    'default': 'first'
+  },
 
   // ------------------------------------
   // Website options
@@ -352,6 +358,18 @@ const OPTIONS = {
   'config': {
     group: 'Misc options:',
     description: 'JSON config file (one key per argument)',
+    normalize: true
+  },
+
+  'database-file': {
+    group: 'Misc options:',
+    description: 'Path to the database file',
+    normalize: true
+  },
+
+  'log-file': {
+    group: 'Misc options:',
+    description: 'Path to the log file',
     normalize: true
   },
 
@@ -441,9 +459,21 @@ exports.get = (args) => {
   // This means we can process the camelCase version only after that
   const opts = _.omitBy(parsedOptions, (value, key) => key.indexOf('-') >= 0)
 
-  // Make input/output folder absolute paths
+  // Default database file
+  if (!opts.databaseFile) {
+    opts.databaseFile = path.join(opts.output, 'thumbsup.db')
+  }
+
+  // Default log file
+  if (!opts.logFile) {
+    opts.logFile = changeExtension(opts.databaseFile, '.log')
+  }
+
+  // Better to work with absolute paths
   opts.input = path.resolve(opts.input)
   opts.output = path.resolve(opts.output)
+  opts.databaseFile = path.resolve(opts.databaseFile)
+  opts.logFile = path.resolve(opts.logFile)
 
   // By default, use relative links to the input folder
   if (opts.downloadLinkPrefix) opts.linkPrefix = opts.downloadLinkPrefix
@@ -486,4 +516,10 @@ function replaceInArray (list, match, replacement) {
 function commaSeparated (value) {
   if (value.indexOf(',') === -1) return value
   return value.split(',')
+}
+
+function changeExtension (file, ext) {
+  const originalExt = path.extname(file)
+  const filename = path.basename(file, originalExt)
+  return path.join(path.dirname(file), filename + ext)
 }
