@@ -2,15 +2,20 @@ const should = require('should/as-function')
 const messages = require('../../bin/messages.js')
 
 describe('messages', function () {
-  ['SUCCESS', 'GREETING', 'SORRY'].forEach(type => {
-    it(`wraps ${type} messages in a box`, () => {
-      const success = messages[type]({})
-      should(success.indexOf('┌───')).above(-1)
-      should(success.indexOf('───┐')).above(-1)
-      should(success.indexOf('└───')).above(-1)
-      should(success.indexOf('───┘')).above(-1)
-      should(success.split('\n').length).above(4)
-    })
+  it('shows SUCCESS in a box', () => {
+    const stats = { albums: 1, photos: 1, videos: 1 }
+    const success = messages.SUCCESS(stats)
+    assertInABox(success)
+  })
+
+  it('shows GREETING in a box', () => {
+    const greeting = messages.GREETING()
+    assertInABox(greeting)
+  })
+
+  it('shows SORRY in a box', () => {
+    const sorry = messages.SORRY('thumbsup.log')
+    assertInABox(sorry)
   })
 
   it('lists mandatory binary dependencies', () => {
@@ -24,3 +29,11 @@ describe('messages', function () {
     should(messages.PROBLEMS(2).indexOf('with 2 files.')).above(-1)
   })
 })
+
+function assertInABox (result) {
+  should(result.indexOf('┌───')).above(-1)
+  should(result.indexOf('───┐')).above(-1)
+  should(result.indexOf('└───')).above(-1)
+  should(result.indexOf('───┘')).above(-1)
+  should(result.split('\n').length).above(4)
+}

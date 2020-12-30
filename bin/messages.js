@@ -42,9 +42,9 @@ Thanks for using thumbsup!
 
 Don't forget to check out the docs at ${DOCS_URL}.
 
-When building a gallery, thumbsup reports anonymous stats such as the OS and
-gallery size. This is used to understand usage patterns & guide development
-effort. You can disable usage reporting by specifying --no-usage-stats.
+When building a gallery, thumbsup reports anonymous stats such as the
+OS and gallery size. This is used to understand usage patterns & guide
+development effort. You can disable this by specifying --no-usage-stats.
 
 This welcome message will not be shown again for this gallery.
 Enjoy!
