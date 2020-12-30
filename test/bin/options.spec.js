@@ -1,4 +1,5 @@
 const path = require('path')
+const process = require('process')
 const should = require('should/as-function')
 const options = require('../../bin/options.js')
 
@@ -87,6 +88,24 @@ describe('options', function () {
       ])
       const opts = options.get(args)
       should(opts.gmArgs).eql(['-equalize', '-modulate 120'])
+    })
+  })
+  describe('misc', () => {
+    describe('database file path', () => {
+      it('defaults to the output folder', () => {
+        const opts = options.get(BASE_ARGS)
+        should(opts.databaseFile).eql(path.resolve('website/thumbsup.db'))
+      })
+      it('can be overridden with a relative url', () => {
+        const args = BASE_ARGS.concat(['--database-file', 'album.db'])
+        const opts = options.get(args)
+        should(opts.databaseFile).eql(path.join(process.cwd(), 'album.db'))
+      })
+      it('can be overridden with an absolute url', () => {
+        const args = BASE_ARGS.concat(['--database-file', '/media/album.db'])
+        const opts = options.get(args)
+        should(opts.databaseFile).eql('/media/album.db')
+      })
     })
   })
   describe('deprecated', () => {

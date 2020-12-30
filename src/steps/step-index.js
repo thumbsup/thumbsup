@@ -12,13 +12,12 @@ const AlbumMapper = require('../input/album-mapper')
 const Metadata = require('../model/metadata')
 const File = require('../model/file')
 const Observable = require('zen-observable')
-const path = require('path')
 const Picasa = require('../input/picasa')
 
 exports.run = function (opts, callback) {
   return new Observable(observer => {
     const picasaReader = new Picasa()
-    const index = new Index(path.join(opts.output, 'thumbsup.db'))
+    const index = new Index(opts.databaseFile)
     const emitter = index.update(opts.input, opts)
     const files = []
 

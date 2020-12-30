@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const fs = require('fs-extra')
-const path = require('path')
 const moment = require('moment')
 const Analytics = require('./analytics')
 const dependencies = require('./dependencies')
@@ -20,8 +19,7 @@ require('./log').init(opts.log, opts.output)
 const index = require('../src/index')
 
 // If this is the first run, display a welcome message
-const indexPath = path.join(opts.output, 'thumbsup.db')
-const firstRun = fs.existsSync(indexPath) === false
+const firstRun = fs.existsSync(opts.databaseFile) === false
 if (firstRun) {
   console.log(`${messages.GREETING()}\n`)
 }

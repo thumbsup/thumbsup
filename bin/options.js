@@ -325,6 +325,12 @@ const OPTIONS = {
     normalize: true
   },
 
+  'database-file': {
+    group: 'Misc options:',
+    description: 'Path to the database file',
+    normalize: true
+  },
+
   'log': {
     group: 'Misc options:',
     description: 'Print a detailed text log',
@@ -411,9 +417,15 @@ exports.get = (args) => {
   // This means we can process the camelCase version only after that
   const opts = _.omitBy(parsedOptions, (value, key) => key.indexOf('-') >= 0)
 
-  // Make input/output folder absolute paths
+  // Default database file
+  if (!opts.databaseFile) {
+    opts.databaseFile = path.join(opts.output, 'thumbsup.db')
+  }
+
+  // Better to work with absolute paths
   opts.input = path.resolve(opts.input)
   opts.output = path.resolve(opts.output)
+  opts.databaseFile = path.resolve(opts.databaseFile)
 
   // By default, use relative links to the input folder
   if (opts.downloadLinkPrefix) opts.linkPrefix = opts.downloadLinkPrefix
