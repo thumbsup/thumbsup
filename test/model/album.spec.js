@@ -111,48 +111,6 @@ describe('Album', function () {
     })
   })
 
-  describe('previews', function () {
-    it('picks the first 10 files as previews', function () {
-      const a = new Album({ files: [
-        fixtures.photo(), fixtures.photo(), fixtures.photo(), fixtures.photo(),
-        fixtures.photo(), fixtures.photo(), fixtures.photo(), fixtures.photo(),
-        fixtures.photo(), fixtures.photo(), fixtures.photo(), fixtures.photo()
-      ] })
-      a.finalize()
-      should(a.previews).have.length(10)
-    })
-
-    it('adds <missing> thumbnails to fill', function () {
-      const a = new Album({ files: [
-        fixtures.photo(), fixtures.photo()
-      ] })
-      a.finalize()
-      should(a.previews[2].urls.thumbnail).eql('public/missing.png')
-      should(a.previews[9].urls.thumbnail).eql('public/missing.png')
-    })
-
-    it('uses files from nested albums too', function () {
-      const a = new Album({
-        title: 'a',
-        albums: [
-          new Album({
-            title: 'b',
-            files: [fixtures.photo(), fixtures.photo()]
-          }),
-          new Album({
-            title: 'c',
-            files: [fixtures.photo(), fixtures.photo()]
-          })
-        ]
-      })
-      a.finalize()
-      should(a.previews).have.length(10)
-      for (var i = 0; i < 4; ++i) {
-        should(a.previews[i].urls.thumbnail).not.eql('public/missing.png')
-      }
-    })
-  })
-
   describe('sorting', function () {
     it('can sort albums by title', function () {
       const a = new Album('A')

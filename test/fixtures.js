@@ -40,7 +40,11 @@ exports.date = function (str) {
 }
 
 exports.photo = function (opts) {
-  opts = opts || {}
+  if (typeof opts === 'string') {
+    opts = { path: opts }
+  } else {
+    opts = opts || {}
+  }
   opts.mimeType = 'image/jpg'
   return exports.file(opts)
 }

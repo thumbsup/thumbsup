@@ -238,6 +238,12 @@ const OPTIONS = {
     type: 'boolean',
     'default': false
   },
+  'album-previews': {
+    group: 'Album options:',
+    description: 'How previews are selected',
+    choices: ['first', 'spread', 'random'],
+    'default': 'first'
+  },
 
   // ------------------------------------
   // Website options
