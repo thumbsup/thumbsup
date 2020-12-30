@@ -78,8 +78,73 @@ describe('AlbumPattern', function () {
       })
       should(func(file)).eql(['Tags/beach', 'Tags/sunset'])
     })
+    it('can find keywords in a specified tag', () => {
+      const func = pattern.create('%keywords')
+      const file = fixtures.photo({
+        subjects: ['sunny beach']
+      }, {
+        keywordLocations: ['XMP.Subject']
+      })
+      should(func(file)).eql(['sunny beach'])
+    })
+    it('can deal with keyword includes and excludes', () => {
+      const func = pattern.create('%keywords')
+      const file = fixtures.photo({
+        subjects: ['beach', 'sunny beach', 'sandy shore', 'waves']
+      }, {
+        keywordLocations: ['XMP.Subject'],
+        includeKeywords: ['sunny beach', 'sandy shore', 'waves'],
+        excludeKeywords: ['sandy shore']
+      })
+      should(func(file)).eql(['sunny beach', 'waves'])
+    })
     it('does not return any albums if the photo does not have keywords', () => {
       const func = pattern.create('{YYYY}/tags/%keywords')
+      const file = fixtures.photo()
+      should(func(file)).eql([])
+    })
+  })
+  describe('people', () => {
+    it('can return a single person', () => {
+      const func = pattern.create('%people')
+      const file = fixtures.photo({
+        people: ['john doe']
+      }, {
+        peopleLocations: ['XMP.PersonInImage']
+      })
+      should(func(file)).eql(['john doe'])
+    })
+    it('can return multiple people', () => {
+      const func = pattern.create('%people')
+      const file = fixtures.photo({
+        people: ['john doe', 'jane doe']
+      }, {
+        peopleLocations: ['XMP.PersonInImage']
+      })
+      should(func(file)).eql(['john doe', 'jane doe'])
+    })
+    it('can use plain text around the people', () => {
+      const func = pattern.create('Tags/%people')
+      const file = fixtures.photo({
+        people: ['john doe', 'jane doe']
+      }, {
+        peopleLocations: ['XMP.PersonInImage']
+      })
+      should(func(file)).eql(['Tags/john doe', 'Tags/jane doe'])
+    })
+    it('can deal with people includes and excludes', () => {
+      const func = pattern.create('%people')
+      const file = fixtures.photo({
+        people: ['john doe', 'jane doe', 'john lennon', 'paul mccartney']
+      }, {
+        peopleLocations: ['XMP.PersonInImage'],
+        includePeople: ['jane doe', 'john lennon', 'paul mccartney'],
+        excludePeople: ['john lennon']
+      })
+      should(func(file)).eql(['jane doe', 'paul mccartney'])
+    })
+    it('does not return any albums if the photo does not have people', () => {
+      const func = pattern.create('{YYYY}/tags/%people')
       const file = fixtures.photo()
       should(func(file)).eql([])
     })

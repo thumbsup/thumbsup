@@ -18,7 +18,10 @@ exports.exiftool = function (opts) {
     IPTC: {
       Keywords: opts.keywords
     },
-    XMP: {},
+    XMP: {
+      PersonInImage: opts.people,
+      Subject: opts.subjects
+    },
     H264: {},
     QuickTime: {}
   }
@@ -28,9 +31,9 @@ exports.metadata = function (opts) {
   return new Metadata(exports.exiftool(opts))
 }
 
-exports.file = function (opts) {
-  const exiftool = exports.exiftool(opts)
-  const meta = new Metadata(exiftool)
+exports.file = function (fileOpts, opts) {
+  const exiftool = exports.exiftool(fileOpts)
+  const meta = new Metadata(exiftool, undefined, opts)
   return new File(exiftool, meta)
 }
 
@@ -39,14 +42,14 @@ exports.date = function (str) {
   // return new Date(Date.parse(str))
 }
 
-exports.photo = function (opts) {
-  if (typeof opts === 'string') {
-    opts = { path: opts }
+exports.photo = function (photoOpts, opts) {
+  if (typeof photoOpts === 'string') {
+    photoOpts = { path: photoOpts }
   } else {
-    opts = opts || {}
+    photoOpts = photoOpts || {}
   }
-  opts.mimeType = 'image/jpg'
-  return exports.file(opts)
+  photoOpts.mimeType = 'image/jpg'
+  return exports.file(photoOpts, opts)
 }
 
 exports.video = function (opts) {
