@@ -331,6 +331,12 @@ const OPTIONS = {
     normalize: true
   },
 
+  'log-file': {
+    group: 'Misc options:',
+    description: 'Path to the log file',
+    normalize: true
+  },
+
   'log': {
     group: 'Misc options:',
     description: 'Print a detailed text log',
@@ -422,10 +428,16 @@ exports.get = (args) => {
     opts.databaseFile = path.join(opts.output, 'thumbsup.db')
   }
 
+  // Default log file
+  if (!opts.logFile) {
+    opts.logFile = changeExtension(opts.databaseFile, '.log')
+  }
+
   // Better to work with absolute paths
   opts.input = path.resolve(opts.input)
   opts.output = path.resolve(opts.output)
   opts.databaseFile = path.resolve(opts.databaseFile)
+  opts.logFile = path.resolve(opts.logFile)
 
   // By default, use relative links to the input folder
   if (opts.downloadLinkPrefix) opts.linkPrefix = opts.downloadLinkPrefix
@@ -468,4 +480,10 @@ function replaceInArray (list, match, replacement) {
 function commaSeparated (value) {
   if (value.indexOf(',') === -1) return value
   return value.split(',')
+}
+
+function changeExtension (file, ext) {
+  const originalExt = path.extname(file)
+  const filename = path.basename(file, originalExt)
+  return path.join(path.dirname(file), filename + ext)
 }

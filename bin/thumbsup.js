@@ -15,7 +15,7 @@ const opts = options.get(args)
 
 // Only require the index after logging options have been set
 fs.mkdirpSync(opts.output)
-require('./log').init(opts.log, opts.output)
+require('./log').init(opts.log, opts.logFile)
 const index = require('../src/index')
 
 // If this is the first run, display a welcome message
@@ -72,7 +72,7 @@ function handleError (err) {
   delete err.context
   require('debug')('thumbsup:error')(err)
   console.error('\nUnexpected error', err.message)
-  console.error(`\n${messages.SORRY()}\n`)
+  console.error(`\n${messages.SORRY(opts.logFile)}\n`)
   exit(1)
 }
 
