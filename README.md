@@ -126,6 +126,7 @@ Album options:
   --home-album-name        Name of the top-level album  [string] [default: "Home"]
   --album-page-size        Max number of files displayed on a page  [number] [default: null]
   --album-zip-files        Create a ZIP file per album  [boolean] [default: false]
+  --album-previews         How previews are selected  [choices: "first", "spread", "random"] [default: "first"]
 
 Website options:
   --index                 Filename of the home page  [string] [default: "index.html"]
@@ -142,10 +143,12 @@ Website options:
   --seo-location          Location where the site will be hosted. If provided, sitemap.xml and robots.txt will be created.  [string] [default: null]
 
 Misc options:
-  --config       JSON config file (one key per argument)  [string]
-  --log          Print a detailed text log  [choices: "default", "info", "debug", "trace"] [default: "default"]
-  --usage-stats  Enable anonymous usage statistics  [boolean] [default: true]
-  --dry-run      Update the index, but don't create the media files / website  [boolean] [default: false]
+  --config         JSON config file (one key per argument)  [string]
+  --database-file  Path to the database file  [string]
+  --log-file       Path to the log file  [string]
+  --log            Print a detailed text log  [choices: "default", "info", "debug", "trace"] [default: "default"]
+  --usage-stats    Enable anonymous usage statistics  [boolean] [default: true]
+  --dry-run        Update the index, but don't create the media files / website  [boolean] [default: false]
 
 Deprecated:
   --original-photos       Copy and allow download of full-size photos  [boolean]
