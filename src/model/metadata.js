@@ -90,15 +90,7 @@ function caption (exif, picasa) {
 
 function keywords (exif, picasa, opts) {
   if (opts && opts.keywordLocations) {
-    var keywords = new Set()
-    opts.keywordLocations.forEach(location => {
-      const locationBits = location.split('.', 2)
-      const values = tagValue(exif, locationBits[0], locationBits[1])
-      if (values) values.forEach(keyword => keywords.add(keyword))
-    })
-    if (opts.includeKeywords && opts.includeKeywords.length > 0) keywords = new Set([...keywords].filter(x => opts.includeKeywords.includes(x))) // intersection
-    if (opts.excludeKeywords && opts.excludeKeywords.length > 0) keywords = new Set([...keywords].filter(x => !opts.excludeKeywords.includes(x))) // difference
-    return [...keywords]
+    return findTags(opts.keywordLocations, opts.includeKeywords, opts.excludeKeywords, exif)
   }
   // Legacy keyword handling
   // try Picasa (comma-separated)
@@ -113,17 +105,30 @@ function keywords (exif, picasa, opts) {
 
 function people (exif, opts) {
   if (opts && opts.peopleLocations) {
-    var people = new Set()
-    opts.peopleLocations.forEach(location => {
-      const locationBits = location.split('.', 2)
-      const values = tagValue(exif, locationBits[0], locationBits[1])
-      if (values) values.forEach(name => people.add(name))
-    })
-    if (opts.includePeople && opts.includePeople.length > 0) people = new Set([...people].filter(x => opts.includePeople.includes(x))) // intersection
-    if (opts.excludePeople && opts.excludePeople.length > 0) people = new Set([...people].filter(x => !opts.excludePeople.includes(x))) // difference
-    return [...people]
+    return findTags(opts.peopleLocations, opts.includePeople, opts.excludePeople, exif)
   }
   return []
+}
+
+function findTags (locations, includeWords, excludeWords, exif) {
+  var words = new Set()
+  locations.forEach(location => {
+    const values = tagValue(exif, ...location.split('.', 2))
+    if (values) values.forEach(word => words.add(word))
+  })
+  if (includeWords && includeWords.length > 0) words = setIntersection(words, includeWords)
+  if (excludeWords && excludeWords.length > 0) words = setDifference(words, excludeWords)
+  return [...words]
+}
+
+function setDifference (words, excludeWords) {
+  words = new Set([...words].filter(x => !excludeWords.includes(x))) // difference
+  return words
+}
+
+function setIntersection (words, includeWords) {
+  words = new Set([...words].filter(x => includeWords.includes(x))) // intersection
+  return words
 }
 
 function video (exif) {
