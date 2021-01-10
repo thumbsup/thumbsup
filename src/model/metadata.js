@@ -133,7 +133,7 @@ function makeArray (value) {
 
 function dimensions (exif) {
   // Use the Composite field to avoid having to check all possible tag groups (EXIF, QuickTime, ASF...)
-  if (!exif.Composite) {
+  if (!exif.Composite || !exif.Composite.ImageSize) {
     return {
       width: null,
       height: null
