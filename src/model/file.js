@@ -24,7 +24,7 @@ class File {
     this.type = mediaType(dbEntry)
     this.isVideo = (this.type === 'video')
     this.output = output.paths(this.path, this.type, opts || {})
-    this.urls = _.mapValues(this.output, o => o.path.replace('\\', '/'))
+    this.urls = _.mapValues(this.output, o => pathToUrl(o.path))
     this.meta = meta
   }
 }
@@ -38,6 +38,10 @@ function mediaType (dbEntry) {
   if (match && match[1] === 'image') return 'image'
   if (match && match[1] === 'video') return 'video'
   return 'unknown'
+}
+
+function pathToUrl (filepath) {
+  return encodeURI(filepath.replace('\\', '/'))
 }
 
 module.exports = File

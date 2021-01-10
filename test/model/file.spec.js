@@ -51,6 +51,22 @@ describe('File', function () {
     const video = new File(dbFile({ File: { MIMEType: 'video/quicktime' } }))
     should(video.isVideo).eql(true)
   })
+
+  it('exposes the URL for each output file', function () {
+    const file = new File(dbFile({ File: { MIMEType: 'image/jpeg' } }))
+    should(file.urls.thumbnail).eql('media/thumbs/photo.jpg')
+    should(file.urls.small).eql('media/small/photo.jpg')
+    should(file.urls.large).eql('media/large/photo.jpg')
+    should(file.urls.download).eql('media/large/photo.jpg')
+  })
+
+  it('encodes the URLs to cater for special characters', function () {
+    const file = new File(dbFile({
+      SourceFile: 'test%22folder/photo.jpg',
+      File: { MIMEType: 'image/jpeg' }
+    }))
+    should(file.urls.small).eql('media/small/test%2522folder/photo.jpg')
+  })
 })
 
 function dbFile (data) {
