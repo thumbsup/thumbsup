@@ -10,16 +10,16 @@ const path = require('path')
 const albumPattern = require('./album-pattern')
 
 class AlbumMapper {
-  constructor (patterns) {
+  constructor (patterns, opts) {
     const defaulted = (patterns && patterns.length > 0) ? patterns : ['%path']
-    this.patterns = defaulted.map(load)
+    this.patterns = defaulted.map(p => load(p, opts))
   }
   getAlbums (file) {
     return _.flatMap(this.patterns, pattern => pattern(file))
   }
 }
 
-function load (pattern) {
+function load (pattern, opts) {
   // custom mapper file
   if (typeof pattern === 'string' && pattern.startsWith('file://')) {
     const filepath = pattern.slice('file://'.length)
@@ -27,7 +27,7 @@ function load (pattern) {
   }
   // string pattern
   if (typeof pattern === 'string') {
-    return albumPattern.create(pattern)
+    return albumPattern.create(pattern, opts)
   }
   // already a function
   return pattern

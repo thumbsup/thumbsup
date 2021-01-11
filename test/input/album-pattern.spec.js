@@ -57,25 +57,28 @@ describe('AlbumPattern', function () {
     })
   })
   describe('keywords', () => {
+    const opts = {
+      keywordFields: ['IPTC:Keywords']
+    }
     it('can return a single keyword', () => {
-      const func = pattern.create('%keywords')
+      const func = pattern.create('%keywords', opts)
       const file = fixtures.photo({
         keywords: ['beach']
-      })
+      }, opts)
       should(func(file)).eql(['beach'])
     })
     it('can return multiple keyword', () => {
-      const func = pattern.create('%keywords')
+      const func = pattern.create('%keywords', opts)
       const file = fixtures.photo({
         keywords: ['beach', 'sunset']
-      })
+      }, opts)
       should(func(file)).eql(['beach', 'sunset'])
     })
     it('can use plain text around the keywords', () => {
-      const func = pattern.create('Tags/%keywords')
+      const func = pattern.create('Tags/%keywords', opts)
       const file = fixtures.photo({
         keywords: ['beach', 'sunset']
-      })
+      }, opts)
       should(func(file)).eql(['Tags/beach', 'Tags/sunset'])
     })
     it('can find keywords in a specified tag', () => {
@@ -83,19 +86,20 @@ describe('AlbumPattern', function () {
       const file = fixtures.photo({
         subjects: ['sunny beach']
       }, {
-        keywordLocations: ['XMP.Subject']
+        keywordFields: ['XMP.Subject']
       })
       should(func(file)).eql(['sunny beach'])
     })
     it('can deal with keyword includes and excludes', () => {
-      const func = pattern.create('%keywords')
-      const file = fixtures.photo({
-        subjects: ['beach', 'sunny beach', 'sandy shore', 'waves']
-      }, {
-        keywordLocations: ['XMP.Subject'],
+      const opts = {
+        keywordFields: ['XMP.Subject'],
         includeKeywords: ['sunny beach', 'sandy shore', 'waves'],
         excludeKeywords: ['sandy shore']
-      })
+      }
+      const func = pattern.create('%keywords', opts)
+      const file = fixtures.photo({
+        subjects: ['beach', 'sunny beach', 'sandy shore', 'waves']
+      }, opts)
       should(func(file)).eql(['sunny beach', 'waves'])
     })
     it('does not return any albums if the photo does not have keywords', () => {
@@ -110,7 +114,7 @@ describe('AlbumPattern', function () {
       const file = fixtures.photo({
         people: ['john doe']
       }, {
-        peopleLocations: ['XMP.PersonInImage']
+        peopleFields: ['XMP.PersonInImage']
       })
       should(func(file)).eql(['john doe'])
     })
@@ -119,7 +123,7 @@ describe('AlbumPattern', function () {
       const file = fixtures.photo({
         people: ['john doe', 'jane doe']
       }, {
-        peopleLocations: ['XMP.PersonInImage']
+        peopleFields: ['XMP.PersonInImage']
       })
       should(func(file)).eql(['john doe', 'jane doe'])
     })
@@ -128,19 +132,20 @@ describe('AlbumPattern', function () {
       const file = fixtures.photo({
         people: ['john doe', 'jane doe']
       }, {
-        peopleLocations: ['XMP.PersonInImage']
+        peopleFields: ['XMP.PersonInImage']
       })
       should(func(file)).eql(['Tags/john doe', 'Tags/jane doe'])
     })
     it('can deal with people includes and excludes', () => {
-      const func = pattern.create('%people')
-      const file = fixtures.photo({
-        people: ['john doe', 'jane doe', 'john lennon', 'paul mccartney']
-      }, {
-        peopleLocations: ['XMP.PersonInImage'],
+      const opts = {
+        peopleFields: ['XMP.PersonInImage'],
         includePeople: ['jane doe', 'john lennon', 'paul mccartney'],
         excludePeople: ['john lennon']
-      })
+      }
+      const func = pattern.create('%people', opts)
+      const file = fixtures.photo({
+        people: ['john doe', 'jane doe', 'john lennon', 'paul mccartney']
+      }, opts)
       should(func(file)).eql(['jane doe', 'paul mccartney'])
     })
     it('does not return any albums if the photo does not have people', () => {
@@ -150,13 +155,16 @@ describe('AlbumPattern', function () {
     })
   })
   describe('Complex patterns', () => {
+    const opts = {
+      keywordFields: ['IPTC:Keywords']
+    }
     it('can mix several tokens inside a complex pattern', () => {
-      const func = pattern.create('{YYYY}/%path/%keywords')
+      const func = pattern.create('{YYYY}/%path/%keywords', opts)
       const file = fixtures.photo({
         path: 'Holidays/IMG_0001.jpg',
         date: '2016:07:14 12:07:41',
         keywords: ['beach', 'sunset']
-      })
+      }, opts)
       should(func(file)).eql(['2016/Holidays/beach', '2016/Holidays/sunset'])
     })
   })

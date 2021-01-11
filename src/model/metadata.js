@@ -89,46 +89,33 @@ function caption (exif, picasa) {
 }
 
 function keywords (exif, picasa, opts) {
-  if (opts && opts.keywordLocations) {
-    return findTags(opts.keywordLocations, opts.includeKeywords, opts.excludeKeywords, exif)
+  if (opts && opts.keywordFields) {
+    return findTags(opts.keywordFields, exif, picasa)
   }
-  // Legacy keyword handling
-  // try Picasa (comma-separated)
-  const picasaValues = picasaValue(picasa, 'keywords')
-  if (picasaValues) return picasaValues.split(',')
-  // try IPTC (string or array)
-  const iptcValues = tagValue(exif, 'IPTC', 'Keywords')
-  if (iptcValues) return makeArray(iptcValues)
-  // no keywords
   return []
 }
 
 function people (exif, opts) {
-  if (opts && opts.peopleLocations) {
-    return findTags(opts.peopleLocations, opts.includePeople, opts.excludePeople, exif)
+  if (opts && opts.peopleFields) {
+    return findTags(opts.peopleFields, exif)
   }
   return []
 }
 
-function findTags (locations, includeWords, excludeWords, exif) {
+function findTags (fields, exif, picasa) {
   var words = new Set()
-  locations.forEach(location => {
-    const values = tagValue(exif, ...location.split('.', 2))
-    if (values) values.forEach(word => words.add(word))
+  fields.forEach(field => {
+    const fieldComponents = field.split(/[.:]/, 2)
+    let values = []
+    if (/Picasa/i.test(fieldComponents[0])) {
+      const valuesString = picasaValue(picasa, fieldComponents[1])
+      if (valuesString) { values = valuesString.split(',') } // Picasa comma-separated
+    } else {
+      values = tagValue(exif, ...fieldComponents)
+    }
+    if (values) makeArray(values).forEach(word => words.add(word)) // value could be string or array
   })
-  if (includeWords && includeWords.length > 0) words = setIntersection(words, includeWords)
-  if (excludeWords && excludeWords.length > 0) words = setDifference(words, excludeWords)
   return [...words]
-}
-
-function setDifference (words, excludeWords) {
-  words = new Set([...words].filter(x => !excludeWords.includes(x))) // difference
-  return words
-}
-
-function setIntersection (words, includeWords) {
-  words = new Set([...words].filter(x => includeWords.includes(x))) // intersection
-  return words
 }
 
 function video (exif) {

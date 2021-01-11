@@ -15,7 +15,7 @@ const TOKEN_FUNC = {
   '%path': file => path.dirname(file.path)
 }
 
-exports.create = pattern => {
+exports.create = (pattern, opts) => {
   const cache = {
     usesTokens: TOKEN_REGEX.test(pattern),
     usesDates: DATE_REGEX.test(pattern),
@@ -34,10 +34,14 @@ exports.create = pattern => {
     }
     if (cache.usesKeywords) {
       // create one album per keyword if required
-      return file.meta.keywords.map(k => album.replace('%keywords', k))
+      let words = file.meta.keywords
+      if (opts) { words = filterWords(words, opts.includeKeywords, opts.excludeKeywords) }
+      return words.map(k => album.replace('%keywords', k))
     } else if (cache.usesPeople) {
       // create one album per person if required
-      return file.meta.people.map(k => album.replace('%people', k))
+      let words = file.meta.people
+      if (opts) { words = filterWords(words, opts.includePeople, opts.excludePeople) }
+      return words.map(k => album.replace('%people', k))
     } else {
       return [album]
     }
@@ -52,4 +56,18 @@ function replaceToken (file, token) {
 function replaceDate (file, format) {
   const fmt = format.slice(1, -1)
   return moment(file.meta.date).format(fmt)
+}
+
+function filterWords (words, includeWords, excludeWords) {
+  if (includeWords && includeWords.length > 0) words = setIntersection(words, includeWords)
+  if (excludeWords && excludeWords.length > 0) words = setDifference(words, excludeWords)
+  return words
+}
+
+function setDifference (words, excludeWords) {
+  return words.filter(x => !excludeWords.includes(x))
+}
+
+function setIntersection (words, includeWords) {
+  return words.filter(x => includeWords.includes(x))
 }

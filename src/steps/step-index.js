@@ -48,7 +48,7 @@ exports.run = function (opts, callback) {
 
     // finished, we can create the albums
     emitter.on('done', stats => {
-      const mapper = new AlbumMapper(opts.albumsFrom)
+      const mapper = new AlbumMapper(opts.albumsFrom, opts)
       const album = hierarchy.createAlbums(files, mapper, opts)
       callback(null, files, album)
       observer.complete()
