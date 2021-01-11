@@ -235,8 +235,16 @@ describe('Metadata', function () {
       should(meta.height).eql(600)
     })
 
-    it('defaults to null otherwise', function () {
+    it('defaults to null when there is no Composite data', function () {
       const exiftool = fixtures.exiftool()
+      const meta = new Metadata(exiftool)
+      should(meta.width).eql(null)
+      should(meta.width).eql(null)
+    })
+
+    it('defaults to null when there is no ImageSize data', function () {
+      const exiftool = fixtures.exiftool()
+      exiftool.Composite = { Other: 'Data' }
       const meta = new Metadata(exiftool)
       should(meta.width).eql(null)
       should(meta.width).eql(null)
