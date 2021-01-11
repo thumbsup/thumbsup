@@ -39,12 +39,10 @@ function mapperFunction (pattern, cache, opts) {
     }
     if (cache.usesKeywords) {
       // create one album per keyword
-      const filter = { includes: opts.includeKeywords, excludes: opts.excludeKeywords }
-      return replaceTags(file.meta.keywords, filter, album, '%keywords')
+      return replaceTags(file.meta.keywords, { includes: opts.includeKeywords, excludes: opts.excludeKeywords }, album, '%keywords')
     } else if (cache.usesPeople) {
       // create one album per person
-      const filter = { includes: opts.includePeople, excludes: opts.excludePeople }
-      return replaceTags(file.meta.people, filter, album, '%people')
+      return replaceTags(file.meta.people, { includes: opts.includePeople, excludes: opts.excludePeople }, album, '%people')
     } else {
       return [album]
     }
