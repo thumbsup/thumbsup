@@ -23,6 +23,11 @@ exports.create = (pattern, opts) => {
     usesPeople: pattern.indexOf('%people') > -1
   }
   // return a standard mapper function (file => album names)
+  return mapperFunction(pattern, cache, opts)
+}
+
+function mapperFunction (pattern, cache, opts) {
+  if (opts === undefined) { opts = {} }
   return file => {
     var album = pattern
     // replace known tokens
@@ -33,19 +38,20 @@ exports.create = (pattern, opts) => {
       album = album.replace(DATE_REGEX, format => replaceDate(file, format))
     }
     if (cache.usesKeywords) {
-      // create one album per keyword if required
-      let words = file.meta.keywords
-      if (opts) { words = filterWords(words, opts.includeKeywords, opts.excludeKeywords) }
-      return words.map(k => album.replace('%keywords', k))
+      // create one album per keyword
+      return replaceTags(file.meta.keywords, opts.includeKeywords, opts.excludeKeywords, album, '%keywords')
     } else if (cache.usesPeople) {
-      // create one album per person if required
-      let words = file.meta.people
-      if (opts) { words = filterWords(words, opts.includePeople, opts.excludePeople) }
-      return words.map(k => album.replace('%people', k))
+      // create one album per person
+      return replaceTags(file.meta.people, opts.includePeople, opts.excludePeople, album, '%people')
     } else {
       return [album]
     }
   }
+}
+
+function replaceTags (words, includes, excludes, album, tag) {
+  words = filterWords(words, includes, excludes)
+  return words.map(k => album.replace(tag, k))
 }
 
 function replaceToken (file, token) {
