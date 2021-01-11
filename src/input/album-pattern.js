@@ -39,18 +39,20 @@ function mapperFunction (pattern, cache, opts) {
     }
     if (cache.usesKeywords) {
       // create one album per keyword
-      return replaceTags(file.meta.keywords, opts.includeKeywords, opts.excludeKeywords, album, '%keywords')
+      const filter = { includes: opts.includeKeywords, excludes: opts.excludeKeywords }
+      return replaceTags(file.meta.keywords, filter, album, '%keywords')
     } else if (cache.usesPeople) {
       // create one album per person
-      return replaceTags(file.meta.people, opts.includePeople, opts.excludePeople, album, '%people')
+      const filter = { includes: opts.includePeople, excludes: opts.excludePeople }
+      return replaceTags(file.meta.people, filter, album, '%people')
     } else {
       return [album]
     }
   }
 }
 
-function replaceTags (words, includes, excludes, album, tag) {
-  words = filterWords(words, includes, excludes)
+function replaceTags (words, filter, album, tag) {
+  words = filterWords(words, filter)
   return words.map(k => album.replace(tag, k))
 }
 
@@ -64,9 +66,10 @@ function replaceDate (file, format) {
   return moment(file.meta.date).format(fmt)
 }
 
-function filterWords (words, includeWords, excludeWords) {
-  if (includeWords && includeWords.length > 0) words = setIntersection(words, includeWords)
-  if (excludeWords && excludeWords.length > 0) words = setDifference(words, excludeWords)
+function filterWords (words, filter) {
+  const { includes, excludes } = filter
+  if (includes && includes.length > 0) words = setIntersection(words, includes)
+  if (excludes && excludes.length > 0) words = setDifference(words, excludes)
   return words
 }
 
