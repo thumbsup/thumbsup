@@ -151,13 +151,6 @@ describe('Metadata', function () {
   })
 
   describe('keywords', function () {
-    const picasaOpts = {
-      keywordFields: ['Picasa:keywords']
-    }
-    const iptcOpts = {
-      keywordFields: ['IPTC:Keywords']
-    }
-
     it('defaults to an empty array', function () {
       const exiftool = fixtures.exiftool()
       const meta = new Metadata(exiftool)
@@ -168,7 +161,7 @@ describe('Metadata', function () {
       // a single keyword is returned as a string by <exiftool>
       const exiftool = fixtures.exiftool()
       exiftool.IPTC['Keywords'] = 'beach'
-      const meta = new Metadata(exiftool, {}, iptcOpts)
+      const meta = new Metadata(exiftool, {})
       should(meta.keywords).eql(['beach'])
     })
 
@@ -176,14 +169,14 @@ describe('Metadata', function () {
       // multiple keywords are returned as an array by <exiftool>
       const exiftool = fixtures.exiftool()
       exiftool.IPTC['Keywords'] = ['beach', 'sunset']
-      const meta = new Metadata(exiftool, {}, iptcOpts)
+      const meta = new Metadata(exiftool)
       should(meta.keywords).eql(['beach', 'sunset'])
     })
 
     it('can read a single Picasa keywords', function () {
       const exiftool = fixtures.exiftool()
       const picasa = { keywords: 'beach' }
-      const meta = new Metadata(exiftool, picasa, picasaOpts)
+      const meta = new Metadata(exiftool, picasa)
       should(meta.keywords).eql(['beach'])
     })
 
@@ -191,8 +184,25 @@ describe('Metadata', function () {
       // because it's a simple INI file, multiple keywords are comma-separated
       const exiftool = fixtures.exiftool()
       const picasa = { keywords: 'beach,sunset' }
-      const meta = new Metadata(exiftool, picasa, picasaOpts)
+      const meta = new Metadata(exiftool, picasa)
       should(meta.keywords).eql(['beach', 'sunset'])
+    })
+
+    it('combines all keyword sources', function () {
+      const exiftool = fixtures.exiftool()
+      exiftool.IPTC['Keywords'] = ['beach', 'sunset']
+      exiftool.XMP['Subject'] = 'holiday'
+      const picasa = { keywords: 'sandiego' }
+      const meta = new Metadata(exiftool, picasa, {})
+      should(meta.keywords).eql(['beach', 'sunset', 'holiday', 'sandiego'])
+    })
+
+    it('only keeps unique keywords', function () {
+      const exiftool = fixtures.exiftool()
+      exiftool.IPTC['Keywords'] = ['beach', 'sunset']
+      exiftool.XMP['Subject'] = ['beach', 'holiday']
+      const meta = new Metadata(exiftool)
+      should(meta.keywords).eql(['beach', 'sunset', 'holiday'])
     })
   })
 

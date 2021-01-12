@@ -469,15 +469,6 @@ exports.get = (args) => {
     opts.logFile = changeExtension(opts.databaseFile, '.log')
   }
 
-  // Default keyword fields
-  if (!opts.keywordFields) {
-    opts.keywordFields = ['XMP.Subject', 'IPTC.Keywords', 'Picasa:Keywords']
-  }
-  // Default people fields
-  if (!opts.peopleFields) {
-    opts.peopleFields = ['XMP.PersonInImage']
-  }
-
   // Better to work with absolute paths
   opts.input = path.resolve(opts.input)
   opts.output = path.resolve(opts.output)

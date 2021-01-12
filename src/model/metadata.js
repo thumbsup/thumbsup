@@ -5,6 +5,7 @@ This is based on parsing "provider data" such as Exiftool or Picasa
 --------------------------------------------------------------------------------
 */
 
+const _ = require('lodash')
 const moment = require('moment')
 const path = require('path')
 
@@ -25,8 +26,8 @@ class Metadata {
     // standardise metadata
     this.date = getDate(exiftool)
     this.caption = caption(exiftool)
-    this.keywords = keywords(exiftool, picasa, opts)
-    this.people = people(exiftool, opts)
+    this.keywords = keywords(exiftool, picasa)
+    this.people = people(exiftool)
     this.video = video(exiftool)
     this.animated = animated(exiftool)
     this.rating = rating(exiftool)
@@ -88,34 +89,17 @@ function caption (exif, picasa) {
     tagValue(exif, 'QuickTime', 'Title')
 }
 
-function keywords (exif, picasa, opts) {
-  if (opts && opts.keywordFields) {
-    return findTags(opts.keywordFields, exif, picasa)
-  }
-  return []
+function keywords (exif, picasa) {
+  const sources = [
+    tagValue(exif, 'IPTC', 'Keywords'),
+    tagValue(exif, 'XMP', 'Subject'),
+    picasaValue(picasa, 'keywords')
+  ]
+  return _.chain(sources).flatMap(makeArray).uniq().value()
 }
 
-function people (exif, opts) {
-  if (opts && opts.peopleFields) {
-    return findTags(opts.peopleFields, exif)
-  }
-  return []
-}
-
-function findTags (fields, exif, picasa) {
-  var words = new Set()
-  fields.forEach(field => {
-    const fieldComponents = field.split(/[.:]/, 2)
-    let values = []
-    if (/Picasa/i.test(fieldComponents[0])) {
-      const valuesString = picasaValue(picasa, fieldComponents[1])
-      if (valuesString) { values = valuesString.split(',') } // Picasa comma-separated
-    } else {
-      values = tagValue(exif, ...fieldComponents)
-    }
-    if (values) makeArray(values).forEach(word => words.add(word)) // value could be string or array
-  })
-  return [...words]
+function people (exif) {
+  return tagValue(exif, 'XMP', 'PersonInImage') || []
 }
 
 function video (exif) {
@@ -148,7 +132,8 @@ function picasaValue (picasa, name) {
 }
 
 function makeArray (value) {
-  return Array.isArray(value) ? value : [value]
+  if (!value) return []
+  return Array.isArray(value) ? value : value.split(',')
 }
 
 function dimensions (exif) {
