@@ -238,6 +238,36 @@ const OPTIONS = {
     type: 'boolean',
     'default': false
   },
+  // 'keyword-fields': {
+  //   group: 'Album options:',
+  //   description: 'Where to look in the metadata data for keywords (for %keywords)',
+  //   type: 'array'
+  // },
+  'include-keywords': {
+    group: 'Album options:',
+    description: 'Keywords to include in %keywords',
+    type: 'array'
+  },
+  'exclude-keywords': {
+    group: 'Album options:',
+    description: 'Keywords to exclude from %keywords',
+    type: 'array'
+  },
+  // 'people-fields': {
+  //   group: 'Album options:',
+  //   description: 'Where to look in the metadata data for people names (for %people)',
+  //   type: 'array'
+  // },
+  'include-people': {
+    group: 'Album options:',
+    description: 'Names to include in %people',
+    type: 'array'
+  },
+  'exclude-people': {
+    group: 'Album options:',
+    description: 'Names to exclude from %people',
+    type: 'array'
+  },
   'album-previews': {
     group: 'Album options:',
     description: 'How previews are selected',
@@ -437,6 +467,15 @@ exports.get = (args) => {
   // Default log file
   if (!opts.logFile) {
     opts.logFile = changeExtension(opts.databaseFile, '.log')
+  }
+
+  // Default keyword fields
+  if (!opts.keywordFields) {
+    opts.keywordFields = ['XMP.Subject', 'IPTC.Keywords', 'Picasa:Keywords']
+  }
+  // Default people fields
+  if (!opts.peopleFields) {
+    opts.peopleFields = ['XMP.PersonInImage']
   }
 
   // Better to work with absolute paths

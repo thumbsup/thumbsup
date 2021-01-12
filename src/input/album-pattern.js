@@ -15,13 +15,19 @@ const TOKEN_FUNC = {
   '%path': file => path.dirname(file.path)
 }
 
-exports.create = pattern => {
+exports.create = (pattern, opts) => {
   const cache = {
     usesTokens: TOKEN_REGEX.test(pattern),
     usesDates: DATE_REGEX.test(pattern),
-    usesKeywords: pattern.indexOf('%keywords') > -1
+    usesKeywords: pattern.indexOf('%keywords') > -1,
+    usesPeople: pattern.indexOf('%people') > -1
   }
   // return a standard mapper function (file => album names)
+  return mapperFunction(pattern, cache, opts)
+}
+
+function mapperFunction (pattern, cache, opts) {
+  if (opts === undefined) { opts = {} }
   return file => {
     var album = pattern
     // replace known tokens
@@ -31,13 +37,21 @@ exports.create = pattern => {
     if (cache.usesDates) {
       album = album.replace(DATE_REGEX, format => replaceDate(file, format))
     }
-    // create one album per keyword if required
     if (cache.usesKeywords) {
-      return file.meta.keywords.map(k => album.replace('%keywords', k))
+      // create one album per keyword
+      return replaceTags(file.meta.keywords, { includes: opts.includeKeywords, excludes: opts.excludeKeywords }, album, '%keywords')
+    } else if (cache.usesPeople) {
+      // create one album per person
+      return replaceTags(file.meta.people, { includes: opts.includePeople, excludes: opts.excludePeople }, album, '%people')
     } else {
       return [album]
     }
   }
+}
+
+function replaceTags (words, filter, album, tag) {
+  words = filterWords(words, filter)
+  return words.map(k => album.replace(tag, k))
 }
 
 function replaceToken (file, token) {
@@ -48,4 +62,19 @@ function replaceToken (file, token) {
 function replaceDate (file, format) {
   const fmt = format.slice(1, -1)
   return moment(file.meta.date).format(fmt)
+}
+
+function filterWords (words, filter) {
+  const { includes, excludes } = filter
+  if (includes && includes.length > 0) words = setIntersection(words, includes)
+  if (excludes && excludes.length > 0) words = setDifference(words, excludes)
+  return words
+}
+
+function setDifference (words, excludeWords) {
+  return words.filter(x => !excludeWords.includes(x))
+}
+
+function setIntersection (words, includeWords) {
+  return words.filter(x => includeWords.includes(x))
 }

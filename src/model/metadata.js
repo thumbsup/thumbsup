@@ -25,7 +25,8 @@ class Metadata {
     // standardise metadata
     this.date = getDate(exiftool)
     this.caption = caption(exiftool)
-    this.keywords = keywords(exiftool, picasa)
+    this.keywords = keywords(exiftool, picasa, opts)
+    this.people = people(exiftool, opts)
     this.video = video(exiftool)
     this.animated = animated(exiftool)
     this.rating = rating(exiftool)
@@ -56,10 +57,10 @@ function getDate (exif) {
 
 function getMetaDate (exif) {
   const date = tagValue(exif, 'EXIF', 'DateTimeOriginal') ||
-               tagValue(exif, 'H264', 'DateTimeOriginal') ||
-               tagValue(exif, 'QuickTime', 'ContentCreateDate') ||
-               tagValue(exif, 'QuickTime', 'CreationDate') ||
-               tagValue(exif, 'QuickTime', 'CreateDate')
+    tagValue(exif, 'H264', 'DateTimeOriginal') ||
+    tagValue(exif, 'QuickTime', 'ContentCreateDate') ||
+    tagValue(exif, 'QuickTime', 'CreationDate') ||
+    tagValue(exif, 'QuickTime', 'CreateDate')
   if (date) {
     const parsed = moment(date, EXIF_DATE_FORMAT)
     if (parsed.isValid()) return parsed
@@ -78,24 +79,43 @@ function getFilenameDate (exif) {
 
 function caption (exif, picasa) {
   return picasaValue(picasa, 'caption') ||
-         tagValue(exif, 'EXIF', 'ImageDescription') ||
-         tagValue(exif, 'IPTC', 'Caption-Abstract') ||
-         tagValue(exif, 'IPTC', 'Headline') ||
-         tagValue(exif, 'XMP', 'Description') ||
-         tagValue(exif, 'XMP', 'Title') ||
-         tagValue(exif, 'XMP', 'Label') ||
-         tagValue(exif, 'QuickTime', 'Title')
+    tagValue(exif, 'EXIF', 'ImageDescription') ||
+    tagValue(exif, 'IPTC', 'Caption-Abstract') ||
+    tagValue(exif, 'IPTC', 'Headline') ||
+    tagValue(exif, 'XMP', 'Description') ||
+    tagValue(exif, 'XMP', 'Title') ||
+    tagValue(exif, 'XMP', 'Label') ||
+    tagValue(exif, 'QuickTime', 'Title')
 }
 
-function keywords (exif, picasa) {
-  // try Picasa (comma-separated)
-  const picasaValues = picasaValue(picasa, 'keywords')
-  if (picasaValues) return picasaValues.split(',')
-  // try IPTC (string or array)
-  const iptcValues = tagValue(exif, 'IPTC', 'Keywords')
-  if (iptcValues) return makeArray(iptcValues)
-  // no keywords
+function keywords (exif, picasa, opts) {
+  if (opts && opts.keywordFields) {
+    return findTags(opts.keywordFields, exif, picasa)
+  }
   return []
+}
+
+function people (exif, opts) {
+  if (opts && opts.peopleFields) {
+    return findTags(opts.peopleFields, exif)
+  }
+  return []
+}
+
+function findTags (fields, exif, picasa) {
+  var words = new Set()
+  fields.forEach(field => {
+    const fieldComponents = field.split(/[.:]/, 2)
+    let values = []
+    if (/Picasa/i.test(fieldComponents[0])) {
+      const valuesString = picasaValue(picasa, fieldComponents[1])
+      if (valuesString) { values = valuesString.split(',') } // Picasa comma-separated
+    } else {
+      values = tagValue(exif, ...fieldComponents)
+    }
+    if (values) makeArray(values).forEach(word => words.add(word)) // value could be string or array
+  })
+  return [...words]
 }
 
 function video (exif) {
