@@ -126,6 +126,10 @@ Album options:
   --home-album-name        Name of the top-level album  [string] [default: "Home"]
   --album-page-size        Max number of files displayed on a page  [number] [default: null]
   --album-zip-files        Create a ZIP file per album  [boolean] [default: false]
+  --include-keywords       Keywords to include in %keywords  [array]
+  --exclude-keywords       Keywords to exclude from %keywords  [array]
+  --include-people         Names to include in %people  [array]
+  --exclude-people         Names to exclude from %people  [array]
   --album-previews         How previews are selected  [choices: "first", "spread", "random"] [default: "first"]
 
 Website options:
