@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+current_tag="$1"
+if [ -z "${current_tag}" ]; then
+  echo "Displays changes since previous tag"
+  echo "Usage: changelog <current tag>"
+  echo "Examples:"
+  echo "  changelog HEAD"
+  echo "  changelog 2.15.0"
+  exit 1
+fi
+
+previous_tag=$(git describe --tags --abbrev=0 "${current_tag}^")
+
+format="- %s ([%h](https://github.com/thumbsup/thumbsup/commit/%h))"
+git log --pretty=format:"${format}" "${previous_tag}".."${current_tag}"

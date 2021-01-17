@@ -1,0 +1,31 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+name: Create Release
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 100
+      - name: Get the version
+        id: version
+        run: echo ::set-output name=tag::${GITHUB_REF:10}
+      - name: Generate change log
+        run: scripts/changelog ${{ steps.version.outputs.tag }} > CHANGELOG.md
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: "Release ${{ steps.version.outputs.tag }}"
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false
