@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation update
+    url: https://github.com/thumbsup/docs
+    about: Something missing in the documentation? Please open a pull-request over there.
+  - name: Ideas and questions
+    url: https://github.com/thumbsup/thumbsup/discussions
+    about: Have questions about Thumbsup? Want to discuss ideas for the project?
