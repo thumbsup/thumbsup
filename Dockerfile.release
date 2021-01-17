@@ -2,7 +2,7 @@
 # Builder image
 # ------------------------------------------------
 
-FROM ghcr.io/thumbsup/build:node-10
+FROM ghcr.io/thumbsup/build:node-12
 
 # Install thumbsup locally
 WORKDIR /thumbsup
@@ -18,7 +18,7 @@ RUN npm install thumbsup@${PACKAGE_VERSION}
 # Runtime image
 # ------------------------------------------------
 
-FROM ghcr.io/thumbsup/runtime:node-10
+FROM ghcr.io/thumbsup/runtime:node-12
 
 # Use tini as an init process
 # to ensure all child processes (ffmpeg...) are always terminated properly

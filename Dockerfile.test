@@ -1,5 +1,5 @@
 # Node.js + build dependencies + runtime dependencies
-FROM ghcr.io/thumbsup/build:node-10
+FROM ghcr.io/thumbsup/build:node-12
 
 # Switch to a non-root user
 # So we can test edge-cases around file permissions
