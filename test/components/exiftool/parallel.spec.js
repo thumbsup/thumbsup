@@ -63,7 +63,7 @@ function mockExifStream (root, filenames) {
   const input = filenames.map(name => {
     return { SourceFile: `${root}/${name}`, Directory: root }
   })
-  return new streamMock.ReadableMock(input, { objectMode: true })
+  return new streamMock.ObjectReadableMock(input)
 }
 
 function reduceStream (stream, done) {
