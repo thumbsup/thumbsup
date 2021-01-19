@@ -15,6 +15,8 @@ function outputName (output) {
 }
 
 describe('Album', function () {
+  this.slow(200)
+
   describe('previews', function () {
     it('picks the first 10 photos by default', function () {
       const album = new Album({ files: arrayOfFiles(100) })

@@ -1,11 +1,22 @@
 const path = require('path')
 const process = require('process')
 const should = require('should/as-function')
+const sinon = require('sinon')
 const options = require('../../bin/options.js')
 
 const BASE_ARGS = ['--input', 'photos', '--output', 'website']
 
 describe('options', function () {
+  before(() => {
+    // all other modules use debug() which is already captured during tests
+    // but options are parsed before log management so they use console.error
+    sinon.stub(console, 'error')
+  })
+
+  after(() => {
+    console.error.restore()
+  })
+
   describe('parsing', () => {
     it('parses a single basic option', () => {
       const opts = options.get(BASE_ARGS)

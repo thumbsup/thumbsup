@@ -49,7 +49,6 @@ describe('Full integration', function () {
       // Reset the logger ASAP to print the test status
       console.log = console.logOld
       // Check for any errors
-      console.log(err)
       should(err).eql(null)
       debug.assertNotContains('thumbsup:error')
       // Check the contents of the output folder

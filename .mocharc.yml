@@ -2,3 +2,5 @@ recursive: true
 require:
   - test/helpers.js
   - test/log.js
+reporter: list
+parallel: false
