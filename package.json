@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "lint": "standard && require-lint",
-    "unit": "istanbul cover node_modules/mocha/bin/_mocha",
+    "unit": "nyc npx mocha",
     "test": "npm run lint && npm run unit"
   },
   "dependencies": {
@@ -67,12 +67,11 @@
     "glob": "^7.1.6",
     "gm": "^1.23.1",
     "injectmd": "^1.0.0",
-    "istanbul": "^0.4.5",
     "markdown-toc": "^1.1.0",
     "mocha": "^8.2.1",
     "mock-fs": "^4.13.0",
     "mock-spawn": "^0.2.6",
-    "require-all": "^3.0.0",
+    "nyc": "^15.1.0",
     "require-lint": "^2.0.2",
     "should": "^13.2.3",
     "sinon": "^9.2.2",

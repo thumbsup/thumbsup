@@ -1,0 +1,7 @@
+all: true
+include:
+  - src/**
+  - bin/**
+reporter:
+  - html
+  - text-summary

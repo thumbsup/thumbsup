@@ -1,5 +1,6 @@
 node_modules
 coverage
+.nyc_output
 test-snapshot/output-actual
 test-snapshot/output-expected/public
 test-snapshot/output-expected/metadata.json
