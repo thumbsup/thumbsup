@@ -60,7 +60,7 @@ Album.prototype.finalize = function (options, parent) {
       this.basename = parent.basename + '-' + this.basename
     }
     this.path = path.join(albumsOutputFolder, this.basename + '.html')
-    this.url = url.resolve(albumsOutputFolder + '/', encodeURIComponent(this.basename) + '.html')
+    this.url = encodeURIComponent(albumsOutputFolder + '/' + this.basename + '.html')
     this.depth = parent.depth + 1
   }
   // path to the optional ZIP file
