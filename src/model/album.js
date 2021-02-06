@@ -8,7 +8,6 @@ A single photo/video could exist in multiple albums
 
 const _ = require('lodash')
 const path = require('path')
-const url = require('url')
 const slugify = require('slugify')
 var index = 0
 
