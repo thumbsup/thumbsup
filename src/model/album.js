@@ -59,14 +59,7 @@ Album.prototype.finalize = function (options, parent) {
       this.basename = parent.basename + '-' + this.basename
     }
     this.path = path.join(albumsOutputFolder, this.basename + '.html')
-    // Encode characters like ?, #, and space, however, undo the encoding for slashes.
-    // This is needed to support albums and files with these URI-unfriendly characters.
-    // See https://github.com/thumbsup/thumbsup/issues/234
-    this.url = encodeURIComponent(albumsOutputFolder + '/' + this.basename + '.html').replace(/%2F/g, '/')
-    // Shorten the url if it starts with './'
-    if (this.url.startsWith('./')) {
-      this.url = this.url.slice(2)
-    }
+    this.url = this.getUrl(albumsOutputFolder, this.basename + '.html');
     this.depth = parent.depth + 1
   }
   // path to the optional ZIP file
@@ -115,6 +108,18 @@ Album.prototype.calculateSummary = function () {
     itemCount(this.stats.videos, 'video')
   ]
   this.summary = _.compact(items).join(', ')
+}
+
+Album.prototype.getUrl = function (albumsOutputFolder, documentPath) {
+  // Encode characters like ?, # and space, however, undo the encoding for slashes.
+  // This is needed to support albums and files with these URI-unfriendly characters.
+  // See https://github.com/thumbsup/thumbsup/issues/234
+  let url = encodeURIComponent(albumsOutputFolder + '/' + documentPath).replace(/%2F/g, '/')
+  // Shorten the url if it starts with './'
+  if (url.startsWith('./')) {
+    url = url.slice(2)
+  }
+  return url;
 }
 
 Album.prototype.sort = function (options) {
