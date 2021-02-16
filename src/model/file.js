@@ -41,7 +41,10 @@ function mediaType (dbEntry) {
 }
 
 function pathToUrl (filepath) {
-  return encodeURIComponent(filepath.replace('\\', '/'))
+  // Encode characters like ?, #, and space, however, undo the encoding for slashes.
+  // This is needed to support albums and files with these URI-unfriendly characters.
+  // See https://github.com/thumbsup/thumbsup/issues/234
+  return encodeURIComponent(filepath.replace('\\', '/')).replace(/%2F/g, '/')
 }
 
 module.exports = File
