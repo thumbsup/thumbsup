@@ -59,7 +59,7 @@ Album.prototype.finalize = function (options, parent) {
       this.basename = parent.basename + '-' + this.basename
     }
     this.path = path.join(albumsOutputFolder, this.basename + '.html')
-    this.url = this.getUrl(albumsOutputFolder, this.basename + '.html');
+    this.url = this.getUrl(albumsOutputFolder, this.basename + '.html')
     this.depth = parent.depth + 1
   }
   // path to the optional ZIP file
@@ -119,7 +119,7 @@ Album.prototype.getUrl = function (albumsOutputFolder, documentPath) {
   if (url.startsWith('./')) {
     url = url.slice(2)
   }
-  return url;
+  return url
 }
 
 Album.prototype.sort = function (options) {
