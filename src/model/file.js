@@ -41,7 +41,7 @@ function mediaType (dbEntry) {
 }
 
 function pathToUrl (filepath) {
-  return encodeURI(filepath.replace('\\', '/'))
+  return encodeURI(filepath.replace(RegExp(path.sep, 'g'), '/'))
 }
 
 module.exports = File
