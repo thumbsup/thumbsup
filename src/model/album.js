@@ -14,7 +14,7 @@ var index = 0
 
 // number of images to show in the album preview grid
 const PREVIEW_COUNT = 10
-const SLUGIFY_OPTIONS = { replacement: '-', remove: /[*+~.()'"!:@]/g }
+const SLUGIFY_OPTIONS = { replacement: '-', remove: /[*+~.()'"!:@\\\/]/g }
 
 const SORT_ALBUMS_BY = {
   'title': function (album) { return album.title },
