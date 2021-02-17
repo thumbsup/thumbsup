@@ -90,6 +90,24 @@ describe('Album', function () {
       should(root.albums[0].url).eql('2010.html')
     })
 
+    it('encodes # characters when calculating the URL for the browser', function () {
+      const root = new Album({
+        title: 'home',
+        albums: [new Album({ title: '#2010#' })]
+      })
+      root.finalize({ index: 'index.html' })
+      should(root.albums[0].url).eql('%232010%23.html')
+    })
+
+    it('encodes ? characters when calculating the URL for the browser', function () {
+      const root = new Album({
+        title: 'home',
+        albums: [new Album({ title: '?2010?' })]
+      })
+      root.finalize({ index: 'index.html' })
+      should(root.albums[0].url).eql('%3F2010%3F.html')
+    })
+
     it('calculates the output path with a target folder (slashes match the OS)', function () {
       const root = new Album({
         title: 'home',
