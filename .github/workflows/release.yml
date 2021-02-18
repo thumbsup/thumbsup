@@ -10,16 +10,20 @@ jobs:
     name: Create Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      -
+        name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 100
-      - name: Get the version
+      - 
+        name: Get the version
         id: version
         run: echo ::set-output name=tag::${GITHUB_REF:10}
-      - name: Generate change log
+      -
+        name: Generate change log
         run: scripts/changelog ${{ steps.version.outputs.tag }} > CHANGELOG.md
-      - name: Create Release
+      -
+        name: Create Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
