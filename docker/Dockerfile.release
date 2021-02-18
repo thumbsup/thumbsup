@@ -2,7 +2,7 @@
 # Builder image
 # ------------------------------------------------
 
-FROM ghcr.io/thumbsup/build:node-12
+FROM ghcr.io/thumbsup/build:node-12 as build
 
 # Install thumbsup locally
 WORKDIR /thumbsup
