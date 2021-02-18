@@ -1,5 +1,5 @@
 const warn = require('debug')('thumbsup:warn')
-const messages = require('../bin/messages')
+const messages = require('./cli/messages')
 
 /*
   Keeps track of which source files we failed to process

@@ -3,9 +3,9 @@
 const fs = require('fs-extra')
 const moment = require('moment')
 const Analytics = require('./analytics')
-const dependencies = require('./dependencies')
-const messages = require('./messages')
-const options = require('./options')
+const dependencies = require('../src/cli/dependencies')
+const messages = require('../src/cli/messages')
+const options = require('../src/cli/options')
 
 console.log('')
 
@@ -85,7 +85,7 @@ function exit (code) {
   setTimeout(() => process.exit(code), 10)
 }
 
-// Cound the total number of nested albums
+// Count the total number of nested albums
 function countAlbums (total, album) {
   return 1 + album.albums.reduce(countAlbums, total)
 }

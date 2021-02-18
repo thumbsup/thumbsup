@@ -2,7 +2,7 @@ const path = require('path')
 const process = require('process')
 const should = require('should/as-function')
 const sinon = require('sinon')
-const options = require('../../bin/options.js')
+const options = require('../../src/cli/options.js')
 
 const BASE_ARGS = ['--input', 'photos', '--output', 'website']
 

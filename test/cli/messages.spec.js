@@ -1,5 +1,5 @@
 const should = require('should/as-function')
-const messages = require('../../bin/messages.js')
+const messages = require('../../src/cli/messages.js')
 
 describe('messages', function () {
   it('shows SUCCESS in a box', () => {

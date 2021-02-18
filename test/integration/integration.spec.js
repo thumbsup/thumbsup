@@ -3,7 +3,7 @@ const glob = require('glob')
 const path = require('path')
 const should = require('should/as-function')
 const fixtures = require('../fixtures')
-const options = require('../../bin/options')
+const options = require('../../src/cli/options')
 const index = require('../../src/index')
 
 describe('Full integration', function () {
