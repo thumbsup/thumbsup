@@ -1,0 +1,17 @@
+name: Test on Windows
+
+on: 
+  workflow_dispatch:
+
+jobs:
+
+  test:
+    name: Test on Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - run: npm install
+      - run: npm test
