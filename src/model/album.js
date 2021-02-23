@@ -9,6 +9,8 @@ A single photo/video could exist in multiple albums
 const _ = require('lodash')
 const path = require('path')
 const slugify = require('slugify')
+const url = require('./url')
+
 var index = 0
 
 // number of images to show in the album preview grid
@@ -59,7 +61,7 @@ Album.prototype.finalize = function (options, parent) {
       this.basename = parent.basename + '-' + this.basename
     }
     this.path = path.join(albumsOutputFolder, this.basename + '.html')
-    this.url = this.getUrl(albumsOutputFolder, this.basename + '.html')
+    this.url = url.fromPath(this.path)
     this.depth = parent.depth + 1
   }
   // path to the optional ZIP file
@@ -108,18 +110,6 @@ Album.prototype.calculateSummary = function () {
     itemCount(this.stats.videos, 'video')
   ]
   this.summary = _.compact(items).join(', ')
-}
-
-Album.prototype.getUrl = function (albumsOutputFolder, documentPath) {
-  // Encode characters like ?, # and space, however, undo the encoding for slashes.
-  // This is needed to support albums and files with these URI-unfriendly characters.
-  // See https://github.com/thumbsup/thumbsup/issues/234
-  let url = encodeURIComponent(albumsOutputFolder + '/' + documentPath).replace(/%2F/g, '/')
-  // Shorten the url if it starts with './'
-  if (url.startsWith('./')) {
-    url = url.slice(2)
-  }
-  return url
 }
 
 Album.prototype.sort = function (options) {
