@@ -6,9 +6,7 @@
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](http://standardjs.com/)
 
 <!-- Build status and code analysis -->
-![Tests](https://github.com/thumbsup/thumbsup/workflows/test/badge.svg)
-[![Travis CI](https://travis-ci.org/thumbsup/thumbsup.svg?branch=master)](https://travis-ci.org/thumbsup/thumbsup)
-[![Docker Hub](https://img.shields.io/docker/build/thumbsupgallery/thumbsup.svg)](https://hub.docker.com/r/thumbsupgallery/thumbsup)
+![Linux Tests](https://github.com/thumbsup/thumbsup/actions/workflows/test-linux.yml/badge.svg)
 [![Dependencies](http://img.shields.io/david/thumbsup/thumbsup.svg?style=flat)](https://david-dm.org/thumbsup/thumbsup)
 [![Dev dependencies](https://david-dm.org/thumbsup/thumbsup/dev-status.svg?style=flat)](https://david-dm.org/thumbsup/thumbsup?type=dev)
 
