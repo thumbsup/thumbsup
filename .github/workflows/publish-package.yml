@@ -1,0 +1,47 @@
+name: Publish NPM package
+
+# This workflow runs every time a version tag is pushed
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+
+  # Publish the npm package
+  publish:
+    name: Publish package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm publish --ignore-scripts
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
+  # Create a Github release
+  release:
+    name: Create release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 100
+      - name: Get the version
+        id: version
+        run: echo ::set-output name=tag::${GITHUB_REF:10}
+      - name: Generate change log
+        run: scripts/changelog ${{ steps.version.outputs.tag }} > CHANGELOG.md
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: "Release ${{ steps.version.outputs.tag }}"
+          body_path: CHANGELOG.md
+          draft: false
+          prerelease: false

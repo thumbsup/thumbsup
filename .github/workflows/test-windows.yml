@@ -1,10 +1,9 @@
 name: Test on Windows
 
-on: 
+on:
   workflow_dispatch:
 
 jobs:
-
   test:
     name: Test on Windows
     runs-on: windows-latest

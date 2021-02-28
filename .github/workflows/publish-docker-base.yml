@@ -1,4 +1,4 @@
-name: Publish base Docker images
+name: Publish Docker base images
 
 on: 
   workflow_dispatch:
@@ -10,24 +10,15 @@ jobs:
       matrix:
         nodejs: [10, 12, 14]
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      -
-        name: Login to GitHub Container Registry
-        uses: docker/login-action@v1 
+      - uses: actions/checkout@v2
+      - uses: docker/setup-qemu-action@v1
+      - uses: docker/setup-buildx-action@v1
+      - uses: docker/login-action@v1 
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
-      -
-        name: Publish thumbsup/runtime
+      - name: Publish thumbsup/runtime
         uses: docker/build-push-action@v2
         with:
           context: docker
@@ -36,8 +27,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ghcr.io/thumbsup/runtime:node-${{ matrix.nodejs }}
           push: true
-      -
-        name: Publish thumbsup/build
+      - name: Publish thumbsup/build
         uses: docker/build-push-action@v2
         with:
           context: docker
