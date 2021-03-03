@@ -28,7 +28,7 @@ jobs:
           context: docker
           file: ./docker/Dockerfile.release
           build-args: PACKAGE_VERSION=${{ steps.version.outputs.version }}
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: |
             ghcr.io/thumbsup/thumbsup:${{ steps.version.outputs.version }}
             ghcr.io/thumbsup/thumbsup:latest
