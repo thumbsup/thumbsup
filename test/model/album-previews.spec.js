@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const path = require('path')
 const should = require('should/as-function')
 const Album = require('../../src/model/album')
 const fixtures = require('../fixtures')
@@ -9,9 +8,9 @@ function arrayOfFiles (count) {
   return Array.from(base, (_, index) => fixtures.photo(`${index}`))
 }
 
-function outputName (output) {
-  const ext = path.extname(output.urls.thumbnail)
-  return path.basename(output.urls.thumbnail, ext)
+function outputName (file) {
+  const thumb = file.urls.thumbnail
+  return thumb.substring(thumb.lastIndexOf('/') + 1, thumb.lastIndexOf('.'))
 }
 
 describe('Album', function () {

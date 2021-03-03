@@ -1,12 +1,15 @@
 const should = require('should/as-function')
 const output = require('../../src/model/output')
+const fixtures = require('../fixtures.js')
+
+const ospath = fixtures.ospath
 
 describe('Output paths', function () {
   describe('Images', function () {
     it('generates a thumbnail', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {})
       should(o.thumbnail).eql({
-        path: 'media/thumbs/holidays/beach.jpg',
+        path: ospath('media/thumbs/holidays/beach.jpg'),
         rel: 'photo:thumbnail'
       })
     })
@@ -14,7 +17,7 @@ describe('Output paths', function () {
     it('generates a large "web" version', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {})
       should(o.large).eql({
-        path: 'media/large/holidays/beach.jpg',
+        path: ospath('media/large/holidays/beach.jpg'),
         rel: 'photo:large'
       })
     })
@@ -24,7 +27,7 @@ describe('Output paths', function () {
         photoDownload: 'resize'
       })
       should(o.download).eql({
-        path: 'media/large/holidays/beach.jpg',
+        path: ospath('media/large/holidays/beach.jpg'),
         rel: 'photo:large'
       })
     })
@@ -34,7 +37,7 @@ describe('Output paths', function () {
         photoPreview: 'copy'
       })
       should(o.large).eql({
-        path: 'media/original/holidays/beach.jpg',
+        path: ospath('media/original/holidays/beach.jpg'),
         rel: 'fs:copy'
       })
     })
@@ -44,7 +47,7 @@ describe('Output paths', function () {
         photoDownload: 'copy'
       })
       should(o.download).eql({
-        path: 'media/original/holidays/beach.jpg',
+        path: ospath('media/original/holidays/beach.jpg'),
         rel: 'fs:copy'
       })
     })
@@ -54,7 +57,7 @@ describe('Output paths', function () {
         photoDownload: 'symlink'
       })
       should(o.download).eql({
-        path: 'media/original/holidays/beach.jpg',
+        path: ospath('media/original/holidays/beach.jpg'),
         rel: 'fs:symlink'
       })
     })
@@ -65,7 +68,7 @@ describe('Output paths', function () {
         linkPrefix: '../myphotos'
       })
       should(o.download).eql({
-        path: '../myphotos/holidays/beach.jpg',
+        path: ospath('../myphotos/holidays/beach.jpg'),
         rel: 'fs:link'
       })
     })
@@ -73,7 +76,7 @@ describe('Output paths', function () {
     it('keeps the original image format if the browser supports it', function () {
       ['jpg', 'JPG', 'jpeg', 'JPEG', 'png', 'PNG', 'gif', 'GIF'].forEach(ext => {
         const o = output.paths(`holidays/beach.${ext}`, 'image', {})
-        should(o.thumbnail.path).eql(`media/thumbs/holidays/beach.${ext}`)
+        should(o.thumbnail.path).eql(ospath(`media/thumbs/holidays/beach.${ext}`))
       })
     })
 
@@ -81,7 +84,7 @@ describe('Output paths', function () {
       // some of these formats are supported on certain browser, but we aim for maximum compatibility
       ['bmp', 'tiff', 'webp'].forEach(ext => {
         const o = output.paths(`holidays/beach.${ext}`, 'image', {})
-        should(o.thumbnail.path).eql(`media/thumbs/holidays/beach.jpg`)
+        should(o.thumbnail.path).eql(ospath(`media/thumbs/holidays/beach.jpg`))
       })
     })
   })
@@ -90,7 +93,7 @@ describe('Output paths', function () {
     it('generates a thumbnail', function () {
       const o = output.paths('holidays/seagull.mp4', 'video', {})
       should(o.thumbnail).eql({
-        path: 'media/thumbs/holidays/seagull.jpg',
+        path: ospath('media/thumbs/holidays/seagull.jpg'),
         rel: 'video:thumbnail'
       })
     })
@@ -98,7 +101,7 @@ describe('Output paths', function () {
     it('generates a poster image', function () {
       const o = output.paths('holidays/seagull.mp4', 'video', {})
       should(o.large).eql({
-        path: 'media/large/holidays/seagull.jpg',
+        path: ospath('media/large/holidays/seagull.jpg'),
         rel: 'video:poster'
       })
     })
@@ -106,7 +109,7 @@ describe('Output paths', function () {
     it('generates a resized "web" video', function () {
       const o = output.paths('holidays/seagull.mp4', 'video', { videoFormat: 'mp4' })
       should(o.video).eql({
-        path: 'media/large/holidays/seagull.mp4',
+        path: ospath('media/large/holidays/seagull.mp4'),
         rel: 'video:resized'
       })
     })
@@ -117,7 +120,7 @@ describe('Output paths', function () {
         videoFormat: 'mp4'
       })
       should(o.download).eql({
-        path: 'media/large/holidays/seagull.mp4',
+        path: ospath('media/large/holidays/seagull.mp4'),
         rel: 'video:resized'
       })
     })
@@ -127,7 +130,7 @@ describe('Output paths', function () {
         videoDownload: 'copy'
       })
       should(o.download).eql({
-        path: 'media/original/holidays/seagull.mp4',
+        path: ospath('media/original/holidays/seagull.mp4'),
         rel: 'fs:copy'
       })
     })
@@ -137,7 +140,7 @@ describe('Output paths', function () {
         videoPreview: 'copy'
       })
       should(o.video).eql({
-        path: 'media/original/holidays/seagull.mp4',
+        path: ospath('media/original/holidays/seagull.mp4'),
         rel: 'fs:copy'
       })
     })
@@ -147,7 +150,7 @@ describe('Output paths', function () {
         videoDownload: 'symlink'
       })
       should(o.download).eql({
-        path: 'media/original/holidays/seagull.mp4',
+        path: ospath('media/original/holidays/seagull.mp4'),
         rel: 'fs:symlink'
       })
     })
@@ -158,7 +161,7 @@ describe('Output paths', function () {
         linkPrefix: '../myphotos'
       })
       should(o.download).eql({
-        path: '../myphotos/holidays/seagull.mp4',
+        path: ospath('../myphotos/holidays/seagull.mp4'),
         rel: 'fs:link'
       })
     })
@@ -171,7 +174,7 @@ describe('Output paths', function () {
         linkPrefix: '../myphotos'
       })
       should(o.download).eql({
-        path: '../myphotos/holidays/beach.jpg',
+        path: ospath('../myphotos/holidays/beach.jpg'),
         rel: 'fs:link'
       })
     })
@@ -182,12 +185,12 @@ describe('Output paths', function () {
         linkPrefix: '../myphotos/'
       })
       should(o.download).eql({
-        path: '../myphotos/holidays/beach.jpg',
+        path: ospath('../myphotos/holidays/beach.jpg'),
         rel: 'fs:link'
       })
     })
 
-    it('can use an absolute link prefix', function () {
+    itLinux('can use an absolute link prefix on Linux', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
         photoDownload: 'link',
         linkPrefix: '/Photos'
@@ -198,13 +201,24 @@ describe('Output paths', function () {
       })
     })
 
-    it('can use an absolute link prefix ending with a slash', function () {
+    itLinux('can use an absolute link prefix on Linux ending with a slash', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {
         photoDownload: 'link',
         linkPrefix: '/Photos/'
       })
       should(o.download).eql({
         path: '/Photos/holidays/beach.jpg',
+        rel: 'fs:link'
+      })
+    })
+
+    itWindows('can use an absolute link prefix on Windows', function () {
+      const o = output.paths('holidays/beach.jpg', 'image', {
+        photoDownload: 'link',
+        linkPrefix: 'C:\\Photos'
+      })
+      should(o.download).eql({
+        path: ospath('C:\\Photos\\holidays\\beach.jpg'),
         rel: 'fs:link'
       })
     })
@@ -236,7 +250,7 @@ describe('Output paths', function () {
     it('defaults to the <folders> structure', function () {
       const o = output.paths('holidays/beach.jpg', 'image', {})
       should(o.download).eql({
-        path: 'media/large/holidays/beach.jpg',
+        path: ospath('media/large/holidays/beach.jpg'),
         rel: 'photo:large'
       })
     })
@@ -246,7 +260,7 @@ describe('Output paths', function () {
         outputStructure: 'folders'
       })
       should(o.download).eql({
-        path: 'media/large/holidays/beach.jpg',
+        path: ospath('media/large/holidays/beach.jpg'),
         rel: 'photo:large'
       })
     })
@@ -256,7 +270,7 @@ describe('Output paths', function () {
         outputStructure: 'suffix'
       })
       should(o.download).eql({
-        path: 'media/holidays/beach_jpg_large.jpg',
+        path: ospath('media/holidays/beach_jpg_large.jpg'),
         rel: 'photo:large'
       })
     })

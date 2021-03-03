@@ -4,8 +4,8 @@ const fixtures = require('../../fixtures')
 const exiftool = require('../../../src/components/exiftool/parallel')
 
 describe('exiftool', function () {
-  this.slow(1000)
-  this.timeout(1000)
+  this.slow(10000)
+  this.timeout(10000)
 
   it('processes all files', (done) => {
     // generate some photos in a temp folder

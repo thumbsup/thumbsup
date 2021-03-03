@@ -189,9 +189,10 @@ describe('Index: glob', function () {
     ], done)
   })
 
-  it('ignores invalid file names', function (done) {
-    if (os.platform() === 'darwin') {
+  it('ignores invalid file names on Linux', function (done) {
+    if (os.platform() !== 'linux') {
       // the invalid filename generates a system error on macOS
+      // and is actually valid on Windows
       return this.skip()
     }
     const tmpdir = tmp.dirSync({ unsafeCleanup: true })

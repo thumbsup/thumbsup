@@ -25,6 +25,7 @@ describe('Handlebars helpers: relative', () => {
     should(res).eql('<link rel="stylesheet" href="../public/theme.css" />')
   })
 
+  // TODO: this should not be needed anymore because all URLs are already escaped
   it('escapes single quotes so they can be used in CSS background-image', () => {
     const template = handlebars.compile(`background-image('{{relative url}}')`)
     const res = template({
@@ -36,6 +37,7 @@ describe('Handlebars helpers: relative', () => {
     should(res).eql("background-image('l%27histoire.jpg')")
   })
 
+  // TODO: this should not be needed anymore because all URLs are already escaped
   it('escapes double quotes so they can be used in <img> tags', () => {
     const template = handlebars.compile(`<img src="{{relative url}}" />`)
     const res = template({

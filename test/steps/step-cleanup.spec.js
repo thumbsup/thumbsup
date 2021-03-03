@@ -4,6 +4,8 @@ const should = require('should/as-function')
 const cleanup = require('../../src/steps/step-cleanup')
 const fixtures = require('../fixtures')
 
+const ospath = fixtures.ospath
+
 describe('Steps: cleanup', () => {
   // we require "mock-fs" inside the tests, otherwise it also affects other tests
   var mock = null
@@ -50,9 +52,10 @@ describe('Steps: cleanup', () => {
       'output/media/large/newyork/IMG_0003.jpg': ''
     })
     const obs = cleanup.run(input, 'output')
+    const extraFile = 'media/large/newyork/IMG_0003.jpg'
     obs.reduce(toArray, []).subscribe(deletedFiles => {
-      should(deletedFiles).deepEqual(['media/large/newyork/IMG_0003.jpg'])
-      should(fs.unlinkSync.args).deepEqual([['output/media/large/newyork/IMG_0003.jpg']])
+      should(deletedFiles).deepEqual([ospath(extraFile)])
+      should(fs.unlinkSync.args).deepEqual([[ospath(`output/${extraFile}`)]])
       testEnd()
     })
   })

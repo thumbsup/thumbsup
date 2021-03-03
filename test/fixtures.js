@@ -71,3 +71,8 @@ exports.createTempStructure = function (files) {
   })
   return tmpdir
 }
+
+// convert to OS-dependent style paths for testing
+exports.ospath = function (filepath) {
+  return filepath.replace(RegExp('/', 'g'), path.sep)
+}

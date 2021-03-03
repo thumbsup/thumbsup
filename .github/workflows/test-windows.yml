@@ -12,5 +12,10 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
+      - run: choco install exiftool graphicsmagick
+      # GraphicsMagick must be manually added to the path 
+      - run: |
+          $installPath = Get-ChildItem 'C:\Program Files\GraphicsMagick*' | Select-Object -First 1 | % { $_.FullName }
+          echo "$installPath" | Out-file -Append -FilePath $env:GITHUB_PATH -Encoding utf8
       - run: npm install
       - run: npm test

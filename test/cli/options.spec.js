@@ -3,8 +3,10 @@ const process = require('process')
 const should = require('should/as-function')
 const sinon = require('sinon')
 const options = require('../../src/cli/options.js')
+const fixtures = require('../fixtures.js')
 
 const BASE_ARGS = ['--input', 'photos', '--output', 'website']
+const ospath = fixtures.ospath
 
 describe('options', function () {
   before(() => {
@@ -112,10 +114,15 @@ describe('options', function () {
         const opts = options.get(args)
         should(opts.databaseFile).eql(path.join(process.cwd(), 'album.db'))
       })
-      it('can be overridden with an absolute url', () => {
+      itLinux('can be overridden with an absolute url (Linux)', () => {
         const args = BASE_ARGS.concat(['--database-file', '/media/album.db'])
         const opts = options.get(args)
         should(opts.databaseFile).eql('/media/album.db')
+      })
+      itWindows('can be overridden with an absolute url (Windows)', () => {
+        const args = BASE_ARGS.concat(['--database-file', 'C:\\media\\album.db'])
+        const opts = options.get(args)
+        should(opts.databaseFile).eql('C:\\media\\album.db')
       })
     })
     describe('log file path', () => {
@@ -207,7 +214,7 @@ describe('options', function () {
         '--css', 'path/to/custom.css'
       ])
       const opts = options.get(args)
-      should(opts.themeStyle).eql('path/to/custom.css')
+      should(opts.themeStyle).eql(ospath('path/to/custom.css'))
     })
   })
 })

@@ -91,7 +91,9 @@
       "describe",
       "xdescribe",
       "it",
-      "xit"
+      "xit",
+      "itLinux",
+      "itWindows"
     ]
   }
 }

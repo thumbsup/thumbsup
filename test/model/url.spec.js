@@ -1,9 +1,6 @@
 const _ = require('lodash')
-const process = require('process')
 const should = require('should/as-function')
 const url = require('../../src/model/url')
-
-const realPlatform = process.platform
 
 describe('URLs', () => {
   it('escapes non-URL-friendly characters', () => {
@@ -18,41 +15,23 @@ describe('URLs', () => {
     })
   })
 
-  describe('Linux', () => {
-    before(() => {
-      Object.defineProperty(process, 'platform', { value: 'linux' })
-    })
-    after(() => {
-      Object.defineProperty(process, 'platform', { value: realPlatform })
-    })
-
-    it('converts standard Linux paths', function () {
-      const res = url.fromPath('photos/holidays/IMG_001.jpg')
-      should(res).eql('photos/holidays/IMG_001.jpg')
-    })
-
-    it('encodes backslash in Linux paths', function () {
-      const res = url.fromPath('photos/my\\holidays.jpg')
-      should(res).eql('photos/my%5Cholidays.jpg')
-    })
+  itLinux('converts standard Linux paths', function () {
+    const res = url.fromPath('photos/holidays/IMG_001.jpg')
+    should(res).eql('photos/holidays/IMG_001.jpg')
   })
 
-  describe('Windows', () => {
-    before(() => {
-      Object.defineProperty(process, 'platform', { value: 'win32' })
-    })
-    after(() => {
-      Object.defineProperty(process, 'platform', { value: realPlatform })
-    })
+  itLinux('encodes backslash in Linux paths', function () {
+    const res = url.fromPath('photos/my\\holidays.jpg')
+    should(res).eql('photos/my%5Cholidays.jpg')
+  })
 
-    it('converts standard Windows paths', function () {
-      const res = url.fromPath('photos\\holidays\\IMG_001.jpg')
-      should(res).eql('photos/holidays/IMG_001.jpg')
-    })
+  itWindows('converts standard Windows paths', function () {
+    const res = url.fromPath('photos\\holidays\\IMG_001.jpg')
+    should(res).eql('photos/holidays/IMG_001.jpg')
+  })
 
-    it('slashes are also valid path separators on Windows', function () {
-      const res = url.fromPath('photos/holidays/IMG_001.jpg')
-      should(res).eql('photos/holidays/IMG_001.jpg')
-    })
+  itWindows('slashes are also valid path separators on Windows', function () {
+    const res = url.fromPath('photos/holidays/IMG_001.jpg')
+    should(res).eql('photos/holidays/IMG_001.jpg')
   })
 })
