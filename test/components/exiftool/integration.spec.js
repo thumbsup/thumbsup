@@ -28,6 +28,22 @@ describe('exiftool', function () {
     })
   })
 
+  it('can process files with UTF8 names', (done) => {
+    // generate some photos in a temp folder
+    const structure = {
+      'photoà.jpg': fixtures.fromDisk('photo.jpg')
+    }
+    const tmpdir = fixtures.createTempStructure(structure)
+    const processed = []
+    const stream = exiftool.parse(tmpdir, Object.keys(structure))
+    stream.on('data', entry => {
+      processed.push(entry.SourceFile)
+    }).on('end', () => {
+      should(processed).eql(['photoà.jpg'])
+      done()
+    })
+  })
+
   it('can process badly encoded fields', (done) => {
     // here we test with an XMP file because it's easier to see what's wrong
     // but the problem will more likely be with a badly encoded XMP section inside a JPG file

@@ -1,4 +1,5 @@
 const childProcess = require('child_process')
+const trace = require('debug')('thumbsup:trace')
 const debug = require('debug')('thumbsup:debug')
 const error = require('debug')('thumbsup:error')
 const es = require('event-stream')
@@ -18,6 +19,8 @@ exports.parse = (rootFolder, filePaths) => {
     '%+.6f', // lat/long = float values
     '-struct', // preserve XMP structure
     '-json', // JSON output
+    '-charset', // allow UTF8 filenames
+    'filename=utf8', // allow UTF8 filenames
     '-@', // specify more arguments separately
     '-' // read arguments from standard in
   ]
@@ -25,7 +28,7 @@ exports.parse = (rootFolder, filePaths) => {
   // create a new <exiftool> child process
   const child = childProcess.spawn('exiftool', args, {
     cwd: rootFolder,
-    stdio: [ 'pipe', 'pipe', 'ignore' ]
+    stdio: [ 'pipe', 'pipe', 'pipe' ]
   })
   child.on('error', (err) => {
     error(`Error: please verify that <exiftool> is installed on your system`)
@@ -33,6 +36,10 @@ exports.parse = (rootFolder, filePaths) => {
   })
   child.on('close', (code, signal) => {
     debug(`Exiftool exited with code ${code}`)
+  })
+
+  child.stderr.on('data', chunk => {
+    trace('Exiftool output:', chunk.toString())
   })
 
   // write all files to <stdin>
