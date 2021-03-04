@@ -71,9 +71,29 @@ describe('Structure', () => {
       should(folders('holidays/IMG_0001.mp4', 'video:poster')).endWith(ospath('IMG_0001.jpg'))
     })
 
-    it('can use a file system link', () => {
+    it('can use a relative file system link', () => {
       const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: '../..' })
       should(res).eql(ospath('../../holidays/IMG_0001.jpg'))
+    })
+
+    itLinux('can use an absolute file system link', () => {
+      const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: '/media' })
+      should(res).eql('/media/holidays/IMG_0001.jpg')
+    })
+
+    itLinux('can use a file:// system link', () => {
+      const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: 'file:///media' })
+      should(res).eql('file:///media/holidays/IMG_0001.jpg')
+    })
+
+    itWindows('can use an absolute file system link', () => {
+      const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: 'C:\\media' })
+      should(res).eql('C:\\media\\holidays\\IMG_0001.jpg')
+    })
+
+    itWindows('can use a file:// system link', () => {
+      const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: 'file://C:/media' })
+      should(res).eql('file://C:/media/holidays/IMG_0001.jpg')
     })
 
     it('can use a remote HTTP link', () => {

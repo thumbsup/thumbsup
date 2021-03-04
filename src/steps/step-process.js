@@ -36,7 +36,9 @@ exports.create = function (files, opts, problems) {
       const destDate = modifiedDate(dest)
       const action = actionMap[f.output[out].rel]
       // ignore output files that don't have an action (e.g. existing links)
-      debug(`Comparing ${f.path} (${f.date}) and ${f.output[out].path} (${destDate})`)
+      if (action) {
+        debug(`Comparing ${f.path} (${f.date}) and ${f.output[out].path} (${destDate})`)
+      }
       if (action && f.date > destDate) {
         sourceFiles.add(f.path)
         tasks[dest] = {

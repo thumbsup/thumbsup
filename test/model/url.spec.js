@@ -15,9 +15,19 @@ describe('URLs', () => {
     })
   })
 
-  itLinux('converts standard Linux paths', function () {
+  it('doesnt escape a file:// prefix', function () {
+    const res = url.fromPath('file:///media/photos/IMG_001.jpg')
+    should(res).eql('file:///media/photos/IMG_001.jpg')
+  })
+
+  itLinux('converts relative Linux paths', function () {
     const res = url.fromPath('photos/holidays/IMG_001.jpg')
     should(res).eql('photos/holidays/IMG_001.jpg')
+  })
+
+  itLinux('converts absolute Linux paths', function () {
+    const res = url.fromPath('/photos/holidays/IMG_001.jpg')
+    should(res).eql('file:///photos/holidays/IMG_001.jpg')
   })
 
   itLinux('encodes backslash in Linux paths', function () {
@@ -25,9 +35,14 @@ describe('URLs', () => {
     should(res).eql('photos/my%5Cholidays.jpg')
   })
 
-  itWindows('converts standard Windows paths', function () {
+  itWindows('converts relative Windows paths', function () {
     const res = url.fromPath('photos\\holidays\\IMG_001.jpg')
     should(res).eql('photos/holidays/IMG_001.jpg')
+  })
+
+  itWindows('converts absolute Windows paths', function () {
+    const res = url.fromPath('C:\\photos\\holidays\\IMG_001.jpg')
+    should(res).eql('file://C:/photos/holidays/IMG_001.jpg')
   })
 
   itWindows('slashes are also valid path separators on Windows', function () {

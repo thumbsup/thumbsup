@@ -25,6 +25,14 @@ describe('Handlebars helpers: relative', () => {
     should(res).eql('<link rel="stylesheet" href="../public/theme.css" />')
   })
 
+  it('does not do anything if the path is an absolute URL', () => {
+    // This can happen when using --link-prefix
+    const url = 'http://example.com/photo.jpg'
+    const template = handlebars.compile(`<img src="{{relative '${url}'}}" />`)
+    const res = template({})
+    should(res).eql(`<img src="${url}" />`)
+  })
+
   // TODO: this should not be needed anymore because all URLs are already escaped
   it('escapes single quotes so they can be used in CSS background-image', () => {
     const template = handlebars.compile(`background-image('{{relative url}}')`)
