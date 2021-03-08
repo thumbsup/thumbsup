@@ -148,6 +148,13 @@ describe('Metadata', function () {
         should(meta.caption).eql('some caption')
       })
     })
+
+    it('can be read from Picasa', function () {
+      const exiftool = fixtures.exiftool()
+      const picasa = { caption: 'some caption' }
+      const meta = new Metadata(exiftool, picasa)
+      should(meta.caption).eql('some caption')
+    })
   })
 
   describe('keywords', function () {

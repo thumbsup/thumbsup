@@ -25,7 +25,7 @@ class Metadata {
   constructor (exiftool, picasa, opts) {
     // standardise metadata
     this.date = getDate(exiftool)
-    this.caption = caption(exiftool)
+    this.caption = caption(exiftool, picasa)
     this.keywords = keywords(exiftool, picasa)
     this.people = people(exiftool)
     this.video = video(exiftool)
