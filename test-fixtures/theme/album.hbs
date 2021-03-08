@@ -1,0 +1,21 @@
+{{!--
+  This theme renders useful information as a YAML file
+  For reliable integration tests
+--}}
+
+title: {{ album.title }}
+
+albums:
+{{#each album.albums}}
+  - title: {{title}}
+    url: {{relative url}}
+{{/each}}
+
+files:
+{{#each album.files}}
+  - name: {{filename}}
+    caption: {{meta.caption}}
+    thumbnail: {{relative urls.thumbnail}}
+    preview: {{relative urls.large}}
+    download: {{relative urls.download}}
+{{/each}}

@@ -1,0 +1,6 @@
+{
+  "name": "@thumbsup/test-theme",
+  "thumbsup": {
+    "themeRoot": "."
+  }
+}
