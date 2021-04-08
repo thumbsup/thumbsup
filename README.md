@@ -195,3 +195,10 @@ thumbsup [options] --log trace
 
 If you want to contribute some code, please check out the [contributing guidelines](.github/CONTRIBUTING.md)
 for an overview of the design and a run-through of the different automated/manual tests.
+
+## Disclaimer
+
+While a lot of effort is put into testing Thumbsup (over 400 automated tests), the software is provided as-is under the MIT license. The authors cannot be held responsible for any unintended behaviours.
+
+We recommend running Thumbsup with the least appropriate privilege, such as giving read-only access to the source images.
+The Docker setup detailed in the documentation follows this advice.
