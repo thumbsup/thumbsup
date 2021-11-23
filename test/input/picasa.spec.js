@@ -65,7 +65,7 @@ describe('Picasa', function () {
       'holidays/picasa.ini': PICASA_INI
     })
     const picasa = new Picasa()
-    const meta = picasa.album('holidays/IMG_0002.jpg')
+    const meta = picasa.file('holidays/IMG_0002.jpg')
     should(meta).eql(null)
   })
 })
