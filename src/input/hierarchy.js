@@ -2,22 +2,22 @@ const _ = require('lodash')
 const path = require('path')
 const Album = require('../model/album')
 
-exports.createAlbums = function (collection, mapper, opts) {
+exports.createAlbums = function (collection, mapper, opts, picasaReader) {
   // returns a top-level album for the home page
   // under which all files are grouped into sub-albums
   // and finalised recursively (calculate stats, etc...)
-  const home = group(collection, mapper, opts.homeAlbumName)
+  const home = group(collection, mapper, opts, picasaReader)
   home.finalize(opts)
   return home
 }
 
-function group (collection, mapper, homeAlbumName) {
+function group (collection, mapper, opts, picasaReader) {
   // this hashtable will contain all albums, with the full path as key
   // e.g. groups['holidays/tokyo']
   var groups = {
     // the home album is indexed as '.'
     // the value of '.' is local to this function, and doesn't appear anywhere else
-    '.': new Album(homeAlbumName)
+    '.': new Album(opts.homeAlbumName)
   }
   // put all files in the right albums
   // a file can be in multiple albums
@@ -29,7 +29,7 @@ function group (collection, mapper, homeAlbumName) {
       .uniq()
       .value()
     albums.forEach(albumPath => {
-      createAlbumHierarchy(groups, albumPath)
+      createAlbumHierarchy(groups, albumPath, opts, picasaReader)
       groups[albumPath].files.push(file)
     })
   })
@@ -37,17 +37,27 @@ function group (collection, mapper, homeAlbumName) {
   return groups['.']
 }
 
-function createAlbumHierarchy (allGroupNames, segment) {
+function createAlbumHierarchy (allGroupNames, segment, opts, picasaReader) {
   if (!allGroupNames.hasOwnProperty(segment)) {
     // create parent albums first
-    var parent = path.dirname(segment)
+    const parent = path.dirname(segment)
     if (parent !== '.') {
-      createAlbumHierarchy(allGroupNames, parent)
+      createAlbumHierarchy(allGroupNames, parent, opts, picasaReader)
     }
+
+    const picasaName = getPicasaName(segment, opts, picasaReader)
+    const lastSegment = path.basename(segment)
+    const title = picasaName || lastSegment
+
     // then create album if it doesn't exist
     // and attach it to its parent
-    var lastSegment = path.basename(segment)
-    allGroupNames[segment] = new Album({ title: lastSegment })
+    allGroupNames[segment] = new Album({ title })
     allGroupNames[parent].albums.push(allGroupNames[segment])
   }
+}
+
+function getPicasaName (segment, opts, picasaReader) {
+  const fullPath = path.join(opts.input, segment)
+  const picasaFile = picasaReader.album(fullPath)
+  return picasaFile != null ? picasaFile.name : null
 }

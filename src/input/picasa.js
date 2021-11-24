@@ -13,11 +13,8 @@ class Picasa {
     this.folders = {}
   }
   album (dir) {
-    if (!this.folders[dir]) {
-      this.folders[dir] = loadPicasa(dir)
-    }
+    const entry = loadPicasa(dir)
     // album metadata is stored in a section called [Picasa]
-    const entry = this.folders[dir]
     return entry.Picasa || null
   }
   file (filepath) {
