@@ -103,6 +103,12 @@ const OPTIONS = {
     choices: ['mp4', 'webm'],
     'default': 'mp4'
   },
+  'video-hwaccel': {
+    group: 'Output options:',
+    description: 'Use Hardware acceleration',
+    choices: ['none', 'vaapi'],
+    'default': 'none'
+  },
   'video-stills': {
     group: 'Output options:',
     description: 'Where the video still frame is taken',
