@@ -105,7 +105,7 @@ const OPTIONS = {
   },
   'video-hwaccel': {
     group: 'Output options:',
-    description: 'Use Hardware acceleration',
+    description: 'Use Hardware acceleration, requires bitrate too',
     choices: ['none', 'vaapi'],
     'default': 'none'
   },
