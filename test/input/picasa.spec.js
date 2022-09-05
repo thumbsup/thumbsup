@@ -29,7 +29,7 @@ describe('Picasa', function () {
     })
     const picasa = new Picasa()
     const meta = picasa.album('holidays')
-    should(meta).eql({
+    should(meta).have.properties({
       name: 'My holidays'
     })
   })
@@ -44,7 +44,7 @@ describe('Picasa', function () {
     })
     const picasa = new Picasa()
     const meta = picasa.file('holidays/IMG_0001.jpg')
-    should(meta).eql({
+    should(meta).have.properties({
       star: 'yes',
       caption: 'Nice sunset',
       keywords: 'beach,sunset'
@@ -56,7 +56,7 @@ describe('Picasa', function () {
     })
     const picasa = new Picasa()
     const meta = picasa.file('holidays/IMG.0001.small.jpg')
-    should(meta).eql({
+    should(meta).have.properties({
       caption: 'dots'
     })
   })
