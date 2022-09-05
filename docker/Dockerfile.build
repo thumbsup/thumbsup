@@ -12,8 +12,3 @@ LABEL org.opencontainers.image.source https://github.com/thumbsup/thumbsup
 
 # Standard build dependencies for npm install
 RUN apk add --no-cache git make g++ python3 bash
-
-# Pre-install expensive dependencies
-WORKDIR /app
-RUN npm init -y
-RUN npm install better-sqlite3
