@@ -1,5 +1,5 @@
 # Node.js + build dependencies + runtime dependencies
-FROM ghcr.io/thumbsup/build:node-14
+FROM ghcr.io/thumbsup/build:node-18
 WORKDIR /app
 
 # Switch to a non-root user
