@@ -1,3 +1,5 @@
+const fs = require('fs')
+const sinon = require('sinon')
 const should = require('should/as-function')
 const Picasa = require('../../src/input/picasa.js')
 
@@ -38,6 +40,14 @@ describe('Picasa', function () {
     const meta = picasa.album('holidays')
     should(meta).eql(null)
   })
+  it('returns <null> if the Picasa file is invalid', function () {
+    mock({
+      'holidays/picasa.ini': '[[invalid'
+    })
+    const picasa = new Picasa()
+    const meta = picasa.album('holidays')
+    should(meta).eql(null)
+  })
   it('returns raw file metadata as read from the INI file', function () {
     mock({
       'holidays/picasa.ini': PICASA_INI
@@ -67,5 +77,17 @@ describe('Picasa', function () {
     const picasa = new Picasa()
     const meta = picasa.file('holidays/IMG_0002.jpg')
     should(meta).eql(null)
+  })
+  it('only reads the file from disk once', function () {
+    mock({
+      'holidays/picasa.ini': PICASA_INI
+    })
+    sinon.spy(fs, 'readFileSync')
+    const picasa = new Picasa()
+    picasa.album('holidays')
+    picasa.album('holidays')
+    picasa.file('holidays/IMG_0001.jpg')
+    picasa.file('holidays/IMG_0002.jpg')
+    should(fs.readFileSync.callCount).eql(1)
   })
 })
