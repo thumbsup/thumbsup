@@ -274,6 +274,11 @@ const OPTIONS = {
     choices: ['first', 'spread', 'random'],
     'default': 'first'
   },
+  'album-covers': {
+    group: 'Album options:',
+    description: 'Optional overrides for album previews',
+    type: 'string'
+  },
 
   // ------------------------------------
   // Website options

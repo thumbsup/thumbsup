@@ -122,27 +122,43 @@ Album.prototype.sort = function (options) {
 }
 
 Album.prototype.pickPreviews = function (options) {
-  // consider nested albums if there aren't enough photos
-  var potential = this.files
-  if (potential.length < PREVIEW_COUNT) {
-    const nested = _.flatMap(this.albums, 'previews').filter(file => file !== PREVIEW_MISSING)
-    potential = potential.concat(nested)
-  }
-  // choose the previews
-  if (!options.albumPreviews || options.albumPreviews === 'first') {
-    this.previews = _.slice(potential, 0, PREVIEW_COUNT)
-  } else if (options.albumPreviews === 'random') {
-    this.previews = _.sampleSize(potential, PREVIEW_COUNT)
-  } else if (options.albumPreviews === 'spread') {
-    if (potential.length < PREVIEW_COUNT) {
-      this.previews = _.slice(potential, 0, PREVIEW_COUNT)
-    } else {
-      const bucketSize = Math.floor(potential.length / PREVIEW_COUNT)
-      const buckets = _.chunk(potential, bucketSize)
-      this.previews = buckets.slice(0, PREVIEW_COUNT).map(b => b[0])
+  // Read in the optional covers.
+  if (options.albumCovers) {
+    const covers = require(options.albumCovers)
+    if(covers[this.basename]) {
+      let count = 0
+      do {
+        if (this.files[count].path === covers[this.basename]) {
+          this.previews = [this.files[count]]
+        }
+        count = count + 1
+      } while (!this.previews || count < this.files.length)
     }
-  } else {
-    throw new Error(`Unsupported preview type: ${options.albumPreviews}`)
+  }
+
+  if (!this.previews) {
+    // consider nested albums if there aren't enough photos
+    var potential = this.files
+    if (potential.length < PREVIEW_COUNT) {
+      const nested = _.flatMap(this.albums, 'previews').filter(file => file !== PREVIEW_MISSING)
+      potential = potential.concat(nested)
+    }
+    // choose the previews
+    if (!options.albumPreviews || options.albumPreviews === 'first') {
+      this.previews = _.slice(potential, 0, PREVIEW_COUNT)
+    } else if (options.albumPreviews === 'random') {
+      this.previews = _.sampleSize(potential, PREVIEW_COUNT)
+    } else if (options.albumPreviews === 'spread') {
+      if (potential.length < PREVIEW_COUNT) {
+        this.previews = _.slice(potential, 0, PREVIEW_COUNT)
+      } else {
+        const bucketSize = Math.floor(potential.length / PREVIEW_COUNT)
+        const buckets = _.chunk(potential, bucketSize)
+        this.previews = buckets.slice(0, PREVIEW_COUNT).map(b => b[0])
+      }
+    } else {
+      throw new Error(`Unsupported preview type: ${options.albumPreviews}`)
+    }
   }
 
   // and fill any gap with a placeholder
