@@ -11,9 +11,4 @@ FROM ghcr.io/thumbsup/runtime:node-${NODE_VERSION}
 LABEL org.opencontainers.image.source https://github.com/thumbsup/thumbsup
 
 # Standard build dependencies for npm install
-RUN apk add --no-cache git make g++ python bash
-
-# Pre-install expensive dependencies
-WORKDIR /app
-RUN npm init -y
-RUN npm install better-sqlite3
+RUN apk add --no-cache git make g++ python3 bash

@@ -10,37 +10,32 @@ const path = require('path')
 
 class Picasa {
   constructor () {
+    // memory cache of all Picasa files read so far
     this.folders = {}
   }
   album (dir) {
-    if (!this.folders[dir]) {
-      this.folders[dir] = loadPicasa(dir)
-    }
+    const entry = this.folderMetadata(dir)
     // album metadata is stored in a section called [Picasa]
-    const entry = this.folders[dir]
     return entry.Picasa || null
   }
   file (filepath) {
     const dir = path.dirname(filepath)
-    if (!this.folders[dir]) {
-      this.folders[dir] = loadPicasa(dir)
-    }
+    const entry = this.folderMetadata(dir)
     // file metadata is stored in a section called [FileName.ext]
-    const entry = this.folders[dir]
     const filename = path.basename(filepath)
     const fileParts = filename.split('.')
     return getIniValue(entry, fileParts)
   }
-}
-
-function loadPicasa (dirname) {
-  const inipath = path.join(dirname, 'picasa.ini')
-  const content = loadIfExists(inipath)
-  if (!content) {
-    // return an empty hash, as if the picasa.ini file existed but was empty
-    return {}
-  } else {
-    return ini.parse(content)
+  folderMetadata (dirname) {
+    // try reading from cache first
+    if (this.folders[dirname]) {
+      return this.folders[dirname]
+    }
+    // otherwise try to read the file from disk
+    const inipath = path.join(dirname, 'picasa.ini')
+    const content = loadIfExists(inipath)
+    this.folders[dirname] = content ? ini.parse(content) : {}
+    return this.folders[dirname]
   }
 }
 

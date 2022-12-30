@@ -7,8 +7,7 @@
 
 <!-- Build status and code analysis -->
 ![Linux Tests](https://github.com/thumbsup/thumbsup/actions/workflows/test-linux.yml/badge.svg)
-[![Dependencies](http://img.shields.io/david/thumbsup/thumbsup.svg?style=flat)](https://david-dm.org/thumbsup/thumbsup)
-[![Dev dependencies](https://david-dm.org/thumbsup/thumbsup/dev-status.svg?style=flat)](https://david-dm.org/thumbsup/thumbsup?type=dev)
+![Dependencies](https://img.shields.io/librariesio/release/npm/thumbsup)
 
 <!-- Social sharing -->
 [![Twitter](https://img.shields.io/badge/share-Twitter-1CA8F5.svg)](https://twitter.com/intent/tweet?text=Need%20static%20photo%20and%20video%20galleries?%20Check%20out%20Thumbsup%20on%20Github&url=https://github.com/thumbsup/thumbsup&hashtags=selfhosted,static,gallery)

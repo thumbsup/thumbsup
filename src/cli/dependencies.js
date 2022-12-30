@@ -19,6 +19,13 @@ const BINARIES = [
     msg: ''
   },
   {
+    // optional to process HEIC files
+    mandatory: false,
+    cmd: 'magick',
+    url: 'https://imagemagick.org',
+    msg: 'You will not be able to process HEIC images.'
+  },
+  {
     // optional to process videos
     mandatory: false,
     cmd: 'ffmpeg',
