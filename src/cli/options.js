@@ -499,7 +499,7 @@ exports.get = (args) => {
   // Add a dash prefix to any --gm-args value
   // We can't specify the prefix on the CLI otherwise the parser thinks it's a thumbsup arg
   if (opts.gmArgs) {
-    opts.gmArgs = opts.gmArgs.map(val => `-${val}`)
+    opts.gmArgs = opts.gmArgs.map(val => val.startsWith('+') ? val : `-${val}`)
   }
 
   return opts
