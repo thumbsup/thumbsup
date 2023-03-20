@@ -38,7 +38,7 @@
     "@thumbsup/theme-mosaic": "^1.2.0",
     "async": "^3.2.4",
     "better-sqlite3": "^8.2.0",
-    "boxen": "^5.0.1",
+    "boxen": "^7.0.2",
     "chalk": "^4.1.0",
     "command-exists": "^1.2.9",
     "debug": "^4.3.4",
