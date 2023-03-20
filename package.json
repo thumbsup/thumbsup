@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "lint": "standard && require-lint",
-    "unit": "nyc npx mocha",
+    "unit": "nyc mocha",
     "test": "npm run lint && npm run unit"
   },
   "dependencies": {

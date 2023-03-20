@@ -4,3 +4,4 @@ include:
 reporter:
   - html
   - text-summary
+useSpawnWrap: true
