@@ -1,7 +1,0 @@
-all: true
-include:
-  - src/**
-reporter:
-  - html
-  - text-summary
-useSpawnWrap: true

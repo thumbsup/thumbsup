@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "lint": "standard && require-lint",
-    "unit": "nyc mocha",
+    "unit": "c8 mocha",
     "test": "npm run lint && npm run unit"
   },
   "dependencies": {
@@ -64,6 +64,7 @@
     "zen-observable": "^0.10.0"
   },
   "devDependencies": {
+    "c8": "^7.13.0",
     "glob": "^9.3.0",
     "gm": "^1.25.0",
     "injectmd": "^1.0.0",
@@ -71,7 +72,6 @@
     "mocha": "^10.2.0",
     "mock-fs": "^5.2.0",
     "mock-spawn": "^0.2.6",
-    "nyc": "^15.1.0",
     "require-lint": "^2.0.3",
     "should": "^13.2.3",
     "sinon": "^15.0.2",

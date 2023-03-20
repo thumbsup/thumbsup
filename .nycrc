@@ -1,0 +1,5 @@
+{
+  "all": true,
+  "src": ["src"],
+  "reporter": ["html", "text-summary"]
+}
