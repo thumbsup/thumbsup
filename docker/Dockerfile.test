@@ -9,7 +9,7 @@ RUN chown -R tester:tester /app
 USER tester
 
 # Install and cache dependencies
-COPY --chown=tester package.json /app
+COPY --chown=tester package*.json /app
 RUN npm install
 
 # Copy the entire source code
