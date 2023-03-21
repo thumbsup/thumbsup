@@ -28,10 +28,10 @@ exports.parse = (rootFolder, filePaths) => {
   // create a new <exiftool> child process
   const child = childProcess.spawn('exiftool', args, {
     cwd: rootFolder,
-    stdio: [ 'pipe', 'pipe', 'pipe' ]
+    stdio: ['pipe', 'pipe', 'pipe']
   })
   child.on('error', (err) => {
-    error(`Error: please verify that <exiftool> is installed on your system`)
+    error('Error: please verify that <exiftool> is installed on your system')
     error(err.toString())
   })
   child.on('close', (code, signal) => {

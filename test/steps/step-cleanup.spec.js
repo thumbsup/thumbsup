@@ -8,7 +8,7 @@ const ospath = fixtures.ospath
 
 describe('Steps: cleanup', () => {
   // we require "mock-fs" inside the tests, otherwise it also affects other tests
-  var mock = null
+  let mock = null
 
   beforeEach(() => {
     mock = require('mock-fs')

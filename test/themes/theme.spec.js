@@ -6,7 +6,7 @@ const Theme = require('../../src/website/theme')
 
 describe('Theme', () => {
   // we require "mock-fs" inside the tests, otherwise it also affects other tests
-  var mock = null
+  let mock = null
   before(() => {
     mock = require('mock-fs')
   })
@@ -233,7 +233,7 @@ function renderTheme (theme, album, next) {
   theme.validateStructure()
   theme.prepare(err => {
     should(err).be.null()
-    theme.render(album.path, { album: album }, err => {
+    theme.render(album.path, { album }, err => {
       should(err).be.null()
       next()
     })

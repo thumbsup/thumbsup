@@ -75,24 +75,19 @@
     "require-lint": "^2.0.3",
     "should": "^13.2.3",
     "sinon": "^15.0.2",
-    "standard": "^12.0.1",
+    "standard": "^17.0.0",
     "stream-mock": "^2.0.5",
     "tmp": "^0.2.1",
     "yaml": "^2.2.1"
   },
   "standard": {
+    "env": [
+      "mocha"
+    ],
     "ignore": [
       "themes/**/public"
     ],
     "globals": [
-      "after",
-      "afterEach",
-      "before",
-      "beforeEach",
-      "describe",
-      "xdescribe",
-      "it",
-      "xit",
       "itLinux",
       "itWindows"
     ]

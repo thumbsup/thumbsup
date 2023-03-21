@@ -43,12 +43,12 @@ exports.create = function (files, opts, problems) {
         sourceFiles.add(f.path)
         tasks[dest] = {
           file: f,
-          dest: dest,
+          dest,
           rel: f.output[out].rel,
           action: (done) => {
             fs.mkdirsSync(path.dirname(dest))
             debug(`${f.output[out].rel} from ${src} to ${dest}`)
-            return action({ src: src, dest: dest }, err => {
+            return action({ src, dest }, err => {
               if (err) {
                 error(`Error processing ${f.path} -> ${f.output[out].path}\n${err}`)
                 problems.addFile(f.path)
@@ -75,7 +75,7 @@ function listrTaskFromJob (job, outputRoot) {
     title: relative,
     task: (ctx, task) => {
       return new Promise((resolve, reject) => {
-        var progressEmitter = job.action(err => {
+        const progressEmitter = job.action(err => {
           err ? reject(err) : resolve()
         })
         // render progress percentage for videos

@@ -84,7 +84,7 @@ describe('Output paths', function () {
       // some of these formats are supported on certain browser, but we aim for maximum compatibility
       ['bmp', 'tiff', 'webp'].forEach(ext => {
         const o = output.paths(`holidays/beach.${ext}`, 'image', {})
-        should(o.thumbnail.path).eql(ospath(`media/thumbs/holidays/beach.jpg`))
+        should(o.thumbnail.path).eql(ospath('media/thumbs/holidays/beach.jpg'))
       })
     })
   })

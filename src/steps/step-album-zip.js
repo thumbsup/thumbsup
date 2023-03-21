@@ -42,10 +42,10 @@ function createZip (targetZipPath, currentFolder, filesToInclude, done) {
   trace(`Calling: zip ${args.join(' ')}`)
   const child = childProcess.spawn('zip', args, {
     cwd: currentFolder,
-    stdio: [ 'ignore', 'ignore', 'ignore' ]
+    stdio: ['ignore', 'ignore', 'ignore']
   })
   child.on('error', (err) => {
-    error(`Error: please verify that <zip> is installed on your system`)
+    error('Error: please verify that <zip> is installed on your system')
     error(err.toString())
   })
   child.on('close', (code, signal) => {

@@ -11,21 +11,21 @@ const path = require('path')
 const slugify = require('slugify')
 const url = require('./url')
 
-var index = 0
+let index = 0
 
 // number of images to show in the album preview grid
 const PREVIEW_COUNT = 10
 const SLUGIFY_OPTIONS = { replacement: '-', remove: /[*+~.()'"!:@]/g }
 
 const SORT_ALBUMS_BY = {
-  'title': function (album) { return album.title },
+  title: function (album) { return album.title },
   'start-date': function (album) { return album.stats.fromDate },
   'end-date': function (album) { return album.stats.toDate }
 }
 
 const SORT_MEDIA_BY = {
-  'filename': function (file) { return file.filename },
-  'date': function (file) { return file.meta.date }
+  filename: function (file) { return file.filename },
+  date: function (file) { return file.meta.date }
 }
 
 const PREVIEW_MISSING = {
@@ -50,7 +50,7 @@ function Album (opts) {
 
 Album.prototype.finalize = function (options, parent) {
   options = options || {}
-  var albumsOutputFolder = options.albumsOutputFolder || '.'
+  const albumsOutputFolder = options.albumsOutputFolder || '.'
   // calculate final file paths and URLs
   if (parent == null) {
     this.path = options.index || 'index.html'
@@ -69,7 +69,7 @@ Album.prototype.finalize = function (options, parent) {
     this.zip = this.path.replace(/\.[^\\/.]+$/, '.zip')
   }
   // then finalize all nested albums (which uses the parent basename)
-  for (var i = 0; i < this.albums.length; ++i) {
+  for (let i = 0; i < this.albums.length; ++i) {
     this.albums[i].finalize(options, this)
   }
   // perform stats & other calculations
@@ -83,15 +83,15 @@ Album.prototype.finalize = function (options, parent) {
 
 Album.prototype.calculateStats = function () {
   // nested albums
-  var nestedPhotos = _.map(this.albums, 'stats.photos')
-  var nestedVideos = _.map(this.albums, 'stats.videos')
-  var nestedFromDates = _.map(this.albums, 'stats.fromDate')
-  var nestedToDates = _.map(this.albums, 'stats.toDate')
+  const nestedPhotos = _.map(this.albums, 'stats.photos')
+  const nestedVideos = _.map(this.albums, 'stats.videos')
+  const nestedFromDates = _.map(this.albums, 'stats.fromDate')
+  const nestedToDates = _.map(this.albums, 'stats.toDate')
   // current level
-  var currentPhotos = _.filter(this.files, { type: 'image' }).length
-  var currentVideos = _.filter(this.files, { type: 'video' }).length
-  var currentFromDate = _.map(this.files, 'meta.date')
-  var currentToDate = _.map(this.files, 'meta.date')
+  const currentPhotos = _.filter(this.files, { type: 'image' }).length
+  const currentVideos = _.filter(this.files, { type: 'video' }).length
+  const currentFromDate = _.map(this.files, 'meta.date')
+  const currentToDate = _.map(this.files, 'meta.date')
   // aggregate all stats
   this.stats = {
     albums: this.albums.length,
@@ -104,7 +104,7 @@ Album.prototype.calculateStats = function () {
 }
 
 Album.prototype.calculateSummary = function () {
-  var items = [
+  const items = [
     itemCount(this.stats.albums, 'album'),
     itemCount(this.stats.photos, 'photo'),
     itemCount(this.stats.videos, 'video')
@@ -123,7 +123,7 @@ Album.prototype.sort = function (options) {
 
 Album.prototype.pickPreviews = function (options) {
   // consider nested albums if there aren't enough photos
-  var potential = this.files
+  let potential = this.files
   if (potential.length < PREVIEW_COUNT) {
     const nested = _.flatMap(this.albums, 'previews').filter(file => file !== PREVIEW_MISSING)
     potential = potential.concat(nested)
@@ -146,15 +146,15 @@ Album.prototype.pickPreviews = function (options) {
   }
 
   // and fill any gap with a placeholder
-  var missing = PREVIEW_COUNT - this.previews.length
-  for (var i = 0; i < missing; ++i) {
+  const missing = PREVIEW_COUNT - this.previews.length
+  for (let i = 0; i < missing; ++i) {
     this.previews.push(PREVIEW_MISSING)
   }
 }
 
 function itemCount (count, type) {
   if (count === 0) return ''
-  var plural = (count > 1) ? 's' : ''
+  const plural = (count > 1) ? 's' : ''
   return '' + count + ' ' + type + plural
 }
 

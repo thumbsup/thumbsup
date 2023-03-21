@@ -13,11 +13,13 @@ class Picasa {
     // memory cache of all Picasa files read so far
     this.folders = {}
   }
+
   album (dir) {
     const entry = this.folderMetadata(dir)
     // album metadata is stored in a section called [Picasa]
     return entry.Picasa || null
   }
+
   file (filepath) {
     const dir = path.dirname(filepath)
     const entry = this.folderMetadata(dir)
@@ -26,6 +28,7 @@ class Picasa {
     const fileParts = filename.split('.')
     return getIniValue(entry, fileParts)
   }
+
   folderMetadata (dirname) {
     // try reading from cache first
     if (this.folders[dirname]) {

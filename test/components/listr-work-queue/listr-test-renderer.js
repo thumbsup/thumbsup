@@ -9,15 +9,18 @@ module.exports = class ListrTestRenderer {
   static get nonTTY () {
     return true
   }
+
   constructor (tasks) {
     this._tasks = tasks
     this.output = []
   }
+
   render () {
-    for (let task of this._tasks) {
+    for (const task of this._tasks) {
       this.subscribe(task)
     }
   }
+
   subscribe (task) {
     task.subscribe(
       event => {
@@ -32,12 +35,14 @@ module.exports = class ListrTestRenderer {
       }
     )
   }
+
   allTitles (tasks, indent) {
     return tasks.map(task => {
       const subTitles = this.allTitles(task.subtasks, indent + 1)
       return '  '.repeat(indent) + task.title + '\n' + subTitles
     }).join('')
   }
+
   end () {
   }
 }

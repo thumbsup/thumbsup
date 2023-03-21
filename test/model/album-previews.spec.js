@@ -30,7 +30,7 @@ describe('Album', function () {
       album.finalize()
       const thumbs = album.previews.map(outputName)
       should(thumbs.slice(0, 5)).eql(['0', '1', '2', '3', '4'])
-      for (var i = 5; i < 10; ++i) {
+      for (let i = 5; i < 10; ++i) {
         should(album.previews[i].urls.thumbnail).eql('public/missing.png')
       }
     })
@@ -54,7 +54,7 @@ describe('Album', function () {
       should(album.previews).have.length(10)
       const thumbs = album.previews.map(outputName)
       should(thumbs.slice(0, 6)).eql(['a1', 'a2', 'b1', 'b2', 'c1', 'c2'])
-      for (var i = 6; i < 10; ++i) {
+      for (let i = 6; i < 10; ++i) {
         should(album.previews[i].urls.thumbnail).eql('public/missing.png')
       }
     })
@@ -97,7 +97,7 @@ describe('Album', function () {
         should(album.previews).have.length(10)
         const thumbs = album.previews.map(outputName)
         should(thumbs.slice(0, 5)).eql(['0', '1', '2', '3', '4'])
-        for (var i = 5; i < 10; ++i) {
+        for (let i = 5; i < 10; ++i) {
           should(album.previews[i].urls.thumbnail).eql('public/missing.png')
         }
       })

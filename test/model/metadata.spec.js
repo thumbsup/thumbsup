@@ -1,6 +1,6 @@
 const should = require('should/as-function')
 const Metadata = require('../../src/model/metadata')
-var fixtures = require('../fixtures')
+const fixtures = require('../fixtures')
 
 describe('Metadata', function () {
   describe('date taken', function () {
@@ -167,7 +167,7 @@ describe('Metadata', function () {
     it('can read a single IPTC keyword', function () {
       // a single keyword is returned as a string by <exiftool>
       const exiftool = fixtures.exiftool()
-      exiftool.IPTC['Keywords'] = 'beach'
+      exiftool.IPTC.Keywords = 'beach'
       const meta = new Metadata(exiftool, {})
       should(meta.keywords).eql(['beach'])
     })
@@ -175,7 +175,7 @@ describe('Metadata', function () {
     it('can read multiple IPTC keywords', function () {
       // multiple keywords are returned as an array by <exiftool>
       const exiftool = fixtures.exiftool()
-      exiftool.IPTC['Keywords'] = ['beach', 'sunset']
+      exiftool.IPTC.Keywords = ['beach', 'sunset']
       const meta = new Metadata(exiftool)
       should(meta.keywords).eql(['beach', 'sunset'])
     })
@@ -197,8 +197,8 @@ describe('Metadata', function () {
 
     it('combines all keyword sources', function () {
       const exiftool = fixtures.exiftool()
-      exiftool.IPTC['Keywords'] = ['beach', 'sunset']
-      exiftool.XMP['Subject'] = 'holiday'
+      exiftool.IPTC.Keywords = ['beach', 'sunset']
+      exiftool.XMP.Subject = 'holiday'
       const picasa = { keywords: 'sandiego' }
       const meta = new Metadata(exiftool, picasa, {})
       should(meta.keywords).eql(['beach', 'sunset', 'holiday', 'sandiego'])
@@ -206,8 +206,8 @@ describe('Metadata', function () {
 
     it('only keeps unique keywords', function () {
       const exiftool = fixtures.exiftool()
-      exiftool.IPTC['Keywords'] = ['beach', 'sunset']
-      exiftool.XMP['Subject'] = ['beach', 'holiday']
+      exiftool.IPTC.Keywords = ['beach', 'sunset']
+      exiftool.XMP.Subject = ['beach', 'holiday']
       const meta = new Metadata(exiftool)
       should(meta.keywords).eql(['beach', 'sunset', 'holiday'])
     })
@@ -222,7 +222,7 @@ describe('Metadata', function () {
 
     it('reads the rating from the XMP tags', function () {
       const exiftool = fixtures.exiftool()
-      exiftool.XMP['Rating'] = 3
+      exiftool.XMP.Rating = 3
       const meta = new Metadata(exiftool)
       should(meta.rating).eql(3)
     })

@@ -14,7 +14,7 @@ exports.createAlbums = function (collection, mapper, opts, picasaReader) {
 function group (collection, mapper, opts, picasaReader) {
   // this hashtable will contain all albums, with the full path as key
   // e.g. groups['holidays/tokyo']
-  var groups = {
+  const groups = {
     // the home album is indexed as '.'
     // the value of '.' is local to this function, and doesn't appear anywhere else
     '.': new Album(opts.homeAlbumName)
@@ -38,7 +38,7 @@ function group (collection, mapper, opts, picasaReader) {
 }
 
 function createAlbumHierarchy (allGroupNames, segment, opts, picasaReader) {
-  if (!allGroupNames.hasOwnProperty(segment)) {
+  if (!allGroupNames.hasOwnProperty(segment)) { // eslint-disable-line
     // create parent albums first
     const parent = path.dirname(segment)
     if (parent !== '.') {

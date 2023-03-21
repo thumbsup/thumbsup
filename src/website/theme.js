@@ -40,7 +40,7 @@ class Theme {
       const pkg = JSON.parse(contents)
       return pkg.thumbsup || {}
     } catch (ex) {
-      debug(`Theme does not have a package.json, using default options`)
+      debug('Theme does not have a package.json, using default options')
       return {}
     }
   }
@@ -142,7 +142,7 @@ class Theme {
 }
 
 function compileTemplate (hbsFile) {
-  var src = fs.readFileSync(hbsFile)
+  const src = fs.readFileSync(hbsFile)
   return handlebars.compile(src.toString())
 }
 

@@ -4,12 +4,12 @@ const should = require('should/as-function')
 describe('Index: delta', () => {
   it('no changes', () => {
     const database = {
-      'IMG_0001': 1410000000000,
-      'IMG_0002': 1420000000000
+      IMG_0001: 1410000000000,
+      IMG_0002: 1420000000000
     }
     const disk = {
-      'IMG_0001': 1410000000000,
-      'IMG_0002': 1420000000000
+      IMG_0001: 1410000000000,
+      IMG_0002: 1420000000000
     }
     const res = delta.calculate(database, disk)
     should(res).eql({
@@ -22,12 +22,12 @@ describe('Index: delta', () => {
 
   it('no changes within a second', () => {
     const database = {
-      'IMG_0001': 1410000001000,
-      'IMG_0002': 1420000001000
+      IMG_0001: 1410000001000,
+      IMG_0002: 1420000001000
     }
     const disk = {
-      'IMG_0001': 1410000001500, // 500ms later
-      'IMG_0002': 1420000000500 // 500ms earlier
+      IMG_0001: 1410000001500, // 500ms later
+      IMG_0002: 1420000000500 // 500ms earlier
     }
     const res = delta.calculate(database, disk)
     should(res).eql({
@@ -40,13 +40,13 @@ describe('Index: delta', () => {
 
   it('new files', () => {
     const database = {
-      'IMG_0001': 1410000000000,
-      'IMG_0002': 1420000000000
+      IMG_0001: 1410000000000,
+      IMG_0002: 1420000000000
     }
     const disk = {
-      'IMG_0001': 1410000000000,
-      'IMG_0002': 1420000000000,
-      'IMG_0003': 1430000000000
+      IMG_0001: 1410000000000,
+      IMG_0002: 1420000000000,
+      IMG_0003: 1430000000000
     }
     const res = delta.calculate(database, disk)
     should(res).eql({
@@ -59,11 +59,11 @@ describe('Index: delta', () => {
 
   it('deleted files', () => {
     const database = {
-      'IMG_0001': 1410000000000,
-      'IMG_0002': 1420000000000
+      IMG_0001: 1410000000000,
+      IMG_0002: 1420000000000
     }
     const disk = {
-      'IMG_0001': 1410000000000
+      IMG_0001: 1410000000000
     }
     const res = delta.calculate(database, disk)
     should(res).eql({
@@ -76,12 +76,12 @@ describe('Index: delta', () => {
 
   it('modified files', () => {
     const database = {
-      'IMG_0001': 1410000000000,
-      'IMG_0002': 1420000000000
+      IMG_0001: 1410000000000,
+      IMG_0002: 1420000000000
     }
     const disk = {
-      'IMG_0001': 1410000000000,
-      'IMG_0002': 1420000002000
+      IMG_0001: 1410000000000,
+      IMG_0002: 1420000002000
     }
     const res = delta.calculate(database, disk)
     should(res).eql({
@@ -94,14 +94,14 @@ describe('Index: delta', () => {
 
   it('all cases', () => {
     const database = {
-      'IMG_0001': 1410000000000,
-      'IMG_0002': 1420000000000,
-      'IMG_0003': 1430000000000
+      IMG_0001: 1410000000000,
+      IMG_0002: 1420000000000,
+      IMG_0003: 1430000000000
     }
     const disk = {
-      'IMG_0001': 1410000000000,
-      'IMG_0002': 1420000002000,
-      'IMG_0004': 1445000000000
+      IMG_0001: 1410000000000,
+      IMG_0002: 1420000002000,
+      IMG_0004: 1445000000000
     }
     const res = delta.calculate(database, disk)
     should(res).eql({

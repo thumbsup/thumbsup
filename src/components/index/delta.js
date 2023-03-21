@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 const _ = require('lodash')
 
 /*
@@ -31,3 +32,4 @@ exports.calculate = (databaseMap, diskMap) => {
   })
   return delta
 }
+/* eslint-enable no-prototype-builtins */

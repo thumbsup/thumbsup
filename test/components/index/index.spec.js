@@ -8,7 +8,7 @@ describe('Index', function () {
   this.slow(1000)
   this.timeout(1000)
 
-  var tmpdir = null
+  let tmpdir = null
 
   before(() => {
     const image = fixtures.fromDisk('photo.jpg')
@@ -22,8 +22,8 @@ describe('Index', function () {
     const index = new Index(path.join(tmpdir, 'thumbsup.db'))
     const emitter = index.update(path.join(tmpdir, 'input'))
     const emitted = []
-    var processed = 0
-    var stats = null
+    let processed = 0
+    let stats = null
     emitter.on('progress', () => ++processed)
     emitter.on('file', meta => emitted.push(meta))
     emitter.on('stats', s => { stats = s })
@@ -49,9 +49,9 @@ describe('Index', function () {
   it('can re-index with no changes', (done) => {
     const index = new Index(path.join(tmpdir, 'thumbsup.db'))
     const emitter = index.update(path.join(tmpdir, 'input'))
-    var emitted = 0
-    var processed = 0
-    var stats = null
+    let emitted = 0
+    let processed = 0
+    let stats = null
     emitter.on('progress', () => ++processed)
     emitter.on('file', () => ++emitted)
     emitter.on('stats', s => { stats = s })
@@ -70,9 +70,9 @@ describe('Index', function () {
     fs.unlinkSync(path.join(tmpdir, 'input/newyork/IMG_0002.jpg'))
     const index = new Index(path.join(tmpdir, 'thumbsup.db'))
     const emitter = index.update(path.join(tmpdir, 'input'))
-    var emitted = 0
-    var processed = 0
-    var stats = null
+    let emitted = 0
+    let processed = 0
+    let stats = null
     emitter.on('progress', () => ++processed)
     emitter.on('file', () => ++emitted)
     emitter.on('stats', s => { stats = s })

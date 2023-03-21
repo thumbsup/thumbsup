@@ -11,7 +11,7 @@ exports.run = function (fileCollection, outputRoot) {
     const requiredFiles = []
     fileCollection.forEach(f => {
       Object.keys(f.output).forEach(out => {
-        var dest = path.join(outputRoot, f.output[out].path)
+        const dest = path.join(outputRoot, f.output[out].path)
         requiredFiles.push(dest)
       })
     })

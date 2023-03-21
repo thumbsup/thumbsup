@@ -6,7 +6,7 @@ describe('Handlebars helpers: relative', () => {
   handlebars.registerHelper('relative', date)
 
   it('returns a path in the same folder', () => {
-    const template = handlebars.compile(`<link rel="stylesheet" href="{{relative 'public/theme.css'}}" />`)
+    const template = handlebars.compile('<link rel="stylesheet" href="{{relative \'public/theme.css\'}}" />')
     const res = template({
       album: {
         path: 'index.html'
@@ -16,7 +16,7 @@ describe('Handlebars helpers: relative', () => {
   })
 
   it('returns a relative path for albums in nested folders', () => {
-    const template = handlebars.compile(`<link rel="stylesheet" href="{{relative 'public/theme.css'}}" />`)
+    const template = handlebars.compile('<link rel="stylesheet" href="{{relative \'public/theme.css\'}}" />')
     const res = template({
       album: {
         path: 'albums/holidays.html'
@@ -35,7 +35,7 @@ describe('Handlebars helpers: relative', () => {
 
   // TODO: this should not be needed anymore because all URLs are already escaped
   it('escapes single quotes so they can be used in CSS background-image', () => {
-    const template = handlebars.compile(`background-image('{{relative url}}')`)
+    const template = handlebars.compile("background-image('{{relative url}}')")
     const res = template({
       url: "l'histoire.jpg",
       album: {
@@ -47,7 +47,7 @@ describe('Handlebars helpers: relative', () => {
 
   // TODO: this should not be needed anymore because all URLs are already escaped
   it('escapes double quotes so they can be used in <img> tags', () => {
-    const template = handlebars.compile(`<img src="{{relative url}}" />`)
+    const template = handlebars.compile('<img src="{{relative url}}" />')
     const res = template({
       url: 'l"histoire.jpg',
       album: {

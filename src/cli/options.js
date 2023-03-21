@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 const messages = require('./messages')
 const path = require('path')
 const yargs = require('yargs')
@@ -506,7 +507,7 @@ exports.get = (args) => {
 }
 
 function replaceInArray (list, match, replacement) {
-  for (var i = 0; i < list.length; ++i) {
+  for (let i = 0; i < list.length; ++i) {
     if (list[i] === match) {
       list[i] = replacement
     }
@@ -523,3 +524,4 @@ function changeExtension (file, ext) {
   const filename = path.basename(file, originalExt)
   return path.join(path.dirname(file), filename + ext)
 }
+/* eslint-enable quote-props */

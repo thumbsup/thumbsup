@@ -26,12 +26,12 @@ describe('Listr work queue', function () {
     listr.run().then(() => {
       const output = listr._renderer.output
       // At some point a thread should have been waiting
-      hasItemMatching(output, `Waiting`)
+      hasItemMatching(output, 'Waiting')
       // And a thread should have finished
-      hasItemMatching(output, `Finished`)
+      hasItemMatching(output, 'Finished')
       // And every single render should conform to a particular format
       const regex = /^Running jobs\n((\s\s(Waiting|Finished|Job \d+)\n){3})?$/
-      for (let line of output) {
+      for (const line of output) {
         if (!regex.test(line)) {
           should.fail(`Listr output does not match expected format: ${line}`)
         }

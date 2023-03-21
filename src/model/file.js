@@ -14,7 +14,7 @@ const url = require('./url')
 const MIME_REGEX = /([^/]+)\/(.*)/
 const EXIF_DATE_FORMAT = 'YYYY:MM:DD HH:mm:ssZ'
 
-var index = 0
+let index = 0
 
 class File {
   constructor (dbEntry, meta, opts) {

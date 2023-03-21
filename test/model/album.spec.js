@@ -32,7 +32,7 @@ describe('Album', function () {
     })
 
     it('sanitises more special characters than the slugify() default', function () {
-      const a = new Album(`hello*+~.()'"!:@world`)
+      const a = new Album('hello*+~.()\'"!:@world')
       should(a.basename).eql('helloworld')
     })
 
@@ -161,7 +161,8 @@ describe('Album', function () {
     })
 
     it('sorts nested albums too', function () {
-      const nested = new Album({ title: 'nested',
+      const nested = new Album({
+        title: 'nested',
         files: [fileB, fileA]
       })
       const root = new Album({ title: 'home', albums: [nested] })
@@ -315,5 +316,5 @@ function albumWithFileDates (dates) {
   const files = dates.map(function (d) {
     return fixtures.photo({ date: d })
   })
-  return new Album({ files: files })
+  return new Album({ files })
 }

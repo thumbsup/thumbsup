@@ -29,7 +29,7 @@ exports.create = (pattern, opts) => {
 function mapperFunction (pattern, cache, opts) {
   if (opts === undefined) { opts = {} }
   return file => {
-    var album = pattern
+    let album = pattern
     // replace known tokens
     if (cache.usesTokens) {
       album = album.replace(TOKEN_REGEX, token => replaceToken(file, token))

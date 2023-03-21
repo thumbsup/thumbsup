@@ -15,7 +15,7 @@ keywords=beach,sunset
 
 describe('Picasa', function () {
   // we require "mock-fs" inside the tests, otherwise it also affects other tests
-  var mock = null
+  let mock = null
 
   beforeEach(function () {
     mock = require('mock-fs')

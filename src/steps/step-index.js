@@ -27,7 +27,7 @@ exports.run = function (opts, callback) {
     })
 
     // after a file is indexed
-    var lastPercent = -1
+    let lastPercent = -1
     emitter.on('progress', stats => {
       const percent = Math.floor(stats.processed * 100 / stats.total)
       if (percent > lastPercent) {

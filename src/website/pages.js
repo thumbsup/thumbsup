@@ -16,8 +16,8 @@ function createPages (baseModel, album, pageSize, breadcrumbs) {
     const pagination = createPagination(slicedAlbums, index)
     const model = Object.assign({}, baseModel, {
       path: pagination[index].path,
-      breadcrumbs: breadcrumbs,
-      album: album,
+      breadcrumbs,
+      album,
       pagination: (pageSize ? pagination : [])
     })
     return model

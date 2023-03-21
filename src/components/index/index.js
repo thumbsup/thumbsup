@@ -34,13 +34,13 @@ class Index {
 
     // create hashmap of all files in the database
     const databaseMap = {}
-    for (var row of selectStatement.iterate()) {
+    for (const row of selectStatement.iterate()) {
       databaseMap[row.path] = row.timestamp
     }
 
     function finished () {
       // emit every file in the index
-      for (var row of selectMetadata.iterate()) {
+      for (const row of selectMetadata.iterate()) {
         emitter.emit('file', {
           path: row.path,
           timestamp: new Date(row.timestamp),
@@ -72,7 +72,7 @@ class Index {
       })
 
       // check if any files need parsing
-      var processed = 0
+      let processed = 0
       const toProcess = _.union(deltaFiles.added, deltaFiles.modified)
       if (toProcess.length === 0) {
         return finished()
@@ -85,7 +85,7 @@ class Index {
         const timestamp = moment(entry.File.FileModifyDate, EXIF_DATE_FORMAT).valueOf()
         insertStatement.run(entry.SourceFile, timestamp, JSON.stringify(entry))
         ++processed
-        emitter.emit('progress', { path: entry.SourceFile, processed: processed, total: toProcess.length })
+        emitter.emit('progress', { path: entry.SourceFile, processed, total: toProcess.length })
       }).on('end', finished)
     })
 

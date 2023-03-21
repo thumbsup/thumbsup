@@ -58,7 +58,7 @@ exports.build = function (opts, done) {
       })
     }
   ], {
-    renderer: renderer,
+    renderer,
     dateFormat: false
   })
 

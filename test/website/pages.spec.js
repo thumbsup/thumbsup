@@ -20,7 +20,7 @@ function pageSize (pageSize) {
 function albumWithFiles (count) {
   const file = fixtures.photo({ path: 'photo.jpg' })
   const files = new Array(count).fill(file)
-  const album = new Album({ files: files })
+  const album = new Album({ files })
   album.finalize({})
   return album
 }

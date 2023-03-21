@@ -14,6 +14,7 @@ class AlbumMapper {
     const defaulted = (patterns && patterns.length > 0) ? patterns : ['%path']
     this.patterns = defaulted.map(p => load(p, opts))
   }
+
   getAlbums (file) {
     return _.flatMap(this.patterns, pattern => pattern(file))
   }

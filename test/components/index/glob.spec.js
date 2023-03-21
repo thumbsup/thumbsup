@@ -10,7 +10,7 @@ describe('Index: glob', function () {
   this.timeout(500)
 
   // we require "mock-fs" inside the tests, otherwise it also affects other tests
-  var mock = null
+  let mock = null
   before(() => {
     mock = require('mock-fs')
   })
@@ -169,7 +169,7 @@ describe('Index: glob', function () {
       'media/holidays/IMG_0002.jpg': '...'
     })
     const options = {
-      include: [ 'holidays/**' ]
+      include: ['holidays/**']
     }
     assertGlobReturns('media', options, [
       'holidays/IMG_0002.jpg'
@@ -182,7 +182,7 @@ describe('Index: glob', function () {
       'media/holidays/IMG_0002.jpg': '...'
     })
     const options = {
-      exclude: [ 'work/**' ]
+      exclude: ['work/**']
     }
     assertGlobReturns('media', options, [
       'holidays/IMG_0002.jpg'
@@ -205,7 +205,7 @@ describe('Index: glob', function () {
       ]),
       Buffer.from('file3c.jpg')
     ]
-    for (let filename of filenames) {
+    for (const filename of filenames) {
       // we can't use path.join because it will check whether the components
       // are valid, which they are not
       fs.writeFileSync(Buffer.concat([

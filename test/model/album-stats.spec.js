@@ -1,6 +1,6 @@
-var should = require('should/as-function')
-var Album = require('../../src/model/album')
-var fixtures = require('../fixtures')
+const should = require('should/as-function')
+const Album = require('../../src/model/album')
+const fixtures = require('../fixtures')
 
 describe('Album', function () {
   describe('stats', function () {

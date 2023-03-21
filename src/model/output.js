@@ -49,6 +49,6 @@ function relationship (filepath, rel, opts) {
   }
   return {
     path: fn(filepath, rel, opts),
-    rel: rel
+    rel
   }
 }

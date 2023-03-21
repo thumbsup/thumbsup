@@ -103,18 +103,18 @@ function people (exif) {
 }
 
 function video (exif) {
-  return MIME_VIDEO_REGEX.test(exif.File['MIMEType'])
+  return MIME_VIDEO_REGEX.test(exif.File.MIMEType)
 }
 
 function animated (exif) {
-  if (exif.File['MIMEType'] !== 'image/gif') return false
+  if (exif.File.MIMEType !== 'image/gif') return false
   if (exif.GIF && exif.GIF.FrameCount > 0) return true
   return false
 }
 
 function rating (exif) {
   if (!exif.XMP) return 0
-  return exif.XMP['Rating'] || 0
+  return exif.XMP.Rating || 0
 }
 
 function favourite (picasa) {
