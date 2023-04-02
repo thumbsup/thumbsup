@@ -141,6 +141,13 @@ describe('options', function () {
         should(opts.logFile).eql(path.join(process.cwd(), 'custom.log'))
       })
     })
+    describe('includes', () => {
+      it('always creates an array', () => {
+        const args = BASE_ARGS.concat(['--include', 'holidays/**'])
+        const opts = options.get(args)
+        should(opts.include).eql(['holidays/**'])
+      })
+    })
   })
   describe('deprecated', () => {
     it('--original-photos false', () => {

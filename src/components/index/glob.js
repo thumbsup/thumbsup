@@ -16,7 +16,7 @@ const RAW_PHOTO_EXT = [
 exports.find = function (rootFolder, options, callback) {
   const entries = {}
   const pattern = new GlobPattern({
-    include: (options.include && options.include.length > 0) ? options.include : '**/**',
+    include: (options.include && options.include.length > 0) ? options.include : ['**/**'],
     exclude: options.exclude || [],
     extensions: exports.supportedExtensions(options)
   })
