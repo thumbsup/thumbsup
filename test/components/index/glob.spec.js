@@ -176,6 +176,51 @@ describe('Index: glob', function () {
     ], done)
   })
 
+  it('can include deep subfolders', (done) => {
+    mock({
+      'media/work/IMG_0001.jpg': '...',
+      'media/holidays/venice/IMG_0002.jpg': '...'
+    })
+    const options = {
+      include: [
+        'holidays/**'
+      ]
+    }
+    assertGlobReturns('media', options, [
+      'holidays/venice/IMG_0002.jpg'
+    ], done)
+  })
+
+  it('can include nested subfolders', (done) => {
+    mock({
+      'media/work/IMG_0001.jpg': '...',
+      'media/holidays/venice/IMG_0002.jpg': '...'
+    })
+    const options = {
+      include: [
+        'holidays/venice/**'
+      ]
+    }
+    assertGlobReturns('media', options, [
+      'holidays/venice/IMG_0002.jpg'
+    ], done)
+  })
+
+  it('can include a specific file by path', (done) => {
+    mock({
+      'media/work/IMG_0001.jpg': '...',
+      'media/holidays/venice/IMG_0002.jpg': '...'
+    })
+    const options = {
+      include: [
+        'holidays/venice/IMG_0002.jpg'
+      ]
+    }
+    assertGlobReturns('media', options, [
+      'holidays/venice/IMG_0002.jpg'
+    ], done)
+  })
+
   it('can specify an exclude pattern', (done) => {
     mock({
       'media/work/IMG_0001.jpg': '...',

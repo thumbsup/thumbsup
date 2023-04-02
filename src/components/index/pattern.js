@@ -1,9 +1,12 @@
+const _ = require('lodash')
+const path = require('path')
 const micromatch = require('micromatch')
 
 class GlobPattern {
   constructor ({ include, exclude, extensions }) {
     this.includeList = include
     this.excludeList = exclude
+    this.includeFolders = _.uniq(_.flatMap(this.includeList, this.subFolders))
     this.directoryExcludeList = exclude.concat(['**/@eaDir/**', '#recycle/**'])
     this.extensions = extPattern(extensions)
   }
@@ -20,8 +23,22 @@ class GlobPattern {
   canTraverse (folderPath) {
     const opts = { dot: false, nocase: true }
     const withSlash = `${folderPath}/`
-    return micromatch.any(withSlash, this.includeList, opts) &&
+    return micromatch.any(withSlash, this.includeFolders, opts) &&
            micromatch.any(withSlash, this.directoryExcludeList, opts) === false
+  }
+
+  // returns the list of all folder names in a path
+  // so they can be included in traversal
+  subFolders (filepath) {
+    // keep the required path if it allows traversal (thing/ or thing/**)
+    const list = filepath.match(/(\/$)|(\*\*$)/) ? [filepath] : []
+    // then find all parent folders
+    let dir = path.dirname(filepath)
+    while (dir !== '.' && dir !== '/') {
+      list.push(dir + '/')
+      dir = path.dirname(dir)
+    }
+    return list
   }
 }
 
