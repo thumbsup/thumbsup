@@ -151,7 +151,8 @@ describe('actions', () => {
       should(downsizeArgs).eql({
         format: undefined,
         quality: undefined,
-        bitrate: undefined
+        bitrate: undefined,
+        hwaccel: undefined
       })
       testEnd()
     })
@@ -163,7 +164,8 @@ describe('actions', () => {
       // but this is OK for testing the mapping
       videoFormat: 'mp4',
       videoQuality: 75,
-      videoBitrate: '1200k'
+      videoBitrate: '1200k',
+      videoHwaccel: 'vaapi'
     })
     const action = map['video:resized']
     action(ANY_TASK, err => {
@@ -172,7 +174,8 @@ describe('actions', () => {
       should(downsizeArgs).eql({
         format: 'mp4',
         quality: 75,
-        bitrate: '1200k'
+        bitrate: '1200k',
+        hwaccel: 'vaapi'
       })
       testEnd()
     })
