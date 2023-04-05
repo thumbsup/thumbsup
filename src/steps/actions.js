@@ -33,7 +33,8 @@ exports.createMap = function (opts) {
   const videoOpts = {
     format: opts.videoFormat,
     quality: opts.videoQuality,
-    bitrate: opts.videoBitrate
+    bitrate: opts.videoBitrate,
+    hwaccel: opts.videoHwaccel
   }
   return {
     'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),

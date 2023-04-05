@@ -101,6 +101,7 @@ Output options:
   --video-quality       Quality of the converted video (percent)  [number] [default: 75]
   --video-bitrate       Bitrate of the converted videos (e.g. 120k)  [string] [default: null]
   --video-format        Video output format  [choices: "mp4", "webm"] [default: "mp4"]
+  --video-hwaccel       Use Hardware acceleration, requires bitrate too  [choices: ["none", "vaapi"] [default: "none"]
   --video-stills        Where the video still frame is taken  [choices: "seek", "middle"] [default: "seek"]
   --video-stills-seek   Number of seconds where the still frame is taken  [number] [default: 1]
   --photo-preview       How lightbox photos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
