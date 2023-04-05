@@ -106,7 +106,7 @@ const OPTIONS = {
   },
   'video-hwaccel': {
     group: 'Output options:',
-    description: 'Use Hardware acceleration, requires bitrate too',
+    description: 'Use hardware acceleration (requires bitrate)',
     choices: ['none', 'vaapi'],
     'default': 'none'
   },
@@ -444,7 +444,7 @@ const OPTIONS = {
 
 // explicitly pass <process.argv> so we can unit test this logic
 // otherwise it pre-loads all process arguments on require()
-exports.get = (args) => {
+exports.get = (args, exitOnFailure = true) => {
   const parsedOptions = yargs(args)
     .usage(messages.USAGE())
     .wrap(null)
@@ -452,6 +452,8 @@ exports.get = (args) => {
     .config('config')
     .options(OPTIONS)
     .epilogue(messages.CONFIG_USAGE())
+    .exitProcess(exitOnFailure)
+    .check(validation)
     .argv
 
   // Warn users when they use deprecated options
@@ -510,6 +512,16 @@ exports.get = (args) => {
   }
 
   return opts
+}
+
+function validation (opts) {
+  // all custom validation rules go here
+  // this way, they are reported the same way as invalid arguments
+  if (opts.videoHwaccel !== 'none' && !opts.videoBitrate) {
+    throw new Error('--video-hwaccel requires a value for --bitrate')
+  }
+  // everything is OK
+  return true
 }
 
 function replaceInArray (list, match, replacement) {

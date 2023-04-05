@@ -39,6 +39,11 @@ describe('options', function () {
       const opts2 = options.get(BASE_ARGS.concat(['--include-videos', 'FALSE']))
       should(opts2.includeVideos).eql(true)
     })
+    it('rejects invalid values for choices', () => {
+      should.throws(function () {
+        options.get(BASE_ARGS.concat(['--video-format', 'test']), false)
+      }, /mp4/)
+    })
   })
   describe('paths', () => {
     it('--input is converted to an absolute path', () => {
@@ -101,6 +106,13 @@ describe('options', function () {
       ])
       const opts = options.get(args)
       should(opts.gmArgs).eql(['-equalize', '-modulate 120'])
+    })
+  })
+  describe('video', () => {
+    it('hardware acceleration requires a bitrate', () => {
+      should.throws(function () {
+        options.get(BASE_ARGS.concat(['--video-hwaccel', 'vaapi']), false)
+      }, /bitrate/)
     })
   })
   describe('misc', () => {
