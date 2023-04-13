@@ -439,7 +439,7 @@ const OPTIONS = {
     type: 'string'
   },
   'usage-stats': {
-    group: 'Misc options:',
+    group: 'Deprecated:',
     description: 'Enable anonymous usage statistics',
     type: 'boolean',
     'default': false

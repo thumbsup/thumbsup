@@ -77,9 +77,9 @@ For the latest published version please refer to the [docs on the website](https
 ```
 
 
- Usages:
-   thumbsup [required] [options]
-   thumbsup --config config.json
+Usages:
+  thumbsup [required] [options]
+  thumbsup --config config.json
 
 
 Required:
@@ -87,6 +87,7 @@ Required:
   --output  Output path for the static website  [string] [required]
 
 Input options:
+  --scan-mode           How files are indexed  [choices: "full", "partial", "incremental"] [default: "full"]
   --include-photos      Include photos in the gallery  [boolean] [default: true]
   --include-videos      Include videos in the gallery  [boolean] [default: true]
   --include-raw-photos  Include raw photos in the gallery  [boolean] [default: false]
@@ -101,7 +102,7 @@ Output options:
   --video-quality       Quality of the converted video (percent)  [number] [default: 75]
   --video-bitrate       Bitrate of the converted videos (e.g. 120k)  [string] [default: null]
   --video-format        Video output format  [choices: "mp4", "webm"] [default: "mp4"]
-  --video-hwaccel       Use Hardware acceleration, requires bitrate too  [choices: ["none", "vaapi"] [default: "none"]
+  --video-hwaccel       Use hardware acceleration (requires bitrate)  [choices: "none", "vaapi"] [default: "none"]
   --video-stills        Where the video still frame is taken  [choices: "seek", "middle"] [default: "seek"]
   --video-stills-seek   Number of seconds where the still frame is taken  [number] [default: 1]
   --photo-preview       How lightbox photos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
@@ -110,7 +111,7 @@ Output options:
   --video-download      How downloadable videos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
   --link-prefix         Path or URL prefix for "linked" photos and videos  [string]
   --cleanup             Remove any output file that's no longer needed  [boolean] [default: false]
-  --concurrency         Number of parallel parsing/processing operations  [number] [default: 4]
+  --concurrency         Number of parallel parsing/processing operations  [number] [default: 2]
   --output-structure    File and folder structure for output media  [choices: "folders", "suffix"] [default: "folders"]
   --gm-args             Custom image processing arguments for GraphicsMagick  [array]
   --watermark           Path to a transparent PNG to be overlaid on all images  [string]
@@ -150,7 +151,6 @@ Misc options:
   --database-file  Path to the database file  [string]
   --log-file       Path to the log file  [string]
   --log            Print a detailed text log  [choices: "default", "info", "debug", "trace"] [default: "default"]
-  --usage-stats    Enable anonymous usage statistics  [boolean] [default: true]
   --dry-run        Update the index, but don't create the media files / website  [boolean] [default: false]
 
 Deprecated:
@@ -161,6 +161,7 @@ Deprecated:
   --download-photos       Target of the photo download links  [choices: "large", "copy", "symlink", "link"]
   --download-videos       Target of the video download links  [choices: "large", "copy", "symlink", "link"]
   --download-link-prefix  Path or URL prefix for linked downloads  [string]
+  --usage-stats           Enable anonymous usage statistics  [boolean] [default: false]
 
 Options:
   --version  Show version number  [boolean]
