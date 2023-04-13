@@ -57,12 +57,13 @@ class Index {
       if (err) return console.error('error', err)
 
       // calculate the difference: which files have been added, modified, etc
-      const deltaFiles = delta.calculate(databaseMap, diskMap)
+      const deltaFiles = delta.calculate(databaseMap, diskMap, options)
       emitter.emit('stats', {
         unchanged: deltaFiles.unchanged.length,
         added: deltaFiles.added.length,
         modified: deltaFiles.modified.length,
         deleted: deltaFiles.deleted.length,
+        skipped: deltaFiles.skipped.length,
         total: Object.keys(diskMap).length
       })
 

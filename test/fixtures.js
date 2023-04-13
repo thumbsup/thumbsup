@@ -72,6 +72,10 @@ exports.createTempStructure = function (files) {
   return tmpdir
 }
 
+exports.deleteTempFile = function (tmpdir, filepath) {
+  fs.unlinkSync(path.join(tmpdir, filepath))
+}
+
 // convert to OS-dependent style paths for testing
 exports.ospath = function (filepath) {
   return filepath.replace(/\//g, path.sep)

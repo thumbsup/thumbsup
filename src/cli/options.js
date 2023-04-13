@@ -29,6 +29,12 @@ const OPTIONS = {
   // ------------------------------------
   // Input options
   // ------------------------------------
+  'scan-mode': {
+    group: 'Input options:',
+    description: 'How files are indexed',
+    choices: ['full', 'partial', 'incremental'],
+    'default': 'full'
+  },
   'include-photos': {
     group: 'Input options:',
     description: 'Include photos in the gallery',

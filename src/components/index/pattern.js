@@ -4,10 +4,10 @@ const micromatch = require('micromatch')
 
 class GlobPattern {
   constructor ({ include, exclude, extensions }) {
-    this.includeList = include
-    this.excludeList = exclude
+    this.includeList = (include && include.length > 0) ? include : ['**/**']
+    this.excludeList = exclude || []
     this.includeFolders = _.uniq(_.flatMap(this.includeList, this.subFolders))
-    this.directoryExcludeList = exclude.concat(['**/@eaDir/**', '#recycle/**'])
+    this.directoryExcludeList = this.excludeList.concat(['**/@eaDir/**', '#recycle/**'])
     this.extensions = extPattern(extensions)
   }
 
@@ -43,7 +43,9 @@ class GlobPattern {
 }
 
 function extPattern (extensions) {
-  if (extensions.length === 1) {
+  if (extensions.length === 0) {
+    return '**/*'
+  } else if (extensions.length === 1) {
     return '**/*.' + extensions[0]
   } else {
     return '**/*.{' + extensions.join(',') + '}'

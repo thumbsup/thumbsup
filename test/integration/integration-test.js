@@ -39,9 +39,18 @@ class IntegrationTest {
     })
   }
 
+  deleteInputFile (filepath) {
+    fixtures.deleteTempFile(this.tmpdir, filepath)
+  }
+
   assertExist (expected) {
     const missing = expected.filter(f => this.actualFiles.indexOf(f) === -1)
     should(missing).eql([])
+  }
+
+  assertNotExist (expected) {
+    const present = expected.filter(f => this.actualFiles.indexOf(f) !== -1)
+    should(present).eql([])
   }
 
   parse (filepath) {
