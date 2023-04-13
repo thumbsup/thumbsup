@@ -393,13 +393,6 @@ const OPTIONS = {
     'default': 'default'
   },
 
-  'usage-stats': {
-    group: 'Misc options:',
-    description: 'Enable anonymous usage statistics',
-    type: 'boolean',
-    'default': true
-  },
-
   'dry-run': {
     group: 'Misc options:',
     description: "Update the index, but don't create the media files / website",
@@ -444,6 +437,12 @@ const OPTIONS = {
     group: 'Deprecated:',
     description: 'Path or URL prefix for linked downloads',
     type: 'string'
+  },
+  'usage-stats': {
+    group: 'Misc options:',
+    description: 'Enable anonymous usage statistics',
+    type: 'boolean',
+    'default': false
   }
 
 }

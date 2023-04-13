@@ -2,7 +2,6 @@
 
 const fs = require('fs-extra')
 const moment = require('moment')
-const Analytics = require('./analytics')
 const dependencies = require('../src/cli/dependencies')
 const messages = require('../src/cli/messages')
 const options = require('../src/cli/options')
@@ -23,12 +22,6 @@ const firstRun = fs.existsSync(opts.databaseFile) === false
 if (firstRun) {
   console.log(`${messages.GREETING()}\n`)
 }
-
-// Basic usage report (anonymous statistics)
-const analytics = new Analytics({
-  enabled: opts.usageStats
-})
-analytics.start()
 
 // Catch all exceptions and exit gracefully
 process.on('uncaughtException', handleError)
@@ -59,7 +52,6 @@ index.build(opts, (err, result) => {
       photos: result.album.stats.photos,
       videos: result.album.stats.videos
     }
-    analytics.finish(stats)
     console.log(messages.SUCCESS(stats) + '\n')
     exit(0)
   }
@@ -68,7 +60,6 @@ index.build(opts, (err, result) => {
 // Print an error report and exit
 // Note: remove "err.context" (entire data model) which can make the output hard to read
 function handleError (err) {
-  analytics.error()
   delete err.context
   require('debug')('thumbsup:error')(err)
   console.error('\nUnexpected error', err.message)
@@ -77,12 +68,9 @@ function handleError (err) {
 }
 
 // Force a successful or failed exit
-// This is required
-// - because capturing unhandled errors will make Listr run forever
-// - to ensure pending Analytics HTTP requests don't keep the tool running
+// This is required because capturing unhandled errors will make Listr run forever
 function exit (code) {
-  // just some time to ensure analytics has time to fire
-  setTimeout(() => process.exit(code), 10)
+  process.exit(code)
 }
 
 // Count the total number of nested albums
