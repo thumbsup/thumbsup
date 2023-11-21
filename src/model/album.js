@@ -126,13 +126,20 @@ Album.prototype.pickPreviews = function (options) {
   if (options.albumCovers) {
     const covers = require(options.albumCovers)
     if(covers[this.basename]) {
-      let count = 0
+      let albumCount = 0
+      let searchAlbums = Array(this).concat(this.albums)
       do {
-        if (this.files[count].path === covers[this.basename]) {
-          this.previews = [this.files[count]]
+        if(searchAlbums[albumCount].files.length > 0) {
+          count = 0
+          do {
+            if (searchAlbums[albumCount].files[count].path === covers[this.basename]) {
+              this.previews = [searchAlbums[albumCount].files[count]]
+            }
+            count = count + 1
+          } while (!this.previews && count < searchAlbums[albumCount].files.length)
         }
-        count = count + 1
-      } while (!this.previews || count < this.files.length)
+        albumCount = albumCount + 1
+      } while (!this.previews && albumCount < searchAlbums.length)
     }
   }
 
