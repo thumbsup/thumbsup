@@ -1,4 +1,3 @@
-
 /*
   Special Listr renderer that
   - on every change, renders the whole task list in memory

@@ -1,4 +1,3 @@
-
 /*
   Render the first X items in an array
   Usage:
