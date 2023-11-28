@@ -441,8 +441,7 @@ const OPTIONS = {
   'usage-stats': {
     group: 'Deprecated:',
     description: 'Enable anonymous usage statistics',
-    type: 'boolean',
-    'default': false
+    type: 'boolean'
   }
 
 }

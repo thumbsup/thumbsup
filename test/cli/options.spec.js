@@ -30,8 +30,8 @@ describe('options', function () {
       should(opts.themePath).eql('foobar')
     })
     it('can use --no to reverse a boolean', () => {
-      const opts = options.get(BASE_ARGS.concat(['--no-usage-stats']))
-      should(opts.usageStats).eql(false)
+      const opts = options.get(BASE_ARGS.concat(['--no-cleanup']))
+      should(opts.cleanup).eql(false)
     })
     it('is case-sensitive for booleans', () => {
       const opts1 = options.get(BASE_ARGS.concat(['--include-videos', 'false']))
