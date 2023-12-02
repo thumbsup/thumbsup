@@ -32,7 +32,11 @@ describe('Integration: scan modes', function () {
           const london2 = integration.parseYaml('london.html')
           // the deleted file was removed
           should(london2.files).have.length(1)
-          integration.assertNotExist(['media/thumbs/london/IMG_0002.jpg'])
+          integration.assertNotExist([
+            'media/thumbs/london/IMG_0002.jpg',
+            'media/small/london/IMG_0002.jpg',
+            'media/large/london/IMG_0002.jpg'
+          ])
           done()
         })
       })
@@ -50,7 +54,11 @@ describe('Integration: scan modes', function () {
           // the London album is no longer there
           should(index2.albums).have.length(1)
           should(index2.albums[0].title).eql('newyork')
-          integration.assertNotExist(['media/thumbs/london/IMG_0001.jpg'])
+          integration.assertNotExist([
+            'media/thumbs/london/IMG_0001.jpg',
+            'media/small/london/IMG_0001.jpg',
+            'media/large/london/IMG_0001.jpg'
+          ])
           done()
         })
       })
