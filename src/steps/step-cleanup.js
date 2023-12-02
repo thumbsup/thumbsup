@@ -1,10 +1,11 @@
 const _ = require('lodash')
 const fs = require('fs')
+const debug = require('debug')('thumbsup:debug')
 const Observable = require('zen-observable')
 const path = require('path')
 const readdir = require('fs-readdir-recursive')
 
-exports.run = function (fileCollection, outputRoot) {
+exports.run = function (fileCollection, outputRoot, dryRun) {
   return new Observable(observer => {
     const mediaRoot = path.join(outputRoot, 'media')
     const diskFiles = readdir(mediaRoot).map(f => path.join(mediaRoot, f))
@@ -18,8 +19,13 @@ exports.run = function (fileCollection, outputRoot) {
     const useless = _.difference(diskFiles, requiredFiles)
     if (useless.length) {
       useless.forEach(f => {
-        observer.next(path.relative(outputRoot, f))
-        fs.unlinkSync(f)
+        const relativePath = path.relative(outputRoot, f)
+        if (dryRun) {
+          debug(`Dry run, would delete: ${relativePath}`)
+        } else {
+          observer.next(relativePath)
+          fs.unlinkSync(f)
+        }
       })
     }
     observer.complete()

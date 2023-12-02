@@ -43,9 +43,8 @@ exports.build = function (opts, done) {
     {
       title: 'Cleaning up',
       enabled: (ctx) => opts.cleanup,
-      skip: () => opts.dryRun,
       task: (ctx) => {
-        return steps.cleanup(ctx.files, opts.output)
+        return steps.cleanup(ctx.files, opts.output, opts.dryRun)
       }
     },
     {

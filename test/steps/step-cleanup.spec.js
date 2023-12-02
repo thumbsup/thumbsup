@@ -1,5 +1,6 @@
 const fs = require('fs')
 const sinon = require('sinon')
+const debug = require('debug')
 const should = require('should/as-function')
 const cleanup = require('../../src/steps/step-cleanup')
 const fixtures = require('../fixtures')
@@ -33,10 +34,10 @@ describe('Steps: cleanup', () => {
       'output/media/large/paris/IMG_0001.jpg': '',
       'output/media/large/london/IMG_0002.jpg': ''
     })
-    const obs = cleanup.run(input, 'output')
+    const obs = cleanup.run(input, 'output', false)
     obs.reduce(toArray, []).subscribe(deletedFiles => {
       should(deletedFiles).deepEqual([])
-      should(fs.unlinkSync.args).deepEqual([])
+      should(fs.unlinkSync.called).equal(false)
       testEnd()
     })
   })
@@ -51,11 +52,31 @@ describe('Steps: cleanup', () => {
       'output/media/large/london/IMG_0002.jpg': '',
       'output/media/large/newyork/IMG_0003.jpg': ''
     })
-    const obs = cleanup.run(input, 'output')
+    const obs = cleanup.run(input, 'output', false)
     const extraFile = 'media/large/newyork/IMG_0003.jpg'
     obs.reduce(toArray, []).subscribe(deletedFiles => {
       should(deletedFiles).deepEqual([ospath(extraFile)])
+      should(fs.unlinkSync.called).equal(true)
       should(fs.unlinkSync.args).deepEqual([[ospath(`output/${extraFile}`)]])
+      testEnd()
+    })
+  })
+
+  it('prints the name but does not delete in dry-run mode', testEnd => {
+    const input = [
+      fixtures.file({ path: 'paris/IMG_0001.jpg' }),
+      fixtures.file({ path: 'london/IMG_0002.jpg' })
+    ]
+    mock({
+      'output/media/large/paris/IMG_0001.jpg': '',
+      'output/media/large/london/IMG_0002.jpg': '',
+      'output/media/large/newyork/IMG_0003.jpg': ''
+    })
+    const obs = cleanup.run(input, 'output', true)
+    obs.reduce(toArray, []).subscribe(deletedFiles => {
+      should(deletedFiles).deepEqual([])
+      should(fs.unlinkSync.called).equal(false)
+      debug.assertContains('would delete: media/large/newyork/IMG_0003.jpg')
       testEnd()
     })
   })
