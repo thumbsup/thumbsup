@@ -73,9 +73,8 @@ docker run -v `pwd`:/work thumbsupgallery/thumbsup [...]
 This reflects the CLI for the latest code on `master`.
 For the latest published version please refer to the [docs on the website](https://thumbsup.github.io).
 
-<!-- START cli -->
+<!--STARTCLI-->
 ```
-
 
 Usages:
   thumbsup [required] [options]
@@ -161,7 +160,7 @@ Deprecated:
   --download-photos       Target of the photo download links  [choices: "large", "copy", "symlink", "link"]
   --download-videos       Target of the video download links  [choices: "large", "copy", "symlink", "link"]
   --download-link-prefix  Path or URL prefix for linked downloads  [string]
-  --usage-stats           Enable anonymous usage statistics  [boolean] [default: false]
+  --usage-stats           Enable anonymous usage statistics  [boolean]
 
 Options:
   --version  Show version number  [boolean]
@@ -172,8 +171,7 @@ Options:
  per argument, not including the leading "--". For example:
  { "sort-albums-by": "start-date" }
 ```
-
-<!-- END cli -->
+<!--ENDCLI-->
 
 ## Contributing
 
