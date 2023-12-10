@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 const should = require('should/as-function')
 const sinon = require('sinon')
 const hierarchy = require('../../src/input/hierarchy.js')

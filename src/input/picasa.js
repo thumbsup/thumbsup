@@ -4,9 +4,9 @@ Provides Picasa metadata based on <picasa.ini> files in the input folder
 --------------------------------------------------------------------------------
 */
 
+const fs = require('node:fs')
+const path = require('node:path')
 const ini = require('ini')
-const fs = require('fs')
-const path = require('path')
 
 class Picasa {
   constructor () {

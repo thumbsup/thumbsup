@@ -1,5 +1,5 @@
-const path = require('path')
-const process = require('process')
+const path = require('node:path')
+const process = require('node:process')
 const should = require('should/as-function')
 const sinon = require('sinon')
 const options = require('../../src/cli/options.js')

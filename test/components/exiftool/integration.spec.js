@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 const should = require('should/as-function')
 const fixtures = require('../../fixtures')
 const exiftool = require('../../../src/components/exiftool/parallel')

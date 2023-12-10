@@ -1,5 +1,5 @@
-const path = require('path')
-const process = require('process')
+const path = require('node:path')
+const process = require('node:process')
 
 exports.fromPath = function (filepath) {
   // already a URL (typically provided as a CLI argument, e.g. link prefix)

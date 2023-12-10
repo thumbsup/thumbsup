@@ -5,8 +5,8 @@ Also includes how it maps to the different output files
 --------------------------------------------------------------------------------
 */
 
+const path = require('node:path')
 const _ = require('lodash')
-const path = require('path')
 const moment = require('moment')
 const output = require('./output')
 const url = require('./url')

@@ -1,5 +1,5 @@
-const fs = require('fs')
-const path = require('path')
+const fs = require('node:fs')
+const path = require('node:path')
 const async = require('async')
 const resolvePkg = require('resolve-pkg')
 const Theme = require('./theme')

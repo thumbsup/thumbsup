@@ -1,8 +1,8 @@
+const os = require('node:os')
 const _ = require('lodash')
 const debug = require('debug')('thumbsup:debug')
 const es = require('event-stream')
 const exiftool = require('./stream.js')
-const os = require('os')
 
 /*
   Fans out the list of files to multiple exiftool processes (default = CPU count)

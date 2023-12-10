@@ -1,5 +1,5 @@
+const path = require('node:path')
 const _ = require('lodash')
-const path = require('path')
 const micromatch = require('micromatch')
 
 class GlobPattern {

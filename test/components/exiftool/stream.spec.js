@@ -1,4 +1,4 @@
-const childProcess = require('child_process')
+const childProcess = require('node:child_process')
 const debug = require('debug')
 const mockSpawn = require('mock-spawn')
 const should = require('should/as-function')

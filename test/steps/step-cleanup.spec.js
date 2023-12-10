@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('node:fs')
 const sinon = require('sinon')
 const debug = require('debug')
 const should = require('should/as-function')

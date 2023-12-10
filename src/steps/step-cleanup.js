@@ -1,8 +1,8 @@
+const fs = require('node:fs')
+const path = require('node:path')
 const _ = require('lodash')
-const fs = require('fs')
 const debug = require('debug')('thumbsup:debug')
 const Observable = require('zen-observable')
-const path = require('path')
 const readdir = require('fs-readdir-recursive')
 
 exports.run = function (fileCollection, outputRoot, dryRun) {

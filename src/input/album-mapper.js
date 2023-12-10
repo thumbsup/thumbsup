@@ -5,8 +5,8 @@ based on the --albums-from array of patterns provided
 --------------------------------------------------------------------------------
 */
 
+const path = require('node:path')
 const _ = require('lodash')
-const path = require('path')
 const albumPattern = require('./album-pattern')
 
 class AlbumMapper {

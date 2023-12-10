@@ -6,8 +6,8 @@ A single photo/video could exist in multiple albums
 --------------------------------------------------------------------------------
 */
 
+const path = require('node:path')
 const _ = require('lodash')
-const path = require('path')
 const slugify = require('slugify')
 const url = require('./url')
 

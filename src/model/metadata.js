@@ -5,9 +5,9 @@ This is based on parsing "provider data" such as Exiftool or Picasa
 --------------------------------------------------------------------------------
 */
 
+const path = require('node:path')
 const _ = require('lodash')
 const moment = require('moment')
-const path = require('path')
 
 // mime type for videos
 const MIME_VIDEO_REGEX = /^video\/.*$/

@@ -1,5 +1,5 @@
+const util = require('node:util')
 const debug = require('debug')
-const util = require('util')
 
 debug.recorded = []
 

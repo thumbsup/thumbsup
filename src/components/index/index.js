@@ -1,12 +1,12 @@
+const EventEmitter = require('node:events')
+const path = require('node:path')
 const _ = require('lodash')
 const Database = require('better-sqlite3')
-const delta = require('./delta')
-const EventEmitter = require('events')
-const exiftool = require('../exiftool/parallel')
 const fs = require('fs-extra')
-const globber = require('./glob')
 const moment = require('moment')
-const path = require('path')
+const delta = require('./delta')
+const exiftool = require('../exiftool/parallel')
+const globber = require('./glob')
 
 const EXIF_DATE_FORMAT = 'YYYY:MM:DD HH:mm:ssZ'
 

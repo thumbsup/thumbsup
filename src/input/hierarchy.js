@@ -1,5 +1,5 @@
+const path = require('node:path')
 const _ = require('lodash')
-const path = require('path')
 const Album = require('../model/album')
 
 exports.createAlbums = function (collection, mapper, opts, picasaReader) {

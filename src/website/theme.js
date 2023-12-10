@@ -1,9 +1,9 @@
+const path = require('node:path')
 const async = require('async')
 const debug = require('debug')('thumbsup:debug')
 const fs = require('fs-extra')
 const handlebars = require('handlebars')
 const less = require('less')
-const path = require('path')
 
 class Theme {
   constructor (themeDir, destDir, opts) {

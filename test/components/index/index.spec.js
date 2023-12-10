@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 const should = require('should/as-function')
 const Index = require('../../../src/components/index/index')
 const fixtures = require('../../fixtures')

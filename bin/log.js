@@ -1,7 +1,7 @@
+const fs = require('node:fs')
+const util = require('node:util')
+const tty = require('node:tty')
 const debug = require('debug')
-const fs = require('fs')
-const util = require('util')
-const tty = require('tty')
 
 /*
   Thumbsup uses the <debug> package for logging.

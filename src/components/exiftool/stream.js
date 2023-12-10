@@ -1,4 +1,4 @@
-const childProcess = require('child_process')
+const childProcess = require('node:child_process')
 const trace = require('debug')('thumbsup:trace')
 const debug = require('debug')('thumbsup:debug')
 const error = require('debug')('thumbsup:error')

@@ -5,8 +5,8 @@ Can be based on anything, e.g. directory name, date, metadata keywords...
 e.g. `Holidays/London/IMG_00001.jpg` -> `Holidays/London`
 --------------------------------------------------------------------------------
 */
+const path = require('node:path')
 const moment = require('moment')
-const path = require('path')
 
 const TOKEN_REGEX = /%[a-z]+/g
 const DATE_REGEX = /{[^}]+}/g

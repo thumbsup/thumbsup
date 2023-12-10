@@ -1,9 +1,9 @@
-const fs = require('fs')
-const glob = require('../../../src/components/index/glob')
-const { sep } = require('path')
-const os = require('os')
+const fs = require('node:fs')
+const { sep } = require('node:path')
+const os = require('node:os')
 const should = require('should/as-function')
 const tmp = require('tmp')
+const glob = require('../../../src/components/index/glob')
 
 describe('Index: glob', function () {
   this.slow(500)

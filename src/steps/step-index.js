@@ -5,7 +5,7 @@ Caches the results in <thumbsup.db> for faster re-runs
 --------------------------------------------------------------------------------
 */
 
-const path = require('path')
+const path = require('node:path')
 const hierarchy = require('../input/hierarchy.js')
 const Index = require('../components/index/index')
 const info = require('debug')('thumbsup:info')

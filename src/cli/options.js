@@ -1,9 +1,9 @@
 /* eslint-disable quote-props */
-const messages = require('./messages')
-const path = require('path')
-const yargs = require('yargs')
-const os = require('os')
+const path = require('node:path')
+const os = require('node:os')
 const _ = require('lodash')
+const yargs = require('yargs')
+const messages = require('./messages')
 
 const OPTIONS = {
 

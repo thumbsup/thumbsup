@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('node:path')
 
 module.exports = (target, options) => {
   // if already an absolute URL, do nothing
