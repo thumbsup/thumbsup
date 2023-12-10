@@ -27,9 +27,8 @@
     "bin"
   ],
   "scripts": {
-    "lint": "standard && require-lint",
-    "unit": "c8 mocha",
-    "test": "npm run lint && npm run unit"
+    "pretest": "standard && require-lint",
+    "test": "c8 mocha"
   },
   "dependencies": {
     "@thumbsup/theme-cards": "^1.3.0",
