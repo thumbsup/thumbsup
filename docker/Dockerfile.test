@@ -10,7 +10,7 @@ USER tester
 
 # Install and cache dependencies
 COPY --chown=tester package*.json /app
-RUN npm install
+RUN npm ci
 
 # Copy the entire source code
 COPY --chown=tester . /app
