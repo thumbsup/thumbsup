@@ -44,6 +44,26 @@ describe('exiftool', function () {
     })
   })
 
+  xit('can process files starting with a # sign', (done) => {
+    // they are currently ignored by Exiftool for an unknown reason
+    const structure = {
+      'photo1.jpg': fixtures.fromDisk('photo.jpg'),
+      '#photo2.jpg': fixtures.fromDisk('photo.jpg')
+    }
+    const tmpdir = fixtures.createTempStructure(structure)
+    const processed = []
+    // force concurrency of 1 to ensure there's a single exiftool instance
+    // otherwise, once instance will receive '#photo2.jpg' and think it has nothing to process
+    // which generates an unrelated error
+    const stream = exiftool.parse(tmpdir, Object.keys(structure), 1)
+    stream.on('data', entry => {
+      processed.push(entry.SourceFile)
+    }).on('end', () => {
+      should(processed).eql(['photo1.jpg', '#photo2.jpg'])
+      done()
+    })
+  })
+
   it('can process badly encoded fields', (done) => {
     // here we test with an XMP file because it's easier to see what's wrong
     // but the problem will more likely be with a badly encoded XMP section inside a JPG file
