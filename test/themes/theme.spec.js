@@ -1,5 +1,5 @@
 const path = require('node:path')
-const fs = require('fs-extra')
+const fs = require('node:fs')
 const should = require('should/as-function')
 const fixtures = require('../fixtures')
 const Theme = require('../../src/website/theme')

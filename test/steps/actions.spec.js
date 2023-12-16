@@ -1,5 +1,5 @@
+const fs = require('node:fs')
 const downsize = require('thumbsup-downsize')
-const fs = require('fs-extra')
 const should = require('should/as-function')
 const sinon = require('sinon')
 const actions = require('../../src/steps/actions')
@@ -11,7 +11,7 @@ const ANY_TASK = {
 
 describe('actions', () => {
   beforeEach(() => {
-    sinon.stub(fs, 'copy').yields(null)
+    sinon.stub(fs, 'copyFile').yields(null)
     sinon.stub(fs, 'symlink').yields(null)
     sinon.stub(downsize, 'image').yields(null)
     sinon.stub(downsize, 'video').yields(null)
@@ -19,7 +19,7 @@ describe('actions', () => {
   })
 
   afterEach(() => {
-    fs.copy.restore()
+    fs.copyFile.restore()
     fs.symlink.restore()
     downsize.image.restore()
     downsize.video.restore()
@@ -31,7 +31,7 @@ describe('actions', () => {
     const action = map['fs:copy']
     action(ANY_TASK, err => {
       should(err).eql(null)
-      sinon.assert.calledWith(fs.copy,
+      sinon.assert.calledWith(fs.copyFile,
         ANY_TASK.src,
         ANY_TASK.dest,
         sinon.match.func

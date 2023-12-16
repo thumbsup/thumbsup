@@ -1,5 +1,5 @@
 const path = require('node:path')
-const fs = require('fs-extra')
+const fs = require('node:fs')
 const debug = require('debug')('thumbsup:debug')
 const error = require('debug')('thumbsup:error')
 const info = require('debug')('thumbsup:info')
@@ -46,7 +46,7 @@ exports.create = function (files, opts, problems) {
           dest,
           rel: f.output[out].rel,
           action: (done) => {
-            fs.mkdirsSync(path.dirname(dest))
+            fs.mkdirSync(path.dirname(dest), { recursive: true })
             debug(`${f.output[out].rel} from ${src} to ${dest}`)
             return action({ src, dest }, err => {
               if (err) {

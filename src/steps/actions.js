@@ -1,5 +1,5 @@
+const fs = require('node:fs')
 const downsize = require('thumbsup-downsize')
-const fs = require('fs-extra')
 
 exports.createMap = function (opts) {
   const thumbSize = opts.thumbSize || 120
@@ -37,7 +37,7 @@ exports.createMap = function (opts) {
     hwaccel: opts.videoHwaccel
   }
   return {
-    'fs:copy': (task, done) => fs.copy(task.src, task.dest, done),
+    'fs:copy': (task, done) => fs.copyFile(task.src, task.dest, done),
     'fs:symlink': (task, done) => fs.symlink(task.src, task.dest, done),
     'photo:thumbnail': (task, done) => downsize.image(task.src, task.dest, thumbnail, done),
     'photo:small': (task, done) => downsize.image(task.src, task.dest, small, done),

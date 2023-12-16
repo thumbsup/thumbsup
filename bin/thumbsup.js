@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const fs = require('fs-extra')
+const fs = require('node:fs')
 const moment = require('moment')
 const dependencies = require('../src/cli/dependencies')
 const messages = require('../src/cli/messages')
@@ -13,7 +13,7 @@ const args = process.argv.slice(2)
 const opts = options.get(args)
 
 // Only require the index after logging options have been set
-fs.mkdirpSync(opts.output)
+fs.mkdirSync(opts.output, { recursive: true })
 require('./log').init(opts.log, opts.logFile)
 const index = require('../src/index')
 

@@ -1,8 +1,8 @@
 const EventEmitter = require('node:events')
+const fs = require('node:fs')
 const path = require('node:path')
 const _ = require('lodash')
 const Database = require('better-sqlite3')
-const fs = require('fs-extra')
 const moment = require('moment')
 const delta = require('./delta')
 const exiftool = require('../exiftool/parallel')
@@ -13,7 +13,7 @@ const EXIF_DATE_FORMAT = 'YYYY:MM:DD HH:mm:ssZ'
 class Index {
   constructor (indexPath) {
     // create the database if it doesn't exist
-    fs.mkdirpSync(path.dirname(indexPath))
+    fs.mkdirSync(path.dirname(indexPath), { recursive: true })
     this.db = new Database(indexPath, {})
     this.db.exec('CREATE TABLE IF NOT EXISTS files (path TEXT PRIMARY KEY, timestamp INTEGER, metadata BLOB)')
   }

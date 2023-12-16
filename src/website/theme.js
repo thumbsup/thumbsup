@@ -1,7 +1,8 @@
+const fs = require('node:fs')
 const path = require('node:path')
 const async = require('async')
 const debug = require('debug')('thumbsup:debug')
-const fs = require('fs-extra')
+const fsextra = require('fs-extra')
 const handlebars = require('handlebars')
 const less = require('less')
 
@@ -62,7 +63,7 @@ class Theme {
     const fullPath = path.join(this.dest, targetPath)
     debug(`Theme rendering ${targetPath}`)
     const contents = this.template(data)
-    fs.mkdirpSync(path.dirname(fullPath))
+    fs.mkdirSync(path.dirname(fullPath), { recursive: true })
     fs.writeFile(fullPath, contents, next)
   }
 
@@ -114,7 +115,7 @@ class Theme {
       if (err) return done(err)
       const filename = this.opts.stylesheetName || 'theme.css'
       const dest = path.join(this.dest, 'public', filename)
-      fs.mkdirpSync(path.join(this.dest, 'public'))
+      fs.mkdirSync(path.join(this.dest, 'public'), { recursive: true })
       fs.writeFile(dest, output.css, done)
     })
   }
@@ -137,7 +138,7 @@ class Theme {
     // copy all files in the <public> folder
     const src = path.join(this.dir, 'public')
     const dest = path.join(this.dest, 'public')
-    fs.copy(src, dest, done)
+    fsextra.copy(src, dest, done)
   }
 }
 

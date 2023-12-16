@@ -1,6 +1,6 @@
+const fs = require('node:fs')
 const path = require('node:path')
 const _ = require('lodash')
-const fs = require('fs-extra')
 const moment = require('moment')
 const tmp = require('tmp')
 const File = require('../src/model/file')
@@ -66,7 +66,8 @@ exports.fromDisk = function (filename) {
 exports.createTempStructure = function (files) {
   const tmpdir = tmp.dirSync({ unsafeCleanup: true }).name
   _.each(files, (content, filepath) => {
-    fs.ensureFileSync(`${tmpdir}/${filepath}`)
+    const folder = path.dirname(`${tmpdir}/${filepath}`)
+    fs.mkdirSync(folder, { recursive: true })
     fs.writeFileSync(`${tmpdir}/${filepath}`, content)
   })
   return tmpdir
