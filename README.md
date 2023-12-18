@@ -62,7 +62,7 @@ And optionally:
 - [dcraw](https://www.cybercom.net/~dcoffin/dcraw/) to process RAW photos: `brew install dcraw`
 - [ImageMagick](https://imagemagick.org/) for HEIC support (needs to be compiled with `--with-heic`)
 
-You can run thumbsup as a Docker container ([thumbsupgallery/thumbsup](https://hub.docker.com/r/thumbsupgallery/thumbsup/)) which pre-packages all the dependencies above. Read the [thumbsup on Docker](https://thumbsup.github.io/docs/2-installation/docker/) documentation for more detail.
+You can run thumbsup as a Docker container ([ghcr.io/thumbsup/thumbsup](https://github.com/thumbsup/thumbsup/pkgs/container/thumbsup)) which pre-packages all the dependencies above. Read the [thumbsup on Docker](https://thumbsup.github.io/docs/2-installation/docker/) documentation for more detail.
 
 ```bash
 docker run -v `pwd`:/work thumbsupgallery/thumbsup [...]
