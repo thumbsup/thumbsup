@@ -48,6 +48,26 @@ describe('Handlebars helpers: relative', () => {
       should(res).eql('<img src="../media/thumbs/img.jpg" />')
     })
 
+    it('can use a relative link from the root album', () => {
+      const template = handlebars.compile('<link rel="stylesheet" href="{{relative \'../../photos/img.jpg\'}}" />')
+      const res = template({
+        album: {
+          path: 'index.html'
+        }
+      })
+      should(res).eql('<link rel="stylesheet" href="../../photos/img.jpg" />')
+    })
+
+    it('can use relative link from a nested album', () => {
+      const template = handlebars.compile('<link rel="stylesheet" href="{{relative \'../../photos/img.jpg\'}}" />')
+      const res = template({
+        album: {
+          path: 'albums/holidays.html'
+        }
+      })
+      should(res).eql('<link rel="stylesheet" href="../../../photos/img.jpg" />')
+    })
+
     it('does not do anything if the path is an absolute URL', () => {
       // This can happen when using --link-prefix
       const url = 'http://example.com/photo.jpg'
