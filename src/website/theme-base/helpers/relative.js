@@ -6,7 +6,8 @@ module.exports = (target, options) => {
     return target
   }
   const albumPath = options.data.root.album.path
-  const relative = path.relative(path.dirname(albumPath), target)
+  const backToGalleryRoot = path.relative(path.dirname(albumPath), '.')
+  const relative = path.join(backToGalleryRoot, target)
   const url = relative.replace(/\\/g, '/')
   // Escape single/double quotes
   return url.replace(/'/g, '%27').replace(/"/g, '%22')
