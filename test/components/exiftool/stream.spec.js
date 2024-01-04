@@ -36,7 +36,8 @@ describe('exiftool stream', function () {
     })
     // check the data returned
     const stream = exifStream.parse('input', ['IMG_0001.jpg', 'IMG_0002.jpg'])
-    reduceStream(stream, emittedData => {
+    reduceStream(stream, (err, emittedData) => {
+      should(err).eql(null)
       should(emittedData).eql([{
         SourceFile: 'IMG_0001.jpg',
         MIMEType: 'image/jpeg'
@@ -59,10 +60,31 @@ describe('exiftool stream', function () {
     })
     // check the data returned
     const stream = exifStream.parse('input', ['IMG_0001.jpg'])
-    reduceStream(stream, emittedData => {
+    reduceStream(stream, (err, emittedData) => {
+      should(err).eql(null)
       should(emittedData).eql([])
       debug.assertContains('installed on your system')
       debug.assertContains('spawn ENOENT')
+      done()
+    })
+  })
+
+  it('sends an errors if exiftool response cannot be parsed', (done) => {
+    // setup a mock that returns invalid JSON on stdout
+    // this can happen if the exiftool arguments are invalid
+    const errorSpawn = mockSpawn()
+    childProcess.spawn.callsFake(errorSpawn)
+    errorSpawn.setDefault(function (cb) {
+      setTimeout(() => {
+        this.stdout.write('ERROR: bad syntax')
+      }, 10)
+      setTimeout(() => cb(), 20)
+    })
+    // check the data returned
+    const stream = exifStream.parse('input', ['IMG_0001.jpg', 'IMG_0002.jpg'])
+    reduceStream(stream, (err) => {
+      should(err).not.eql(null)
+      should(err).property('message').match(/Invalid JSON/)
       done()
     })
   })
@@ -72,7 +94,11 @@ function reduceStream (stream, done) {
   const emittedData = []
   stream.on('data', entry => {
     emittedData.push(entry)
-  }).on('end', () => {
-    done(emittedData)
+  })
+  stream.on('error', (err) => {
+    done(err, emittedData)
+  })
+  stream.on('end', () => {
+    done(null, emittedData)
   })
 }
