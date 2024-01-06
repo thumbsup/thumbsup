@@ -1,7 +1,7 @@
 const os = require('node:os')
+const stream = require('node:stream')
 const _ = require('lodash')
 const debug = require('debug')('thumbsup:debug')
-const es = require('event-stream')
 const exiftool = require('./stream.js')
 
 /*
@@ -19,5 +19,23 @@ exports.parse = (rootFolder, filePaths, concurrency) => {
     return exiftool.parse(rootFolder, buckets[i])
   })
   // merge the object streams
-  return es.merge(streams)
+  return merge(streams)
+}
+
+function merge (streams) {
+  let ended = 0
+  const merged = new stream.PassThrough({ objectMode: true })
+  streams.forEach(s => {
+    s.pipe(merged, { end: false })
+    s.once('end', () => {
+      ++ended
+      if (ended === streams.length) {
+        merged.emit('end')
+      }
+    })
+    s.once('error', (err) => {
+      merged.emit('error', err)
+    })
+  })
+  return merged
 }

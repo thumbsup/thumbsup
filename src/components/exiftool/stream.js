@@ -2,7 +2,6 @@ const childProcess = require('node:child_process')
 const trace = require('debug')('thumbsup:trace')
 const debug = require('debug')('thumbsup:debug')
 const error = require('debug')('thumbsup:error')
-const es = require('event-stream')
 const JSONStream = require('JSONStream')
 
 /*
@@ -29,6 +28,13 @@ exports.parse = (rootFolder, filePaths) => {
     cwd: rootFolder,
     stdio: ['pipe', 'pipe', 'pipe']
   })
+
+  // stream <stdout> into a JSON parser
+  // parse every top-level object and emit it on the stream
+  const parser = JSONStream.parse([true])
+  child.stdout.pipe(parser)
+
+  // Error handling
   child.on('error', (err) => {
     error('Error: please verify that <exiftool> is installed on your system')
     error(err.toString())
@@ -36,7 +42,12 @@ exports.parse = (rootFolder, filePaths) => {
   child.on('close', (code, signal) => {
     debug(`Exiftool exited with code ${code}`)
   })
+  parser.on('error', (err) => {
+    error('Error: failed to parse JSON from Exiftool output')
+    error(err.message)
+  })
 
+  // Print exiftool error messages if any
   child.stderr.on('data', chunk => {
     trace('Exiftool output:', chunk.toString())
   })
@@ -47,10 +58,5 @@ exports.parse = (rootFolder, filePaths) => {
   child.stdin.write(allFiles + '\n')
   child.stdin.end()
 
-  // stream <stdout> into a JSON parser
-  // parse every top-level object and emit it on the stream
-  return es.pipeline(
-    child.stdout,
-    JSONStream.parse([true])
-  )
+  return parser
 }
