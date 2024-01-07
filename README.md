@@ -65,7 +65,7 @@ And optionally:
 You can run thumbsup as a Docker container ([ghcr.io/thumbsup/thumbsup](https://github.com/thumbsup/thumbsup/pkgs/container/thumbsup)) which pre-packages all the dependencies above. Read the [thumbsup on Docker](https://thumbsup.github.io/docs/2-installation/docker/) documentation for more detail.
 
 ```bash
-docker run -v `pwd`:/work thumbsupgallery/thumbsup [...]
+docker run -v `pwd`:/work ghcr.io/thumbsup/thumbsup [...]
 ```
 
 ## Command line arguments
