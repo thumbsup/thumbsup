@@ -59,12 +59,13 @@ class Index {
       // calculate the difference: which files have been added, modified, etc
       const deltaFiles = delta.calculate(databaseMap, diskMap, options)
       emitter.emit('stats', {
+        database: Object.keys(databaseMap).length,
+        disk: Object.keys(diskMap).length,
         unchanged: deltaFiles.unchanged.length,
         added: deltaFiles.added.length,
         modified: deltaFiles.modified.length,
         deleted: deltaFiles.deleted.length,
-        skipped: deltaFiles.skipped.length,
-        total: Object.keys(diskMap).length
+        skipped: deltaFiles.skipped.length
       })
 
       // remove deleted files from the DB

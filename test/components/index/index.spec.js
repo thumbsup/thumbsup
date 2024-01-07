@@ -34,7 +34,15 @@ describe('Index', function () {
   it('indexes a folder', (done) => {
     runIndex({}, data => {
       should(data.result.count).eql(2)
-      should(data.stats).eql({ unchanged: 0, added: 2, modified: 0, deleted: 0, skipped: 0, total: 2 })
+      should(data.stats).eql({
+        database: 0,
+        disk: 2,
+        unchanged: 0,
+        added: 2,
+        modified: 0,
+        deleted: 0,
+        skipped: 0
+      })
       // check all files were indexed
       const paths = data.emitted.map(e => e.path).sort()
       should(paths).eql([
@@ -55,7 +63,15 @@ describe('Index', function () {
       // then do a second run
       runIndex({}, data => {
         should(data.result.count).eql(2)
-        should(data.stats).eql({ unchanged: 2, added: 0, modified: 0, deleted: 0, skipped: 0, total: 2 })
+        should(data.stats).eql({
+          database: 2,
+          disk: 2,
+          unchanged: 2,
+          added: 0,
+          modified: 0,
+          deleted: 0,
+          skipped: 0
+        })
         // all files are emitted, but they were not processed again
         should(data.emitted).has.length(2)
         should(data.processed).eql(0)
@@ -70,7 +86,15 @@ describe('Index', function () {
       fixtures.deleteTempFile(tmpdir, 'input/newyork/IMG_0002.jpg')
       runIndex({}, data => {
         should(data.result.count).eql(1)
-        should(data.stats).eql({ unchanged: 1, added: 0, modified: 0, deleted: 1, skipped: 0, total: 1 })
+        should(data.stats).eql({
+          database: 2,
+          disk: 1,
+          unchanged: 1,
+          added: 0,
+          modified: 0,
+          deleted: 1,
+          skipped: 0
+        })
         // the remaining file was emitted
         should(data.emitted).has.length(1)
         should(data.processed).eql(0)
@@ -87,8 +111,15 @@ describe('Index', function () {
         const options = { scanMode: 'partial', include: ['london/**'] }
         runIndex(options, data => {
           should(data.result.count).eql(2)
-          // note: total is 1 because it scanned 1 file on disk
-          should(data.stats).eql({ unchanged: 1, added: 0, modified: 0, deleted: 0, skipped: 1, total: 1 })
+          should(data.stats).eql({
+            database: 2,
+            disk: 1,
+            unchanged: 1,
+            added: 0,
+            modified: 0,
+            deleted: 0,
+            skipped: 1
+          })
           // but it still emitted 2 files
           should(data.emitted).has.length(2)
           should(data.processed).eql(0)
