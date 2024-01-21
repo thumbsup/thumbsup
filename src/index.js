@@ -33,8 +33,16 @@ exports.build = function (opts, done) {
       }
     },
     {
+      title: 'Get file sizes',
+      enabled: (ctx) => true,
+      skip: () => opts.dryRun,
+      task: (ctx, task) => {
+        return steps.fileSize(ctx.files, opts)
+      }
+    },
+    {
       title: 'Updating ZIP files',
-      enabled: (ctx) => opts.albumZipFiles,
+      enabled: (ctx) => opts.albumDownload === 'zip',
       skip: () => opts.dryRun,
       task: (ctx) => {
         return steps.zipAlbums(ctx.album, opts.output)

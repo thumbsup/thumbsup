@@ -245,11 +245,10 @@ const OPTIONS = {
     type: 'number',
     'default': null
   },
-  'album-zip-files': {
+  'album-download': {
     group: 'Album options:',
-    description: 'Create a ZIP file per album',
-    type: 'boolean',
-    'default': false
+    description: 'How albums can be downloaded (\'js\' is experimental)',
+    choices: ['js', 'zip']
   },
   // 'keyword-fields': {
   //   group: 'Album options:',
@@ -442,8 +441,12 @@ const OPTIONS = {
     group: 'Deprecated:',
     description: 'Enable anonymous usage statistics',
     type: 'boolean'
-  }
-
+  },
+  'album-zip-files': {
+    group: 'Deprecated:',
+    description: 'Create a ZIP file per album, set album-download to \'zip\'',
+    type: 'boolean'
+  },
 }
 
 // explicitly pass <process.argv> so we can unit test this logic
@@ -508,6 +511,9 @@ exports.get = (args, exitOnFailure = true) => {
 
   // Convert deprecated --css
   if (opts.css) opts.themeStyle = opts.css
+
+  // Convert deprecated --album-zip-files
+  if(opts.albumZipFiles) opts.albumDownload = 'zip'
 
   // Add a dash prefix to any --gm-args value
   // We can't specify the prefix on the CLI otherwise the parser thinks it's a thumbsup arg
