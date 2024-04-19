@@ -153,8 +153,8 @@ Misc options:
   --dry-run        Update the index, but don't create the media files / website  [boolean] [default: false]
 
 Deprecated:
-  --original-photos       Copy and allow download of full-size photos  [boolean]
-  --original-videos       Copy and allow download of full-size videos  [boolean]
+  --original-photos       Copy and allow download of full-size photos (use --photo-download=copy)  [boolean]
+  --original-videos       Copy and allow download of full-size videos (use --video-download=copy)  [boolean]
   --albums-date-format    How albums are named in <date> mode [moment.js pattern]
   --css                   Path to a custom provided CSS/LESS file for styling  [string]
   --download-photos       Target of the photo download links  [choices: "large", "copy", "symlink", "link"]

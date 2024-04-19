@@ -406,12 +406,12 @@ const OPTIONS = {
 
   'original-photos': {
     group: 'Deprecated:',
-    description: 'Copy and allow download of full-size photos',
+    description: 'Copy and allow download of full-size photos (use --photo-download=copy)',
     type: 'boolean'
   },
   'original-videos': {
     group: 'Deprecated:',
-    description: 'Copy and allow download of full-size videos',
+    description: 'Copy and allow download of full-size videos (use --video-download=copy)',
     type: 'boolean'
   },
   'albums-date-format': {
