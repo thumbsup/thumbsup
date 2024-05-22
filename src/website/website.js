@@ -14,6 +14,12 @@ exports.build = function (rootAlbum, opts, callback) {
     stylesheetName: 'core.css'
   })
 
+  // Shared JS libs for js-download
+  const baseJsDownloadDir = path.join(__dirname, 'theme-base-js-download')
+  const baseJsDownload = new Theme(baseJsDownloadDir, opts.output, {
+    stylesheetName: 'jsDownload.css'
+  })
+
   // then create the actual theme assets
   const themeDir = opts.themePath || localThemePath(opts.theme)
   const theme = new Theme(themeDir, opts.output, {
@@ -33,6 +39,7 @@ exports.build = function (rootAlbum, opts, callback) {
   // now build everything
   async.series([
     next => base.prepare(next),
+    ... opts.albumDownload === 'js' ? [next => baseJsDownload.prepare(next)]: [],
     next => theme.prepare(next),
     next => async.series(tasks, next)
   ], callback)
