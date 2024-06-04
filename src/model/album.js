@@ -66,7 +66,11 @@ Album.prototype.finalize = function (options, parent) {
   }
   // path to the optional ZIP file
   if (options.albumZipFiles && this.files.length > 0) {
-    this.zip = this.path.replace(/\.[^\\/.]+$/, '.zip')
+    if ((parent == null)) {
+      this.zip = options.homeAlbumName.concat('.zip')
+    } else {
+      this.zip = this.path.replace(/\.[^\\/.]+$/, '.zip')
+    }
   }
   // then finalize all nested albums (which uses the parent basename)
   for (let i = 0; i < this.albums.length; ++i) {
