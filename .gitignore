@@ -7,3 +7,6 @@ test-snapshot/output-expected/metadata.json
 .DS_Store
 thumbsup.db
 tmp*
+result
+.direnv/
+/.pre-commit-config.yaml
