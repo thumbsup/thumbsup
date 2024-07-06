@@ -17,4 +17,4 @@ RUN apk add --update --no-cache libgomp zlib libpng libjpeg-turbo libwebp tiff l
 RUN apk add --update --no-cache ffmpeg imagemagick graphicsmagick exiftool gifsicle zip
 
 # Add video acceleration driver
-RUN apk add --update --no-cache intel-media-driver
+RUN apk add --update --no-cache --repository https://dl-cdn.alpinelinux.org/alpine/latest-stable/community intel-media-driver
