@@ -15,3 +15,6 @@ RUN apk add --update --no-cache libgomp zlib libpng libjpeg-turbo libwebp tiff l
 
 # Add external programs
 RUN apk add --update --no-cache ffmpeg imagemagick graphicsmagick exiftool gifsicle zip
+
+# Add video acceleration driver
+RUN apk add --update --no-cache intel-media-driver
