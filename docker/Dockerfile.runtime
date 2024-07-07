@@ -5,11 +5,11 @@
 # -------------------------------------------------
 
 ARG NODE_VERSION=[18, 20]
-ARG REPO_OWNER=thumbsup
 
 FROM node:${NODE_VERSION}-alpine AS base
 
 # Metadata
+ARG REPO_OWNER=thumbsup
 RUN echo "OWNER=${REPO_OWNER}"
 LABEL org.opencontainers.image.source=https://github.com/${REPO_OWNER}/thumbsup
 

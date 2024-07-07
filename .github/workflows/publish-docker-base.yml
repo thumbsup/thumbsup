@@ -24,8 +24,8 @@ jobs:
           context: docker
           file: ./docker/Dockerfile.runtime
           build-args: |
-            REPO_OWNER=${{ github.repository_owner }}
             NODE_VERSION=${{ matrix.nodejs }}
+            REPO_OWNER=${{ github.repository_owner }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: ghcr.io/${{ github.repository_owner }}/thumbsup/runtime:node-${{ matrix.nodejs }}
           push: true
