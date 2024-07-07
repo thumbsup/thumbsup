@@ -27,7 +27,10 @@ jobs:
         with:
           context: docker
           file: ./docker/Dockerfile.release
-          build-args: PACKAGE_VERSION=${{ steps.version.outputs.version }}
+          build-args: | 
+            PACKAGE_VERSION=${{ steps.version.outputs.version }}
+            NODE_VERSION=18
+            REPO_OWNER=${{ github.repository_owner }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: |
             ghcr.io/${{ github.repository_owner }}/thumbsup:${{ steps.version.outputs.version }}
