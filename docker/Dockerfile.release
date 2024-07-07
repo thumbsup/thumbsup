@@ -3,7 +3,7 @@
 # ------------------------------------------------
 ARG REPO_OWNER=thumbsup
 ARG NODE_VERSION=20
-FROM ghcr.io/${REPO_OWNER}/thumbsup/build:node-${NODE_VERSION} as build
+FROM ghcr.io/${REPO_OWNER}/thumbsup/build:node-${NODE_VERSION} AS build
 
 # Install thumbsup locally
 WORKDIR /thumbsup
