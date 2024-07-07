@@ -18,7 +18,7 @@ RUN npm install thumbsup@${PACKAGE_VERSION}
 # Runtime image
 # ------------------------------------------------
 
-FROM ghcr.io/thumbsup2/runtime:node-18
+FROM ghcr.io/thumbsup/runtime:node-18
 
 # Use tini as an init process
 # to ensure all child processes (ffmpeg...) are always terminated properly
