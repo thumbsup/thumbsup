@@ -30,6 +30,6 @@ jobs:
           build-args: PACKAGE_VERSION=${{ steps.version.outputs.version }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: |
-            ghcr.io/thumbsup/thumbsup:${{ steps.version.outputs.version }}
-            ghcr.io/thumbsup/thumbsup:latest
+            ghcr.io/thumbsup/thumbsup2:${{ steps.version.outputs.version }}
+            ghcr.io/thumbsup/thumbsup2:latest
           push: true

@@ -5,7 +5,7 @@
 ARG NODE_VERSION
 
 # Node.js + runtime dependencies
-FROM ghcr.io/thumbsup/runtime:node-${NODE_VERSION}
+FROM ghcr.io/thumbsup2/runtime:node-${NODE_VERSION}
 
 # Standard build dependencies for npm install
 RUN apk add --no-cache git make g++ python3 bash
