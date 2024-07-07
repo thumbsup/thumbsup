@@ -11,7 +11,7 @@ FROM node:${NODE_VERSION}-alpine AS base
 # Metadata
 ARG REPO_OWNER=thumbsup
 RUN echo "REPO_OWNER=${REPO_OWNER}"
-LABEL org.opencontainers.image.source https://github.com/${REPO_OWNER}/thumbsup
+LABEL org.opencontainers.image.source=https://github.com/${REPO_OWNER}/thumbsup
 
 # Add libraries
 RUN apk add --update --no-cache libgomp zlib libpng libjpeg-turbo libwebp tiff lcms2 x265 libde265 libheif
