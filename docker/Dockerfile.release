@@ -15,6 +15,8 @@ RUN if [ -z "${PACKAGE_VERSION}" ]; then \
 RUN echo '{"name": "installer", "version": "1.0.0"}' > package.json
 RUN npm install thumbsup@${PACKAGE_VERSION}
 
+RUN echo "1****OWNER=${REPO_OWNER}"
+
 # ------------------------------------------------
 # Runtime image
 # ------------------------------------------------
@@ -32,6 +34,8 @@ ENV HOME /tmp
 # Copy the thumbsup files to the new image
 COPY --from=build /thumbsup /thumbsup
 RUN ln -s /thumbsup/node_modules/.bin/thumbsup /usr/local/bin/thumbsup
+
+RUN echo "2****OWNER=${REPO_OWNER}"
 
 # Default command, should be overridden during <docker run>
 CMD ["thumbsup"]
