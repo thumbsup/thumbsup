@@ -17,3 +17,6 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile.test
+          build-args: |
+            NODE_VERSION=18
+            REPO_OWNER=${{ github.repository_owner }}
