@@ -2,7 +2,7 @@
 # Builder image
 # ------------------------------------------------
 ARG REPO_OWNER=thumbsup
-ARG NODE_VERSION=20
+ARG NODE_VERSION=18
 FROM ghcr.io/${REPO_OWNER}/thumbsup/build:node-${NODE_VERSION} AS build
 
 # Install thumbsup locally
