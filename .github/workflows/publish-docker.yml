@@ -29,7 +29,7 @@ jobs:
           file: ./docker/Dockerfile.release
           build-args: | 
             PACKAGE_VERSION=${{ steps.version.outputs.version }}
-            NODE_VERSION=18
+            NODE_VERSION=20
             REPO_OWNER=${{ github.repository_owner }}
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: |

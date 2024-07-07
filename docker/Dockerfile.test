@@ -1,5 +1,5 @@
 ARG REPO_OWNER=thumbsup
-ARG NODE_VERSION=18
+ARG NODE_VERSION=20
 
 # Node.js + build dependencies + runtime dependencies
 FROM ghcr.io/${REPO_OWNER}/thumbsup/build:node-${NODE_VERSION}
