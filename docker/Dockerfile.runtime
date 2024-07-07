@@ -17,8 +17,8 @@ RUN apk add --update --no-cache libgomp zlib libpng libjpeg-turbo libwebp tiff l
 RUN apk add --update --no-cache ffmpeg imagemagick graphicsmagick exiftool gifsicle zip
 
 # Add intel video acceleration driver if x86/amd64 architecture
-ARG TARGETARCH BUILDARCH
-RUN echo "Target Arch =${TARGETARCH} and Build Arch=${BUILDARCH}"; \
+ARG TARGETARCH
+RUN echo "Target Arch =${TARGETARCH}"; \
     if [[ "${TARGETARCH}" == "amd64" ]]; then \
-    apk add --update --no-cache --repository https://dl-cdn.alpinelinux.org/alpine/latest-stable/community intel-media-driver; \
+    apk add --update --no-cache intel-media-driver; \
     fi;
