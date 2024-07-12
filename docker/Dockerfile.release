@@ -21,9 +21,6 @@ RUN npm install thumbsup@${PACKAGE_VERSION}
 
 FROM ghcr.io/${REPO_OWNER}/thumbsup/runtime:node-${NODE_VERSION}
 
-ARG REPO_OWNER=thumbsup
-LABEL org.opencontainers.image.source="https://github.com/${REPO_OWNER}/thumbsup"
-
 # Use tini as an init process
 # to ensure all child processes (ffmpeg...) are always terminated properly
 RUN apk add --update tini
