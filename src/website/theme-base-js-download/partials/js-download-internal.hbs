@@ -1,0 +1,44 @@
+{{!-- Do not include this internal partial directly, include js-download partial instead --}}
+
+<!-- JS Download  -->
+<div class="js-download" id="jsDownload">
+  JS Download not supported in this browser.
+  Requires https and a compatible <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/showDirectoryPicker#browser_compatibility">browser</a>, e.g. Chrome on Desktop
+</div>
+<script type="module">
+  import {downloadImages} from './{{relative 'public/downloadImages.js'}}'
+  var download_images = [
+    {{#each album.files}}
+      { url: "{{relative urls.download}}", size: {{fileSize.download}} },
+    {{/each}}
+  ]
+  const divEl = document.getElementById('jsDownload')
+  const statusDiv = document.createElement('div')
+  statusDiv.classList?.add('status')
+
+  const download = async (override) => {
+    const downloadResult = await downloadImages(download_images, statusDiv, override)
+    // Log for debugging while experimental
+    console.log(downloadResult)
+  }
+
+  if(window.showDirectoryPicker !== undefined)
+  {
+    const dlDiv = document.createElement('div')
+    dlDiv.classList.add('download')
+    dlDiv.innerHTML = '<label for="dlOverride">Override existing files?</label>'
+    
+    const overrideInput = document.createElement('input')
+    overrideInput.type = 'checkbox';
+    overrideInput.id = 'dlOverride'
+    dlDiv.appendChild(overrideInput)
+
+    const button = document.createElement('button')
+    button.innerHTML = 'Download all'
+    button.addEventListener('click', () => download(overrideInput.checked))
+    dlDiv.appendChild(button)
+
+    divEl.replaceChildren(dlDiv, statusDiv)
+  }
+  
+</script>

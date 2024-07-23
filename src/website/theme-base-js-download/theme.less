@@ -1,0 +1,27 @@
+/* Default style for js-download.
+   Use {{> js-download-default-style}} in album.hbs to include it.
+*/
+#jsDownload {
+    div.download {
+        font-size: larger;
+        
+        label, input, button {
+            margin-left: .5rem;
+        }
+        button {
+            border-width: 1pt;
+            background-color: lightgrey;
+            text-decoration: none;
+        }
+    }
+    div.status {
+        margin-left: .5rem;
+
+        div.summary{
+            font-size: larger;
+        }
+        div.error{
+            color: red;
+        }
+    }
+}

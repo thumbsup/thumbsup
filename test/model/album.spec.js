@@ -278,7 +278,7 @@ describe('Album', function () {
 
     it('is undefined if the album has no direct files', function () {
       const a = new Album('Holidays')
-      a.finalize({ albumZipFiles: true })
+      a.finalize({ albumDownload: 'zip' })
       should(a.zip).eql(undefined)
     })
 
@@ -290,7 +290,7 @@ describe('Album', function () {
           fixtures.photo({ path: 'b' })
         ]
       })
-      a.finalize({ albumZipFiles: true })
+      a.finalize({ albumDownload: 'zip' })
       should(a.zip).eql('index.zip')
     })
 
@@ -306,7 +306,7 @@ describe('Album', function () {
         title: 'Holidays',
         albums: [london]
       })
-      root.finalize({ albumZipFiles: true })
+      root.finalize({ albumDownload: 'zip' })
       should(london.zip).eql('London.zip')
     })
   })
