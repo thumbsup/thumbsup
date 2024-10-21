@@ -39,34 +39,34 @@ RUN apk add --no-cache \
     wget
 
 # Build and install libde265
-RUN wget https://github.com/strukturag/libde265/releases/download/v1.0.12/libde265-1.0.12.tar.gz \
-    && tar xf libde265-1.0.12.tar.gz \
-    && cd libde265-1.0.12 \
+RUN wget https://github.com/strukturag/libde265/releases/download/v1.0.15/libde265-1.0.15.tar.gz \
+    && tar xf libde265-1.0.15.tar.gz \
+    && cd libde265-1.0.15 \
     && ./configure \
     && make -j$(nproc) \
     && make install \
     && cd .. \
-    && rm -rf libde265-1.0.12 libde265-1.0.12.tar.gz
+    && rm -rf libde265-1.0.15 libde265-1.0.15.tar.gz
 
 # Build and install libheif
 RUN wget https://github.com/strukturag/libheif/releases/download/v1.16.2/libheif-1.16.2.tar.gz \
-    && tar xf libheif-1.16.2.tar.gz \
-    && cd libheif-1.16.2 \
+    && tar xf libheif-1.18.2.tar.gz \
+    && cd libheif-1.18.2 \
     && cmake -DCMAKE_BUILD_TYPE=Release . \
     && make -j$(nproc) \
     && make install \
     && cd .. \
-    && rm -rf libheif-1.16.2 libheif-1.16.2.tar.gz
+    && rm -rf libheif-1.18.2 libheif-1.18.2.tar.gz
 
 # Build and install ImageMagick with HEIF support
 RUN wget https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.1-15.tar.gz \
-    && tar xf 7.1.1-15.tar.gz \
-    && cd ImageMagick-7.1.1-15 \
+    && tar xf 7.1.1-39.tar.gz \
+    && cd ImageMagick-7.1.1-39 \
     && ./configure --with-heic=yes \
     && make -j$(nproc) \
     && make install \
     && cd .. \
-    && rm -rf ImageMagick-7.1.1-15 7.1.1-15.tar.gz
+    && rm -rf ImageMagick-7.1.1-39 7.1.1-39.tar.gz
 
 # Update library cache
 RUN ldconfig /usr/local/lib
