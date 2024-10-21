@@ -59,7 +59,7 @@ RUN wget https://github.com/strukturag/libheif/releases/download/v1.18.2/libheif
     && rm -rf libheif-1.18.2 libheif-1.18.2.tar.gz
 
 # Build and install ImageMagick with HEIF support
-RUN wget https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.1-15.tar.gz \
+RUN wget https://github.com/ImageMagick/ImageMagick/archive/refs/tags/7.1.1-39.tar.gz \
     && tar xf 7.1.1-39.tar.gz \
     && cd ImageMagick-7.1.1-39 \
     && ./configure --with-heic=yes \
