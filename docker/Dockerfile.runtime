@@ -16,19 +16,10 @@ LABEL org.opencontainers.image.source="https://github.com/${REPO_OWNER}/thumbsup
 RUN apk add --update --no-cache libgomp zlib libpng libjpeg-turbo libwebp tiff lcms2 x265 libde265 libheif
 
 # Add external programs (excluding imagemagick which we'll build below)
-RUN apk add --update --no-cache ffmpeg graphicsmagick exiftool gifsicle zip
+RUN apk add --update --no-cache ffmpeg imagemagick graphicsmagick exiftool gifsicle zip
 
 # Add intel video acceleration driver if x86/amd64 architecture
 ARG TARGETARCH
 RUN if [[ "${TARGETARCH}" == "amd64" ]]; then \
     apk add --update --no-cache intel-media-driver; \
     fi;
-
-# ADD HEIC for imagemagick 
-RUN apk add --update --no-cache \
-  imagemagick \
-  imagemagick-heic \
-  imagemagick-jpeg \
-  imagemagick-svg \
-  imagemagick-tiff \
-  imagemagick-webp
