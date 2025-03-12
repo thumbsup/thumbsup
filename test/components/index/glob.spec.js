@@ -11,7 +11,7 @@ describe('Index: glob', function () {
 
   // we require "mock-fs" inside the tests, otherwise it also affects other tests
   let mock = null
-  before(() => {
+  beforeEach(() => {
     mock = require('mock-fs')
   })
 

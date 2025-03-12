@@ -7,7 +7,7 @@ const Theme = require('../../src/website/theme')
 describe('Theme', () => {
   // we require "mock-fs" inside the tests, otherwise it also affects other tests
   let mock = null
-  before(() => {
+  beforeEach(() => {
     mock = require('mock-fs')
   })
 
@@ -15,7 +15,7 @@ describe('Theme', () => {
     mock.restore()
   })
 
-  it('uses the target theme folder by default', () => {
+  it('uses the target theme folder by default', testEnd => {
     mock({
       'theme/album.hbs': '',
       'theme/theme.less': ''
@@ -24,10 +24,11 @@ describe('Theme', () => {
     theme.prepare(err => {
       should(err).eql(null)
       should(theme.dir).eql(path.resolve('theme'))
+      testEnd()
     })
   })
 
-  it('can use a sub-folder specified in package.json', () => {
+  it('can use a sub-folder specified in package.json', testEnd => {
     // 1. this is useful when a packaged theme uses a build process
     // since the build result will be in a subfolder, and npm only allows publishing the root folder
     // 2. it's also useful if someone just wants to keep the theme repo clean using folders
@@ -44,10 +45,11 @@ describe('Theme', () => {
     theme.prepare(err => {
       should(err).eql(null)
       should(theme.dir).eql(path.resolve('theme/dist'))
+      testEnd()
     })
   })
 
-  it('can have an empty themeRoot', () => {
+  it('can have an empty themeRoot', testEnd => {
     // 1. this is useful when a packaged theme uses a build process
     // since the build result will be in a subfolder, and npm only allows publishing the root folder
     // 2. it's also useful if someone just wants to keep the theme repo clean using folders
@@ -64,6 +66,7 @@ describe('Theme', () => {
     theme.prepare(err => {
       should(err).eql(null)
       should(theme.dir).eql(path.resolve('theme'))
+      testEnd()
     })
   })
 
