@@ -1,5 +1,5 @@
 const path = require('node:path')
-const urljoin = require('url-join')
+const URL = require('url').URL
 const url = require('./url')
 
 const BROWSER_SUPPORTED_EXT = /(jpg|jpeg|png|gif)$/i
@@ -53,7 +53,8 @@ function photoExtension (filepath) {
 
 function join (prefix, filepath) {
   if (prefix.match(/^(http|https|file):\/\//)) {
-    return urljoin(prefix, url.fromPath(filepath))
+    const safePrefix = prefix.endsWith('/') ? prefix : (prefix + '/')
+    return new URL(url.fromPath(filepath), safePrefix).href
   } else {
     return path.join(prefix, filepath)
   }
