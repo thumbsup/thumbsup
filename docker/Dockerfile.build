@@ -2,10 +2,11 @@
 # This Docker image is used to speed up the builds
 # -------------------------------------------------
 
-ARG NODE_VERSION
+ARG NODE_VERSION=[18, 20]
+ARG REPO_OWNER=thumbsup
 
 # Node.js + runtime dependencies
-FROM ghcr.io/thumbsup/runtime:node-${NODE_VERSION}
+FROM ghcr.io/${REPO_OWNER}/thumbsup/runtime:node-${NODE_VERSION}
 
 # Standard build dependencies for npm install
 RUN apk add --no-cache git make g++ python3 bash

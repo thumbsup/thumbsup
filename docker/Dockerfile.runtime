@@ -4,16 +4,18 @@
 # exiftool, imagemagick, ffmpeg, gifsicle...
 # -------------------------------------------------
 
-ARG NODE_VERSION
-FROM node:${NODE_VERSION}-alpine as base
+ARG NODE_VERSION=[18, 20]
+
+FROM node:${NODE_VERSION}-alpine AS base
 
 # Metadata
-LABEL org.opencontainers.image.source https://github.com/thumbsup/thumbsup
+ARG REPO_OWNER=thumbsup
+LABEL org.opencontainers.image.source="https://github.com/${REPO_OWNER}/thumbsup"
 
 # Add libraries
 RUN apk add --update --no-cache libgomp zlib libpng libjpeg-turbo libwebp tiff lcms2 x265 libde265 libheif
 
-# Add external programs
+# Add external programs (excluding imagemagick which we'll build below)
 RUN apk add --update --no-cache ffmpeg imagemagick graphicsmagick exiftool gifsicle zip
 
 # Add intel video acceleration driver if x86/amd64 architecture
