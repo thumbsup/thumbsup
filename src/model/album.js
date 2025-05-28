@@ -141,7 +141,13 @@ Album.prototype.pickPreviews = function (options) {
       const buckets = _.chunk(potential, bucketSize)
       this.previews = buckets.slice(0, PREVIEW_COUNT).map(b => b[0])
     }
-  } else {
+  } else if ( options.albumPreviews.startsWith('file://')) {
+    const filepath = options.albumPreviews.slice('file://'.length)
+    this.previews = require(path.resolve(filepath))(potential, PREVIEW_COUNT)
+  }
+
+
+  else {
     throw new Error(`Unsupported preview type: ${options.albumPreviews}`)
   }
 

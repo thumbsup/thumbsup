@@ -284,7 +284,8 @@ const OPTIONS = {
   'album-previews': {
     group: 'Album options:',
     description: 'How previews are selected',
-    choices: ['first', 'spread', 'random'],
+    type: 'string',
+    //choices: ['first', 'spread', 'random'],
     'default': 'first'
   },
 
