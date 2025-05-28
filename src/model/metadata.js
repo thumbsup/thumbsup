@@ -35,7 +35,7 @@ class Metadata {
     const size = dimensions(exiftool)
     this.width = size.width
     this.height = size.height
-    this.exif = opts ? (opts.embedExif ? exiftool.EXIF : undefined) : undefined
+    this.exif = opts ? (opts.embedExif ? {...exiftool.EXIF, 'XMP': exiftool.XMP} : undefined) : undefined
     // metadata could also include fields like
     //  - lat = 51.5
     //  - long = 0.12
