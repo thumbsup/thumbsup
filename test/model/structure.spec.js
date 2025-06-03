@@ -76,6 +76,11 @@ describe('Structure', () => {
       should(res).eql(ospath('../../holidays/IMG_0001.jpg'))
     })
 
+    it('can use a relative file system link ending with a slash', () => {
+      const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: '../../' })
+      should(res).eql(ospath('../../holidays/IMG_0001.jpg'))
+    })
+
     itLinux('can use an absolute file system link', () => {
       const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: '/media' })
       should(res).eql('/media/holidays/IMG_0001.jpg')
@@ -91,6 +96,11 @@ describe('Structure', () => {
       should(res).eql('C:\\media\\holidays\\IMG_0001.jpg')
     })
 
+    itWindows('can use an absolute file system link ending with a backslash', () => {
+      const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: 'C:\\media\\' })
+      should(res).eql('C:\\media\\holidays\\IMG_0001.jpg')
+    })
+
     itWindows('can use a file:// system link', () => {
       const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: 'file://C:/media' })
       should(res).eql('file://C:/media/holidays/IMG_0001.jpg')
@@ -99,6 +109,16 @@ describe('Structure', () => {
     it('can use a remote HTTP link', () => {
       const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: 'http://test.com' })
       should(res).eql('http://test.com/holidays/IMG_0001.jpg')
+    })
+
+    it('can use a remote HTTP link with a subfolder', () => {
+      const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: 'http://test.com/folder' })
+      should(res).eql('http://test.com/folder/holidays/IMG_0001.jpg')
+    })
+
+    it('can use a remote HTTP link ending with a slash', () => {
+      const res = folders('holidays/IMG_0001.jpg', 'fs:link', { linkPrefix: 'http://test.com/folder/' })
+      should(res).eql('http://test.com/folder/holidays/IMG_0001.jpg')
     })
   })
 
