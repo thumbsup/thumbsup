@@ -55,6 +55,13 @@ describe('options', function () {
       should(opts.output).eql(path.join(process.cwd(), 'website'))
     })
   })
+  describe('--media-url', () => {
+    it('removes trailing slashes for consistency', () => {
+      const args = BASE_ARGS.concat(['--media-url', 'https://cdn.example.com/gallery/'])
+      const opts = options.get(args)
+      should(opts.mediaUrl).eql('https://cdn.example.com/gallery')
+    })
+  })
   describe('--albums-from', () => {
     it('can be specified once', () => {
       const args = BASE_ARGS.concat(['--albums-from', '%path'])

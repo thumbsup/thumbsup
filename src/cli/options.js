@@ -157,6 +157,11 @@ const OPTIONS = {
     description: 'Path or URL prefix for "linked" photos and videos',
     type: 'string'
   },
+  'media-url': {
+    group: 'Output options:',
+    description: 'Base URL where the generated media files will be hosted',
+    type: 'string'
+  },
   'cleanup': {
     group: 'Output options:',
     description: 'Remove any output file that\'s no longer needed',
@@ -513,6 +518,10 @@ exports.get = (args, exitOnFailure = true) => {
   // We can't specify the prefix on the CLI otherwise the parser thinks it's a thumbsup arg
   if (opts.gmArgs) {
     opts.gmArgs = opts.gmArgs.map(val => val.startsWith('+') ? val : `-${val}`)
+  }
+
+  if (opts.mediaUrl) {
+    opts.mediaUrl = opts.mediaUrl.replace(/\/+$/, '')
   }
 
   return opts

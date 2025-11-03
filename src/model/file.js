@@ -10,6 +10,7 @@ const _ = require('lodash')
 const moment = require('moment')
 const output = require('./output')
 const url = require('./url')
+const urljoin = require('url-join')
 
 const MIME_REGEX = /([^/]+)\/(.*)/
 const EXIF_DATE_FORMAT = 'YYYY:MM:DD HH:mm:ssZ'
@@ -24,8 +25,9 @@ class File {
     this.date = fileDate(dbEntry)
     this.type = mediaType(dbEntry)
     this.isVideo = (this.type === 'video')
-    this.output = output.paths(this.path, this.type, opts || {})
-    this.urls = _.mapValues(this.output, o => url.fromPath(o.path))
+    const options = opts || {}
+    this.output = output.paths(this.path, this.type, options)
+    this.urls = _.mapValues(this.output, o => toPublicUrl(o.path, options.mediaUrl))
     this.meta = meta
   }
 }
@@ -42,3 +44,11 @@ function mediaType (dbEntry) {
 }
 
 module.exports = File
+
+function toPublicUrl (filepath, mediaUrl) {
+  const encoded = url.fromPath(filepath)
+  if (!mediaUrl) return encoded
+  if (encoded.match(/^(http|https|file):\/\//)) return encoded
+  if (!encoded.startsWith('media/')) return encoded
+  return urljoin(mediaUrl, encoded)
+}
