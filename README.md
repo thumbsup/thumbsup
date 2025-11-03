@@ -109,6 +109,7 @@ Output options:
   --photo-download      How downloadable photos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
   --video-download      How downloadable videos are generated  [choices: "resize", "copy", "symlink", "link"] [default: "resize"]
   --link-prefix         Path or URL prefix for "linked" photos and videos  [string]
+  --media-url           Base URL where generated media files are hosted  [string]
   --cleanup             Remove any output file that's no longer needed  [boolean] [default: false]
   --concurrency         Number of parallel parsing/processing operations  [number] [default: 2]
   --output-structure    File and folder structure for output media  [choices: "folders", "suffix"] [default: "folders"]

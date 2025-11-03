@@ -60,6 +60,42 @@ describe('File', function () {
     should(file.urls.download).eql('media/large/photo.jpg')
   })
 
+  it('can prepend an absolute media URL', function () {
+    const file = new File(
+      dbFile({ File: { MIMEType: 'image/jpeg' } }),
+      undefined,
+      { mediaUrl: 'https://cdn.example.com/gallery' }
+    )
+    should(file.urls.thumbnail).eql('https://cdn.example.com/gallery/media/thumbs/photo.jpg')
+  })
+
+  it('supports HTTP protocol for media URL', function () {
+    const file = new File(
+      dbFile({ File: { MIMEType: 'image/jpeg' } }),
+      undefined,
+      { mediaUrl: 'http://cdn.example.com' }
+    )
+    should(file.urls.thumbnail).eql('http://cdn.example.com/media/thumbs/photo.jpg')
+  })
+
+  it('supports protocol-relative URLs for media URL', function () {
+    const file = new File(
+      dbFile({ File: { MIMEType: 'image/jpeg' } }),
+      undefined,
+      { mediaUrl: '//cdn.example.com' }
+    )
+    should(file.urls.thumbnail).eql('//cdn.example.com/media/thumbs/photo.jpg')
+  })
+
+  it('supports media URL without protocol (creates relative URL)', function () {
+    const file = new File(
+      dbFile({ File: { MIMEType: 'image/jpeg' } }),
+      undefined,
+      { mediaUrl: 'cdn.example.com' }
+    )
+    should(file.urls.thumbnail).eql('cdn.example.com/media/thumbs/photo.jpg')
+  })
+
   it('encodes the URLs to cater for special characters', function () {
     const file = new File(dbFile({
       SourceFile: 'test%22folder/photo.jpg',
