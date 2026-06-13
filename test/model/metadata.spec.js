@@ -180,6 +180,14 @@ describe('Metadata', function () {
       should(meta.keywords).eql(['beach', 'sunset'])
     })
 
+    it('can read a numeric IPTC keyword', function () {
+      // a purely numeric keyword is returned as a number by <exiftool>
+      const exiftool = fixtures.exiftool()
+      exiftool.IPTC.Keywords = 2024
+      const meta = new Metadata(exiftool)
+      should(meta.keywords).eql(['2024'])
+    })
+
     it('can read a single Picasa keywords', function () {
       const exiftool = fixtures.exiftool()
       const picasa = { keywords: 'beach' }

@@ -133,7 +133,8 @@ function picasaValue (picasa, name) {
 
 function makeArray (value) {
   if (!value) return []
-  return Array.isArray(value) ? value : value.split(',')
+  if (Array.isArray(value)) return value
+  return String(value).split(',')
 }
 
 function dimensions (exif) {
